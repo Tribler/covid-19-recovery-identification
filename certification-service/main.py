@@ -2,9 +2,9 @@ from base64 import b64encode
 
 from asyncio import ensure_future, get_event_loop
 
-from pyipv8.ipv8.configuration import get_default_configuration
-from pyipv8.ipv8.REST.rest_manager import RESTManager
-from pyipv8.ipv8_service import IPv8
+from ipv8.configuration import get_default_configuration
+from ipv8.REST.rest_manager import RESTManager
+from ipv8_service import IPv8
 
 
 async def start_communities():
