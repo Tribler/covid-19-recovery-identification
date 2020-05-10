@@ -159,8 +159,19 @@ twisted/plugins/dropin.cache
 # sqlite folder
 sqlite/
 
-# macOS DS_Store files
-**.DS_Store
-
-# iml IDEA configuration files
+# Android Studio
 *.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/app/src/main/gen
