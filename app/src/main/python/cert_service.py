@@ -24,6 +24,5 @@ async def start_communities():
 
 
 def start():
-    print("Hello World!")
-    # ensure_future(start_communities())
-    # get_event_loop().run_forever()
+    ensure_future(start_communities())
+    get_event_loop().run_forever()
