@@ -23,5 +23,7 @@ async def start_communities():
     print("Starting peer", b64encode(ipv8.keys["anonymous id"].mid))
 
 
-ensure_future(start_communities())
-get_event_loop().run_forever()
+def start():
+    print("Hello World!")
+    # ensure_future(start_communities())
+    # get_event_loop().run_forever()
