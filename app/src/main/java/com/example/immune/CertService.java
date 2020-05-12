@@ -10,6 +10,7 @@ import android.os.Message;
 import android.os.Process;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
@@ -23,10 +24,7 @@ public class CertService extends Service {
         }
         @Override
         public void handleMessage(Message msg) {
-            //TODO Check what is the correct value for the context attribute.
-            //TODO If msg - "start" - start the service, else if "stop" - stop it.
-            Python.getInstance().getModule("cert_service").callAttr("start");
-
+            Python.getInstance().getModule("cert_service").callAttr("main");
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
             stopSelf(msg.arg1);
