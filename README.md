@@ -14,9 +14,11 @@ python3 main.py
 
 ### Frontend setup:
 1. Install all dependencies - Navigate to the frontend application folder "SSI-App" and run in your terminal:
-```yarn
+```
+yarn
 ```
 2. Start the Expo development mode -  In the SSI-App run:
-```expo start
+```
+expo start
 ```
 3. To open the application in your browser as a WebApp, wait for the Expo terminal to finish loading (it will show you a QR code when it is done) and then press "w"
