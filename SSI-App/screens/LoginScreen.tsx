@@ -1,35 +1,58 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, Image, View, TextInput } from 'react-native';
 
 
 const LoginScreen: React.FC = () => {
-    return(
+    return (
+
         <View style={styles.container}>
-            <Text>Please Log In!</Text>
-            <form style = {{alignItems: "center"}}>
+             <img  src={require("./logo.png")} /> 
+            <br />
+            <br />
+            <br />
+            <Text style={{fontWeight: "bold", color:"#0f0" } }>   sign in as patient</Text>
+            <form style={{ alignItems: "center" }}>
                 <label>
-                    Username:
-                    <input type="text" name="name" />
-                </label>
+                   
+                    <input type="password" name="Password" placeholder="Password" />                </label>
                 <br/>
+                </form>
+                <br/>
+                <Text style={{fontWeight: "bold", color:"#0f0"}}> sign in as health expert</Text>
+            <form style={{ alignItems: "center" }}>
+                
                 <label>
-                    Password:
-                    <input type="password" name="Password" />
-                </label>
-                <br/>
-                <input type="submit" value="Submit" />
+         
+                <input type="password" name="Password" placeholder="Password" />                </label>
             </form>
+            <br/>
+            <input type="submit" value="Submit"  style={{ alignItems: "center" }}/>
         </View>
+
     )
 }
 
+
+
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+        flex: 1,
+         
+        backgroundImage: "url(" + require("./background.jpeg") + ")",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        
+        
+        alignItems: 'center',
+        padding: 24,
+        justifyContent: 'center',
+        
+    }
+   
+
 });
+
+
 
 export default LoginScreen
