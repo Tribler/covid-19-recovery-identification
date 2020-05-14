@@ -29,5 +29,3 @@ yarn web
 - Expo runs a local server that delivers your application, by default the app is delivered at port 19006
  - Using something like ngrok you can expose port 19006 so you can access your app online
 
-- 
-
