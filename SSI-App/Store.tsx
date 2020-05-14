@@ -8,7 +8,7 @@ type State = {
 }
 
 const defaultState : State = {
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: 0
 } 
