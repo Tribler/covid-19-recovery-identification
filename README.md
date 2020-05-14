@@ -16,7 +16,16 @@ python3 main.py
 1. Install all dependencies - Navigate to the frontend application folder "SSI-App" and run in your terminal:
 ```yarn
 ```
-2. Start the Expo development mode -  In the SSI-App run:
-```expo start
+2. Start Expo in web development mode -  In the SSI-App folder run:
+```yarn web
 ```
-3. To open the application in your browser as a WebApp, wait for the Expo terminal to finish loading (it will show you a QR code when it is done) and then press "w"
+- This will open two tabs in your default browser:
+    - The first is the Expo developer tools, it gives you some feedback on errors and connections
+    - The second is the application in WebApp mode, which you can interact with
+
+### Developing with Expo:
+- Expo runs a local server that delivers your application, by default the app is delivered at port 19006
+ - Using something like ngrok you can expose port 19006 so you can access your app online
+
+- 
+
