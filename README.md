@@ -14,10 +14,12 @@ python3 main.py
 
 ### Frontend setup:
 1. Install all dependencies - Navigate to the frontend application folder "SSI-App" and run in your terminal:
-```yarn
+```
+yarn
 ```
 2. Start Expo in web development mode -  In the SSI-App folder run:
-```yarn web
+```
+yarn web
 ```
 - This will open two tabs in your default browser:
     - The first is the Expo developer tools, it gives you some feedback on errors and connections
