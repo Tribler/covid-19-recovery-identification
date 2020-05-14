@@ -10,8 +10,10 @@ const Dashboard: React.FC = () => {
 
     return(
         <View style={styles.container}>
-            <Text>This is your Dashboard!</Text>
-            <Button mode = "contained" onPress = {() => console.log("Hello World")}> "Press me to start your SSI adventure!" </Button>
+            <h1 style={{fontWeight: "bold", verticalAlign:'top', fontSize:60}}>This is your Dashboard!</h1>
+            <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: immunity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+            <br/>
+            <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: health care proffesional &nbsp;&nbsp;</Text>
             <DrawerButton></DrawerButton>
         </View>
     )
@@ -21,9 +23,24 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'center'
+      
     },
+    certificate: {
+        position: "relative",
+        top:100,
+        right:350,
+
+        paddingVertical: 8,
+        borderWidth: 4,
+        borderColor: "#20232a",
+        borderRadius: 10,
+        backgroundColor: "#61dafb",
+        color: "#20232a",
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold"
+      }
 });
 
 export default Dashboard
