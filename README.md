@@ -17,15 +17,20 @@ python3 main.py
 ```
 yarn
 ```
-2. Start Expo in web development mode -  In the SSI-App folder run:
+2. Start Expo in web development mode - In the SSI-App folder run:
 ```
 yarn web
 ```
+
+NOTE: To list unused dependencies run:
+```
+npx depcheck
+```
+
 - This will open two tabs in your default browser:
     - The first is the Expo developer tools, it gives you some feedback on errors and connections
     - The second is the application in WebApp mode, which you can interact with
 
 ### Developing with Expo:
 - Expo runs a local server that delivers your application, by default the app is delivered at port 19006
- - Using something like ngrok you can expose port 19006 so you can access your app online
-
+- Using something like ngrok you can expose port 19006 so you can access your app online
