@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
 
     return(
         <View style={styles.container}>
-            <h1 style={{fontWeight: "bold", verticalAlign:'top', fontSize:60}}>This is your Dashboard!</h1>
+            <h1 style={{fontWeight: "bold", verticalAlign:'top', fontSize:60, fontFamily:"Sans-serif"}}>My Dashboard</h1>
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: immunity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
             <br/>
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: health care proffesional &nbsp;&nbsp;</Text>
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
         color: "#20232a",
         textAlign: "center",
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontFamily:"Sans-serif"
       }
 });
 
