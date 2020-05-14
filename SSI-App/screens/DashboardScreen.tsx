@@ -10,8 +10,8 @@ const Dashboard: React.FC = () => {
 
     return(
         <View style={styles.container}>
-            <Text>This is your Dashboard!</Text>
-            <Button mode = "contained" onPress = {() => console.log("Hello World")}> "Press me to start your SSI adventure!" </Button>
+            <h1 style={{fontWeight: "bold", verticalAlign:'top', fontSize:60}}>This is your Dashboard!</h1>
+            
             <DrawerButton></DrawerButton>
         </View>
     )
@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+      alignItems: 'center'
+      
+    }
 });
 
 export default Dashboard
