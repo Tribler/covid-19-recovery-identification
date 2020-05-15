@@ -2,8 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
-// <Text style={styles.option}><Text onPress={()=> console.log("light")}>Light</Text> / <Text onPress={()=> console.log("dark")}>Dark</Text> / <Text onPress={()=> console.log("corona")}>Corona</Text></Text>
-// <Text style={styles.option}><Text onPress={()=> console.log("enabled")}>Enabled</Text> / <Text onPress={()=> console.log("disabled")}>Disabled</Text></Text>
+// <Text onPress={()=> console.log("light")}>Light</Text> / <Text onPress={()=> console.log("dark")}>Dark</Text> / <Text onPress={()=> console.log("corona")}>Corona</Text>
+// <Text onPress={()=> console.log("enabled")}>Enabled</Text> / <Text onPress={()=> console.log("disabled")}>Disabled</Text>
 const SettingsScreen: React.FC = () => {
     return(
         <View style={styles.container}>
