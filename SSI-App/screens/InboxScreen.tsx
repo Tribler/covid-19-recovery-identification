@@ -15,18 +15,23 @@ const InboxScreen: React.FC = () => {
     return(
         <View style={styles.container}>
             <Text>This is your inbox!</Text>
-            <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
-            <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
-            <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
-            <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+            <div style = {{float:"left", margin: 1}}>
+                <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+            </div>
             <DrawerButton/>
         </View>
+
+       
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex:2,
+      padding: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',

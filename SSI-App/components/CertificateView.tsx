@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation, DrawerActions } from '@react-navigation/native'
 import { View, StyleSheet } from 'react-native'
 import { Certificate, useTrackedState } from '../Store'
@@ -17,8 +17,10 @@ const CertificateView:React.FC<CertificateProps> = ({certificate, onClick}:Certi
     const navigation = useNavigation()
     const state = useTrackedState()
 
+    const [dialogOpen, setDialogOpen] = useState(false)
+
     return(
-        <div onClick = {() => onClick()}>
+        <div onClick = {() => onClick()} style = {certificateStyle}>
             <Divider style = {styles.container}>
                 <Text style = {styles.labelDivision}>{"Type: " + certificate.type}</Text>
                 <Text style = {styles.labelDivision}>{"Holder: " + checkUserIsOwner(state.ID, certificate.holderID)}</Text>
@@ -44,8 +46,14 @@ const styles = StyleSheet.create({
         borderRadius: 1,
         borderColor: 'gray',
         padding: 3
-    }
+    },
 });
+
+const certificateStyle =  {
+    margin:20,
+    innerHeight:10,
+    font: 'Open Sans'
+}
 
 
 export default CertificateView
