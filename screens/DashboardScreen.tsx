@@ -1,13 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View} from 'react-native';
-import { useNavigation, DrawerActions } from '@react-navigation/native';
 import { Button } from 'react-native-paper'
 import DrawerButton from '../components/DrawerButton';
 
 
 const Dashboard: React.FC = () => {
-    const navigation = useNavigation()
-
     return(
         <View style={styles.container}>
             <Text>This is your Dashboard!</Text>

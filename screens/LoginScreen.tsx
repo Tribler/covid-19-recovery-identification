@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, Image, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 
 const LoginScreen: React.FC = () => {
     return (
-
+        //TODO This View component causes an error.
         <View style={styles.container}>
-             <img  src={require("./logo.png")} /> 
+            <img  src={require("./logo.png")} />
             <br />
             <br />
             <br />
@@ -28,31 +28,22 @@ const LoginScreen: React.FC = () => {
             <br/>
             <input type="submit" value="Submit"  style={{ alignItems: "center" }}/>
         </View>
-
     )
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-         
-        backgroundImage: "url(" + require("./background.jpeg") + ")",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        
-        
+        //TODO This style configuration causes an error.
+        // backgroundImage: "url(" + require("./background.jpeg") + ")",
+        // backgroundPosition: "center",
+        // backgroundSize: "cover",
+        // backgroundRepeat: "no-repeat",
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
         
     }
-   
-
 });
-
-
 
 export default LoginScreen

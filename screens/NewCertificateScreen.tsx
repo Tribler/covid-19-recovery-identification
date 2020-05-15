@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
-import {  Button } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import DrawerButton from '../components/DrawerButton';
 
 

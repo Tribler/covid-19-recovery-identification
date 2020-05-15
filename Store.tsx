@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
 
+
 type State = {
     loggedIn: boolean
     ID: number
@@ -8,7 +9,7 @@ type State = {
 }
 
 const defaultState : State = {
-    loggedIn: false,
+    loggedIn: true,
     attester: true,
     ID: 0
 } 

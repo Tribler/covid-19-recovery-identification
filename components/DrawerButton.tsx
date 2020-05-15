@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Title } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import { useNavigation, DrawerActions } from '@react-navigation/native'
-import { View } from 'react-native'
+
 
 const DrawerButton:React.FC = () => {
     const navigation = useNavigation()
@@ -20,6 +20,5 @@ const DrawerButton:React.FC = () => {
         </Button>
     )
 }
-
 
 export default DrawerButton

@@ -15,7 +15,6 @@ const Drawer = createDrawerNavigator();
 
 const DrawerMenu: React.FC = () => {
   const state = useTrackedState()
-
   return(
       state.loggedIn ? 
     <NavigationContainer>
@@ -26,7 +25,6 @@ const DrawerMenu: React.FC = () => {
           <Drawer.Screen name="Settings" component={SettingsScreen} />
         </Drawer.Navigator>
     </NavigationContainer>
-
     : 
     <LoginScreen/>
     )
