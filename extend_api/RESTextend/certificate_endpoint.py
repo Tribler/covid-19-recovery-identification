@@ -67,9 +67,12 @@ class CertificateEndpoint(BaseEndpoint):
             mid_b64 = args['mid']
             certificate_name = args['certificate_name']
             peer = self.get_peer_from_mid(mid_b64)
-            print(peer)
-            self.certificate_overlay.send_certificate(peer, certificate_name)
-            return Response({"success": True})
+
+            if peer:
+                self.certificate_overlay.send_certificate(peer, certificate_name)
+                return Response({"success": True})
+            else:
+                return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
 
     def get_peer_from_mid(self, mid_b64):
         """

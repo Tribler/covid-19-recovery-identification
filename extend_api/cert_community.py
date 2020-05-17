@@ -25,11 +25,16 @@ class CertCommunity(Community):
         # Store the certificates as a peer -> certificate key-value pair
         self.certificates = {}
 
+    def send_certificate(self, peer, certificate_name):
+        """
+        Send a certificate to a peer
+        """
+
+        self.endpoint.send(peer.address, self.ezr_pack(1, MyMessage(certificate_name)))
+
     @lazy_wrapper(MyMessage)
     def on_message(self, peer, payload):
-        # Add the certificate as peer -> certificate
+        """
+        Add the certificate as peer -> certificate
+        """
         self.certificates[peer] = payload.certificate
-
-    def send_certificate(self, peer, certificate_name):
-        # Send a certificate to a peer
-        self.endpoint.send(peer.adress, self.ezr_pack(1, MyMessage(certificate_name)))
