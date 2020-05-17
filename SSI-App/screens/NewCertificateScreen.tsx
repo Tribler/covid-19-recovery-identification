@@ -7,6 +7,7 @@ import { useTrackedState, Certificate, State } from '../Store';
 import createCertificate from '../network/createCertificate';
 
 const options = [
+    {value: "select-certificate", label: "Select Certificate..."},
     {value: "covid-immunity", label: "COVID-19 Immunity"}
 ]
 
@@ -32,14 +33,12 @@ const NewCertificateScreen: React.FC = () => {
     const state = useTrackedState()
 
     return(
-        <View style={styles.container }>
-            <Text style = {styles.title}>This is the new certificate screen!</Text>
+        <View style={styles.light }>
+            <Text style={styles.lighttext}>New Certificate <br/><br/><br/></Text>
             <View style = {styles.dropdown} >
-                <Text>Choose a certificate type: </Text>
-                <Dropdown 
-                    value = {certificateType} 
+                <Dropdown  
                     options = {options} 
-                    placeholder = "Choose certificate type" 
+                    placeholder = "Select Certificate..." 
                     onChange = {(selection) => setCertificateType(selection.value)}></Dropdown>
             </View>
             <TextInput
@@ -56,31 +55,51 @@ const NewCertificateScreen: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-
-    title: {
-        fontSize: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center'
-    },
-
     dropdown: {
       backgroundColor: '#fff',
       fontSize: 15,
+      fontFamily:"Sans-serif",
+      color:"#000",
       borderWidth: 1,
       margin:15,
-      padding: 5
+      padding: 5,
+      justifyContent: 'center'
     },
 
     textInput: {
         margin: 10
-    }
+    },
+    darktext: {
+        position: "relative",
+        top:30,
+
+        fontWeight: "bold",
+        verticalAlign:'top',
+        fontSize:60,
+        fontFamily:"Sans-serif",
+        color:"#fff"
+    },
+    lighttext: {
+        position: "relative",
+        top:30,
+
+        fontWeight: "bold",
+        verticalAlign:'top',
+        fontSize:60,
+        fontFamily:"Sans-serif",
+        color:"#000"
+    },
+    dark: {
+        flex: 1,
+        backgroundColor: '#222',
+        alignItems: 'center'
+    },
+    light: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center'
+      
+    },
 });
 
 

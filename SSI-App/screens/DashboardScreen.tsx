@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
 
     return(
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard</Text>
+            <Text style={styles.lighttext}>My Dashboard<br/><br/><br/></Text>
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: immunity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
             <br/>
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: health care professional &nbsp;</Text>
@@ -52,10 +52,6 @@ const styles = StyleSheet.create({
       
     },
     certificate: {
-        position: "relative",
-        top:100,
-        right:350,
-
         paddingVertical: 8,
         borderWidth: 4,
         borderColor: "#20232a",
