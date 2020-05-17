@@ -3,7 +3,8 @@ from aiohttp import web
 from aiohttp_apispec import setup_aiohttp_apispec
 
 from pyipv8.ipv8.REST.rest_manager import RESTManager
-from root_endpoint_extended import RootEndpointExtended
+from RESTextend.root_endpoint_extended import RootEndpointExtended
+
 
 @web.middleware
 async def cors_middleware(request, handler):
@@ -18,6 +19,7 @@ async def cors_middleware(request, handler):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Max-Age'] = str(86400)
     return response
+
 
 class RESTManagerExtended(RESTManager):
     async def start(self, port=8085, host='127.0.0.1'):

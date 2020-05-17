@@ -1,12 +1,15 @@
 from base64 import b64encode
-
 from asyncio import ensure_future, get_event_loop
-
-from rest_manager_extended import RESTManagerExtended
-
+from RESTextend.rest_manager_extended import RESTManagerExtended
+from cert_community import CertCommunity
+from pyipv8.ipv8.community import Community
 from pyipv8.ipv8.configuration import get_default_configuration
-
+from pyipv8.ipv8.keyvault.crypto import ECCrypto
+from pyipv8.ipv8.lazy_community import lazy_wrapper
+from pyipv8.ipv8.messaging.lazy_payload import VariablePayload
+from pyipv8.ipv8.peer import Peer
 from pyipv8.ipv8_service import IPv8
+
 
 async def start_communities():
     # Launch two IPv8 services.
@@ -28,14 +31,28 @@ async def start_communities():
         configuration['overlays'] = [o for o in configuration['overlays'] if o['class'] in requested_overlays]
 
         # Give each peer a separate working directory
+        # If necessary, we can give a working directory for certificates
         working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
         for overlay in configuration['overlays']:
             if overlay['class'] in working_directory_overlays:
                 overlay['initialize'] = {'working_directory': 'state_%d' % i}
-
+        new_community = {
+            'class': 'CertCommunity',
+            'key': "my peer",
+            'walkers': [{
+                'strategy': "RandomWalk",
+                'peers': 10,
+                'init': {
+                    'timeout': 3.0
+                }
+            }],
+            'initialize': {},
+            'on_start': []
+        }
+        configuration['overlays'].append(new_community)
 
         # Start the IPv8 service
-        ipv8 = IPv8(configuration)
+        ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
         await ipv8.start()
         rest_manager = RESTManagerExtended(ipv8)
         await rest_manager.start(14410 + i)

@@ -1,4 +1,5 @@
-from attestation_endpoint_extended import AttestationEndpointExtended
+from RESTextend.certificate_endpoint import CertificateEndpoint
+from pyipv8.ipv8.REST.attestation_endpoint import AttestationEndpoint
 from pyipv8.ipv8.REST.dht_endpoint import DHTEndpoint
 from pyipv8.ipv8.REST.isolation_endpoint import IsolationEndpoint
 from pyipv8.ipv8.REST.network_endpoint import NetworkEndpoint
@@ -11,7 +12,8 @@ from pyipv8.ipv8.REST.tunnel_endpoint import TunnelEndpoint
 
 class RootEndpointExtended(RootEndpoint):
     def setup_routes(self):
-        endpoints = {'/attestation': AttestationEndpointExtended,
+        endpoints = {'/attestation': AttestationEndpoint,
+                     '/certificate' : CertificateEndpoint,
                      '/dht': DHTEndpoint,
                      '/isolation': IsolationEndpoint,
                      '/network': NetworkEndpoint,
