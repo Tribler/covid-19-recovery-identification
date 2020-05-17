@@ -14,6 +14,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={styles.setting}>Theme <Text style={styles.option1}><Text onPress={()=> console.log("light")}>Light</Text> / <Text onPress={()=> console.log("dark")}>Dark</Text> / <Text onPress={()=> console.log("corona")}>Corona</Text></Text><br/><br/><br/><br/><br/><br/><br/><br/></Text>
             <Text style={styles.settingred} onPress={()=> console.log("delete cert")}>Delete a Certificate</Text>
             <Text style={styles.settingred} onPress={()=> console.log("delete acc")}>Delete your Account</Text>
+            <DrawerButton></DrawerButton>
         </View>
     )
 }

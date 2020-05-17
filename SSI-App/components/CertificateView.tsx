@@ -33,26 +33,29 @@ const CertificateView:React.FC<CertificateProps> = ({certificate, onClick}:Certi
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      
       flexDirection: 'row',
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
       display: 'flex'
+    
     },
 
     labelDivision: {
         borderWidth:  2,
         borderRadius: 1,
         borderColor: 'gray',
-        padding: 3
+        padding: 3,
+        paddingVertical: 0
     },
 });
 
 const certificateStyle =  {
     margin:20,
     innerHeight:10,
-    font: 'Open Sans'
+    font: 'Open Sans',
+    
 }
 
 

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import CertificateView from '../components/CertificateView';
 import { Certificate } from '../Store';
+import { Button } from 'react-native-paper';
 
 
 const InboxScreen: React.FC = () => {
@@ -17,9 +18,77 @@ const InboxScreen: React.FC = () => {
             <Text style={styles.lighttext}> My Inbox <br/><br/><br/></Text>
             <div style = {{float:"left", margin: 1}}>
                 <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <button style={{
+                   color: "green",
+                   position: "relative",
+                   left: 20,
+                   bottom: 10,
+                   height: 50,
+                   width: 150
+                }}>Accept</button> 
+                <button
+                style={{
+                    color: "red",
+                    position: "relative",
+                    left: 17,
+                    bottom: 10,
+                    height: 50,
+                    width: 150
+                 }}>Decline</button>
                 <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <button style={{
+                   color: "green",
+                   position: "relative",
+                   left: 20,
+                   bottom: 10,
+                   height: 50,
+                   width: 150
+                }}>Accept</button> 
+                <button
+                style={{
+                    color: "red",
+                    position: "relative",
+                    left: 17,
+                    bottom: 10,
+                    height: 50,
+                    width: 150
+                 }}>Decline</button>
                 <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <button style={{
+                   color: "green",
+                   position: "relative",
+                   left: 20,
+                   bottom: 10,
+                   height: 50,
+                   width: 150
+                }}>Accept</button> 
+                <button
+                style={{
+                    color: "red",
+                    position: "relative",
+                    left: 17,
+                    bottom: 10,
+                    height: 50,
+                    width: 150
+                 }}>Decline</button>
                 <CertificateView certificate = {mockCert} onClick = {() => console.log("wooow")}/>
+                <button style={{
+                   color: "green",
+                   position: "relative",
+                   left: 20,
+                   bottom: 10,
+                   height: 50,
+                   width: 150
+                }}>Accept</button> 
+                <button
+                style={{
+                    color: "red",
+                    position: "relative",
+                    left: 17,
+                    bottom: 10,
+                    height: 50,
+                    width: 150
+                 }}>Decline</button>
             </div>
             <DrawerButton/>
         </View>
@@ -74,6 +143,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
         
       },
+     
 });
 
 export default InboxScreen
