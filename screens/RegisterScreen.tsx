@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 const RegisterScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <img src={require("./logo.png")} />
+            <img src={require("../assets/logo.png")} />
             <br />
             <br />
             <br />
@@ -46,7 +46,7 @@ const RegisterScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundImage: "url(" + require("./background.jpeg") + ")",
+        backgroundImage: "url(" + require("../assets/background.jpeg") + ")",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
