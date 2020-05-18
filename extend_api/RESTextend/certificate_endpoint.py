@@ -16,10 +16,10 @@ class CertificateEndpoint(BaseEndpoint):
     """
     This endpoint is responsible for handing all requests regarding Certificates.
     """
+
     def __init__(self):
         super(CertificateEndpoint, self).__init__()
         self.certificate_overlay = self.attestation_overlay = self.identity_overlay = None
-
 
     def initialize(self, session):
         """
@@ -41,16 +41,19 @@ class CertificateEndpoint(BaseEndpoint):
                              web.get('/id', self.id_get),
                              web.post('', self.post_certificate)])
 
-
     async def certificate_get(self, request):
-        return Response({"certificate": "this"}, status=200)
+        formatted = []
+        for k, v in self.certificate_overlay.certificates.items():
+            formatted.append([k, v])
+        print(formatted)
+        return Response([(x, y) for x, y in formatted], status=200)
 
     async def id_get(self, request):
         """
         Returns the ID of the own peer.
         """
-        peerID = self.identity_overlay.my_peer.mid
-        return Response({"id": b64encode(peerID).decode('utf-8')}, status=200)
+        peer_id = b64encode(self.identity_overlay.my_peer.mid).decode('utf-8')
+        return Response({"id": peer_id}, status=200)
 
     async def post_certificate(self, request):
         """
@@ -65,7 +68,7 @@ class CertificateEndpoint(BaseEndpoint):
 
         if args['type'] == 'send':
             mid_b64 = args['mid']
-            certificate_name = args['certificate_name']
+            certificate_name = int(args['certificate_id'])
             peer = self.get_peer_from_mid(mid_b64)
 
             if peer:

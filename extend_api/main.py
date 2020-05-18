@@ -18,7 +18,7 @@ async def start_communities():
     #  - http://localhost:14412/
     # This script also prints the peer ids for reference with:
     #  - http://localhost:1441*/attestation?type=peers
-    for i in [1, 2]:
+    for i in [1, 2, 3]:
         configuration = get_default_configuration()
         configuration['logger']['level'] = "ERROR"
         configuration['keys'] = [

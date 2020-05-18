@@ -13,7 +13,7 @@ from pyipv8.ipv8.REST.tunnel_endpoint import TunnelEndpoint
 class RootEndpointExtended(RootEndpoint):
     def setup_routes(self):
         endpoints = {'/attestation': AttestationEndpoint,
-                     '/certificate' : CertificateEndpoint,
+                     '/certificate': CertificateEndpoint,
                      '/dht': DHTEndpoint,
                      '/isolation': IsolationEndpoint,
                      '/network': NetworkEndpoint,
