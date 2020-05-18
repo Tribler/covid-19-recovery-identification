@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import DrawerButton from '../components/DrawerButton';
 import Dropdown from 'react-dropdown';
 import { useTrackedState, Certificate, State } from '../Store';
-import createCertificate from '../network/createCertificate';
+import CreateCertificate from '../network/CreateCertificate';
 
 
 const options = [
@@ -18,7 +18,7 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
         holderID: holder,
         type: certType
     }
-    createCertificate(certificate, state)
+    CreateCertificate(certificate, state)
 }
 
 const changeHolderId = (text: string, setHolderID: Function) => {

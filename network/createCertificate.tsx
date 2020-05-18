@@ -1,6 +1,6 @@
 import { Certificate, State } from "../Store"
 
-const createCertificate = (certificate: Certificate, state: State) => {
+const CreateCertificate = (certificate: Certificate, state: State) => {
     var xhr = new XMLHttpRequest();
     const url = state.serverURL + "/newCertificate"
     xhr.open("POST", url, true);
@@ -10,4 +10,4 @@ const createCertificate = (certificate: Certificate, state: State) => {
     xhr.send(dataJSON);
 }
 
-export default createCertificate
+export default CreateCertificate
