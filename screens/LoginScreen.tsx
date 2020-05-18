@@ -7,7 +7,7 @@ import { Input , Image, } from 'react-native-elements';
 
 const LoginScreen: React.FC = () => {
     return (
-        //TODO This View component causes an error.
+       
         <View style={styles.container}>
           
         <Image source={require("../assets/logo.png")} />
@@ -16,7 +16,7 @@ const LoginScreen: React.FC = () => {
             <TextInput secureTextEntry={true}  value="abc" />
                 {"\n"}
            
-            <input type="submit" value="login" />
+            <Input type="submit" value="login" />
             <Text style={{ fontWeight: "bold", color: "#1d5" }}><br /> sign in as health expert</Text>
            
               
@@ -24,8 +24,8 @@ const LoginScreen: React.FC = () => {
                 
                 {"\n"}
           
-            <input type="submit" value="login" />
-            {//How do i link to the register screen???
+            <Input type="submit" value="login" />
+            {
             }
             <Text style={{ fontWeight: "bold", color: "#1d5" }}><br />No account? <a href="RegisterScreen.tsx">Make one</a>!</Text>
         </View>
