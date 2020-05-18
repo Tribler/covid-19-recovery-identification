@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text,  View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import DrawerButton from '../components/DrawerButton';
 import Dropdown from 'react-dropdown';
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+      
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff"
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+       
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#000"

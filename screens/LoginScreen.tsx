@@ -1,27 +1,29 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TextInput } from 'react-native';
+import { Input , Image, } from 'react-native-elements';
+ 
+//import PasswordField from 'ract-native-password-field';
 
 
 const LoginScreen: React.FC = () => {
     return (
-        //TODO This View component causes an error.
+        //TODO This View component causes an error  .
         <View style={styles.container}>
-            <img src={require("./logo.png")} />
+          
+        <Image source={require("./logo.png")} />
             <Text style={{ fontWeight: "bold", color: "#1d5" }}> sign in as patient</Text>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Password" placeholder="Password" />
-                </label>
-                <br />
-            </form>
+         
+            <TextInput secureTextEntry={true}  value="abc" />
+                {"\n"}
+           
             <input type="submit" value="login" />
             <Text style={{ fontWeight: "bold", color: "#1d5" }}><br /> sign in as health expert</Text>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Password" placeholder="Password" />
-                </label>
-                <br />
-            </form>
+           
+              
+                <TextInput secureTextEntry={true}  value="abc" />
+                
+                {"\n"}
+          
             <input type="submit" value="login" />
             {//How do i link to the register screen???
             }

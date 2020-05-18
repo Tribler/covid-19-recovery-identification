@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+       
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff"
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+      
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#000"

@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
+import { Certificate } from '../Store';
+import CertificateView from '../components/CertificateView';
 
 
 const InboxScreen: React.FC = () => {
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+      
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff"
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-        verticalAlign: 'top',
+        
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#000"
