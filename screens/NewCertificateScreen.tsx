@@ -34,7 +34,7 @@ const NewCertificateScreen: React.FC = () => {
     const state = useTrackedState()
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>New Certificate {"\n"}{"\n"}{"\n"}</Text>
+            <Text style={styles.lighttext}>New Certificate</Text>
             <View style={styles.dropdown} >
                 <Dropdown
                     options={options}
