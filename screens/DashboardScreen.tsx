@@ -6,9 +6,9 @@ import DrawerButton from '../components/DrawerButton';
 const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard<br /><br /><br /></Text>
+            <Text style={styles.lighttext}>My Dashboard{"\n"} {"\n"}{"\n"}</Text>
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: immunity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
-            <br />
+           <Text>{"\n"}</Text> 
             <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: health care professional &nbsp;</Text>
             <DrawerButton></DrawerButton>
         </View>
