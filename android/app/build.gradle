@@ -211,7 +211,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.react:react-native:0.62.2'  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
