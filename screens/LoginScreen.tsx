@@ -11,15 +11,21 @@ const LoginScreen: React.FC = () => {
        
         <View style={styles.container}>
           
-        {/* <Image source={require("../assets/logo.png")} /> */}
-           
+        
+        
          <ImageBackground  
             style={styles.im}
             source={require('../assets/background.jpeg')}
         ></ImageBackground>
 
+  <Image  
+          resizeMode = "cover"
+            style={styles.im2}
+            source={require('../assets/logo.png')}
+        ></Image>
 <Text style={{ fontWeight: "bold", color: "#1d5",fontSize:20 }}> sign in as patient</Text>
          <Text>{"\n"}</Text>
+         {/* <Image source={require("../assets/logo.png")} style={styles.im2} />  */}
         <TextInput
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2}}
         placeholder=" Enter Your Password"          
@@ -68,15 +74,22 @@ const styles = StyleSheet.create({
       
     },
     im:{
-        
+      
        width: "110%",
        height: "110%",
        flexDirection: "column",
        resizeMode: "cover",
        top: 450,
        right:30
+       
     },
-    
+    im2:{
+        
+       
+            backgroundColor: 'rgba(0,0,0,0)',
+            position: "relative"
+          
+    }
     
 });
 
