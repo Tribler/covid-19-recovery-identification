@@ -29,7 +29,7 @@ const LoginScreen: React.FC = () => {
          {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
          <Text>{"\n"}</Text> 
         <TextInput
-        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4}}
+        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4, backgroundColor:"white"}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
         placeholderTextColor="black"
@@ -50,10 +50,11 @@ const LoginScreen: React.FC = () => {
             {/* <Text>{"\n"}</Text> */}
             <Text>{"\n"}</Text>
       <TextInput    
-        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4}}
+        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4, backgroundColor:"white"}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
-        placeholderTextColor="black"
+        placeholderTextColor="#74d14c"
+    
         secureTextEntry={true}
         />
             
