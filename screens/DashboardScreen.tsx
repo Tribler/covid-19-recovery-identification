@@ -6,8 +6,14 @@ import DrawerButton from '../components/DrawerButton';
 const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard{"\n"} {"\n"}{"\n"}</Text>
-          <DrawerButton></DrawerButton>
+            <Text style={styles.lighttext}>My Dashboard</Text>
+            <View style= {styles.certificate}>
+                <Text> Acquired proofs</Text>
+                <Text>{"\n"}</Text>
+                <Text> AIDS immunity</Text>
+                <Text> COVID-19 immunity</Text>
+            </View>
+        <DrawerButton></DrawerButton>
         </View>
     )
 }
@@ -42,11 +48,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     certificate: {
-        paddingVertical: 8,
+        width: 300,
+        top: 100,
         borderWidth: 4,
         borderColor: "#20232a",
         borderRadius: 10,
-        backgroundColor: "#61dafb",
+        backgroundColor: "#fffffb",
         color: "#20232a",
         textAlign: "center",
         fontSize: 30,
