@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import { Certificate } from '../Store';
 import CertificateView from '../components/CertificateView';
@@ -12,88 +12,66 @@ const InboxScreen: React.FC = () => {
         type: "covid-immunity",
     }
     return (
-        <View style={styles.light}>
-            <Text style={styles.lighttext}> My Inbox <br /><br /><br /></Text>
-            <div style={{ float: "left", margin: 1 }}>
+        <View style={styles.light}><Text style={styles.lighttext}>My Inbox</Text>
+            <View style={{ float: "left", margin: 1, top: 50 }}>
+                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")}/>
+                <View style={styles.buttonPair}>
+                    <Button
+                        color= "green"
+                        title= "Accept"
+                        margin= "10"
+                    />
+                    <Text>{"\r"}</Text>
+                    <Button
+                        color= "red"
+                        title= "Decline"
+                        margin= "10"
+                    />
+                </View>
+                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")}/>
+                <View style={styles.buttonPair}>
+                    <Button
+                        color= "green"
+                        title= "Accept"
+                    />
+                    <Button
+                        color= "red"
+                        title= "Decline"
+                    />
+                </View>
                 <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
-                <button style={{
-                    color: "green",
-                    position: "relative",
-                    left: 20,
-                    bottom: 10,
-                    height: 50,
-                    width: 150
-                }}>Accept</button>
-                <button
-                    style={{
-                        color: "red",
-                        position: "relative",
-                        left: 17,
-                        bottom: 10,
-                        height: 50,
-                        width: 150
-                    }}>Decline</button>
-                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
-                <button style={{
-                    color: "green",
-                    position: "relative",
-                    left: 20,
-                    bottom: 10,
-                    height: 50,
-                    width: 150
-                }}>Accept</button>
-                <button
-                    style={{
-                        color: "red",
-                        position: "relative",
-                        left: 17,
-                        bottom: 10,
-                        height: 50,
-                        width: 150
-                    }}>Decline</button>
-                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
-                <button style={{
-                    color: "green",
-                    position: "relative",
-                    left: 20,
-                    bottom: 10,
-                    height: 50,
-                    width: 150
-                }}>Accept</button>
-                <button
-                    style={{
-                        color: "red",
-                        position: "relative",
-                        left: 17,
-                        bottom: 10,
-                        height: 50,
-                        width: 150
-                    }}>Decline</button>
-                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
-                <button style={{
-                    color: "green",
-                    position: "relative",
-                    left: 20,
-                    bottom: 10,
-                    height: 50,
-                    width: 150
-                }}>Accept</button>
-                <button
-                    style={{
-                        color: "red",
-                        position: "relative",
-                        left: 17,
-                        bottom: 10,
-                        height: 50,
-                        width: 150
-                    }}>Decline</button>
-            </div>
+                <View style={styles.buttonPair}>
+                    <Button
+                        color= "green"
+                        title= "Accept"
+                    />
+                    <Button
+                        color= "red"
+                        title= "Decline"
+                    />
+                </View>
+                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")}/>
+                <View style={styles.buttonPair}>
+                    <Button
+                        color= "green"
+                        title= "Accept"
+                    />
+                    <Button
+                        color= "red"
+                        title= "Decline"
+                    />
+                </View>
+            </View>
             <DrawerButton />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    buttonPair: {
+        left: 100,
+        flexDirection: "row"
+    },
     dropdown: {
         backgroundColor: '#fff',
         fontSize: 15,

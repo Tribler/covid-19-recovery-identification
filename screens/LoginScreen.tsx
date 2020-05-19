@@ -47,10 +47,6 @@ const LoginScreen: React.FC = () => {
         underlineColorAndroid="transparent"
         secureTextEntry={true}
         />
-            
-                
-               
-          
             <Input type="submit" value="login" />
             {
             }
