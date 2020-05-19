@@ -1,5 +1,6 @@
 from base64 import b64encode
-
+import json
+from os import path, stat
 from ipv8.community import Community
 from ipv8.keyvault.crypto import ECCrypto
 from ipv8.lazy_community import lazy_wrapper
@@ -42,7 +43,7 @@ class CertCommunity(Community):
     @lazy_wrapper(MyMessage)
     def on_certificate(self, peer, payload):
         """
-        Add the certificate as peer -> certificate
+        Add the certificate as peer -> certificate.
         """
         peer_id = b64encode(peer.mid).decode()
         self.certificates[peer_id] = self.certificate_map[payload.certificate]
@@ -63,7 +64,7 @@ class CertCommunity(Community):
 
     def write_certificates_file(self, working_directory):
         """
-         Write your certficates to the certificate.txt in the working directory.
+         Write your certificates to the certificate.txt in the working directory.
          """
         filepath = working_directory + "/certificates.txt"
         f = open(filepath, 'w')

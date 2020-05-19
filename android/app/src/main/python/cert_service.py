@@ -20,10 +20,10 @@ async def start_communities():
     # On Android we need the complete path when new files are created.
     files_dir = str(Python.getPlatform().getApplication().getFilesDir())
     configuration['keys'] = [
-            {'alias': "anonymous id", 'generation': u"curve25519",
-             'file': files_dir + u"/ec_multichain.pem"},
-            {'alias': "my peer", 'generation': u"medium",
-             'file': files_dir + u"/ec.pem"}
+        {'alias': "anonymous id", 'generation': u"curve25519",
+         'file': files_dir + u"/ec_multichain.pem"},
+        {'alias': "my peer", 'generation': u"medium",
+         'file': files_dir + u"/ec.pem"}
     ]
     # Only load the basic communities.
     requested_overlays = ['DiscoveryCommunity', 'AttestationCommunity', 'IdentityCommunity']
@@ -31,25 +31,25 @@ async def start_communities():
                                  if o['class'] in requested_overlays]
 
     # Give a working directory.
-    new_community = {
-            'class': 'CertCommunity',
-            'key': "my peer",
-            'walkers': [{
-                'strategy': "RandomWalk",
-                'peers': 10,
-                'init': {
-                    'timeout': 3.0
-                }
-            }],
-            'initialize': {},
-            'on_start': []
-        }
-    configuration['overlays'].append(new_community)
-    working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity', 'CertCommunity']
+    working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
     for overlay in configuration['overlays']:
         if overlay['class'] in working_directory_overlays:
             overlay['initialize'] = {'working_directory': files_dir + '/certificates'}
 
+    new_community = {
+        'class': 'CertCommunity',
+        'key': "my peer",
+        'walkers': [{
+            'strategy': "RandomWalk",
+            'peers': 10,
+            'init': {
+                'timeout': 3.0
+            }
+        }],
+        'initialize': {'working_directory': files_dir + '/certificates'},
+        'on_start': []
+    }
+    configuration['overlays'].append(new_community)
 
     # Start the attestation service.
     ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
