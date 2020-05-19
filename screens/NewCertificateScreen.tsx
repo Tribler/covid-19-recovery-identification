@@ -7,6 +7,7 @@ import { useTrackedState, Certificate, State } from '../Store';
 import CreateCertificate from '../network/CreateCertificate';
 
 
+
 const options = [
     { value: "select-certificate", label: "Select Certificate..." },
     { value: "covid-immunity", label: "COVID-19 Immunity" }
@@ -33,7 +34,7 @@ const NewCertificateScreen: React.FC = () => {
     const state = useTrackedState()
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>New Certificate <br /><br /><br /></Text>
+            <Text style={styles.lighttext}>New Certificate {"\n"}{"\n"}{"\n"}</Text>
             <View style={styles.dropdown} >
                 <Dropdown
                     options={options}

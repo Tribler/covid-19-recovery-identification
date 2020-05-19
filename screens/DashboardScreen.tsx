@@ -7,9 +7,9 @@ const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard{"\n"} {"\n"}{"\n"}</Text>
-            <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: immunity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Text>
+            <Text style={styles.certificate}>{"\n"}{"\n"}Certificate: immunity{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
            <Text>{"\n"}</Text> 
-            <Text style={styles.certificate}>&nbsp;&nbsp;Certificate: health care professional &nbsp;</Text>
+            <Text style={styles.certificate}>{"\n"}{"\n"}Certificate: health care professional {"\n"}</Text>
             <DrawerButton></DrawerButton>
         </View>
     )
