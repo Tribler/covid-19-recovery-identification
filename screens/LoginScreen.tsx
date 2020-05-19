@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, StyleSheet, Text, View,TextInput } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View,TextInput, Button, Alert } from 'react-native';
 import { Input , Image, } from 'react-native-elements';
 import PasswordInputText from 'react-native-hide-show-password-input';
  
@@ -24,8 +24,8 @@ const LoginScreen: React.FC = () => {
             source={require('../assets/logo.png')}
         ></ImageBackground>
         
-        <Text style={{ fontWeight: "bold", color: "#1d5",fontSize:20 }}> sign in as patient</Text>
-         <Text>{"\n"}</Text>
+        <Text style={{ fontWeight: "bold", color: "#1d5",fontSize:20, right:20 }}> sign in as patient</Text>
+         {/* <Text>{"\n"}</Text> */}
          {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
         <TextInput
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2}}
@@ -35,13 +35,17 @@ const LoginScreen: React.FC = () => {
         />
             
            
-           
-            <Input type="submit" value="login" />
+           <Text>{"\n"}</Text> 
+            <Button
+          title="Submit"
+          color="grey"
+          onPress={() => Alert.alert('Simple Button pressed')}
+        />
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#1d5", fontSize:20 }}> sign in as health expert</Text>
-            <Text>{"\n"}</Text>
+            {/* <Text>{"\n"}</Text> */}
               
-      <TextInput
+      <TextInput    
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
@@ -50,8 +54,14 @@ const LoginScreen: React.FC = () => {
             
                 
                
+          <Text>{"\n"}</Text>
+            <Button
+          title="Submit"
+          color ="grey"
+         
           
-            <Input type="submit" value="login" />
+          onPress={() => Alert.alert('Simple Button pressed')}
+        />
             {
             }
            
@@ -77,10 +87,10 @@ const styles = StyleSheet.create({
     im:{
       
        width: "110%",
-       height: "110%",
+       height: "117%",
        flexDirection: "column",
        resizeMode: "cover",
-       top: 450,
+       top: 240,
        right:30
        
     },
@@ -89,9 +99,13 @@ const styles = StyleSheet.create({
         width: 250,
         height: 250,
         resizeMode: 'contain',
-        bottom: 200
+        bottom: 350,
+        right: 20
+    },
+    sbutton:{
+        color:"#0f0"
+
     }
-    
 });
 
 export default LoginScreen
