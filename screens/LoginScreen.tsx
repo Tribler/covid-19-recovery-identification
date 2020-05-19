@@ -24,13 +24,15 @@ const LoginScreen: React.FC = () => {
             source={require('../assets/logo.png')}
         ></ImageBackground>
         
-        <Text style={{ fontWeight: "bold", color: "#1d5",fontSize:20, right:20 }}> sign in as patient</Text>
+        <Text style={{ fontWeight: "bold", color: "#74d14c",fontSize:20 }}> Sign in as patient</Text>
          {/* <Text>{"\n"}</Text> */}
          {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
+         <Text>{"\n"}</Text> 
         <TextInput
-        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2}}
+        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
+        placeholderTextColor="black"
         secureTextEntry={true}
         />
             
@@ -39,16 +41,19 @@ const LoginScreen: React.FC = () => {
             <Button
           title="Submit"
           color="grey"
+          
           onPress={() => Alert.alert('Simple Button pressed')}
         />
+        <Text>{"\n"}</Text> 
             <Text>{"\n"}</Text>
-            <Text style={{ fontWeight: "bold", color: "#1d5", fontSize:20 }}> sign in as health expert</Text>
+            <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize:20}}> Sign in as health expert</Text>
             {/* <Text>{"\n"}</Text> */}
-              
+            <Text>{"\n"}</Text>
       <TextInput    
-        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2}}
+        style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
+        placeholderTextColor="black"
         secureTextEntry={true}
         />
             
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
-        bottom: 250
+        bottom: 300
       
     },
     im:{
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
        height: "117%",
        flexDirection: "column",
        resizeMode: "cover",
-       top: 240,
+       top: 350,
        right:30
        
     },
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
         width: 250,
         height: 250,
         resizeMode: 'contain',
-        bottom: 350,
+        bottom: 250,
         right: 20
     },
     sbutton:{
