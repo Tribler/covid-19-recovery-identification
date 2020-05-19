@@ -1,7 +1,9 @@
 import React from 'react'
-import { ImageBackground, StyleSheet, Text, View,TextInput, Button, Alert } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View,TextInput, Button, Alert, Linking } from 'react-native';
 import { Input , Image, } from 'react-native-elements';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import { useNavigation } from '@react-navigation/native';
+import RegisterScreen from '../screens/RegisterScreen';
  
 //import PasswordField from 'ract-native-password-field';
 
@@ -25,9 +27,8 @@ const LoginScreen: React.FC = () => {
         ></ImageBackground>
         
         <Text style={{ fontWeight: "bold", color: "#74d14c",fontSize:20 }}> Sign in as patient</Text>
-         {/* <Text>{"\n"}</Text> */}
+         <Text>{"\n"}</Text>
          {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
-         <Text>{"\n"}</Text> 
         <TextInput
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4}}
         placeholder=" Enter Your Password"          
@@ -39,13 +40,12 @@ const LoginScreen: React.FC = () => {
            
            <Text>{"\n"}</Text> 
             <Button
-          title="Submit"
-          color="grey"
+          title="Login"
+          color="blue"
           
           onPress={() => Alert.alert('Simple Button pressed')}
         />
         <Text>{"\n"}</Text> 
-            <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize:20}}> Sign in as health expert</Text>
             {/* <Text>{"\n"}</Text> */}
             <Text>{"\n"}</Text>
@@ -61,20 +61,18 @@ const LoginScreen: React.FC = () => {
                
           <Text>{"\n"}</Text>
             <Button
-          title="Submit"
-          color ="grey"
+          title="Login"
+          color ="blue"
          
           
           onPress={() => Alert.alert('Simple Button pressed')}
         />
             {
             }
-           
+            <Text style={{ fontWeight: "bold", color: "#1d5", top: 20 }}>No account?</Text><Button title="Make one" onPress={() => <RegisterScreen/>}/>
         </View>
     )
 }
-
-//<Text style={{ fontWeight: "bold", color: "#1d5" }}>No account? <a href="RegisterScreen.tsx">Make one</a>!</Text>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -95,7 +93,7 @@ const styles = StyleSheet.create({
        height: "117%",
        flexDirection: "column",
        resizeMode: "cover",
-       top: 350,
+       top: 370,
        right:20
        
     },
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
         width: 250,
         height: 250,
         resizeMode: 'contain',
-        bottom: 250,
+        bottom: 210,
         right: 20
     },
     sbutton:{

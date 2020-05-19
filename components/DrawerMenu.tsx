@@ -7,6 +7,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import InboxScreen from '../screens/InboxScreen';
 import { useTrackedState } from '../Store';
 import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 
 const Drawer = createDrawerNavigator();
