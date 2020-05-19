@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageBackground, StyleSheet, Text, View,TextInput, Button, Alert } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View,TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import { Input , Image, } from 'react-native-elements';
 import PasswordInputText from 'react-native-hide-show-password-input';
  
@@ -32,18 +32,20 @@ const LoginScreen: React.FC = () => {
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4, backgroundColor:"white"}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
-        placeholderTextColor="black"
+        placeholderTextColor="#32CD32"
+        
         secureTextEntry={true}
         />
             
-           
-           <Text>{"\n"}</Text> 
-            <Button
-          title="Submit"
-          color="grey"
-          
-          onPress={() => Alert.alert('Simple Button pressed')}
-        />
+   
+            <TouchableOpacity onPress = {() => Alert.alert('Simple Button pressed')}>
+    <View style = {{backgroundColor: '#74d14c', alignItems: 'center', 
+                    justifyContent: 'center', borderRadius: 7, top:20}}
+           >
+        <Text style = {{fontWeight: "bold", color: 'white', width:150, height:25, textAlign: "center", textAlignVertical:"center"}}>Submit</Text>
+    </View>
+</TouchableOpacity>
+
         <Text>{"\n"}</Text> 
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize:20}}> Sign in as health expert</Text>
@@ -53,21 +55,21 @@ const LoginScreen: React.FC = () => {
         style={{height: 45,width: "95%",borderColor: "gray",borderWidth: 2, borderRadius:4, backgroundColor:"white"}}
         placeholder=" Enter Your Password"          
         underlineColorAndroid="transparent"
-        placeholderTextColor="#74d14c"
+        placeholderTextColor="#32CD32"
+        
     
         secureTextEntry={true}
         />
             
-                
+            <TouchableOpacity onPress = {() => Alert.alert('Simple Button pressed')}>
+    <View style = {{backgroundColor: '#74d14c', alignItems: 'center', 
+                    justifyContent: 'center', borderRadius: 7, top:20}}
+           >
+        <Text style = {{fontWeight: "bold", color: 'white', width:150, height:25, textAlign: "center", textAlignVertical:"center"}}>Submit</Text>
+    </View>
+</TouchableOpacity>
                
-          <Text>{"\n"}</Text>
-            <Button
-          title="Submit"
-          color ="grey"
-         
-          
-          onPress={() => Alert.alert('Simple Button pressed')}
-        />
+
             {
             }
            
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
        height: "117%",
        flexDirection: "column",
        resizeMode: "cover",
-       top: 350,
+       top: 325,
        right:20
        
     },
