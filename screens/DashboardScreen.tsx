@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 30,
+        top: 70,
         fontWeight: "bold",
       
-        fontSize: 60,
+        fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
     },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     certificate: {
         width: 300,
-        top: 50,
+        top: 100,
         borderWidth: 4,
         borderColor: "#20232a",
         borderRadius: 10,
