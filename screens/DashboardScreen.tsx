@@ -7,10 +7,7 @@ const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard{"\n"} {"\n"}{"\n"}</Text>
-            <Text style={styles.certificate}>{"\n"}{"\n"}Certificate: immunity{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}{"\n"}</Text>
-           <Text>{"\n"}</Text> 
-            <Text style={styles.certificate}>{"\n"}{"\n"}Certificate: health care professional {"\n"}</Text>
-            <DrawerButton></DrawerButton>
+          <DrawerButton></DrawerButton>
         </View>
     )
 }
@@ -27,10 +24,10 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 30,
+        top: 70,
         fontWeight: "bold",
       
-        fontSize: 60,
+        fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
     },
