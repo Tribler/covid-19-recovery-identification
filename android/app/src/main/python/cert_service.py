@@ -31,10 +31,6 @@ async def start_communities():
                                  if o['class'] in requested_overlays]
 
     # Give a working directory.
-    working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
-    for overlay in configuration['overlays']:
-        if overlay['class'] in working_directory_overlays:
-            overlay['initialize'] = {'working_directory': files_dir + '/certificates'}
     new_community = {
             'class': 'CertCommunity',
             'key': "my peer",
@@ -49,6 +45,11 @@ async def start_communities():
             'on_start': []
         }
     configuration['overlays'].append(new_community)
+    working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity', 'CertCommunity']
+    for overlay in configuration['overlays']:
+        if overlay['class'] in working_directory_overlays:
+            overlay['initialize'] = {'working_directory': files_dir + '/certificates'}
+
 
     # Start the attestation service.
     ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})

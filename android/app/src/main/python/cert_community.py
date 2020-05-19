@@ -19,8 +19,9 @@ class CertCommunity(Community):
 
     master_peer = Peer(ECCrypto().generate_key(u"medium"))
 
-    def __init__(self, my_peer, endpoint, network):
-        super(CertCommunity, self).__init__(my_peer, endpoint, network)
+    def __init__(self, *args, **kwargs):
+        self.working_directory = kwargs.pop('working_directory', '')
+        super(CertCommunity, self).__init__(*args, **kwargs)
         # Register the message handler for messages with the identifier "1".
         self.add_message_handler(1, self.on_certificate)
         # Store the certificates as a peer -> certificate key-value pair
@@ -30,6 +31,7 @@ class CertCommunity(Community):
             1: "cv19-i",
             2: "hepB-v"
         }
+        self.read_certificates_file(self.working_directory)
 
     def send_certificate(self, peer, certificate_id):
         """
@@ -44,3 +46,25 @@ class CertCommunity(Community):
         """
         peer_id = b64encode(peer.mid).decode()
         self.certificates[peer_id] = self.certificate_map[payload.certificate]
+        # Persist the certificates with every new certificate received.
+        self.write_certificates_file(self.working_directory)
+
+    def read_certificates_file(self, working_directory):
+        """
+        Read the certificate.txt in the working directory, or create a new one.
+        """
+        filepath = working_directory + "/certificates.txt"
+        # Check if the file exist and if it is not empty.
+        if path.exists(filepath) and stat(filepath).st_size != 0:
+            # Overwrite your certificates variable to the certificates in this file
+            self.certificates = json.load(open(filepath))
+        else:
+            open(filepath, "w").close()
+
+    def write_certificates_file(self, working_directory):
+        """
+         Write your certficates to the certificate.txt in the working directory.
+         """
+        filepath = working_directory + "/certificates.txt"
+        f = open(filepath, 'w')
+        f.write(json.dumps(self.certificates))
