@@ -1,0 +1,110 @@
+apply plugin: "com.android.application"
+apply plugin: "com.chaquo.python"
+
+import com.android.build.OutputFile
+
+/**
+ * Set this to true to create two separate APKs instead of one:
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = false
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = false
+
+android {
+    compileSdkVersion 'android-R'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId 'com.immune'
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        python {
+            pip {
+                install "pyipv8 == 2.1.0"
+            }
+            pyc {
+                src false  // For testing bytecode compilation on device.
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    packagingOptions {
+        pickFirst "lib/armeabi-v7a/libc++_shared.so"
+        pickFirst "lib/arm64-v8a/libc++_shared.so"
+        pickFirst "lib/x86/libc++_shared.so"
+        pickFirst "lib/x86_64/libc++_shared.so"
+    }
+    buildToolsVersion = '30.0.0 rc4'
+
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // https://developer.android.com/studio/build/configure-apk-splits.html
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
+
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    testImplementation "junit:junit:4.13"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+}

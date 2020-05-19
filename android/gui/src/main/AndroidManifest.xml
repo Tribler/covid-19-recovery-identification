@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.immune">
+    package="com.immune.gui">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -23,11 +23,9 @@
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
-        <service
-            android:name=".CertService"
+        <service android:name="com.immune.service.CertService"
             android:exported="false"
-            android:isolatedProcess="false"
-            android:label="Certification Service" />
+            android:isolatedProcess="false" />
     </application>
 
 </manifest>

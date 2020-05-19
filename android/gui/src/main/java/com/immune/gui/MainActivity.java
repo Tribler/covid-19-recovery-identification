@@ -1,4 +1,4 @@
-package com.immune;
+package com.immune.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
+import com.immune.service.CertService;
 
 public class MainActivity extends ReactActivity {
 

@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.immune.service">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        tools:ignore="MissingApplicationIcon"
+        android:allowBackup="false">
+        <service
+            android:name=".CertService"
+            android:exported="true"
+            android:isolatedProcess="false"
+            android:permission="com.immune" />
+    </application>
+
+</manifest>
