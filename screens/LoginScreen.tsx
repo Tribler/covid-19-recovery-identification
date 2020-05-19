@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
        flexDirection: "column",
        resizeMode: "cover",
        top: 350,
-       right:30
+       right:20
        
     },
     im2:{
