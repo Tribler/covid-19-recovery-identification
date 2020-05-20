@@ -1,18 +1,18 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
 
 const SettingsScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top:50 }}>Settings</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top: 50 }}>Settings</Text>
             <Text style={styles.setting}>Push Notifications</Text>
-            <Text style={styles.option}><Text onPress={() => console.log("enabled")}>Enabled</Text> / <Text onPress={() => console.log("disabled")}>Disabled</Text></Text>
+            <Text style={styles.option}><Text onPress={() => Alert.alert("enabled")}>Enabled</Text> / <Text onPress={() => Alert.alert("disabled")}>Disabled</Text></Text>
             <Text style={styles.setting}>Theme</Text>
-            <Text style={styles.option1}><Text onPress={() => console.log("light")}>Light</Text> / <Text onPress={() => console.log("dark")}>Dark</Text></Text>
-            <Text style={styles.settingred} onPress={() => console.log("delete cert")}>Delete a Certificate</Text>
-            <Text style={styles.settingred} onPress={() => console.log("delete acc")}>Delete your Account</Text>
+            <Text style={styles.option1}><Text onPress={() => Alert.alert("light")}>Light</Text> / <Text onPress={() => Alert.alert("dark")}>Dark</Text></Text>
+            <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
+            <Text style={styles.settingred} onPress={() => Alert.alert("delete acc")}>Delete your Account</Text>
             <DrawerButton></DrawerButton>
         </View>
     )

@@ -5,7 +5,7 @@ import PasswordInputText from 'react-native-hide-show-password-input';
 import { useNavigation } from '@react-navigation/native';
 import RegisterScreen from '../screens/RegisterScreen';
  
-//import PasswordField from 'ract-native-password-field';
+//import PasswordField from 'react-native-password-field';
 
 
 const LoginScreen: React.FC = () => {
@@ -69,7 +69,9 @@ const LoginScreen: React.FC = () => {
         />
             {
             }
-            <Text style={{ fontWeight: "bold", color: "#1d5", top: 20 }}>No account?</Text><Button title="Make one" onPress={() => <RegisterScreen/>}/>
+            <Text style={{ fontWeight: "bold", color: "#1d5", top: 20 }}>No account? <Text style={{color:"#15d"}} onPress={() => Alert.alert('link to register page')}>Make one</Text>!</Text>
+             {/* TODO: gotta find a way to navigate to register screen from login screen and vice versa */}
+            {/* <Button title="Make one" onPress={() => useNavigation().navigate(RegisterScreen)}>Make one</Button> */}
         </View>
     )
 }
