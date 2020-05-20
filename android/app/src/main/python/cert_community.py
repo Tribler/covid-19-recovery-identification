@@ -1,16 +1,13 @@
-from base64 import b64encode
 import json
+from base64 import b64encode
 from os import path, stat
+
 from ipv8.community import Community
 from ipv8.keyvault.crypto import ECCrypto
 from ipv8.lazy_community import lazy_wrapper
-from ipv8.messaging.lazy_payload import VariablePayload
 from ipv8.peer import Peer
-
-
-class MyMessage(VariablePayload):
-    format_list = ['I']  # When reading data, we unpack an unsigned integer from it.
-    names = ["certificate"]  # We will name this unsigned integer "certificate"
+from ipv8.messaging.payload_headers import BinMemberAuthenticationPayload, GlobalTimeDistributionPayload
+from certificate_payload import CertificatePayload
 
 
 class CertCommunity(Community):
@@ -24,7 +21,7 @@ class CertCommunity(Community):
         self.working_directory = kwargs.pop('working_directory', '')
         super(CertCommunity, self).__init__(*args, **kwargs)
         # Register the message handler for messages with the identifier "1".
-        self.add_message_handler(1, self.on_certificate)
+        self.add_message_handler(20, self.on_certificate)
         # Store the certificates as a peer -> certificate key-value pair
         self.certificates = {}
         # Example certificates which can be added later on the road if wanted
@@ -33,18 +30,27 @@ class CertCommunity(Community):
             2: "hepB-v"
         }
         self.read_certificates_file(self.working_directory)
+        self.decode_map.update({
+            chr(20): self.on_certificate
+        })
 
     def send_certificate(self, peer, certificate_id):
         """
         Send a certificate to a peer
         """
-        self.endpoint.send(peer.address, self.ezr_pack(1, MyMessage(certificate_id)))
+        global_time = self.claim_global_time()
+        auth = BinMemberAuthenticationPayload(self.my_peer.public_key.key_to_bin()).to_pack_list()
+        payload = CertificatePayload(certificate_id).to_pack_list()
+        dist = GlobalTimeDistributionPayload(global_time).to_pack_list()
+        packet = self._ez_pack(self._prefix, 20, [auth, dist, payload])
+        self.endpoint.send(peer.address, packet)
 
-    @lazy_wrapper(MyMessage)
-    def on_certificate(self, peer, payload):
+    @lazy_wrapper(GlobalTimeDistributionPayload, CertificatePayload)
+    async def on_certificate(self, peer, dist, payload):
         """
         Add the certificate as peer -> certificate.
         """
+        print("we never get here")
         peer_id = b64encode(peer.mid).decode()
         self.certificates[peer_id] = self.certificate_map[payload.certificate]
         # Persist the certificates with every new certificate received.
