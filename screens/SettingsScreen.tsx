@@ -6,12 +6,12 @@ import DrawerButton from '../components/DrawerButton';
 const SettingsScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top: 50 }}>Settings</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top: 80 }}>Settings</Text>
             <Text style={styles.setting}>Push Notifications</Text>
             <Text style={styles.option}><Text onPress={() => Alert.alert("enabled")}>Enabled</Text> / <Text onPress={() => Alert.alert("disabled")}>Disabled</Text></Text>
-            <Text style={styles.setting}>Theme</Text>
+            <Text style={styles.setting2}>Theme</Text>
             <Text style={styles.option1}><Text onPress={() => Alert.alert("light")}>Light</Text> / <Text onPress={() => Alert.alert("dark")}>Dark</Text></Text>
-            <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
+            <Text style={styles.settingred2} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete acc")}>Delete your Account</Text>
             <DrawerButton></DrawerButton>
         </View>
@@ -26,8 +26,18 @@ const styles = StyleSheet.create({
     },
     setting: {
         position: "relative",
-        top: 100,
-        right: 115,
+        top: 300,
+        left: 80,
+        textAlign: "left",
+        paddingVertical: 8,
+        color: "#20232a",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+    },
+    setting2: {
+        position: "relative",
+        top: 290,
+        left: 130,
         textAlign: "left",
         paddingVertical: 8,
         color: "#20232a",
@@ -36,8 +46,8 @@ const styles = StyleSheet.create({
     },
     option: {
         position: "relative",
-        top: 58,
-        left: 115,
+        top: 110,
+        left: 80,
         textAlign: "left",
         paddingVertical: 8,
         color: "#20232a",
@@ -46,7 +56,7 @@ const styles = StyleSheet.create({
     },
     option1: {
         position: "relative",
-        top: 58,
+        top: 100,
         left: 109,
         textAlign: "left",
         paddingVertical: 8,
@@ -56,9 +66,20 @@ const styles = StyleSheet.create({
     },
     settingred: {
         position: "relative",
-        top: 250,
+        top: 400,
         textAlign: "left",
         paddingVertical: 8,
+        right: 100,
+        color: "#FF0000",
+        fontSize: 20,
+        fontFamily: "Sans-serif"
+    },
+    settingred2: {
+        position: "relative",
+        top: 400,
+        textAlign: "left",
+        paddingVertical: 8,
+        right: 105,
         color: "#FF0000",
         fontSize: 20,
         fontFamily: "Sans-serif"
