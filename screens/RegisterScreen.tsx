@@ -45,7 +45,7 @@ const RegisterScreen: React.FC = () => {
             <Text>{"\n"}</Text>
             <input type="submit" value="register" style={{ alignItems: "center" }} />
             <Text>{"\n"}</Text>
-            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <RegisterScreen />} />
+            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <LoginScreen />} />
         </View>
     )
 }

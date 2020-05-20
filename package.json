@@ -15,8 +15,10 @@
     "react-dom": "^16.13.1",
     "react-dropdown": "^1.7.0",
     "react-native": "^0.62.2",
+    "react-native-dropdown-menu": "^2.0.0",
     "react-native-elements": "^2.0.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-paper": "^3.10.1",
     "react-native-password-field": "^1.0.8",
     "react-native-reanimated": "^1.8.0",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
-    "@types/react-native": "^0.62.10"
+    "@types/react-native": "^0.62.10",
+    "@types/react-native-material-dropdown": "^0.11.4"
   }
 }

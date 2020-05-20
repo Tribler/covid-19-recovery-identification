@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { Certificate, useTrackedState } from '../Store'
-import { Text, Divider } from 'react-native-paper'
+import { Divider } from 'react-native-paper'
 
 
 interface CertificateProps {
@@ -16,8 +16,8 @@ const checkUserIsOwner = (userId: string, id: string) => {
 const CertificateView: React.FC<CertificateProps> = ({ certificate, onClick }: CertificateProps) => {
     const state = useTrackedState()
     return (
-        <View onClick={() => onClick()} style={certificateStyle}>
-            <Divider style={styles.container}>
+        <View style={certificateStyle}>
+            <Divider accessibilityStates={['disabled']} style={styles.container}>
                 <Text style={styles.labelDivision}>{"Type: " + certificate.type}</Text>
                 <Text style={styles.labelDivision}>{"Holder: " + checkUserIsOwner(state.ID, certificate.holderID)}</Text>
                 <Text style={styles.labelDivision}>{"Creator: " + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
