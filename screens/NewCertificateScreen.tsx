@@ -4,8 +4,8 @@ import { Button, TextInput } from 'react-native-paper';
 import DrawerButton from '../components/DrawerButton';
 import { useTrackedState, Certificate, State } from '../Store';
 import CreateCertificate from '../network/CreateCertificate';
-// import { DropdownMenu } from 'react-native-dropdown-menu';
-// import { Dropdown } from 'react-native-material-dropdown';
+//import { DropdownMenu } from 'react-native-dropdown-menu';
+ import { Dropdown } from 'react-native-material-dropdown';
 
 // const options = [
 //     { value: "select-certificate", label: "Select Certificate..." },
@@ -40,19 +40,13 @@ const NewCertificateScreen: React.FC = () => {
         <View style={styles.light}>
             <Text style={styles.lighttext}>New Certificate</Text>
             <View style={styles.dropdown} >
-                {/* <Dropdown (default)
-                    options={options}
-                    placeholder="Select Certificate..."
-                    onChange={(selection) => setCertificateType(selection.value)}></Dropdown> */}
-
-                {/* <DropdownMenu (met dropdown menu)
-                    data={options}
-                    label="Select Certificate..."/> */}
                 
-                {/* <Dropdown (met material dropdown)
-                    data={options}
-                    label="Select Certificate..."/> */}
+               <Dropdown 
+               data ={options}
+               label="Choose..."
+                ></Dropdown>
 
+              
             </View>
             <TextInput
                 style={styles.textInput}
@@ -75,7 +69,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         margin: 15,
         padding: 5,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        top: 200,
+        width: 200
     },
     textInput: {
         margin: 10,
@@ -94,7 +90,7 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 30,
+        top: 80,
         fontWeight: "bold",
 
         fontSize: 40,
