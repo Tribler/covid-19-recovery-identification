@@ -1,12 +1,12 @@
-from base64 import b64encode
 from asyncio import set_event_loop, new_event_loop, ensure_future, get_event_loop
-from com.chaquo.python import Python
+from base64 import b64encode
 
+from com.chaquo.python import Python
 from ipv8.configuration import get_default_configuration
 from ipv8_service import IPv8
 
-from rest_manager_extended import RESTManagerExtended
 from cert_community import CertCommunity
+from rest_manager_extended import RESTManagerExtended
 
 
 async def start_communities():

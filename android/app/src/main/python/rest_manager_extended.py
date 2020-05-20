@@ -1,8 +1,7 @@
 from aiohttp import web
-
 from aiohttp_apispec import setup_aiohttp_apispec
-
 from ipv8.REST.rest_manager import RESTManager
+
 from root_endpoint_extended import RootEndpointExtended
 
 

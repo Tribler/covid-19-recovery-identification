@@ -4,10 +4,10 @@ from binascii import unhexlify
 from os import path, stat
 
 from ipv8.community import Community
-from ipv8.keyvault.crypto import ECCrypto
 from ipv8.lazy_community import lazy_wrapper
-from ipv8.peer import Peer
 from ipv8.messaging.payload_headers import BinMemberAuthenticationPayload, GlobalTimeDistributionPayload
+from ipv8.peer import Peer
+
 from certificate_payload import CertificatePayload
 
 
