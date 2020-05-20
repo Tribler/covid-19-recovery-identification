@@ -1,5 +1,6 @@
 import json
 from base64 import b64encode
+from binascii import unhexlify
 from os import path, stat
 
 from ipv8.community import Community
@@ -15,7 +16,8 @@ class CertCommunity(Community):
     Community for sharing Certificates.
     """
 
-    master_peer = Peer(ECCrypto().generate_key(u"medium"))
+    master_peer = Peer(unhexlify("4c69624e61434c504b3a2ae61adf85aa3bf223c4180632912a92f1094bae64495ff47e50e1447771"
+                                 "7739a917700b7af02d382bcdb0ccc4f5c81341066ffd0062a3cc45f0d8d74e566092"))
 
     def __init__(self, *args, **kwargs):
         self.working_directory = kwargs.pop('working_directory', '')
