@@ -2,49 +2,39 @@ import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
-
 const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
-
             <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style ={styles.instructions} >you can find your earned badges below</Text>
-        <View style={styles.badges}>
-        <Image
-                resizeMode="cover"
-                style={styles.star}
-                source={require('../assets/star.png')}
-            ></Image>
-        <Image
-                resizeMode="cover"
-                style={styles.lock1}
-                source={require('../assets/Lock_icon.png')}
-            ></Image>
-            <Image
-                resizeMode="cover"
-                style={styles.lock2}
-                source={require('../assets/Lock_icon.png')}
-            ></Image>
-            <Image
-                resizeMode="cover"
-                style={styles.lock3}
-                source={require('../assets/Lock_icon.png')}
-            ></Image>
-        
-
-        <Text style ={styles.badgeText}>Immunity</Text>
-
-       
-      
-      </View> 
-     
-      <View style={styles.rectangle} ></View>
-      <View style={styles.rectangle2}></View>
-      <View style={styles.rectangle3}></View>
-      <View style={styles.rectangle4}></View>
-     
-           
-        <DrawerButton></DrawerButton>
+            <Text style={styles.instructions} >you can find your earned badges below</Text>
+            <View style={styles.badges}>
+                <Image
+                    resizeMode="cover"
+                    style={styles.star}
+                    source={require('../assets/star.png')}>
+                </Image>
+                <Image
+                    resizeMode="cover"
+                    style={styles.lock1}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>
+                <Image
+                    resizeMode="cover"
+                    style={styles.lock2}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>
+                <Image
+                    resizeMode="cover"
+                    style={styles.lock3}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>
+                <Text style={styles.badgeText}>Immunity</Text>
+            </View>
+            <View style={styles.rectangle} ></View>
+            <View style={styles.rectangle2}></View>
+            <View style={styles.rectangle3}></View>
+            <View style={styles.rectangle4}></View>
+            <DrawerButton></DrawerButton>
         </View>
     )
 }
@@ -54,7 +44,6 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-       
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff"
@@ -63,7 +52,6 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 70,
         fontWeight: "bold",
-      
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
@@ -95,121 +83,104 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         backgroundColor: "#74d14c",
-        top:250,
-        right:75,
-        borderColor:"black"
-      },
-      twelvePointBurst30: {
-        width: 100, 
+        top: 250,
+        right: 75,
+        borderColor: "black"
+    },
+    twelvePointBurst30: {
+        width: 100,
         height: 100,
         position: 'absolute',
         backgroundColor: '#74d14c',
-        borderColor:"black",
+        borderColor: "black",
         top: 250,
         right: 105,
         transform: [
-          {rotate: '30deg'}
+            { rotate: '30deg' }
         ],
-        
-      },
-      twelvePointBurst60: {
-        width: 100, 
+    },
+    twelvePointBurst60: {
+        width: 100,
         height: 100,
         position: 'absolute',
         backgroundColor: '#74d14c',
         top: 250,
         right: 105,
-        borderColor:"black",
+        borderColor: "black",
         transform: [
-          {rotate: '60deg'}
+            { rotate: '60deg' }
         ]
-      },
-      badgeText:{
-        bottom:180,
-        right:55,
-        fontWeight:"bold",
-        fontStyle:"italic"
-        
-        
-
-      },
-      instructions:{
-        top:80
-      },
-      rectangle: {
+    },
+    badgeText: {
+        bottom: 180,
+        right: 55,
+        fontWeight: "bold",
+        fontStyle: "italic"
+    },
+    instructions: {
+        top: 80
+    },
+    rectangle: {
         width: 150,
         height: 200,
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom:280,  
+        bottom: 280,
         right: 90
     },
     rectangle2: {
-         
         width: 150,
         height: 200,
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom:480,  
+        bottom: 480,
         left: 90
     },
     rectangle3: {
-         
         width: 150,
         height: 200,
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom:460,  
+        bottom: 460,
         left: 90
     },
     rectangle4: {
-         
         width: 150,
         height: 200,
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom: 660,  
+        bottom: 660,
         right: 90
     },
-    badges:{
-       
-        
+    badges: {
     },
-    lock1:{
+    lock1: {
         width: 130,
         height: 120,
         top: 130,
         left: 90,
         opacity: 0.4
-        
-
     },
-    lock2:{
+    lock2: {
         width: 130,
         height: 120,
         top: 230,
         left: 90,
         opacity: 0.4
-        
-
     },
-    lock3:{
+    lock3: {
         width: 130,
         height: 120,
         top: 115,
         right: 90,
         opacity: 0.4
-        
-
     },
-    star:{
+    star: {
         width: 130,
         height: 120,
         top: 260,
         right: 90,
-        
     }
-
 });
 
 export default Dashboard

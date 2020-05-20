@@ -10,7 +10,7 @@ type State = {
 
 type Certificate = {
     creatorID: string
-    holderID: string //the question mark makes this property optional, 
+    holderID: string
     type: string
 }
 
@@ -18,14 +18,12 @@ const defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "localhost:14411"
+    serverURL: "localhost:14411" // TODO Check correct port.
 }
 
 const useValue = () => useState(defaultState);
 
-const { Provider, useTrackedState } = createContainer(
-    useValue
-);
+const { Provider, useTrackedState } = createContainer(useValue);
 
 export { Certificate, State };
 export { Provider, useTrackedState };

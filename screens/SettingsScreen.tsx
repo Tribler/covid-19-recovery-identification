@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
-
 const SettingsScreen: React.FC = () => {
     return (
         <View style={styles.container}>

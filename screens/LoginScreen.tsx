@@ -1,31 +1,22 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Input, Image, } from 'react-native-elements';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import RegisterScreen from './RegisterScreen';
-
+// TODO Remove comments that are not needed. Button?
 //import PasswordField from 'ract-native-password-field';
-
 
 const LoginScreen: React.FC = () => {
     return (
-
         <View style={styles.container}>
-
-
-
             <ImageBackground
                 style={styles.im}
-                source={require('../assets/background.jpeg')}
-            ></ImageBackground>
-
+                source={require('../assets/background.jpeg')}>
+            </ImageBackground>
             <ImageBackground
                 resizeMode="cover"
                 style={styles.im2}
-                source={require('../assets/logo.png')}
-            ></ImageBackground>
-
+                source={require('../assets/logo.png')}>
+            </ImageBackground>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as patient</Text>
             {/* <Text>{"\n"}</Text> */}
             {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
@@ -35,21 +26,15 @@ const LoginScreen: React.FC = () => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-
-                secureTextEntry={true}
-            />
-
-
+                secureTextEntry={true} />
             <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, top: 20
-                }}
-                >
+                }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
             </TouchableOpacity>
-
             <Text>{"\n"}</Text>
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as health expert</Text>
@@ -60,25 +45,17 @@ const LoginScreen: React.FC = () => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-
-
-                secureTextEntry={true}
-            />
-
+                secureTextEntry={true} />
             <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, top: 20
-                }}
-                >
+                }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
             </TouchableOpacity>
-
-            <Text style={{color:"#1d5", top: 30}}>Don't have an account?</Text><Button style={{top:30}} onPress={() => <RegisterScreen />}>Sign up  </Button>
-            {
-            }
-
+            <Text style={{ color: "#1d5", top: 30 }}>Don't have an account?</Text>
+            <Button style={{ top: 30 }} onPress={() => <RegisterScreen />}> Sign up  </Button>
         </View>
     )
 }
@@ -87,26 +64,22 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //TODO This style configuration causes an error.
-        //  ImageBackground: "url(" + require("../assets/background.jpeg") + ")",
+        // TODO This style configuration causes an error. Why is this still here?
+        // ImageBackground: "url(" + require("../assets/background.jpeg") + ")",
         // backgroundPosition: "center",
-
         // backgroundRepeat: "no-repeat",
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
         bottom: 270
-
     },
     im: {
-
         width: "110%",
         height: "117%",
         flexDirection: "column",
         resizeMode: "cover",
         top: 325,
         right: 20
-
     },
     im2: {
         flex: 1,
@@ -118,7 +91,6 @@ const styles = StyleSheet.create({
     },
     sbutton: {
         color: "#0f0"
-
     }
 });
 

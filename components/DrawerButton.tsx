@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'react-native-paper'
 import { useNavigation, DrawerActions } from '@react-navigation/native'
 
-
+// TODO Button?
 const DrawerButton: React.FC = () => {
     const navigation = useNavigation()
     return (
@@ -14,9 +14,9 @@ const DrawerButton: React.FC = () => {
             }}
             mode="outlined"
             icon="menu"
-            onPress={() => { navigation.dispatch(DrawerActions.openDrawer()) }}>
-            Menu
-        </Button>
+            onPress={() => {
+                navigation.dispatch(DrawerActions.openDrawer())
+            }}> Menu </Button>
     )
 }
 
