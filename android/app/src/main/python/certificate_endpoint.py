@@ -64,11 +64,13 @@ class CertificateEndpoint(BaseEndpoint):
 
         if args['type'] == 'send':
             mid_b64 = args['mid']
-            certificate_name = int(args['certificate_id'])
+            certificate_id = int(args['certificate_id'])
             peer = self.get_peer_from_mid(mid_b64)
+            if certificate_id not in self.certificate_overlay.certificate_map:
+                return Response({"error": "id not available"})
 
             if peer:
-                self.certificate_overlay.send_certificate(peer, certificate_name)
+                self.certificate_overlay.send_certificate(peer, certificate_id)
                 return Response({"success": True})
             else:
                 return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
