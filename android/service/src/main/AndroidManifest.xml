@@ -28,7 +28,7 @@
             android:name=".CertService"
             android:exported="false"
             android:foregroundServiceType="connectedDevice"
-            android:isolatedProcess="true" />
+            android:isolatedProcess="false" />
     </application>
 
 </manifest>
