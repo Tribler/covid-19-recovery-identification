@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
-import com.immune.service.CertService;
+
 
 public class MainActivity extends ReactActivity {
 
@@ -22,6 +22,12 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    startService(new Intent(this, CertService.class));
+    sendBroadcast(new Intent().setAction("com.immune.android.START"));
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    sendBroadcast(new Intent().setAction("com.immune.android.STOP"));
   }
 }

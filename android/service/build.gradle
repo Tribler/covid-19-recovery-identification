@@ -19,7 +19,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 'android-R'
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -40,7 +40,7 @@ android {
                 install "pyipv8 == 2.1.0"
             }
             pyc {
-                src false  // For testing bytecode compilation on device.
+                src false  //TODO For testing bytecode compilation on device. This needs to go later!
             }
         }
         ndk {
@@ -82,7 +82,6 @@ android {
         pickFirst "lib/x86/libc++_shared.so"
         pickFirst "lib/x86_64/libc++_shared.so"
     }
-    buildToolsVersion = '30.0.0 rc4'
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->

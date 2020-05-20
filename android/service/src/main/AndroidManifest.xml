@@ -3,15 +3,32 @@
     package="com.immune.service">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        tools:ignore="MissingApplicationIcon"
-        android:allowBackup="false">
+        android:allowBackup="false"
+        android:theme="@android:style/Theme.NoDisplay"
+        tools:ignore="MissingApplicationIcon">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.immune.service.ServiceStarter">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.immune.android.START" />
+                <action android:name="com.immune.android.STOP" />
+            </intent-filter>
+        </receiver>
         <service
             android:name=".CertService"
-            android:exported="true"
-            android:isolatedProcess="false"
-            android:permission="com.immune" />
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice"
+            android:isolatedProcess="true" />
     </application>
 
 </manifest>
