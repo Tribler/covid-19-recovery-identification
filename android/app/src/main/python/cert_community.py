@@ -77,3 +77,4 @@ class CertCommunity(Community):
         filepath = working_directory + "/certificates.txt"
         f = open(filepath, 'w')
         f.write(json.dumps(self.certificates))
+        f.close()
