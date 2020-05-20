@@ -52,7 +52,6 @@ class CertCommunity(Community):
         """
         Add the certificate as peer -> certificate.
         """
-        print("we never get here")
         peer_id = b64encode(peer.mid).decode()
         self.certificates[peer_id] = self.certificate_map[payload.certificate]
         # Persist the certificates with every new certificate received.
