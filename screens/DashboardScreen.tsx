@@ -1,32 +1,49 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
 
 const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
+
             <Text style={styles.lighttext}>My Dashboard</Text>
             <Text style ={styles.instructions} >you can find your earned badges below</Text>
         <View style={styles.badges}>
-    
-            <View style={styles.twelvePointBurst}>
-        <View style={styles.twelvePointBurstMain} />
-        <View style={styles.twelvePointBurst30} />
-        <View style={styles.twelvePointBurst60} />
+        <Image
+                resizeMode="cover"
+                style={styles.star}
+                source={require('../assets/star.png')}
+            ></Image>
+        <Image
+                resizeMode="cover"
+                style={styles.lock1}
+                source={require('../assets/Lock_icon.png')}
+            ></Image>
+            <Image
+                resizeMode="cover"
+                style={styles.lock2}
+                source={require('../assets/Lock_icon.png')}
+            ></Image>
+            <Image
+                resizeMode="cover"
+                style={styles.lock3}
+                source={require('../assets/Lock_icon.png')}
+            ></Image>
+        
+
         <Text style ={styles.badgeText}>Immunity</Text>
 
-      </View>   
+       
       
       </View> 
-      <View style={styles.rectangle} >  
-      </View>
-            {/* <View style= {styles.certificate}>
-                <Text> Acquired proofs</Text>
-                <Text>{"\n"}</Text>
-                <Text> AIDS immunity</Text>
-                <Text> COVID-19 immunity</Text>
-            </View> */}
+     
+      <View style={styles.rectangle} ></View>
+      <View style={styles.rectangle2}></View>
+      <View style={styles.rectangle3}></View>
+      <View style={styles.rectangle4}></View>
+     
+           
         <DrawerButton></DrawerButton>
         </View>
     )
@@ -78,8 +95,8 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         backgroundColor: "#74d14c",
-        top:200,
-        right:100,
+        top:250,
+        right:75,
         borderColor:"black"
       },
       twelvePointBurst30: {
@@ -88,8 +105,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: '#74d14c',
         borderColor:"black",
-        top: 200,
-        right: 100,
+        top: 250,
+        right: 105,
         transform: [
           {rotate: '30deg'}
         ],
@@ -100,17 +117,18 @@ const styles = StyleSheet.create({
         height: 100,
         position: 'absolute',
         backgroundColor: '#74d14c',
-        top: 200,
-        right: 100,
+        top: 250,
+        right: 105,
         borderColor:"black",
         transform: [
           {rotate: '60deg'}
         ]
       },
       badgeText:{
-        top:140,
-        right:80,
+        bottom:180,
+        right:55,
         fontWeight:"bold",
+        fontStyle:"italic"
         
         
 
@@ -123,9 +141,75 @@ const styles = StyleSheet.create({
         height: 200,
         backgroundColor: 'grey',
         opacity: 0.1,
-        top:30,  
-        right: 100
+        bottom:280,  
+        right: 90
+    },
+    rectangle2: {
+         
+        width: 150,
+        height: 200,
+        backgroundColor: 'grey',
+        opacity: 0.1,
+        bottom:480,  
+        left: 90
+    },
+    rectangle3: {
+         
+        width: 150,
+        height: 200,
+        backgroundColor: 'grey',
+        opacity: 0.1,
+        bottom:460,  
+        left: 90
+    },
+    rectangle4: {
+         
+        width: 150,
+        height: 200,
+        backgroundColor: 'grey',
+        opacity: 0.1,
+        bottom: 660,  
+        right: 90
+    },
+    badges:{
+       
+        
+    },
+    lock1:{
+        width: 130,
+        height: 120,
+        top: 130,
+        left: 90,
+        opacity: 0.4
+        
+
+    },
+    lock2:{
+        width: 130,
+        height: 120,
+        top: 230,
+        left: 90,
+        opacity: 0.4
+        
+
+    },
+    lock3:{
+        width: 130,
+        height: 120,
+        top: 115,
+        right: 90,
+        opacity: 0.4
+        
+
+    },
+    star:{
+        width: 130,
+        height: 120,
+        top: 260,
+        right: 90,
+        
     }
+
 });
 
 export default Dashboard
