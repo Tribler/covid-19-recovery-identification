@@ -8,12 +8,12 @@ import android.os.Build;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ServiceStarter extends BroadcastReceiver {
+public class ServiceStarter extends BroadcastReceiver {
 
     private static final ArrayList<String> intentStart = new ArrayList<>(Arrays.asList(
-            Intent.ACTION_USER_PRESENT, Intent.ACTION_BOOT_COMPLETED, "com.immune.android.START"));
+            Intent.ACTION_USER_PRESENT, Intent.ACTION_BOOT_COMPLETED, "com.immune.android.START_SERVICE"));
     private static final ArrayList<String> intentStop = new ArrayList<>(Arrays.asList(
-            Intent.ACTION_SHUTDOWN, "com.immune.android.STOP"));
+            Intent.ACTION_SHUTDOWN, "com.immune.android.STOP_SERVICE"));
 
     @Override
     public void onReceive(Context context, Intent intent) {
