@@ -47,7 +47,7 @@ const NewCertificateScreen: React.FC = () => {
             </View>
             <TextInput
                 style={styles.textInput}
-                value={holderID.toString()}
+               // value={holderID.toString()}
                 onChangeText={value => changeHolderId(value, setHolderID)}
                 label="Holder ID">
             </TextInput>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         margin: 10,
         top: 200,
         width: 200,
-        height: 50
+        height: 100
     },
     darktext: {
         position: "relative",
