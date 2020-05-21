@@ -48,7 +48,7 @@ const NewCertificateScreen: React.FC = () => {
             <TextInput
                 style={styles.textInput}
                 value={holderID.toString()}
-                //onChangeText={value => changeHolderId(value, setHolderID)}
+                onChangeText={value => changeHolderId(value, setHolderID)}
                 label="Holder ID">
             </TextInput>
             <Button style={{ top: 200 }} mode="contained" onPress={() => createNewCertificate(state.ID, holderID, certificateType, state)}>CREATE CERTIFICATE</Button>
