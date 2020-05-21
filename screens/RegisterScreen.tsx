@@ -51,10 +51,6 @@ const RegisterScreen: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // TODO This style configuration causes an error. Why is this still here?
-        // ImageBackground: "url(" + require("../assets/background.jpeg") + ")",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
