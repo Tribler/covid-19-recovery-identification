@@ -18,7 +18,7 @@
 
 3. To close the app, stop execution on the consoles used in Step 2.
 
-If experiencing the error TypeError: undefined is not an object (evaluating '_reactNative.Animated.Text.propTypes.style') this is a fix:
+If experiencing the error "TypeError: undefined is not an object (evaluating '_reactNative.Animated.Text.propTypes.style')" this is a fix:
 
 In node_modules\react-native-material-textfield\src\label\index.js comment out the line "style: Animated.Text.propTypes.style" (probably line 32)
 In node_modules\react-native-material-textfield\src\affix\index.js comment out the line "style: Animated.Text.propTypes.style," (probably line 27)
