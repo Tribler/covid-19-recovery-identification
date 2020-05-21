@@ -12,13 +12,13 @@ const InboxScreen: React.FC = () => {
     }
     return (
         <View style={styles.light}><Text style={styles.lighttext}>My Inbox</Text>
-            <View style={{ float: "left", margin: 1, top: 150 }}>
+            <View style={{ float: "left",  top: 150 }}>
                 <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
                 <View style={styles.buttonPair}>
                     <TouchableOpacity>
                         <View style={{
                             backgroundColor: '#74d14c', borderRadius: 4, position: "relative",
-                            right: 80, bottom: 9
+                            marginLeft: 2, bottom: 9, 
                         }}>
                             <Text onPress={() => Alert.alert('Simple Button pressed')} style={{ fontWeight: "bold", color: 'white', width: 145, height: 35, textAlign: "center", textAlignVertical: "center" }}>ACCEPT</Text>
                         </View>
@@ -27,9 +27,29 @@ const InboxScreen: React.FC = () => {
                     <TouchableOpacity>
                         <View style={{
                             backgroundColor: 'red', borderRadius: 4, position: "relative",
-                            right: 83, bottom: 9
+                             bottom: 9, marginRight:200, right:3
                         }}>
-                            <Text  onPress={() => Alert.alert('Simple Button pressed')} style={{ fontWeight: "bold", color: 'white', width: 150, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
+                            <Text  onPress={() => Alert.alert('Simple Button pressed')} style={{ fontWeight: "bold", color: 'white', width: 151, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
+                <View style={styles.buttonPair}>
+                <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
+                        <View style={{
+                            backgroundColor: '#74d14c', borderRadius: 4, position: "relative",
+                            marginLeft: 2   , bottom: 9, 
+                        }}>
+                            <Text style={{ fontWeight: "bold", color: 'white', width: 145, height: 35, textAlign: "center", textAlignVertical: "center" }}>ACCEPT</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>{"\r"}</Text>
+                    <TouchableOpacity>
+                        <View style={{
+                            backgroundColor: 'red', borderRadius: 4, position: "relative",
+                             bottom: 9, marginRight:200, right:3
+                        }}>
+                            <Text  onPress={() => Alert.alert('Simple Button pressed')} style={{ fontWeight: "bold", color: 'white', width: 151, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -38,7 +58,7 @@ const InboxScreen: React.FC = () => {
                     <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                         <View style={{
                             backgroundColor: '#74d14c', borderRadius: 4, position: "relative",
-                            right: 80, bottom: 9
+                            marginLeft: 2, bottom: 9
                         }}>
                             <Text style={{ fontWeight: "bold", color: 'white', width: 145, height: 35, textAlign: "center", textAlignVertical: "center" }}>ACCEPT</Text>
                         </View>
@@ -47,7 +67,7 @@ const InboxScreen: React.FC = () => {
                     <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                         <View style={{
                             backgroundColor: 'red', borderRadius: 4, position: "relative",
-                            right: 83, bottom: 9
+                            marginRight: 200, bottom: 9, right:3
                         }}>
                             <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
                         </View>
@@ -58,7 +78,7 @@ const InboxScreen: React.FC = () => {
                     <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                         <View style={{
                             backgroundColor: '#74d14c', borderRadius: 4, position: "relative",
-                            right: 80, bottom: 9
+                            marginLeft: 2, bottom: 9
                         }}>
                             <Text style={{ fontWeight: "bold", color: 'white', width: 145, height: 35, textAlign: "center", textAlignVertical: "center" }}>ACCEPT</Text>
                         </View>
@@ -67,27 +87,7 @@ const InboxScreen: React.FC = () => {
                     <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                         <View style={{
                             backgroundColor: 'red', borderRadius: 4, position: "relative",
-                            right: 83, bottom: 9
-                        }}>
-                            <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <CertificateView certificate={mockCert} onClick={() => console.log("wooow")} />
-                <View style={styles.buttonPair}>
-                    <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
-                        <View style={{
-                            backgroundColor: '#74d14c', borderRadius: 4, position: "relative",
-                            right: 80, bottom: 9
-                        }}>
-                            <Text style={{ fontWeight: "bold", color: 'white', width: 145, height: 35, textAlign: "center", textAlignVertical: "center" }}>ACCEPT</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <Text>{"\r"}</Text>
-                    <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
-                        <View style={{
-                            backgroundColor: 'red', borderRadius: 4, position: "relative",
-                            right: 83, bottom: 9
+                            marginRight: 200, bottom: 9, right:3
                         }}>
                             <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 35, textAlign: "center", textAlignVertical: "center" }}>DECLINE</Text>
                         </View>
