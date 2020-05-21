@@ -39,7 +39,7 @@ style: Animated.Text.propTypes.style (probably line 13)
 ```
 
 ### If missing keystore.debug this is a fix:
-Run this command in a terminal:
+Run the following command in a terminal, that has /android/app opened:
 ```
 keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
