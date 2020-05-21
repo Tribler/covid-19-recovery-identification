@@ -2,8 +2,6 @@ import React from 'react'
 import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import RegisterScreen from './RegisterScreen';
-// TODO Remove comments that are not needed. Button?
-//import PasswordField from 'ract-native-password-field';
 
 const LoginScreen: React.FC = () => {
     return (
@@ -18,8 +16,6 @@ const LoginScreen: React.FC = () => {
                 source={require('../assets/logo.png')}>
             </ImageBackground>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as patient</Text>
-            {/* <Text>{"\n"}</Text> */}
-            {/* { <Image source={require("../assets/logo.png")} style={styles.im2} />} */}
             <Text>{"\n"}</Text>
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
@@ -38,7 +34,6 @@ const LoginScreen: React.FC = () => {
             <Text>{"\n"}</Text>
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as health expert</Text>
-            {/* <Text>{"\n"}</Text> */}
             <Text>{"\n"}</Text>
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
@@ -60,14 +55,9 @@ const LoginScreen: React.FC = () => {
     )
 }
 
-//<Text style={{ fontWeight: "bold", color: "#1d5" }}>No account? <a href="RegisterScreen.tsx">Make one</a>!</Text>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // TODO This style configuration causes an error. Why is this still here?
-        // ImageBackground: "url(" + require("../assets/background.jpeg") + ")",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',

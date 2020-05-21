@@ -4,7 +4,6 @@ import DrawerButton from '../components/DrawerButton';
 import CertificateView from '../components/CertificateView';
 import { Certificate } from '../Store';
 
-// TODO float inside View?
 const InboxScreen: React.FC = () => {
     const mockCert: Certificate = {
         creatorID: "0",

@@ -5,8 +5,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
-// TODO Remove comments that are not needed.
-//import { DropdownMenu } from 'react-native-dropdown-menu';
+
 // const options = [
 //     { value: "select-certificate", label: "Select Certificate..." },
 //     { value: "covid-immunity", label: "COVID-19 Immunity" }
