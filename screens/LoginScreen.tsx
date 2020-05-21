@@ -34,7 +34,6 @@ const LoginScreen: React.FC = () => {
             <Text>{"\n"}</Text>
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as health expert</Text>
-            {/* <Text>{"\n"}</Text> */}
             <Text>{"\n"}</Text>
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
@@ -56,14 +55,9 @@ const LoginScreen: React.FC = () => {
     )
 }
 
-//<Text style={{ fontWeight: "bold", color: "#1d5" }}>No account? <a href="RegisterScreen.tsx">Make one</a>!</Text>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // TODO This style configuration causes an error. Why is this still here?
-        // ImageBackground: "url(" + require("../assets/background.jpeg") + ")",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
