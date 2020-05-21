@@ -15,7 +15,7 @@ type Certificate = {
 }
 
 const defaultState: State = {
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "localhost:14411" // TODO Check correct port.

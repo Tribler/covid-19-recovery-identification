@@ -6,10 +6,10 @@ import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 
-// const options = [
-//     { value: "select-certificate", label: "Select Certificate..." },
-//     { value: "covid-immunity", label: "COVID-19 Immunity" }
-// ]
+const options = [
+    { value: "select-certificate", label: "Select Certificate..." },
+    { value: "covid-immunity", label: "COVID-19 Immunity" }
+]
 
 const createNewCertificate = (creator: string, holder: string, certType: string, state: State) => {
     const certificate: Certificate = {
@@ -26,6 +26,7 @@ const changeHolderId = (text: string, setHolderID: Function) => {
     }
 }
 
+// TODO TextInput and Button?
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("covid-immunity")
     const [holderID, setHolderID] = useState("")
@@ -45,8 +46,8 @@ const NewCertificateScreen: React.FC = () => {
             </View>
             <TextInput
                 style={styles.textInput}
-               // value={holderID.toString()}
-                onChangeText={value => changeHolderId(value, setHolderID)}
+                value={holderID.toString()}
+               // onChangeText={value => changeHolderId(value, setHolderID)}
                 label="Holder ID">
             </TextInput>
             <Button style={{ top: 200 }} mode="contained" onPress={() => createNewCertificate(state.ID, holderID, certificateType, state)}>CREATE CERTIFICATE</Button>
