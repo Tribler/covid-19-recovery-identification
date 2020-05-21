@@ -22,12 +22,12 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    sendBroadcast(new Intent().setAction("com.immune.android.START_SERVICE"));
+    sendBroadcast(new Intent().setAction("com.immune.START_SERVICE"));
   }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    sendBroadcast(new Intent().setAction("com.immune.android.STOP_SERVICE"));
+    sendBroadcast(new Intent().setAction("com.immune.STOP_SERVICE"));
   }
 }
