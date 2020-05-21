@@ -1,8 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Certificate, useTrackedState } from '../Store'
 import { Divider } from 'react-native-paper'
-
+import { Certificate, useTrackedState } from '../Store'
 
 interface CertificateProps {
     certificate: Certificate,
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex'
-
     },
     labelDivision: {
         borderWidth: 2,

@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState, Certificate, State } from '../Store';
 import CreateCertificate from '../network/CreateCertificate';
+import { useTrackedState, Certificate, State } from '../Store';
+// TODO Remove comments that are not needed.
 //import { DropdownMenu } from 'react-native-dropdown-menu';
- import { Dropdown } from 'react-native-material-dropdown';
-
 // const options = [
 //     { value: "select-certificate", label: "Select Certificate..." },
 //     { value: "covid-immunity", label: "COVID-19 Immunity" }
 // ]
-
 
 const createNewCertificate = (creator: string, holder: string, certType: string, state: State) => {
     const certificate: Certificate = {
@@ -28,6 +27,7 @@ const changeHolderId = (text: string, setHolderID: Function) => {
     }
 }
 
+// TODO TextInput and Button?
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("covid-immunity")
     const [holderID, setHolderID] = useState("")
@@ -40,13 +40,10 @@ const NewCertificateScreen: React.FC = () => {
         <View style={styles.light}>
             <Text style={styles.lighttext}>New Certificate</Text>
             <View style={styles.dropdown} >
-                
-               <Dropdown 
-               data ={options}
-               label="Choose..."
-                ></Dropdown>
-
-              
+                <Dropdown
+                    data={options}
+                    label="Choose...">
+                </Dropdown>
             </View>
             <TextInput
                 style={styles.textInput}
@@ -83,7 +80,6 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 30,
         fontWeight: "bold",
-
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff"
@@ -92,7 +88,6 @@ const styles = StyleSheet.create({
         position: "relative",
         top: 80,
         fontWeight: "bold",
-
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
@@ -108,6 +103,5 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 });
-
 
 export default NewCertificateScreen
