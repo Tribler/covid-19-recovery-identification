@@ -26,7 +26,6 @@ const changeHolderId = (text: string, setHolderID: Function) => {
     }
 }
 
-// TODO TextInput and Button?
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("covid-immunity")
     const [holderID, setHolderID] = useState("")
