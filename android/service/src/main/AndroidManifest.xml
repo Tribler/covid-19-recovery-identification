@@ -1,28 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.immune.service"
-    tools:ignore="ImpliedTouchscreenHardware">
-
-    <uses-feature
-        android:name="android.software.leanback"
-        android:required="false" />
+    package="com.immune">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:allowBackup="false"
         android:theme="@android:style/Theme.NoDisplay"
-        tools:ignore="MissingApplicationIcon,MissingTvBanner">
-        <activity android:name=".MainActivity">
+        tools:ignore="MissingApplicationIcon">
+        <receiver android:name=".CertServiceStarter">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <receiver android:name="com.immune.service.ServiceStarter">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.immune.android.START_SERVICE" />

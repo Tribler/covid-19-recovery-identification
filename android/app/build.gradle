@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-//apply plugin: "com.chaquo.python"
 
 import com.android.build.OutputFile
 
@@ -135,20 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-//        python {
-//            pip {
-//                install "pyipv8 == 2.1.0"
-//            }
-//            pyc {
-//                src false  //TODO For testing bytecode compilation on device. This needs to go later!
-//            }
-//        }
-//        ndk {
-//            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-//        }
     }
     splits {
         abi {
@@ -197,7 +183,6 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-
         }
     }
 }
