@@ -12,15 +12,11 @@ import com.chaquo.python.android.AndroidPlatform;
 
 public class CertService extends Service {
 
-    private Thread serviceThread;
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         if (!Python.isStarted()) Python.start(new AndroidPlatform(this));
-        serviceThread = new Thread(() -> Python.getInstance()
-                .getModule("cert_service").callAttr("main"));
-        serviceThread.start();
+        Python.getInstance().getModule("cert_service").callAttr("main");
         // If we get killed, after returning from here, restart
         return START_STICKY;
     }
@@ -35,5 +31,6 @@ public class CertService extends Service {
     @Override
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        Python.getInstance().getModule("cert_service").callAttr("stop");
     }
 }

@@ -51,3 +51,6 @@ def main():
     set_event_loop(new_event_loop())
     ensure_future(start_communities())
     get_event_loop().run_forever()
+
+def stop():
+    get_event_loop().stop()
