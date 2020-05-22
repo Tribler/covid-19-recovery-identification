@@ -12,7 +12,6 @@
         tools:ignore="MissingApplicationIcon">
         <receiver android:name=".CertServiceStarter">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="com.immune.android.START_SERVICE" />
                 <action android:name="com.immune.android.STOP_SERVICE" />
