@@ -26,7 +26,12 @@ const CertificateView: React.FC<CertificateProps> = ({ listID, certificate, dele
                 <Text style={styles.labelDivision}>{"Creator: " + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
             </Divider>
             <View style={styles.buttonPair}>
-                    <AcceptButton />
+                    <AcceptButton
+                     attester={certificate.creatorID}
+                     deleteCert={deleteCert}
+                     listID={listID}
+                     type={certificate.type}
+                    />
                     <Text>{"\r"}</Text>
                     <DeclineButton
                      listID={listID} 

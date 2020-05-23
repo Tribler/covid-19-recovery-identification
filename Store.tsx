@@ -18,7 +18,7 @@ const defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "localhost:14411" // TODO Check correct port.
+    serverURL: "http://localhost:14411" // TODO Check correct port.
 }
 
 const useValue = () => useState(defaultState);

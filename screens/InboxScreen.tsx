@@ -7,7 +7,7 @@ import { Certificate } from "../Store";
 
 const InboxScreen: React.FC = () => {
     const mockCert: Certificate = {
-        creatorID: "0",
+        creatorID: "SBut59tkgjrttqeTuvYeahQAcGE=",
         holderID: "1",
         type: "covid-immunity",
     };
