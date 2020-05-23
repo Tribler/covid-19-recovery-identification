@@ -22,7 +22,7 @@ const CertificateView: React.FC<CertificateProps> = ({ listID, certificate, dele
         <View style={certificateStyle}>
             <Divider accessibilityStates={['disabled']} style={styles.container}>
                 <Text style={styles.labelDivision}>{"Type: " + certificate.type}</Text>
-                <Text style={styles.labelDivision}>{"Holder: " + checkUserIsOwner(state.ID, certificate.holderID)}</Text>
+                {/* <Text style={styles.labelDivision}>{"Holder: " + checkUserIsOwner(state.ID, certificate.holderID)}</Text> */}
                 <Text style={styles.labelDivision}>{"Creator: " + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
             </Divider>
             <View style={styles.buttonPair}>

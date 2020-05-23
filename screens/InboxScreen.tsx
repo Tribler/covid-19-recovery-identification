@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
@@ -11,31 +11,15 @@ const InboxScreen: React.FC = () => {
         holderID: "1",
         type: "covid-immunity",
     };
+    const [certificates, setCertificates] = useState([]);
 
-    const mockCert2: Certificate = {
-        creatorID: "0",
-        holderID: "2",
-        type: "covid-immunity",
-    };
+    useEffect(() => {
+        fetch('http://localhost:14411/certificate/recent')
+          .then((response) => response.json())
+          .then((json) => setCertificates(json))
+          .catch((error) => console.error(error));
+      }, []);
 
-    const mockCert3: Certificate = {
-        creatorID: "0",
-        holderID: "3",
-        type: "covid-immunity",
-    };
-
-    const mockCert4: Certificate = {
-        creatorID: "0",
-        holderID: "4",
-        type: "covid-immunity",
-    };
-
-    const [certificates, setCertificates] = useState([
-        { id: 0, cert: mockCert },
-        { id: 1, cert: mockCert2 },
-        { id: 2, cert: mockCert3 },
-        { id: 3, cert: mockCert4 },
-    ]);
 
     // function to remove certificates in the certificates list
     const deleteCert = (id: number) => {
@@ -51,14 +35,14 @@ const InboxScreen: React.FC = () => {
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                        <CertificateView
-                            listID={item.id}
-                            certificate={item.cert}
-                            deleteCert={deleteCert}
-                            // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
-                            // TODO: Maybe refactor button? idk
-                            onClick={() => console.log("wooow")}
-                        />
+                         <CertificateView
+                             listID={item.index}
+                             certificate={{creatorID:item[0], holderID: "0", type: item[1]}}
+                             deleteCert={deleteCert}
+                        //     // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
+                        //     // TODO: Maybe refactor button? idk
+                             onClick={() => console.log("wooow")}
+                         />
                     )}
                 />
             </View>
