@@ -13,7 +13,7 @@
     ```
     and the following one in another terminal:
     ```
-    npx react-native 
+    npx react-native run-android
     ```
 
 3. To close the app, stop execution on the consoles used in Step 2.
