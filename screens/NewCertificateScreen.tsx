@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
@@ -17,14 +17,25 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
         holderID: holder,
         type: certType
     }
-    CreateCertificate(certificate, state)
-}
-
-const changeHolderId = (text: string, setHolderID: Function) => {
-    if (!isNaN(text as any)) {
-        setHolderID(text)
+    if(holder){
+    CreateCertificate(certificate, state);
+    }
+    else{
+        Alert.alert(
+            'Failure',
+            'Please enter ID',
+            [
+              {
+                text: 'Understood',
+                style: 'cancel',
+              },
+            ],
+            {cancelable: true},
+          );
     }
 }
+
+
 
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("covid-immunity")
@@ -46,10 +57,19 @@ const NewCertificateScreen: React.FC = () => {
             <TextInput
                 style={styles.textInput}
                 value={holderID.toString()}
-                // onChangeText={value => changeHolderId(value, setHolderID)}
+                onChangeText={input => setHolderID(input)}
                 label="Holder ID">
             </TextInput>
-            <Button style={{ top: 200 }} mode="contained" onPress={() => createNewCertificate(state.ID, holderID, certificateType, state)}>CREATE CERTIFICATE</Button>
+            <Button style={{ top: 200 }}
+             mode="contained" 
+             onPress={() => 
+                {
+                    createNewCertificate(state.ID, holderID, certificateType, state)
+                    setHolderID("");
+                }
+            }>
+              CREATE CERTIFICATE
+              </Button>
             <DrawerButton />
         </View>
     )
