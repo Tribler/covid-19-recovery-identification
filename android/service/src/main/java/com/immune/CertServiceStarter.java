@@ -18,6 +18,7 @@ public class CertServiceStarter extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent intentService = new Intent(context, CertService.class);
         if (intentStart.contains(intent.getAction())) {
+//            This will be added after the Foreground Notification is done.
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 //                context.startForegroundService(intentService);
 //            else
