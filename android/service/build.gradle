@@ -107,8 +107,10 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 }
 
-task copyBuildDebug(type: Copy) {
-    from 'service/build/outputs/apk/debug/service-debug.apk'
-    into 'app/src/main/res/raw/'
-    rename('service-debug.apk', 'service_debug.apk')
+task buildServiceApk(type: Copy) {
+    dependsOn 'assemble'
+    from 'build/outputs/apk/release/'
+    include '*.apk'
+    into '../app/src/main/res/raw/'
+    rename('service-release.apk', 'service.apk')
 }
