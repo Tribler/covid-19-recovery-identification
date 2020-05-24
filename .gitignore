@@ -15,7 +15,7 @@ web-report/
 
 # Android/IntelliJ
 #
-/build
+build/
 .idea
 .gradle
 local.properties
