@@ -1,10 +1,12 @@
-from base64 import b64encode
 from asyncio import set_event_loop, new_event_loop, ensure_future, get_event_loop
-from com.chaquo.python import Python
+from base64 import b64encode
 
+from com.chaquo.python import Python
 from ipv8.configuration import get_default_configuration
-from ipv8.REST.rest_manager import RESTManager
 from ipv8_service import IPv8
+
+from cert_community import CertCommunity
+from rest_manager_extended import RESTManagerExtended
 
 
 async def start_communities():
@@ -18,10 +20,10 @@ async def start_communities():
     # On Android we need the complete path when new files are created.
     files_dir = str(Python.getPlatform().getApplication().getFilesDir())
     configuration['keys'] = [
-            {'alias': "anonymous id", 'generation': u"curve25519",
-             'file': files_dir + u"/ec_multichain.pem"},
-            {'alias': "my peer", 'generation': u"medium",
-             'file': files_dir + u"/ec.pem"}
+        {'alias': "anonymous id", 'generation': u"curve25519",
+         'file': files_dir + u"/ec_multichain.pem"},
+        {'alias': "my peer", 'generation': u"medium",
+         'file': files_dir + u"/ec.pem"}
     ]
     # Only load the basic communities.
     requested_overlays = ['DiscoveryCommunity', 'AttestationCommunity', 'IdentityCommunity']
@@ -34,10 +36,25 @@ async def start_communities():
         if overlay['class'] in working_directory_overlays:
             overlay['initialize'] = {'working_directory': files_dir + '/certificates'}
 
+    new_community = {
+        'class': 'CertCommunity',
+        'key': "my peer",
+        'walkers': [{
+            'strategy': "RandomWalk",
+            'peers': 10,
+            'init': {
+                'timeout': 3.0
+            }
+        }],
+        'initialize': {'working_directory': files_dir + '/certificates'},
+        'on_start': []
+    }
+    configuration['overlays'].append(new_community)
+
     # Start the attestation service.
-    ipv8 = IPv8(configuration)
+    ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
     await ipv8.start()
-    rest_manager = RESTManager(ipv8)
+    rest_manager = RESTManagerExtended(ipv8)
     await rest_manager.start(14411)
 
     # Print the peer for reference

@@ -23,4 +23,30 @@
     npx react-native run-android
     ```
 
-4. To close the app, stop execution on the consoles used in Step 2.
+3. To close the app, stop execution on the consoles used in Step 2.
+
+### If experiencing the following error:
+```
+TypeError: undefined is not an object (evaluating '_reactNative.Animated.Text.propTypes.style')
+```
+###  this is a fix:
+1. In node_modules\react-native-material-textfield\src\label\index.js comment out the line:
+```
+style: Animated.Text.propTypes.style (probably line 32)
+```
+
+2. In node_modules\react-native-material-textfield\src\affix\index.js comment out the line:
+```
+style: Animated.Text.propTypes.style, (probably line 27)
+```
+
+3. In node_modules\react-native-material-textfield\src\helper\index.js comment out the line:
+```
+style: Animated.Text.propTypes.style (probably line 13)
+```
+
+### If missing keystore.debug this is a fix:
+Run the following command in a terminal, that has /android/app opened:
+```
+keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+```

@@ -1,23 +1,29 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
 
-
 type State = {
     loggedIn: boolean
-    ID: number
-    attester:boolean
+    ID: string
+    attester: boolean
+    serverURL: string
 }
 
-const defaultState : State = {
+type Certificate = {
+    creatorID: string
+    holderID: string
+    type: string
+}
+
+const defaultState: State = {
     loggedIn: true,
     attester: true,
-    ID: 0
-} 
+    ID: "0",
+    serverURL: "localhost:14411" // TODO Check correct port.
+}
 
 const useValue = () => useState(defaultState);
 
-const { Provider, useTrackedState} = createContainer(
-    useValue
-);
+const { Provider, useTrackedState } = createContainer(useValue);
 
-export { Provider, useTrackedState};
+export { Certificate, State };
+export { Provider, useTrackedState };
