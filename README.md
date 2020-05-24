@@ -7,7 +7,12 @@
     yarn
     ```
 
-2. To start the application, run the following command in a terminal: 
+2. Build the service and bundle it with the main application:
+    Run the Gradle Task buildServiceApk in /android/service/build.gradle in order to build the service and add it as a resource of the main application.
+    
+    NOTE: This does not support debuging! In order to debug the service, run the service application separately.
+
+3. To start the application, run the following command in a terminal: 
     ```
     npx react-native start
     ```
@@ -16,4 +21,4 @@
     npx react-native 
     ```
 
-3. To close the app, stop execution on the consoles used in Step 2.
+4. To close the app, stop execution on the consoles used in Step 2.
