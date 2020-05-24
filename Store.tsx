@@ -14,16 +14,21 @@ type Certificate = {
     type: string
 }
 
+type OutstandingRequest ={ 
+    creatorID: string
+    type : string
+}
+
 const defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "localhost:14411" // TODO Check correct port.
+    serverURL: "http://localhost:14411" // TODO Check correct port.
 }
 
 const useValue = () => useState(defaultState);
 
 const { Provider, useTrackedState } = createContainer(useValue);
 
-export { Certificate, State };
+export { Certificate, State, OutstandingRequest };
 export { Provider, useTrackedState };
