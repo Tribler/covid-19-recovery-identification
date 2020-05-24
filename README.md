@@ -23,7 +23,7 @@
     npx react-native run-android
     ```
 
-3. To close the app, stop execution on the consoles used in Step 2.
+4. To close the app, stop execution on the consoles used in Step 2.
 
 ### If experiencing the following error:
 ```
