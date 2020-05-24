@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
 
+import GetID from "./network/GetID"
+
+
 type State = {
     loggedIn: boolean
     ID: string
@@ -17,7 +20,7 @@ type Certificate = {
 const defaultState: State = {
     loggedIn: true,
     attester: true,
-    ID: "0",
+    ID: GetID(),
     serverURL: "localhost:14411" // TODO Check correct port.
 }
 
