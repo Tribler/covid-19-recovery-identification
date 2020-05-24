@@ -6,11 +6,6 @@ import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 
-const options = [
-    { value: "select-certificate", label: "Select Certificate..." },
-    { value: "covid-immunity", label: "COVID-19 Immunity" }
-]
-
 const createNewCertificate = (creator: string, holder: string, certType: string, state: State) => {
     const certificate: Certificate = {
         creatorID: creator,
@@ -38,12 +33,12 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 
 
 const NewCertificateScreen: React.FC = () => {
-    const [certificateType, setCertificateType] = useState("covid-immunity")
+    const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
     const state = useTrackedState()
     const options = [
         { value: "select-certificate" },
-        { value: "covid-immunity" }
+        { value: "1", lable: "covid-immunity" }
     ]
     return (
         <View style={styles.light}>
