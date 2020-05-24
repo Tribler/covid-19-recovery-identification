@@ -15,6 +15,7 @@ web-report/
 
 # Android/IntelliJ
 #
+*.apk
 build/
 .idea
 .gradle
