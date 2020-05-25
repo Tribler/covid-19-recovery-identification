@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
 
+import UpdateID from "./network/UpdateID"
+
+
 type State = {
     loggedIn: boolean
     ID: string
@@ -19,12 +22,14 @@ type OutstandingRequest ={
     type : string
 }
 
-const defaultState: State = {
+var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "http://localhost:14411" // TODO Check correct port.
+    serverURL: "http://localhost:14411" 
 }
+
+UpdateID(defaultState)
 
 const useValue = () => useState(defaultState);
 

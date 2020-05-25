@@ -7,6 +7,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import InboxScreen from '../screens/InboxScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen'
+import AttestationScreen from '../screens/AttestationScreen';
 import { useTrackedState } from '../Store';
 
 const Drawer = createDrawerNavigator();
@@ -20,6 +21,7 @@ const DrawerMenu: React.FC = () => {
           <Drawer.Screen name="My Dashboard" component={DashboardScreen} />
           {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen} /> : <></>}
           <Drawer.Screen name="Inbox" component={InboxScreen} />
+          <Drawer.Screen name="Attestations" component={AttestationScreen}/>
           <Drawer.Screen name="Settings" component={SettingsScreen} />
           {state.attester ? <Drawer.Screen name="Outstanding" component={OutstandingScreen} /> : <></>}
 
