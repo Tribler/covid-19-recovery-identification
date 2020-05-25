@@ -16,19 +16,19 @@ const OutstandingScreen: React.FC = () => {
 
     const deleteOutstanding = (id: number) => {
         setOutstanding((outsList) => {
-            return outsList.filter((out) => out.id !== id);
+            return outsList.filter((out) => out[0] + out[1] !== id);
         });
     };
-
 
 
     return (
         <View>
             <FlatList
                 data={outstanding}
+                keyExtractor={(item, index) => item[0] + item[1]}
                 renderItem={({ item }) => (
                     <OutstandingView
-                        listID={item.index}
+                        listID={item[0] + item[1]}
                         outstanding={{ creatorID: item[0], type: item[1] }}
                         deleteOutstanding={deleteOutstanding}
                     />
@@ -40,5 +40,48 @@ const OutstandingScreen: React.FC = () => {
 
 
 }
+
+
+const styles = StyleSheet.create({
+    dropdown: {
+        backgroundColor: "#fff",
+        fontSize: 15,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        borderWidth: 1,
+        margin: 15,
+        padding: 5,
+        justifyContent: "center",
+    },
+    textInput: {
+        margin: 10,
+    },
+    darktext: {
+        position: "relative",
+        top: 30,
+        fontWeight: "bold",
+        fontSize: 60,
+        fontFamily: "Sans-serif",
+        color: "#fff",
+    },
+    lighttext: {
+        position: "relative",
+        top: 100,
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000",
+    },
+    dark: {
+        flex: 1,
+        backgroundColor: "#222",
+        alignItems: "center",
+    },
+    light: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+    },
+});
 
 export default OutstandingScreen;
