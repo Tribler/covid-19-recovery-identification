@@ -1,5 +1,8 @@
 import { Certificate, State } from "../Store"
 
+/**
+ * Sends a request to the backend that creates a certificate for an attestee to confirm. 
+ */
 const CreateCertificate = (certificate: Certificate, state: State) => {
     var xhr = new XMLHttpRequest();
     const url = state.serverURL + "/newCertificate"
