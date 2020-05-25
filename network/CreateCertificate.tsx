@@ -1,7 +1,7 @@
 import { Certificate, State } from "../Store"
 
 /**
- * Sends a request to the backend that creates a certificate for an attestee to confirm. 
+ * Sends a request to the backend that creates a certificate for an attestee to accept or decline. 
  */
 const CreateCertificate = (certificate: Certificate, state: State) => {
     var xhr = new XMLHttpRequest();
