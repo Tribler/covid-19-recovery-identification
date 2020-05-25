@@ -4,6 +4,7 @@ from aiohttp import web
 from ipv8.REST.base_endpoint import BaseEndpoint, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, Response
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
+from ipv8.util import cast_to_bin
 
 from cert_community import CertCommunity
 
@@ -41,7 +42,6 @@ class CertificateEndpoint(BaseEndpoint):
         formatted = []
         for k, v in self.certificate_overlay.certificates.items():
             formatted.append([k, v])
-        print(formatted)
         return Response([(x, y) for x, y in formatted], status=200)
 
     async def id_get(self, request):
@@ -63,6 +63,8 @@ class CertificateEndpoint(BaseEndpoint):
             return Response({"error": "parameters or type missing"}, status=HTTP_BAD_REQUEST)
 
         if args['type'] == 'send':
+
+            own_peer = cast_to_bin(self.identity_overlay.my_peer.mid)
             mid_b64 = args['mid']
             certificate_id = int(args['certificate_id'])
             peer = self.get_peer_from_mid(mid_b64)
@@ -70,7 +72,7 @@ class CertificateEndpoint(BaseEndpoint):
                 return Response({"error": "id not available"})
 
             if peer:
-                self.certificate_overlay.send_certificate(peer, certificate_id)
+                self.certificate_overlay.send_certificate(peer, own_peer, certificate_id)
                 return Response({"success": True})
             else:
                 return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
