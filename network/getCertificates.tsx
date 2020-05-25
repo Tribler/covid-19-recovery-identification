@@ -2,7 +2,7 @@ import { Certificate, State } from "../Store"
 
 const GetCertificates = (state : State) => {
     var xhr = new XMLHttpRequest();
-    const url = state.serverURL + "/getCertificates"
+    const url = state.serverURL + "/certificate/recent"
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json")
     var dataJSON = ""
