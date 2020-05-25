@@ -2,6 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 
+/*
+ * The Dashboard is the entry point to the app and displays the user's stored proofs
+*/
 const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
