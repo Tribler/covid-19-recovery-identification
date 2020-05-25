@@ -1,6 +1,11 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
 import { useTrackedState } from "../Store";
+import {Base64} from "js-base64"
+
+/**
+ * Generic accept button for the CertificateView and Outstandingview.
+ */
 
 interface AcceptProps {
   attester: string
@@ -28,9 +33,8 @@ const postCertificate = (state: any, attester : string, type: string) => {
 }
 
 const postOutstanding = (state: any, attestee : string, type: string, value: string) => {
-  // we have to uri encode our attester string and base64 encode our value
-  const Buffer = require("buffer").Buffer;
-  const b64value= new Buffer(value).toString("base64");
+  // we have to uri encode our attester string and base64 + uri encode our value
+  const b64value= encodeURIComponent(Base64.encode(value))
   const url = state.serverURL + "/attestation?type=attest&mid=" + encodeURIComponent(attestee) + "&attribute_name=" + type +  "&attribute_value=" + b64value
   const data = {method: 'POST', headers: {}, body: ""}
   return fetch(url,data)

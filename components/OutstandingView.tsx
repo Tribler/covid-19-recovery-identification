@@ -4,14 +4,18 @@ import { OutstandingRequest } from '../Store'
 import AcceptButton from './AcceptButton'
 import DeclineButton from './DeclineButton'
 
-interface outstandingProps {
+/**
+ * OutstandingView is an element for the FlatList in OutstandingScreen.
+ */
+
+interface OutstandingProps {
     listID: number
     outstanding: OutstandingRequest
     deleteOutstanding: Function
 
 }
 
-const outstandingView: React.FC<outstandingProps> = ({ listID, outstanding, deleteOutstanding }: outstandingProps) => {
+const OutstandingView: React.FC<OutstandingProps> = ({ listID, outstanding, deleteOutstanding }: OutstandingProps) => {
     return (
         <View >
             <Text >Type: {outstanding.type}, Creator: {outstanding.creatorID}</Text>
@@ -56,4 +60,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default outstandingView;
+export default OutstandingView;

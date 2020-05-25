@@ -4,6 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
 
+/**
+ * OutstandingScreen shows a list of the outstanding attestation request for this peer.
+ */
+
 const OutstandingScreen: React.FC = () => {
     const [outstanding, setOutstanding] = useState([])
 
