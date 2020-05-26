@@ -10,6 +10,7 @@ const DrawerButton: React.FC = () => {
                 position: "absolute",
                 top: 0,
                 left: 0,
+                flex:1
             }}
             mode="outlined"
             icon="menu"
