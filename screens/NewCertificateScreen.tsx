@@ -5,6 +5,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
+import HelpButton from '../components/HelpButton';
 
 
 /*
@@ -52,7 +53,11 @@ const NewCertificateScreen: React.FC = () => {
     ]
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>New Certificate</Text>
+            <View style = {styles.header}>
+                <Text style = {styles.lighttext}>New Certificate</Text>
+                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            </View>
+
             <View style={styles.dropdown} >
                 <Dropdown
                     data={options}
@@ -65,7 +70,7 @@ const NewCertificateScreen: React.FC = () => {
                 onChangeText={input => setHolderID(input)}
                 label="Holder ID">
             </TextInput>
-            <Button style={{ top: 200 }}
+            <Button
              mode="contained" 
              onPress={() => 
                 {
@@ -76,6 +81,7 @@ const NewCertificateScreen: React.FC = () => {
               CREATE CERTIFICATE
               </Button>
             <DrawerButton />
+            <HelpButton/>
         </View>
     )
 }
@@ -87,15 +93,13 @@ const styles = StyleSheet.create({
         fontFamily: "Sans-serif",
         color: "#000",
         borderWidth: 1,
-        margin: 15,
+        margin: 0,
         padding: 5,
         justifyContent: 'center',
-        top: 200,
         width: 200
     },
     textInput: {
         margin: 10,
-        top: 200,
         width: 200,
         height: 100
     },
@@ -109,7 +113,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 80,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -125,6 +128,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
+    header: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30
+    },
+    subtitle: {
+        fontSize: 15,
+        margin: 5,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default NewCertificateScreen
