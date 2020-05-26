@@ -43,12 +43,12 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 
 
 const NewCertificateScreen: React.FC = () => {
-    const [certificateType, setCertificateType] = useState("covid-immunity")
+    const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
     const state = useTrackedState()
     const options = [
         { value: "select-certificate" },
-        { value: "covid-immunity" }
+        { value: "1", lable: "covid-immunity" }
     ]
     return (
         <View style={styles.light}>
