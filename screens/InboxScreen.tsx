@@ -5,6 +5,12 @@ import DrawerButton from "../components/DrawerButton";
 import CertificateView from "../components/CertificateView";
 import { Certificate } from "../Store";
 
+
+/*
+ * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
+ * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
+*/
+
 const InboxScreen: React.FC = () => {
     const mockCert: Certificate = {
         creatorID: "SBut59tkgjrttqeTuvYeahQAcGE=",

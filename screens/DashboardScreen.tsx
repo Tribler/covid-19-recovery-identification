@@ -5,6 +5,9 @@ import { Button } from 'react-native-paper';
 import GetCertificates from '../network/getCertificates';
 import { State, useTrackedState } from '../Store';
 
+/*
+ * The Dashboard is the entry point to the app and displays the user's stored proofs
+*/
 const Dashboard: React.FC = () => {
     const state = useTrackedState()
 

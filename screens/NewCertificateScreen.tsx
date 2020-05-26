@@ -6,6 +6,16 @@ import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 
+
+/*
+ * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain
+*/
+
+const options = [
+    { value: "select-certificate", label: "Select Certificate..." },
+    { value: "covid-immunity", label: "COVID-19 Immunity" }
+]
+
 const createNewCertificate = (creator: string, holder: string, certType: string, state: State) => {
     const certificate: Certificate = {
         creatorID: creator,

@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
-
 import UpdateID from "./network/UpdateID"
 
+/*
+The store contains all data types and functions related to the global state of the React app, it defines what the global state contains and what the initial value is
+*/
 
 type State = {
     loggedIn: boolean
