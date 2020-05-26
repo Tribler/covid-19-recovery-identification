@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
+import HelpButton from '../components/HelpButton';
 import { Button } from 'react-native-paper';
 import GetCertificates from '../network/getCertificates';
 import { State, useTrackedState } from '../Store';
@@ -14,7 +15,7 @@ const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style={styles.instructions} >you can find your earned badges below</Text>
+            <Text style={styles.instructions} >You can find your earned badges below</Text>
             <View style={styles.badges}>
                 <Image
                     resizeMode="cover"
@@ -42,7 +43,8 @@ const Dashboard: React.FC = () => {
             <View style={styles.rectangle2}></View>
             <View style={styles.rectangle3}></View>
             <View style={styles.rectangle4}></View>
-            <DrawerButton></DrawerButton>
+            <DrawerButton/>
+            <HelpButton/>
         </View>
     )
 }

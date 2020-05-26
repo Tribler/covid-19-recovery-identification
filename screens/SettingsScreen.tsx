@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
+import HelpButton from '../components/HelpButton';
 
 const SettingsScreen: React.FC = () => {
     return (
@@ -12,7 +13,8 @@ const SettingsScreen: React.FC = () => {
             <Text style={styles.option1}><Text onPress={() => Alert.alert("light")}>Light</Text> / <Text onPress={() => Alert.alert("dark")}>Dark</Text></Text>
             <Text style={styles.settingred2} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete acc")}>Delete your Account</Text>
-            <DrawerButton></DrawerButton>
+            <DrawerButton/>
+            <HelpButton/>
         </View>
     )
 }

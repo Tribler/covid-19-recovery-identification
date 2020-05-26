@@ -4,6 +4,8 @@ import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
 import CertificateView from "../components/CertificateView";
 import { Certificate, useTrackedState } from "../Store";
+import HelpButton from "../components/HelpButton";
+
 
 
 /*
@@ -12,11 +14,7 @@ import { Certificate, useTrackedState } from "../Store";
 */
 
 const InboxScreen: React.FC = () => {
-    const mockCert: Certificate = {
-        creatorID: "SBut59tkgjrttqeTuvYeahQAcGE=",
-        holderID: "1",
-        type: "covid-immunity",
-    };
+
     const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
     const url = state.serverURL + '/attestation/certificate/recent'
@@ -38,8 +36,11 @@ const InboxScreen: React.FC = () => {
 
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Inbox</Text>
-            <View style={{ float: "left", top: 150 }}>
+            <View style = {styles.header}>
+                <Text style = {styles.lighttext}>My Inbox</Text>
+                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            </View>
+            <View>
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
                     keyExtractor={(item, index) => item[0] + item[1]}
@@ -56,6 +57,7 @@ const InboxScreen: React.FC = () => {
                 />
             </View>
             <DrawerButton />
+            <HelpButton />
         </View>
     );
 };
@@ -76,7 +78,6 @@ const styles = StyleSheet.create({
     },
     darktext: {
         position: "relative",
-        top: 30,
         fontWeight: "bold",
         fontSize: 60,
         fontFamily: "Sans-serif",
@@ -84,7 +85,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 100,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -100,6 +100,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
+    header: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30
+    },
+    subtitle: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default InboxScreen;
