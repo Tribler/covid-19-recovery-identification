@@ -31,6 +31,7 @@ const CertificateView: React.FC<CertificateProps> = ({ listID, certificate, dele
                      deleteCert={deleteCert}
                      listID={listID}
                      type={certificate.type}
+                     postType={0}
                     />
                     <Text>{"\r"}</Text>
                     <DeclineButton
