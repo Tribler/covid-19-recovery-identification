@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
 import CertificateView from "../components/CertificateView";
-import { Certificate } from "../Store";
+import { Certificate, useTrackedState } from "../Store";
 
 
 /*
@@ -18,9 +18,11 @@ const InboxScreen: React.FC = () => {
         type: "covid-immunity",
     };
     const [certificates, setCertificates] = useState([]);
+    const state = useTrackedState()
+    const url = state.serverURL + '/attestation/certificate/recent'
 
     useEffect(() => {
-        fetch('http://localhost:14411/certificate/recent')
+        fetch(url)
           .then((response) => response.json())
           .then((json) => setCertificates(json))
           .catch((error) => console.error(error));
