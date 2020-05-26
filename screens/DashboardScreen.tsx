@@ -11,15 +11,10 @@ import { State, useTrackedState } from '../Store';
 const Dashboard: React.FC = () => {
     const state = useTrackedState()
 
-    const refresh = (state : State) => {
-        GetCertificates(state)
-    }
-
     return (
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard</Text>
             <Text style={styles.instructions} >you can find your earned badges below</Text>
-            <Button onPress = {() => refresh(state)}>Refresh</Button>
             <View style={styles.badges}>
                 <Image
                     resizeMode="cover"
