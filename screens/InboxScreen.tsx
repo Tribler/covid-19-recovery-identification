@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
 import CertificateView from "../components/CertificateView";
-import { Certificate, useTrackedState } from "../Store";
+import { useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
 
@@ -43,7 +42,7 @@ const InboxScreen: React.FC = () => {
             <View>
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item[0] + item[1]}
+                    keyExtractor={(item) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                          <CertificateView
                              listID={item[0] + item[1]}
