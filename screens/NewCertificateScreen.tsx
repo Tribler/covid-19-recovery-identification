@@ -53,7 +53,6 @@ const NewCertificateScreen: React.FC = () => {
     ]
     return (
         <View style={styles.light}>
-            <Button onPress = {() => console.log(certificateType)}>DEBUG</Button>
             <View style = {styles.header}>
                 <Text style = {styles.lighttext}>New Certificate</Text>
                 <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
