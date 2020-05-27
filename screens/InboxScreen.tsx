@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
-import CertificateView from "../components/CertificateView";
+import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
@@ -45,7 +45,7 @@ const InboxScreen: React.FC = () => {
                     data={certificates}
                     keyExtractor={(item, index) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateView
+                         <CertificateViewInbox
                              listID={item[0] + item[1]}
                              certificate={{creatorID:item[0], holderID: "0", type: item[1]}}
                              deleteCert={deleteCert}
