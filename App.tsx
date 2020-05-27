@@ -5,7 +5,7 @@ import DrawerMenu from './components/DrawerMenu';
 export default function App() {
   return (
     <Provider>
-      <DrawerMenu/>
+      <DrawerMenu />
     </Provider>
   );
 }

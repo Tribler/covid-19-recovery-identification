@@ -58,7 +58,7 @@ async def start_communities():
     root.AttestationEndpoint = CertificateEndpoint
     modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
     rest_manager = RESTManager(ipv8)
-    await rest_manager.start(14411)
+    await rest_manager.start()
 
 
 def start():

@@ -17,25 +17,23 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
         holderID: holder,
         type: certType
     }
-    if(holder){
-    CreateCertificate(certificate, state);
+    if (holder) {
+        CreateCertificate(certificate, state);
     }
-    else{
+    else {
         Alert.alert(
             'Failure',
             'Please enter ID',
             [
-              {
-                text: 'Understood',
-                style: 'cancel',
-              },
+                {
+                    text: 'Understood',
+                    style: 'cancel',
+                },
             ],
-            {cancelable: true},
-          );
+            { cancelable: true },
+        );
     }
 }
-
-
 
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("covid-immunity")
@@ -61,14 +59,13 @@ const NewCertificateScreen: React.FC = () => {
                 label="Holder ID">
             </TextInput>
             <Button style={{ top: 200 }}
-             mode="contained" 
-             onPress={() => 
-                {
+                mode="contained"
+                onPress={() => {
                     createNewCertificate(state.ID, holderID, certificateType, state)
                     setHolderID("");
                 }
-            }>
-              CREATE CERTIFICATE
+                }>
+                CREATE CERTIFICATE
               </Button>
             <DrawerButton />
         </View>
