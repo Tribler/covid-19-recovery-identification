@@ -23,24 +23,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CertServiceWidgetConfigureActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <service
-            android:name=".CertService"
+            android:name=".Service"
             android:foregroundServiceType="dataSync"
             android:exported="false"
             android:isolatedProcess="false" />
-        <receiver android:name=".CertServiceWidget">
+        <receiver android:name=".ServiceWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <!--TODO add a custom app widget updates and skip the normal one to save battery.-->
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/cert_service_widget_info" />
+                android:resource="@xml/service_widget_info" />
         </receiver>
     </application>
 

@@ -2,7 +2,6 @@ package com.immune;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
@@ -13,20 +12,9 @@ import androidx.annotation.Nullable;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
-public class CertService extends Service {
+public class Service extends android.app.Service {
 
-    private Boolean running = false;
-
-    /**
-     * Class for clients to access.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with
-     * IPC.
-     */
-    class CertBinder extends Binder {
-        CertService getService() {
-            return CertService.this;
-        }
-    }
+    private static Boolean running = false;
 
     @Override
     public void onCreate() {
@@ -39,9 +27,9 @@ public class CertService extends Service {
     @Override
     public void onDestroy() {
         // Cancel the persistent notification.
-        if(running){
+        if(Service.running){
             Python.getInstance().getModule("cert_service").callAttr("stop");
-            running = false;
+            Service.running = false;
         }
     }
 
@@ -49,9 +37,9 @@ public class CertService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("CertService", "Received start id " + startId + ": " + intent);
         showNotification();
-        if(!running){
+        if(!Service.running){
             Python.getInstance().getModule("cert_service").callAttr("start");
-            running = true;
+            Service.running = true;
         }
         return START_REDELIVER_INTENT; // TODO CHECK IF THIS GETS HIT.
     }
@@ -62,9 +50,9 @@ public class CertService extends Service {
         if (!Python.isStarted()) {
             Python.start(new AndroidPlatform(this));
         }
-        if(!running){ // TODO CHECK WHY BINDING DOES NOT START THE SERVICE AND TEST ACROSS VERSIONS.
+        if(!Service.running){ // TODO CHECK WHY BINDING DOES NOT START THE SERVICE AND TEST ACROSS VERSIONS.
             Python.getInstance().getModule("cert_service").callAttr("start");
-            running = true;
+            Service.running = true;
         }
         return mBinder;
     }
@@ -82,7 +70,7 @@ public class CertService extends Service {
 
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, CertServiceWidgetConfigureActivity.class), 0);
+                new Intent(this, MainActivity.class), 0);
 
         // Set the info for the views that show in the notification panel.
         Notification notification = new Notification.Builder(this)
@@ -97,5 +85,16 @@ public class CertService extends Service {
 
         // Send the notification.
         startForeground(1001, notification);
+    }
+
+    /**
+     * Class for clients to access.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with
+     * IPC.
+     */
+    class CertBinder extends Binder {
+        Service getService() {
+            return Service.this;
+        }
     }
 }

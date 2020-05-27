@@ -4,11 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
 
@@ -20,7 +17,7 @@ public class MainActivity extends ReactActivity {
 
     // To invoke the bound service, first make sure that this value
     // is not null.
-    private CertService mBoundService;
+    private Service mBoundService;
 
     /**
      * Returns the name of the main component registered from JavaScript. This is used to schedule
@@ -32,15 +29,38 @@ public class MainActivity extends ReactActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        doBindService();
+    protected void onStart(){
+        super.onStart();
+        bindService();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        doUnbindService();
+    protected void onStop(){
+        super.onStop();
+        unbindService();
+    }
+
+    void bindService() {
+        // Attempts to establish a connection with the service.  We use an
+        // explicit class name because we want a specific service
+        // implementation that we know will be running in our own process
+        // (and thus won't be supporting component replacement by other
+        // applications).
+        if (bindService(new Intent(this, Service.class),
+                mConnection, Context.BIND_AUTO_CREATE)) {
+            mShouldUnbind = true;
+        } else {
+            Log.e("CERT_SERVICE_TAG", "Error: The requested service doesn't " +
+                    "exist, or this client isn't allowed access to it.");
+        }
+    }
+
+    void unbindService() {
+        if (mShouldUnbind) {
+            // Release information about the service's state.
+            unbindService(mConnection);
+            mShouldUnbind = false;
+        }
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -50,7 +70,7 @@ public class MainActivity extends ReactActivity {
             // interact with the service.  Because we have bound to a explicit
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
-            mBoundService = ((CertService.CertBinder)service).getService();
+            mBoundService = ((Service.CertBinder)service).getService();
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -61,27 +81,4 @@ public class MainActivity extends ReactActivity {
             mBoundService = null;
         }
     };
-
-    void doBindService() {
-        // Attempts to establish a connection with the service.  We use an
-        // explicit class name because we want a specific service
-        // implementation that we know will be running in our own process
-        // (and thus won't be supporting component replacement by other
-        // applications).
-        if (bindService(new Intent(this, CertService.class),
-                mConnection, Context.BIND_AUTO_CREATE)) {
-            mShouldUnbind = true;
-        } else {
-            Log.e("CERT_SERVICE_TAG", "Error: The requested service doesn't " +
-                    "exist, or this client isn't allowed access to it.");
-        }
-    }
-
-    void doUnbindService() {
-        if (mShouldUnbind) {
-            // Release information about the service's state.
-            unbindService(mConnection);
-            mShouldUnbind = false;
-        }
-    }
 }
