@@ -1,29 +1,29 @@
-from asyncio import set_event_loop, new_event_loop, ensure_future, get_event_loop
-from base64 import b64encode
+from asyncio import ensure_future, get_event_loop, \
+    new_event_loop, set_event_loop
+from threading import Thread
+from sys import modules
 
 from com.chaquo.python import Python
+from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
 from ipv8_service import IPv8
 
 from cert_community import CertCommunity
-from rest_manager_extended import RESTManagerExtended
+from certificate_endpoint import CertificateEndpoint
 
 
 async def start_communities():
     # Launch an IPv8 service. We run REST endpoints for this service on:
-    # - http://localhost:14411/
-    # This script also prints the peer ids for reference with:
-    # - http://localhost:14411/attestation?type=peers
-    # For now we are using just the basic configuration.
+    # - http://localhost:8085/
     configuration = get_default_configuration()
 
     # On Android we need the complete path when new files are created.
     files_dir = str(Python.getPlatform().getApplication().getFilesDir())
     configuration['keys'] = [
-        {'alias': "anonymous id", 'generation': u"curve25519",
-         'file': files_dir + u"/ec_multichain.pem"},
-        {'alias': "my peer", 'generation': u"medium",
-         'file': files_dir + u"/ec.pem"}
+            {'alias': "anonymous id", 'generation': u"curve25519",
+             'file': files_dir + u"/ec_multichain.pem"},
+            {'alias': "my peer", 'generation': u"medium",
+             'file': files_dir + u"/ec.pem"}
     ]
     # Only load the basic communities.
     requested_overlays = ['DiscoveryCommunity', 'AttestationCommunity', 'IdentityCommunity']
@@ -36,38 +36,36 @@ async def start_communities():
         if overlay['class'] in working_directory_overlays:
             overlay['initialize'] = {'working_directory': files_dir + '/certificates'}
 
-    new_community = {
-        'class': 'CertCommunity',
-        'key': "my peer",
-        'walkers': [{
-            'strategy': "RandomWalk",
-            'peers': 10,
-            'init': {
-                'timeout': 3.0
-            }
-        }],
-        'initialize': {'working_directory': files_dir + '/certificates'},
-        'on_start': []
+    cert_community = {
+            'class': 'CertCommunity',
+            'key': "my peer",
+            'walkers': [{
+                    'strategy': "RandomWalk",
+                    'peers': 10,
+                    'init': {
+                            'timeout': 3.0
+                    }
+            }],
+            'initialize': {'working_directory': files_dir + '/certificates'},
+            'on_start': []
     }
-    configuration['overlays'].append(new_community)
+    configuration['overlays'].append(cert_community)
 
     # Start the attestation service.
     ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
     await ipv8.start()
-    rest_manager = RESTManagerExtended(ipv8)
+    root = modules["ipv8.REST.root_endpoint"]
+    root.AttestationEndpoint = CertificateEndpoint
+    modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
+    rest_manager = RESTManager(ipv8)
     await rest_manager.start(14411)
 
-    # Print the peer for reference
-    print("Starting peer", b64encode(ipv8.keys["anonymous id"].mid))
 
-
-def main():
-    # This method is needed, since Chaquopy's bridge
-    # can only run methods of modules.
-    # There is no thread available before this line.
+def start():
     set_event_loop(new_event_loop())
     ensure_future(start_communities())
-    get_event_loop().run_forever()
+    Thread(target=get_event_loop().run_forever).start()
+
 
 def stop():
     get_event_loop().stop()
