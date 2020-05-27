@@ -8,6 +8,7 @@ from ipv8.REST.base_endpoint import Response
 
 JWT_SECRET = 'secretwoo'
 JWT_ALGORITHM = 'HS256'
+# expiration time of JWT token
 JWT_EXP_DELTA_SECONDS = 600
 
 User.UserStorage.create_user(id='user', password='password')
@@ -15,6 +16,10 @@ User.UserStorage.create_user(id='user', password='password')
 
 @middleware
 async def auth_middleware(request, handler):
+    """
+    Middleware that gets the JWT token in the "authorization" header. Checks if this JWT token is valid and not
+    expired. Passes the result to the login_required_middleware.
+    """
     request.user = None
     jwt_token = request.headers.get('authorization', None)
     if jwt_token:
@@ -31,6 +36,10 @@ async def auth_middleware(request, handler):
 
 @middleware
 async def login_required_middleware(request, handler):
+    """
+    Middleware that checks if you are authenticated. Depending on the result of auth_middleware, one either passes
+    the request to the actual handler or gives an 401 error. The login handler is exempted from this check.
+    """
     if handler == login:
         return await handler(request)
     if not request.user:
@@ -39,6 +48,10 @@ async def login_required_middleware(request, handler):
 
 
 async def login(request):
+    """
+    Login handler which fetches the password from the body and compares it to the saved password. If they match up,
+    returns a JWT token.
+    """
     post_data = await request.post()
 
     try:

@@ -19,6 +19,7 @@ class User:
         pass
 
     class UserStorage:
+        # Should only be one user.
         _storage = {}
 
         @classmethod
