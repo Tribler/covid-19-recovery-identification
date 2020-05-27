@@ -3,6 +3,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet, Text, View } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
+import { State, useTrackedState} from '../Store';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
@@ -10,9 +11,11 @@ import DrawerButton from '../components/DrawerButton';
 
 const OutstandingScreen: React.FC = () => {
     const [outstanding, setOutstanding] = useState([])
+    const state = useTrackedState()
+    const url = state.serverURL + '/attestation?type=outstanding'
 
     useEffect(() => {
-        fetch('http://localhost:14411/attestation?type=outstanding')
+        fetch(url)
             .then((response) => response.json())
             .then((json) => setOutstanding(json))
             .catch((error) => console.error(error));

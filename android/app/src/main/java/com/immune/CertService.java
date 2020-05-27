@@ -24,10 +24,10 @@ public class CertService extends Service {
         }
         @Override
         public void handleMessage(Message msg) {
-            Python.getInstance().getModule("cert_service").callAttr("main");
+            Python.getInstance().getModule("cert_service").callAttr("start");
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
-            stopSelf(msg.arg1);
+            // stopSelf(msg.arg1);
         }
     }
 
@@ -59,7 +59,7 @@ public class CertService extends Service {
         serviceHandler.sendMessage(msg);
 
         // If we get killed, after returning from here, restart
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Nullable
@@ -72,5 +72,6 @@ public class CertService extends Service {
     @Override
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        Python.getInstance().getModule("cert_service").callAttr("stop");
     }
 }
