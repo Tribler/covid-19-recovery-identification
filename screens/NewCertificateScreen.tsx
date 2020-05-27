@@ -48,11 +48,11 @@ const NewCertificateScreen: React.FC = () => {
     const [holderID, setHolderID] = useState("")
     const state = useTrackedState()
     const options = [
-        { value: "select-certificate" },
-        { value: "1", lable: "covid-immunity" }
+        { value: "covid-immunity" }
     ]
     return (
         <View style={styles.light}>
+            <Button onPress = {() => console.log(certificateType)}>DEBUG</Button>
             <View style = {styles.header}>
                 <Text style = {styles.lighttext}>New Certificate</Text>
                 <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
@@ -61,7 +61,10 @@ const NewCertificateScreen: React.FC = () => {
             <View style={styles.dropdown} >
                 <Dropdown
                     data={options}
-                    label="Choose...">
+                    label="Choose..."
+                    onChangeText = {(value:string, index:number) => setCertificateType((index +1).toString()) }
+                >
+                    
                 </Dropdown>
             </View>
             <TextInput
