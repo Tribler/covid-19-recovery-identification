@@ -7,7 +7,7 @@ import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 import HelpButton from '../components/HelpButton';
 
-YellowBox.ignoreWarnings(['Animated: \'useNativeDriver\'', 'Warning: component', 'Failed prop type']);
+YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
 
 /*
  * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain
