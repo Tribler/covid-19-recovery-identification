@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Button } from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
 import CertificateView from "../components/CertificateView";
-import { Certificate, useTrackedState } from "../Store";
+import { useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
 
@@ -38,12 +37,12 @@ const InboxScreen: React.FC = () => {
         <View style={styles.light}>
             <View style = {styles.header}>
                 <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+                <Text style = {styles.subtitle}>Here you can see the data that an attester wants to add to your chain</Text>
             </View>
             <View>
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item[0] + item[1]}
+                    keyExtractor={(item) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                          <CertificateView
                              listID={item[0] + item[1]}
