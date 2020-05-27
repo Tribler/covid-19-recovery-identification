@@ -20,7 +20,6 @@ const AttestationScreen: React.FC = () => {
         <View>
             <View style = {styles.header}>
                 <Text style = {styles.title}>Attestations</Text>
-                <Text style = {styles.subtitle}>Here you can find </Text>
             </View>
 
             <Text> Hello World </Text>

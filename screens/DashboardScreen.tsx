@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
     return (
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style={styles.instructions} >You can find your earned badges below</Text>
+            <Text style={styles.instructions} >You can find your signed proofs below</Text>
             <View style={styles.badges}>
                 <Image
                     resizeMode="cover"

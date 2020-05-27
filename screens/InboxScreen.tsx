@@ -38,7 +38,7 @@ const InboxScreen: React.FC = () => {
         <View style={styles.light}>
             <View style = {styles.header}>
                 <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+                <Text style = {styles.subtitle}>Here you can see the data that an attester wants to add to your chain</Text>
             </View>
             <View>
                 <FlatList                   // we use FlatList to provide list functionality
