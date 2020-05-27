@@ -1,8 +1,10 @@
 # Immunity Passports
 ## Building a Critical Infrastructure for the Nation-Wide Identification of Recovered COVID-19 Patients
 
+This app is a Self Sovereign Identity document exchange platform, which uses the IPv8 backend provided by the TU Delft Blockchain Lab to allow professionals to create certificates for an individual's online identity. The individual can then send and proof the validity of this certificate to a third party, while preserving the individual's privacy and control over their data.
+
 ### Running:
-1. Install all dependencies by running in a terminal:
+1. Install all dependencies and patches by running in a terminal:
     ```
     yarn
     ```
@@ -11,35 +13,18 @@
     ```
     npx react-native start
     ```
-    and the following one in another terminal:
+    and the following in another terminal:
     ```
     npx react-native run-android
     ```
 
 3. To close the app, stop execution on the consoles used in Step 2.
 
-### If experiencing the following error:
-```
-TypeError: undefined is not an object (evaluating '_reactNative.Animated.Text.propTypes.style')
-```
-###  this is a fix:
-1. In node_modules\react-native-material-textfield\src\label\index.js comment out the line:
-```
-style: Animated.Text.propTypes.style (probably line 32)
-```
-
-2. In node_modules\react-native-material-textfield\src\affix\index.js comment out the line:
-```
-style: Animated.Text.propTypes.style, (probably line 27)
-```
-
-3. In node_modules\react-native-material-textfield\src\helper\index.js comment out the line:
-```
-style: Animated.Text.propTypes.style (probably line 13)
-```
-
 ### If missing keystore.debug this is a fix:
 Run the following command in a terminal, that has /android/app opened:
 ```
 keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
+
+Alternatively: The keytool.exe is in the Java JRE folder, you can run the command there and then move the debug.keystore file into /android/app
+    
