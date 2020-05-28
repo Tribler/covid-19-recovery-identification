@@ -6,5 +6,6 @@
     android:minHeight="40dp"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen|keyguard"
-    android:widgetFeatures="hide_from_picker"/>
+    android:widgetCategory="home_screen|keyguard" />
+<!--TODO Add this line in release-->
+<!--    android:widgetFeatures="hide_from_picker" />-->

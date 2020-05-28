@@ -24,10 +24,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
         <service
             android:name=".Service"
-            android:foregroundServiceType="dataSync"
             android:exported="false"
+            android:foregroundServiceType="dataSync"
             android:isolatedProcess="false" />
         <receiver android:name=".ServiceWidget">
             <intent-filter>

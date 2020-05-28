@@ -13,3 +13,6 @@
 - Should we have a Preview Image?
 - https://developer.android.com/guide/topics/appwidgets#Basics
 - Android Widgets and React-Native - https://medium.com/better-programming/react-native-how-to-build-a-home-screen-widget-for-ios-and-android-8b2d7db343cb
+
+## Known Issues
+- On API 29, 28 when the service is stoped it stays in cache and blocks the browser when http://localhost:8085 is used.

@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -29,14 +30,14 @@ public class MainActivity extends ReactActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
         bindService();
     }
 
     @Override
-    protected void onStop(){
-        super.onStop();
+    protected void onDestroy(){
+        super.onDestroy();
         unbindService();
     }
 
@@ -50,7 +51,7 @@ public class MainActivity extends ReactActivity {
                 mConnection, Context.BIND_AUTO_CREATE)) {
             mShouldUnbind = true;
         } else {
-            Log.e("CERT_SERVICE_TAG", "Error: The requested service doesn't " +
+            Log.e("CertService", "Error: The requested service doesn't " +
                     "exist, or this client isn't allowed access to it.");
         }
     }
