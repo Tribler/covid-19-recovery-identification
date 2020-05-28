@@ -26,11 +26,11 @@
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
         <service
-            android:name=".Service"
+            android:name=".CertService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             android:isolatedProcess="false" />
-        <receiver android:name=".ServiceWidget">
+        <receiver android:name=".CertWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!--TODO add a custom app widget updates and skip the normal one to save battery.-->

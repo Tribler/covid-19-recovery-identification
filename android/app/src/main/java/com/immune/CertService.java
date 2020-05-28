@@ -4,11 +4,12 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
+import android.os.Process;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -16,59 +17,61 @@ import androidx.core.app.NotificationCompat;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
-public class Service extends android.app.Service {
+public class CertService extends Service {
 
     private static Boolean running = false;
+
+    // This is the object that receives interactions from clients.  See
+    // RemoteService for a more complete example.
+    private final IBinder mBinder = new CertBinder();
+
+    private static final int SIGTERM = 15;
 
     private static final String CHANNEL_ID = "Certification Service Channel";
 
     @Override
-    public void onCreate() {
-        // Display a notification about us starting.  We put an icon in the status bar.
-        if (!Python.isStarted()) {
-            Python.start(new AndroidPlatform(this));
-        }
-    }
-
-    @Override
     public void onDestroy() {
-        // Cancel the persistent notification.
-        if (Service.running) {
-            Python.getInstance().getModule("cert_service").callAttr("stop");
-            //android.os.Process.sendSignal(android.os.Process.myPid(), 15);
-            //android.os.Process.killProcess(android.os.Process.myPid());
-            Service.running = false;
-            deleteNotificationChannel();
-            Log.i("CertService", "Stops");
+        if (running) {
+            removeNotification();
+            Process.sendSignal(Process.myPid(), SIGTERM);
+            running = false;
+            Process.killProcess(Process.myPid()); // TODO Temporary!
         }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("CertService", "Starts");
-        if (!Service.running) {
-            Python.getInstance().getModule("cert_service").callAttr("start");
-            Service.running = true;
-            showNotification();
-        }
+        showNotification();
+        startService();
         return START_NOT_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        if (!Service.running) {
-            Log.i("CertService", "Starts");
-            Python.getInstance().getModule("cert_service").callAttr("start");
-            Service.running = true;
-            showNotification();
-        }
+        showNotification();
+        startService();
         return mBinder;
     }
 
-    // This is the object that receives interactions from clients.  See
-    // RemoteService for a more complete example.
-    private final IBinder mBinder = new CertBinder();
+    /**
+     * Class for clients to access.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with
+     * IPC.
+     */
+    class CertBinder extends Binder {
+        CertService getService() {
+            return CertService.this;
+        }
+    }
+
+    private void startService() {
+        if (!running) {
+            if (!Python.isStarted()) Python.start(new AndroidPlatform(this));
+            Python.getInstance().getModule("cert_service").callAttr("main");
+            running = true;
+        }
+    }
 
     /**
      * Show a notification while this service is running.
@@ -94,6 +97,15 @@ public class Service extends android.app.Service {
         startForeground(1001, notification);
     }
 
+    private void removeNotification() {
+        stopForeground(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            assert notificationManager != null;
+            notificationManager.deleteNotificationChannel(CHANNEL_ID);
+        }
+    }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -108,25 +120,6 @@ public class Service extends android.app.Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    private void deleteNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            assert notificationManager != null;
-            notificationManager.deleteNotificationChannel(CHANNEL_ID);
-        }
-    }
-
-    /**
-     * Class for clients to access.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with
-     * IPC.
-     */
-    class CertBinder extends Binder {
-        Service getService() {
-            return Service.this;
         }
     }
 }

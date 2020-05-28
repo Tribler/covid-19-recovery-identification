@@ -18,7 +18,7 @@ public class MainActivity extends ReactActivity {
 
     // To invoke the bound service, first make sure that this value
     // is not null.
-    private Service mBoundService;
+    private CertService mBoundCertService;
 
     /**
      * Returns the name of the main component registered from JavaScript. This is used to schedule
@@ -31,14 +31,14 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
         bindService();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         unbindService();
+        super.onDestroy();
     }
 
     void bindService() {
@@ -47,7 +47,7 @@ public class MainActivity extends ReactActivity {
         // implementation that we know will be running in our own process
         // (and thus won't be supporting component replacement by other
         // applications).
-        if (bindService(new Intent(this, Service.class),
+        if (bindService(new Intent(this, CertService.class),
                 mConnection, Context.BIND_AUTO_CREATE)) {
             mShouldUnbind = true;
         } else {
@@ -71,7 +71,7 @@ public class MainActivity extends ReactActivity {
             // interact with the service.  Because we have bound to a explicit
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
-            mBoundService = ((Service.CertBinder)service).getService();
+            mBoundCertService = ((CertService.CertBinder)service).getService();
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -79,7 +79,7 @@ public class MainActivity extends ReactActivity {
             // unexpectedly disconnected -- that is, its process crashed.
             // Because it is running in our same process, we should never
             // see this happen.
-            mBoundService = null;
+            mBoundCertService = null;
         }
     };
 }
