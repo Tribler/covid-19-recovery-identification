@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
         <View style={styles.light}>
             <Text style={styles.lighttext}>My Dashboard</Text>
             <Text style={styles.instructions} >You can find your signed proofs below</Text>
-            <View style={styles.badges}>
+            <View>
                 <Image
                     resizeMode="cover"
                     style={styles.star}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     //     ]
     // },
     badgeText: {
-        bottom: "36%",
+        bottom: "37%",
         right: "13%",
         fontWeight: "bold",
         fontStyle: "italic"
@@ -168,8 +168,6 @@ const styles = StyleSheet.create({
         bottom: "100%",
         right: "22%"
     },
-    badges: {
-    },
     lock1: {
         width: 130,
         height: 120,
@@ -194,7 +192,7 @@ const styles = StyleSheet.create({
     star: {
         width: 130,
         height: 120,
-        top: "52%",
+        top: "51%",
         right: "22%",
     }
 });

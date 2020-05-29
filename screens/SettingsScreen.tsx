@@ -60,14 +60,14 @@ const styles = StyleSheet.create({
     option: {
         position: "relative",
         marginTop: "-6.5%",
-        marginLeft: "43%",
+        marginLeft: "63%",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
     option1: {
         position: "relative",
         marginTop: "-6.5%",
-        marginLeft: "41%",
+        marginLeft: "61%",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
