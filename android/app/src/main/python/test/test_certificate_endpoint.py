@@ -1,3 +1,4 @@
+import os
 from asyncio import sleep
 from base64 import b64encode
 from sys import modules
@@ -8,6 +9,7 @@ from pyipv8.ipv8.attestation.wallet.community import AttestationCommunity
 from pyipv8.ipv8.test.REST.attestationendpoint.test_attestation_endpoint import TestAttestationEndpoint
 from pyipv8.ipv8.test.REST.rest_base import RESTTestBase, partial_cls
 
+# This is to make sure that the rest_manager includes the certificate endpoint.
 root = modules["pyipv8.ipv8.REST.root_endpoint"]
 root.AttestationEndpoint = CertificateEndpoint
 modules["pyipv8.ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
@@ -21,13 +23,10 @@ class TestCertificateEndpoint(RESTTestBase):
 
     async def setUp(self):
         super(TestCertificateEndpoint, self).setUp()
+        open('resource/certificates.txt', 'w').close()
         await self.initialize([partial_cls(AttestationCommunity, working_directory=':memory:'),
                                partial_cls(IdentityCommunity, working_directory=':memory:'),
                                partial_cls(CertCommunity, working_directory='resource')], 2)
-        open('resource/certificates.txt', 'w').close()
-
-    async def tearDown(self):
-        open('resource/certificates.txt', 'w').close()
 
     async def make_id(self, node):
         """
@@ -80,7 +79,7 @@ class TestCertificateEndpoint(RESTTestBase):
         Test the (GET: recent) request type.
         """
         await self.introduce_nodes()
-        await self.create_certificate_request(self.nodes[1], '1')
+        await self.create_certificate_request(self.nodes[1], 1)
 
         result = await self.wait_for_outstanding_certificates(self.nodes[0])
         mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
@@ -95,8 +94,50 @@ class TestCertificateEndpoint(RESTTestBase):
         self.assertEqual(outstanding_certificates, [], "Should be no outstanding certificates")
 
         await self.introduce_nodes()
-        await self.create_certificate_request(self.nodes[1], '1')
+        await self.create_certificate_request(self.nodes[1], 1)
 
         outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
         self.assertEqual(outstanding_certificates, [[b64encode(self.nodes[1].my_peer.mid).decode('utf-8'), 'cv19-i']],
                          "List of outstanding certificates should not be empty")
+
+        await self.create_certificate_request(self.nodes[1], 2)
+        outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
+        self.assertEqual(outstanding_certificates, [[b64encode(self.nodes[1].my_peer.mid).decode('utf-8'), 'hepB-v']],
+                         "List of outstanding certificates should not be empty")
+
+    async def test_post_certificate_wrong(self):
+        """
+        Test POST request with no args, no peer found
+        """
+
+        result = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {})
+        self.assertEqual(result, {'error': 'parameters or type missing'}, "No args should give error but didn't.")
+
+        result2 = await self.make_certificate(self.nodes[0], 1, b64encode(b"notapeer").decode('utf-8'))
+        self.assertEqual(result2, {'error': 'peer unknown'}, "Peer should not be known while post certificate.")
+
+        await self.introduce_nodes()
+        mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
+        result3 = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'send',
+                                                                                             'certificate_id': -1,
+                                                                                             'mid': mid})
+
+        self.assertEqual(result3, {'error': 'id not available'}, "certificate_id should not be a valid id.")
+
+
+
+class TestCertificateEndpointWithoutCommunity(RESTTestBase):
+
+    async def setUp(self):
+        super(TestCertificateEndpointWithoutCommunity, self).setUp()
+        open('resource/certificates.txt', 'w').close()
+        await self.initialize([partial_cls(CertCommunity, working_directory='resource')], 2)
+
+    async def test_post_certificate_wrong_no_community(self):
+        await self.introduce_nodes()
+        mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
+        result4 = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'send',
+                                                                                             'certificate_id': 1,
+                                                                                             'mid': mid})
+        self.assertEqual(result4, {'error': 'certificate or identity community not found'},
+                         "One of the communities should not have been initialized.")
