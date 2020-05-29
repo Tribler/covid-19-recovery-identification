@@ -1,21 +1,23 @@
-import os
 from asyncio import sleep
 from base64 import b64encode
 from sys import modules
 from certificate_endpoint import CertificateEndpoint
 from cert_community import CertCommunity
-from pyipv8.ipv8.attestation.identity.community import IdentityCommunity
-from pyipv8.ipv8.attestation.wallet.community import AttestationCommunity
-from pyipv8.ipv8.test.REST.attestationendpoint.test_attestation_endpoint import TestAttestationEndpoint
-from pyipv8.ipv8.test.REST.rest_base import RESTTestBase, partial_cls
+from ipv8.attestation.identity.community import IdentityCommunity
+from ipv8.attestation.wallet.community import AttestationCommunity
+from ipv8.test.REST.attestationendpoint.test_attestation_endpoint import TestAttestationEndpoint
+from ipv8.test.REST.rest_base import RESTTestBase, partial_cls
 
 # This is to make sure that the rest_manager includes the certificate endpoint.
-root = modules["pyipv8.ipv8.REST.root_endpoint"]
+root = modules["ipv8.REST.root_endpoint"]
 root.AttestationEndpoint = CertificateEndpoint
-modules["pyipv8.ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
+modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
 
 
 class TestCertificateEndpoint(RESTTestBase):
+    """
+    Class for testing the REST API of the CertificateEndpoint
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -107,7 +109,7 @@ class TestCertificateEndpoint(RESTTestBase):
 
     async def test_post_certificate_wrong(self):
         """
-        Test POST request with no args, no peer found
+        Test POST request with no args, no peer found.
         """
 
         result = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {})
@@ -123,21 +125,29 @@ class TestCertificateEndpoint(RESTTestBase):
                                                                                              'mid': mid})
 
         self.assertEqual(result3, {'error': 'id not available'}, "certificate_id should not be a valid id.")
+        result4 = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'notavalidtype',
+                                                                                             'certificate_id': 1,
+                                                                                             'mid': mid})
 
+        self.assertEqual(result4, {'error': 'type argument incorrect'}, "Wrong type, should not be accepted.")
 
 
 class TestCertificateEndpointWithoutCommunity(RESTTestBase):
+    """
+    Class for testing the rest API of the CertificateEndpoint without setting up the proper communities.
+    """
 
     async def setUp(self):
         super(TestCertificateEndpointWithoutCommunity, self).setUp()
         open('resource/certificates.txt', 'w').close()
+
+    async def test_post_certificate_wrong_no_id_community(self):
         await self.initialize([partial_cls(CertCommunity, working_directory='resource')], 2)
 
-    async def test_post_certificate_wrong_no_community(self):
         await self.introduce_nodes()
         mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
-        result4 = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'send',
+        result = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'send',
                                                                                              'certificate_id': 1,
                                                                                              'mid': mid})
-        self.assertEqual(result4, {'error': 'certificate or identity community not found'},
+        self.assertEqual(result, {'error': 'certificate or identity community not found'},
                          "One of the communities should not have been initialized.")
