@@ -7,8 +7,8 @@ import DrawerMenu from './components/DrawerMenu';
 export default function App() {
   {/*The provider allows for props to be automatically passed down the component tree*/ }
   return (
-    <Provider> 
-      <DrawerMenu/>
+    <Provider>
+      <DrawerMenu />
     </Provider>
   );
 }

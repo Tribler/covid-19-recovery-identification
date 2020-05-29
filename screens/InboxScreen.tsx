@@ -5,8 +5,6 @@ import CertificateView from "../components/CertificateView";
 import { useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
-
-
 /*
  * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
  * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
