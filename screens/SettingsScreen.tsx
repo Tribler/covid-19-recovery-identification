@@ -6,13 +6,13 @@ import HelpButton from '../components/HelpButton';
 const SettingsScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top: 80 }}>Settings</Text>
+            <Text style={styles.lighttext}>Settings</Text>
             <Text style={styles.setting}>Push Notifications</Text>
-            <Text style={styles.option}><Text onPress={() => Alert.alert("enabled")}>Enabled</Text> / <Text onPress={() => Alert.alert("disabled")}>Disabled</Text></Text>
+            <Text style={styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
             <Text style={styles.setting2}>Theme</Text>
             <Text style={styles.option1}><Text onPress={() => Alert.alert("light")}>Light</Text> / <Text onPress={() => Alert.alert("dark")}>Dark</Text></Text>
-            <Text style={styles.settingred2} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
-            <Text style={styles.settingred} onPress={() => Alert.alert("delete acc")}>Delete your Account</Text>
+            <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
+            <Text style={styles.logout} onPress={() => Alert.alert("logout")}>Log out</Text>
             <DrawerButton/>
             <HelpButton/>
         </View>
@@ -25,63 +25,63 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
     },
+    darktext: {
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "3%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
+    },
+    lighttext: {
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "3%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
+    },
     setting: {
         position: "relative",
-        top: 300,
-        left: 80,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "7%",
+        marginRight: "48%",
         fontSize: 20,
         fontFamily: "Sans-serif",
     },
     setting2: {
         position: "relative",
-        top: 290,
-        left: 130,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "8%",
+        marginRight: "72.5%",
         fontSize: 20,
         fontFamily: "Sans-serif",
     },
     option: {
         position: "relative",
-        top: 110,
-        left: 80,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "-6.5%",
+        marginLeft: "43%",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
     option1: {
         position: "relative",
-        top: 100,
-        left: 109,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "-6.5%",
+        marginLeft: "41%",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
     settingred: {
         position: "relative",
-        top: 400,
-        textAlign: "left",
-        paddingVertical: 8,
-        right: 100,
+        marginTop: "15%",
         color: "#FF0000",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
-    settingred2: {
+    logout: {
         position: "relative",
-        top: 400,
-        textAlign: "left",
-        paddingVertical: 8,
-        right: 105,
-        color: "#FF0000",
+        marginTop: "69%",
+        marginLeft: "72%",
         fontSize: 20,
         fontFamily: "Sans-serif"
     }
