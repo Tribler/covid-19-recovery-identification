@@ -1,5 +1,6 @@
 # General keystores, build and report folders
 #
+*.hprof
 *.jks
 *.p8
 *.p12
