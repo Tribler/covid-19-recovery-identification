@@ -9,14 +9,7 @@ This app is a Self Sovereign Identity document exchange platform, which uses the
     yarn
     ```
 
-2. Build the service and bundle it with the main application:
-    Run the Gradle Task buildServiceApk in /android/service/build.gradle in order to build the service and add it as a resource of the main application.
-    
-    NOTE: This does not support debuging! In order to debug the service, run the service application separately.
-
-    NOTE: After installing the service in Android, restart the application and do not install the service anymore!
-
-3. To start the application, run the following command in a terminal: 
+2. To start the application, run the following command in a terminal: 
     ```
     npx react-native start
     ```
@@ -25,7 +18,7 @@ This app is a Self Sovereign Identity document exchange platform, which uses the
     npx react-native run-android
     ```
 
-4. To close the app, stop execution on the consoles used in Step 2.
+3. To close the app, stop execution on the terminals used in Step 2.
 
 ### If missing keystore.debug this is a fix:
 Run the following command in a terminal, that has /android/app opened:
