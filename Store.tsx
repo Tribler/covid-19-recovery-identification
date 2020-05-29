@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import { createContainer } from "react-tracked";
+import UpdateID from "./network/UpdateID"
+
+/*
+The store contains all data types and functions related to the global state of the React app, it defines what the global state contains and what the initial value is
+*/
 
 type State = {
     loggedIn: boolean
@@ -14,16 +19,23 @@ type Certificate = {
     type: string
 }
 
-const defaultState: State = {
+type OutstandingRequest ={
+    creatorID: string
+    type : string
+}
+
+var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "localhost:8085" // TODO Check correct port.
+    serverURL: "http://localhost:8085"
 }
+
+UpdateID(defaultState)
 
 const useValue = () => useState(defaultState);
 
 const { Provider, useTrackedState } = createContainer(useValue);
 
-export { Certificate, State };
+export { Certificate, State, OutstandingRequest };
 export { Provider, useTrackedState };

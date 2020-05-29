@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, YellowBox} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
+import HelpButton from '../components/HelpButton';
+
+YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
+
+/*
+ * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain
+*/
 
 const options = [
     { value: "select-certificate", label: "Select Certificate..." },
@@ -17,39 +24,45 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
         holderID: holder,
         type: certType
     }
-    if (holder) {
-        CreateCertificate(certificate, state);
+    if(holder){
+    CreateCertificate(certificate, state);
     }
-    else {
+    else{
         Alert.alert(
             'Failure',
             'Please enter ID',
             [
-                {
-                    text: 'Understood',
-                    style: 'cancel',
-                },
+              {
+                text: 'Understood',
+                style: 'cancel',
+              },
             ],
-            { cancelable: true },
-        );
+            {cancelable: true},
+          );
     }
 }
 
 const NewCertificateScreen: React.FC = () => {
-    const [certificateType, setCertificateType] = useState("covid-immunity")
+    const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
     const state = useTrackedState()
     const options = [
-        { value: "select-certificate" },
         { value: "covid-immunity" }
     ]
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>New Certificate</Text>
+            <View style = {styles.header}>
+                <Text style = {styles.lighttext}>New Certificate</Text>
+                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            </View>
+
             <View style={styles.dropdown} >
                 <Dropdown
                     data={options}
-                    label="Choose...">
+                    label="Choose..."
+                    onChangeText = {(value:string, index:number) => setCertificateType((index +1).toString()) }
+                >
+
                 </Dropdown>
             </View>
             <TextInput
@@ -58,9 +71,10 @@ const NewCertificateScreen: React.FC = () => {
                 onChangeText={input => setHolderID(input)}
                 label="Holder ID">
             </TextInput>
-            <Button style={{ top: 200 }}
-                mode="contained"
-                onPress={() => {
+            <Button
+             mode="contained" 
+             onPress={() => 
+                {
                     createNewCertificate(state.ID, holderID, certificateType, state)
                     setHolderID("");
                 }
@@ -68,6 +82,7 @@ const NewCertificateScreen: React.FC = () => {
                 CREATE CERTIFICATE
               </Button>
             <DrawerButton />
+            <HelpButton/>
         </View>
     )
 }
@@ -79,15 +94,13 @@ const styles = StyleSheet.create({
         fontFamily: "Sans-serif",
         color: "#000",
         borderWidth: 1,
-        margin: 15,
+        margin: 0,
         padding: 5,
         justifyContent: 'center',
-        top: 200,
         width: 200
     },
     textInput: {
         margin: 10,
-        top: 200,
         width: 200,
         height: 100
     },
@@ -101,7 +114,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 80,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -117,6 +129,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
+    header: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30
+    },
+    subtitle: {
+        fontSize: 15,
+        margin: 5,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    }
 });
 
 export default NewCertificateScreen
