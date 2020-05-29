@@ -18,7 +18,7 @@ This app is a Self Sovereign Identity document exchange platform, which uses the
     npx react-native run-android
     ```
 
-3. To close the app, stop execution on the consoles used in Step 2.
+3. To close the app, stop execution on the terminals used in Step 2.
 
 ### If missing keystore.debug this is a fix:
 Run the following command in a terminal, that has /android/app opened:

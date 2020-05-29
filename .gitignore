@@ -1,5 +1,6 @@
 # General keystores, build and report folders
 #
+*.hprof
 *.jks
 *.p8
 *.p12
@@ -15,6 +16,7 @@ web-report/
 
 # Android/IntelliJ
 #
+*.apk
 build/
 .idea
 .gradle

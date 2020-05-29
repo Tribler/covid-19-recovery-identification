@@ -19,7 +19,7 @@ type Certificate = {
     type: string
 }
 
-type OutstandingRequest ={ 
+type OutstandingRequest ={
     creatorID: string
     type : string
 }
@@ -28,7 +28,7 @@ var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    serverURL: "http://localhost:14411" 
+    serverURL: "http://localhost:8085"
 }
 
 UpdateID(defaultState)

@@ -42,8 +42,6 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
     }
 }
 
-
-
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
@@ -64,7 +62,7 @@ const NewCertificateScreen: React.FC = () => {
                     label="Choose..."
                     onChangeText = {(value:string, index:number) => setCertificateType((index +1).toString()) }
                 >
-                    
+
                 </Dropdown>
             </View>
             <TextInput
@@ -80,8 +78,8 @@ const NewCertificateScreen: React.FC = () => {
                     createNewCertificate(state.ID, holderID, certificateType, state)
                     setHolderID("");
                 }
-            }>
-              CREATE CERTIFICATE
+                }>
+                CREATE CERTIFICATE
               </Button>
             <DrawerButton />
             <HelpButton/>

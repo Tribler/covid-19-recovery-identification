@@ -4,12 +4,14 @@ import { Text, View, FlatList, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import Attribute from "../components/Attribute";
 import HelpButton from "../components/HelpButton";
+import { useTrackedState } from "../Store";
 
 const AttestationScreen: React.FC = () => {
     const [data, setData] = useState([]);
+    const state = useTrackedState()
 
     useEffect(() => {
-        fetch('http://localhost:14411/attestation?type=attributes')
+        fetch(state.serverURL + '/attestation?type=attributes')
           .then((response) => response.json())
           .then((json) => setData(json))
           .catch((error) => console.error(error));

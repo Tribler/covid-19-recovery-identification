@@ -23,10 +23,10 @@ const LoginScreen: React.FC = () => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} />
-            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+            <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop:20
+                    justifyContent: 'center', borderRadius: 7, marginTop: 20
                 }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
@@ -43,14 +43,14 @@ const LoginScreen: React.FC = () => {
                 secureTextEntry={true} />
             <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
                 <View style={{
-                   zIndex:1, backgroundColor: '#74d14c', alignItems: 'center',
+                    zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
                 }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
             </TouchableOpacity>
             <Text style={{ color: "#1d5", top: 20 }}>Don't have an account?</Text>
-            <Button style={{ top: 20}} onPress={() => <RegisterScreen />}> Sign up  </Button>
+            <Button style={{ top: 20 }} onPress={() => <RegisterScreen />}> Sign up  </Button>
         </View>
     )
 }
