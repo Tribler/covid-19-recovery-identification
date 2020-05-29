@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, Image} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { State, useTrackedState} from '../Store';
@@ -31,14 +31,27 @@ const Dashboard: React.FC = () => {
                 <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
             </View>
 
-            <View>
-                <FlatList
-                    data={certificates}
-                    keyExtractor={(item) => item[0] + item[1]}
-                    renderItem={({ item }) => (
-                         <CertificateViewDashboard certificate={{creatorID:item[0], holderID: "0", type: item[1]}} />
-                    )}
-                />
+            <View style={styles.badges}>
+                <Image
+                    resizeMode="cover"
+                    style={styles.unlocked}
+                    source={require('../assets/star.png')}>
+                </Image>
+                <Image
+                    resizeMode="cover"
+                    style={styles.locked}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>
+                <Image
+                    resizeMode="cover"
+                    style={styles.locked}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>    
+                <Image
+                    resizeMode="cover"
+                    style={styles.locked}
+                    source={require('../assets/Lock_icon.png')}>
+                </Image>
             </View>
             
             <DrawerButton />
@@ -161,33 +174,21 @@ const styles = StyleSheet.create({
         right: 90
     },
     badges: {
+        flexDirection:'row',
+        flexWrap:'wrap',
+        justifyContent: 'center',
+        alignItems: "center"
     },
-    lock1: {
+    locked: {
         width: 130,
         height: 120,
-        top: 130,
-        left: 90,
-        opacity: 0.4
+        opacity: 0.4,
+        margin:20
     },
-    lock2: {
+    unlocked: {
         width: 130,
         height: 120,
-        top: 230,
-        left: 90,
-        opacity: 0.4
-    },
-    lock3: {
-        width: 130,
-        height: 120,
-        top: 115,
-        right: 90,
-        opacity: 0.4
-    },
-    star: {
-        width: 130,
-        height: 120,
-        top: 260,
-        right: 90,
+        margin:20
     },
     header: {
         alignItems: 'center',
