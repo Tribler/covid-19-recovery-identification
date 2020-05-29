@@ -24,14 +24,14 @@ const HelpScreen: React.FC = () => {
 
                     <B>chain</B>: the Holder's stored data{"\n"}
                 </Paragraph>
-                <Title>The Holder Process</Title>
+                <Title>The Holder Process {state.attester ? "" : "(you)"}</Title>
                 <Paragraph>
                     1. An <B>Attester</B> will send you a request to add data to your <B>chain</B>, this request shows up in your <B>inbox</B>. {"\n\n"}
                     2. You can decide wheter to add that data to your <B>chain</B>, if you choose to add it the <B>Attester</B> will be sent a request to sign the data.{"\n\n"}
                     3. Once the attester signs the data you can find the proof in your <B>dashboard</B>.{"\n\n"}
                     4. You can click a proof on your <B>dashboard</B> in order to send it to a <B>Verifier</B>.{"\n\n"}
                 </Paragraph>
-                {state.attester ? <><Title>The Attester Process</Title>
+                {state.attester ? <><Title>The Attester Process {state.attester ? "(you)" : ""}</Title>
                 <Paragraph>
                     1. Once you have data you want to add to a <B>Holder's</B> <B>chain</B> go to the <B>New Certificate</B> screen, choose certificate type and enter the Holder's ID,
                         the <B>Holder</B> will be notified as soon as you create a certificate . {"\n\n"}
