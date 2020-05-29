@@ -1,50 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { Button } from 'react-native-paper';
 import GetCertificates from '../network/getCertificates';
-import { State, useTrackedState } from '../Store';
+import { State, useTrackedState, Certificate } from '../Store';
+import CertificateView from '../components/CertificateView';
+import { FlatList } from 'react-native-gesture-handler';
+import CertificateViewDashboard from '../components/CertificateViewDashboard';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
 */
+
 const Dashboard: React.FC = () => {
+    const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
+
+    const url = state.serverURL + "/attestation?type=attributes"
+
+    useEffect(() => {
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => setCertificates(json))
+          .catch((error) => console.error(error));
+      }, []);
 
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style={styles.instructions} >You can find your earned badges below</Text>
-            <View style={styles.badges}>
-                <Image
-                    resizeMode="cover"
-                    style={styles.star}
-                    source={require('../assets/star.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock1}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock2}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock3}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Text style={styles.badgeText}>Immunity</Text>
+            <View style = {styles.header}>
+                <Text style={styles.lighttext}>My Dashboard</Text>
+                <Text style={styles.instructions} >You can find your earned badges below</Text>
             </View>
-            <View style={styles.rectangle} ></View>
-            <View style={styles.rectangle2}></View>
-            <View style={styles.rectangle3}></View>
-            <View style={styles.rectangle4}></View>
-            <DrawerButton/>
-            <HelpButton/>
+
+            <View>
+                <FlatList
+                    data={certificates}
+                    keyExtractor={(item) => item[0] + item[1]}
+                    renderItem={({ item }) => (
+                         <CertificateViewDashboard certificate={{creatorID:item[0], holderID: "0", type: item[1]}} />
+                    )}
+                />
+            </View>
+            
+            <DrawerButton />
+            <HelpButton />
         </View>
     )
 }
@@ -190,6 +190,19 @@ const styles = StyleSheet.create({
         height: 120,
         top: 260,
         right: 90,
+    },
+    header: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30
+    },
+    subtitle: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
     }
 });
 
