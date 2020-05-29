@@ -4,7 +4,7 @@ apply plugin: "com.chaquo.python"
 import com.android.build.OutputFile
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing TODO Check if this works or remove later.
+        enableHermes: false,  // clean and rebuild if changing TODO Check if this works or remove later.
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -94,7 +94,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // TODO TEST ACROSS API VERSIONS. Fix keystore files! CleanUp the assets folder. Remove debugging if not needed.
+            // TODO Fix keystore files! CleanUp the assets folder. Remove debugging if not needed.
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
@@ -133,21 +133,20 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
-    //noinspection GradleDynamicVersion
-    implementation 'com.facebook.react:react-native:0.62.2'  // From node_modules
+    implementation 'com.facebook.react:react-native:0.62.2'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
-      exclude group:'com.facebook.fbjni'
+        exclude group: 'com.facebook.fbjni'
     }
 
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
+        exclude group: 'com.facebook.flipper'
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.facebook.flipper'
+        exclude group: 'com.facebook.flipper'
     }
 
     if (enableHermes) {

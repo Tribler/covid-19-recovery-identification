@@ -1,6 +1,5 @@
 from asyncio import set_event_loop, get_event_loop, ensure_future, run_coroutine_threadsafe
 from sys import modules
-from signal import signal, SIGTERM
 from threading import Thread
 
 from com.chaquo.python import Python
@@ -13,10 +12,13 @@ from certificate_endpoint import CertificateEndpoint
 
 
 # Launch an IPv8 service. We run REST endpoints for this service on http://localhost:8085/
+# Initial Service Configuration
 configuration = get_default_configuration()
 
 # On Android we need the complete path when new files are created!
 files_dir = str(Python.getPlatform().getApplication().getFilesDir())
+
+# Generate signature keys
 configuration['keys'] = [
         {'alias': "anonymous id", 'generation': u"curve25519",
          'file': files_dir + u"/ec_multichain.pem"},
@@ -51,7 +53,7 @@ cert_community = {
 }
 configuration['overlays'].append(cert_community)
 
-# Overriding one import in the RootEndpoint
+# Overriding one endpoint in the RootEndpoint
 root_endpoint = modules["ipv8.REST.root_endpoint"]
 root_endpoint.AttestationEndpoint = CertificateEndpoint
 modules["ipv8.REST.rest_manager"].RootEndpoint = root_endpoint.RootEndpoint
@@ -61,27 +63,25 @@ ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
 rest_manager = RESTManager(ipv8)
 
 
+def run_in_thread(loop):
+    # Start the secondary thread which caries the heavy work.
+    set_event_loop(loop)
+    ensure_future(start_communities())
+    loop.run_forever()
+
+
 async def start_communities():
     # Start the certification service.
     await ipv8.start()
     await rest_manager.start()
 
 
-def stop_communities(loop, thread):
+def stop():
     # Stop the certification service.
-    run_coroutine_threadsafe(rest_manager.stop(), loop)
-    run_coroutine_threadsafe(ipv8.stop(), loop)
-    thread.join()
+    run_coroutine_threadsafe(rest_manager.stop(), get_event_loop())
+    run_coroutine_threadsafe(ipv8.stop(), get_event_loop())
 
 
-def run_in_thread(loop):
-    set_event_loop(loop)
-    ensure_future(start_communities())
-    loop.run_forever()
-
-
-def main():
-    loop = get_event_loop()
-    thread = Thread(target=run_in_thread, args=(loop, ))
-    signal(SIGTERM, lambda signum, stack: stop_communities(loop, thread))
-    thread.start()
+def start():
+    # Service entry point.
+    Thread(target=run_in_thread, args=(get_event_loop(), )).start()

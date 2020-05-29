@@ -3,13 +3,10 @@ package com.immune;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.Process;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -17,109 +14,131 @@ import androidx.core.app.NotificationCompat;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
+/**
+ * Implementation of the service initializer.
+ */
 public class CertService extends Service {
 
+    // Information about the service's state. Prevents from starting
+    // or stopping the service more than once.
     private static Boolean running = false;
 
-    // This is the object that receives interactions from clients.  See
-    // RemoteService for a more complete example.
-    private final IBinder mBinder = new CertBinder();
-
-    private static final int SIGTERM = 15;
-
+    // The identifier of the custom channel needed in APIs 26+
     private static final String CHANNEL_ID = "Certification Service Channel";
 
+    /**
+     * Creation method. Gets called whenever the gui tries to bind to the service or
+     * a new widget gets created. Responsible for creating a persistent notification,
+     * creating a custom notification channel and changing the state of the service
+     * to foreground service.
+     */
+    @Override
+    public void onCreate() {
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setTicker(getText(R.string.foreground_service_text))
+                .setContentTitle(getText(R.string.foreground_service_description))
+                .setContentText(getText(R.string.foreground_service_text))
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+        createNotificationChannel();
+        startForeground(android.os.Process.myPid(), notification);
+    }
+
+    /**
+     * Destruction method. Gets called whenever the gui tries to unbind from the service or
+     * the last existing widget gets deleted. Responsible for using the Chaquopy's bridge for
+     * stopping the service, removing the persistent notification from the foreground,
+     * deleting the custom notification channel and stopping the foreground service.
+     */
     @Override
     public void onDestroy() {
         if (running) {
-            removeNotification();
-            Process.sendSignal(Process.myPid(), SIGTERM);
+            Python.getInstance().getModule("cert_service").callAttr("stop");
             running = false;
-            Process.killProcess(Process.myPid()); // TODO Temporary!
+            deleteNotificationChannel();
+            stopForeground(true);
+            android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
         }
     }
 
+    /**
+     * Start method. Gets called whenever the widget creates a new instance of the service.
+     * Responsible for starting the service.
+     *
+     * @return The flag indicating that the os should not try to restart the service
+     * if it has previously stopped it.
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        showNotification();
         startService();
         return START_NOT_STICKY;
     }
 
+    /**
+     * Start method. Gets called whenever the gui creates a new instance of the service.
+     * Responsible for starting the service.
+     *
+     * @return The binder which provides access of the service object to clients.
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        showNotification();
         startService();
-        return mBinder;
+        return null;
     }
+
+    // The binder that provides connection with the service to clients.
+//    private final IBinder certBinder = new CertBinder();
+
+    /*
+      Binder class that provides service control methods
+      to all clients which bind to the service.
+     */
+//    class CertBinder extends Binder {
+//        CertService getService() {
+//            return CertService.this;
+//        }
+//    }
 
     /**
-     * Class for clients to access.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with
-     * IPC.
+     * Helper method. Gets called when the service is being started.
+     * Responsible for starting the python service through Chaquopy's bridge.
      */
-    class CertBinder extends Binder {
-        CertService getService() {
-            return CertService.this;
-        }
-    }
-
     private void startService() {
         if (!running) {
             if (!Python.isStarted()) Python.start(new AndroidPlatform(this));
-            Python.getInstance().getModule("cert_service").callAttr("main");
+            Python.getInstance().getModule("cert_service").callAttr("start");
             running = true;
         }
     }
 
     /**
-     * Show a notification while this service is running.
+     * Helper method. Gets called when the service is being started.
+     * Responsible for creating the notification channel.
      */
-    private void showNotification() {
-        // In this sample, we'll use the same text for the ticker and the expanded notification
-        CharSequence text = getText(R.string.foreground_service_text);
-        // The PendingIntent to launch our activity if the user selects this notification
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)  // the status icon
-                .setTicker(text)  // the status text
-                .setWhen(System.currentTimeMillis())  // the time stamp
-                .setContentTitle(getText(R.string.foreground_service_description))
-                .setContentText(text)  // the contents of the entry
-                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setOngoing(true)
-                .build();
-        // Send the notification.
-        createNotificationChannel();
-        startForeground(1001, notification);
-    }
-
-    private void removeNotification() {
-        stopForeground(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            assert notificationManager != null;
-            notificationManager.deleteNotificationChannel(CHANNEL_ID);
-        }
-    }
-
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.foreground_channel_text);
             String description = getString(R.string.foreground_channel_description);
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    /**
+     * Helper method. Gets called when the service is being stopped.
+     * Responsible for deleting the notification channel.
+     */
+    private void deleteNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            assert notificationManager != null;
+            notificationManager.deleteNotificationChannel(CHANNEL_ID);
         }
     }
 }

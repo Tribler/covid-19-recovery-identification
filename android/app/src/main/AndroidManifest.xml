@@ -33,7 +33,7 @@
         <receiver android:name=".CertWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <!--TODO add a custom app widget updates and skip the normal one to save battery.-->
+                <!--TODO Add a custom app widget updates and skip the normal one to save battery.-->
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
