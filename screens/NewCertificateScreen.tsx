@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     darktext: {
         position: "relative",
-        top: 30,
+        marginTop: "3%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
+        marginTop: "3%",
+        marginBottom: "5%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",

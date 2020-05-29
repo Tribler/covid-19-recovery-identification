@@ -12,7 +12,7 @@ const HelpScreen: React.FC = () => {
     const state = useTrackedState()
     return (
         <ScrollView>
-            <View style = {styles.header}>
+            <View style = {styles.lighttext}>
                 <Text style = {styles.title}>Help</Text>
             </View>
             <View style = {{margin:10}}>
@@ -46,10 +46,24 @@ const HelpScreen: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        alignItems: 'center',
-        marginTop: 50,
-        marginBottom: 20
+    darktext: {
+        alignItems: "center",
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "-13%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
+    },
+    lighttext: {
+        alignItems: "center",
+        position: "relative",
+        marginTop: "15%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     title: {
         position: "relative",

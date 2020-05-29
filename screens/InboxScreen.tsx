@@ -77,17 +77,20 @@ const styles = StyleSheet.create({
     },
     darktext: {
         position: "relative",
-        fontWeight: "bold",
-        fontSize: 60,
-        fontFamily: "Sans-serif",
-        color: "#fff",
-    },
-    lighttext: {
-        position: "relative",
+        marginTop: "3%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
-        color: "#000",
+        color: "#fff"
+    },
+    lighttext: {
+        position: "relative",
+        marginTop: "3%",
+        marginBottom: "5%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     dark: {
         flex: 1,
