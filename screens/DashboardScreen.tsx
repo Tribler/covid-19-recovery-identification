@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { Button } from 'react-native-paper';
-import GetCertificates from '../network/getCertificates';
-import { State, useTrackedState, Certificate } from '../Store';
-import CertificateView from '../components/CertificateView';
+import { State, useTrackedState} from '../Store';
 import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 
@@ -31,6 +28,7 @@ const Dashboard: React.FC = () => {
             <View style = {styles.header}>
                 <Text style={styles.lighttext}>My Dashboard</Text>
                 <Text style={styles.instructions} >You can find your earned badges below</Text>
+                <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
             </View>
 
             <View>
@@ -60,7 +58,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 70,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -128,7 +125,8 @@ const styles = StyleSheet.create({
         fontStyle: "italic"
     },
     instructions: {
-        top: 80
+        fontSize:15,
+        fontWeight: '300'
     },
     rectangle: {
         width: 150,
@@ -193,8 +191,9 @@ const styles = StyleSheet.create({
     },
     header: {
         alignItems: 'center',
-        marginTop: 50,
-        marginBottom: 30
+        marginTop: 35,
+        marginBottom: 30,
+        padding:5
     },
     subtitle: {
         fontSize: 15,
@@ -203,6 +202,10 @@ const styles = StyleSheet.create({
         color: "#000",
         textAlign: 'center',
         justifyContent: 'center'
+    },
+    idtext: {
+        fontSize: 15,
+        fontWeight: '400'
     }
 });
 
