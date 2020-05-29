@@ -52,15 +52,17 @@ const Dashboard: React.FC = () => {
 const styles = StyleSheet.create({
     darktext: {
         position: "relative",
-        top: 30,
+        marginTop: "15%",
+        marginBottom: "-13%",
         fontWeight: "bold",
-        fontSize: 60,
+        fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff"
     },
     lighttext: {
         position: "relative",
-        top: 70,
+        marginTop: "15%",
+        marginBottom: "-13%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -76,120 +78,124 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
-    certificate: {
-        width: 300,
-        top: 100,
-        borderWidth: 4,
-        borderColor: "#20232a",
-        borderRadius: 10,
-        backgroundColor: "#fffffb",
-        color: "#20232a",
-        textAlign: "center",
-        fontSize: 30,
-        fontWeight: "bold",
-        fontFamily: "Sans-serif"
-    },
-    twelvePointBurstMain: {
-        width: 100,
-        height: 100,
-        backgroundColor: "#74d14c",
-        top: 250,
-        right: 75,
-        borderColor: "black"
-    },
-    twelvePointBurst30: {
-        width: 100,
-        height: 100,
-        position: 'absolute',
-        backgroundColor: '#74d14c',
-        borderColor: "black",
-        top: 250,
-        right: 105,
-        transform: [
-            { rotate: '30deg' }
-        ],
-    },
-    twelvePointBurst60: {
-        width: 100,
-        height: 100,
-        position: 'absolute',
-        backgroundColor: '#74d14c',
-        top: 250,
-        right: 105,
-        borderColor: "black",
-        transform: [
-            { rotate: '60deg' }
-        ]
-    },
+    /** 
+     * Don't know what these are, but they're not used so I commented them out.
+    **/
+    // certificate: {
+    //     width: 300,
+    //     marginTop: 100,
+    //     borderWidth: 4,
+    //     borderColor: "#20232a",
+    //     borderRadius: 10,
+    //     backgroundColor: "#fffffb",
+    //     color: "#20232a",
+    //     textAlign: "center",
+    //     fontSize: 30,
+    //     fontWeight: "bold",
+    //     fontFamily: "Sans-serif"
+    // },
+    // twelvePointBurstMain: {
+    //     width: 100,
+    //     height: 100,
+    //     backgroundColor: "#74d14c",
+    //     top: 250,
+    //     right: 75,
+    //     borderColor: "black"
+    // },
+    // twelvePointBurst30: {
+    //     width: 100,
+    //     height: 100,
+    //     position: 'absolute',
+    //     backgroundColor: '#74d14c',
+    //     borderColor: "black",
+    //     top: 250,
+    //     right: 105,
+    //     transform: [
+    //         { rotate: '30deg' }
+    //     ],
+    // },
+    // twelvePointBurst60: {
+    //     width: 100,
+    //     height: 100,
+    //     position: 'absolute',
+    //     backgroundColor: '#74d14c',
+    //     top: 250,
+    //     right: 105,
+    //     borderColor: "black",
+    //     transform: [
+    //         { rotate: '60deg' }
+    //     ]
+    // },
     badgeText: {
-        bottom: 180,
-        right: 55,
+        bottom: "36%",
+        right: "13%",
         fontWeight: "bold",
         fontStyle: "italic"
     },
     instructions: {
-        top: 80
+        marginTop: "20%",
+        marginBottom: "-44%"
     },
     rectangle: {
-        width: 150,
-        height: 200,
+        width: "37%",
+        height: "30%",
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom: 280,
-        right: 90
+        bottom: "43%",
+        right: "22%"
     },
     rectangle2: {
-        width: 150,
-        height: 200,
+        width: "37%",
+        height: "30%",
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom: 480,
-        left: 90
+        bottom: "73%",
+        left: "22%"
     },
     rectangle3: {
-        width: 150,
-        height: 200,
+        width: "37%",
+        height: "30%",
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom: 460,
-        left: 90
+        bottom: "70%",
+        left: "22%"
     },
     rectangle4: {
-        width: 150,
-        height: 200,
+        width: "37%",
+        height: "30%",
         backgroundColor: 'grey',
         opacity: 0.1,
-        bottom: 660,
-        right: 90
+        bottom: "100%",
+        right: "22%"
     },
     badges: {
     },
     lock1: {
         width: 130,
         height: 120,
-        top: 130,
-        left: 90,
+        top: "26%",
+        left: "22.2%",
         opacity: 0.4
     },
     lock2: {
         width: 130,
         height: 120,
-        top: 230,
-        left: 90,
+        top: "46%",
+        left: "22.2%",
         opacity: 0.4
     },
     lock3: {
         width: 130,
         height: 120,
-        top: 115,
-        right: 90,
+        top: "22.2%",
+        right: "22.2%",
         opacity: 0.4
     },
     star: {
         width: 130,
         height: 120,
-        top: 260,
-        right: 90,
+        top: "52%",
+        right: "22%",
     }
 });
 
