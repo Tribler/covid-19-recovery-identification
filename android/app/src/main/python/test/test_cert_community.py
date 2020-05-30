@@ -10,9 +10,13 @@ class TestCertCommunity(TestBase):
 
     def setUp(self):
         super(TestCertCommunity, self).setUp()
+        if os.path.exists('resource/certificates.txt'):
+            os.remove('resource/certificates.txt')
+
 
     def tearDown(self):
-        os.remove('resource/certificates.txt')
+        if os.path.exists('resource/certificates.txt'):
+            os.remove('resource/certificates.txt')
 
     def create_node(self):
         return MockIPv8(u"curve25519", CertCommunity, working_directory=u"resource")
