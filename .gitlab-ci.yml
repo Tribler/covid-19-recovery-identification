@@ -1,3 +1,5 @@
+before_script:
+ - pip install nox
 python-tests:
  image: python:3.8
  script:
