@@ -1,6 +1,7 @@
-before_script:
- - pip install nox
 python-tests:
+ before_script:
+  - pip install nox
+  - pip install libnacl
  image: python:3.8
  script:
   - echo "Running python unit tests…"
