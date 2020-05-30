@@ -6,15 +6,11 @@ from ipv8.test.base import TestBase
 from ipv8.test.mocking.ipv8 import MockIPv8
 
 
+
 class TestCertCommunity(TestBase):
 
     def setUp(self):
         super(TestCertCommunity, self).setUp()
-        if os.path.exists('resource/certificates.txt'):
-            os.remove('resource/certificates.txt')
-
-
-    def tearDown(self):
         if os.path.exists('resource/certificates.txt'):
             os.remove('resource/certificates.txt')
 

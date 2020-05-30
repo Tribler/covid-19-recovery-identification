@@ -1,3 +1,4 @@
+import os
 from asyncio import sleep
 from base64 import b64encode
 from sys import modules
@@ -25,7 +26,8 @@ class TestCertificateEndpoint(RESTTestBase):
 
     async def setUp(self):
         super(TestCertificateEndpoint, self).setUp()
-        open('resource/certificates.txt', 'w').close()
+        if os.path.exists('resource/certificates.txt'):
+            os.remove('resource/certificates.txt')
         await self.initialize([partial_cls(AttestationCommunity, working_directory=':memory:'),
                                partial_cls(IdentityCommunity, working_directory=':memory:'),
                                partial_cls(CertCommunity, working_directory='resource')], 2)
@@ -139,7 +141,8 @@ class TestCertificateEndpointWithoutCommunity(RESTTestBase):
 
     async def setUp(self):
         super(TestCertificateEndpointWithoutCommunity, self).setUp()
-        open('resource/certificates.txt', 'w').close()
+        if os.path.exists('resource/certificates.txt'):
+            os.remove('resource/certificates.txt')
 
     async def test_post_certificate_wrong_no_id_community(self):
         await self.initialize([partial_cls(CertCommunity, working_directory='resource')], 2)
@@ -147,7 +150,7 @@ class TestCertificateEndpointWithoutCommunity(RESTTestBase):
         await self.introduce_nodes()
         mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
         result = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {'type': 'send',
-                                                                                             'certificate_id': 1,
-                                                                                             'mid': mid})
+                                                                                            'certificate_id': 1,
+                                                                                            'mid': mid})
         self.assertEqual(result, {'error': 'certificate or identity community not found'},
                          "One of the communities should not have been initialized.")
