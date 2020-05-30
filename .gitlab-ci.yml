@@ -2,6 +2,7 @@ python-tests:
  image: python:3.8
  script:
   - echo "Running unit tests…"
+  - ls
   - cd app/src/main/python
   - nox
   - coverage report
