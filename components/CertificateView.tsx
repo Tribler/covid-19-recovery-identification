@@ -35,6 +35,7 @@ const CertificateView: React.FC<CertificateProps> = ({ listID, certificate, dele
                     />
                     <Text>{"\r"}</Text>
                     <DeclineButton
+                     attester={certificate.creatorID}
                      listID={listID} 
                      deleteCert={deleteCert} // we pass the deleteCert function from inboxscreen to the declinebutton
                      />  
