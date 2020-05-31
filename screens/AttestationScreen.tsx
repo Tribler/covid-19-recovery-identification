@@ -15,10 +15,9 @@ const AttestationScreen: React.FC = () => {
           .catch((error) => console.error(error));
       }, []);
 
-
     return (
         <View>
-            <View style = {styles.header}>
+            <View style = {styles.lighttext}>
                 <Text style = {styles.title}>Attestations</Text>
             </View>
 
@@ -41,10 +40,25 @@ const AttestationScreen: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        alignItems: 'center',
-        marginTop: 50,
-        marginBottom: 30
+    darktext: {
+        alignItems: "center",
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "5%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
+    },
+    lighttext: {
+        alignItems: "center",
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "5%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     title: {
         position: "relative",
@@ -55,7 +69,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin: 5,
+        margin: "1%",
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',
