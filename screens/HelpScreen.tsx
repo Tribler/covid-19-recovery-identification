@@ -8,6 +8,10 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>
 
+/**
+ * The help screen. Functions as a screen which explains the various terms we use.
+ * May also contain contact details in the future and/or an opportunity to ask a question.
+ */
 const HelpScreen: React.FC = () => {
     const state = useTrackedState()
     return (
@@ -45,6 +49,10 @@ const HelpScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     darktext: {
         alignItems: "center",

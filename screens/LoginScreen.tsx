@@ -3,6 +3,10 @@ import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpa
 import { Button } from 'react-native-paper';
 import RegisterScreen from './RegisterScreen';
 
+/**
+ * The login screen for logging in as a health expert or as a patient.
+ * Will be prompted every time a user opens the app.
+ */
 const LoginScreen: React.FC = () => {
     return (
         <View style={styles.container}>
@@ -55,6 +59,10 @@ const LoginScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     container: {
         flex: 1,
