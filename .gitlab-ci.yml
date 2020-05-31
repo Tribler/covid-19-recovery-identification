@@ -1,7 +1,8 @@
 python-tests:
  before_script:
+  - apt-get update
+  - apt-get install libsodium-dev
   - pip install nox
-  - apt install libsodium-dev
  image: python:3.8
  script:
   - echo "Running python unit tests…"
