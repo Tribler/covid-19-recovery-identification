@@ -5,4 +5,5 @@ import nox
 def tests(session):
     session.install("pyipv8")
     session.install("asynctest")
-    session.run('python', '-m', 'unittest', 'discover')
+    session.install("coverage")
+    session.run('coverage', 'run', '-m', 'unittest', 'discover')
