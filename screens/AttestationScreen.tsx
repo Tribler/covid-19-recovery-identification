@@ -39,6 +39,10 @@ const AttestationScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     darktext: {
         alignItems: "center",

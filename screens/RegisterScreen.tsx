@@ -2,6 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 
+/**
+ * The register screen which will be prompted on first startup and then never again.
+ */
 const RegisterScreen: React.FC = () => {
     return (
         <View style={styles.container}>
@@ -65,6 +68,10 @@ const RegisterScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     container: {
         flex: 1,
