@@ -3,6 +3,7 @@ python-tests:
   - apt-get --yes update
   - apt-get --yes install libsodium-dev
   - pip install nox
+  - pip install coverage
  image: python:3.8
  script:
   - echo "Running python unit tests…"
