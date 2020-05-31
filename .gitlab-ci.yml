@@ -1,7 +1,7 @@
 python-tests:
  before_script:
-  - apt-get update
-  - apt-get install libsodium-dev
+  - apt-get --yes update
+  - apt-get --yes install libsodium-dev
   - pip install nox
  image: python:3.8
  script:
