@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
-import { State, useTrackedState} from '../Store';
+import { useTrackedState } from '../Store';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
@@ -37,17 +37,12 @@ const OutstandingScreen: React.FC = () => {
                     <OutstandingView
                         listID={item[0] + item[1]}
                         outstanding={{ creatorID: item[0], type: item[1] }}
-                        deleteOutstanding={deleteOutstanding}
-                    />
-                )}
-            />
+                        deleteOutstanding={deleteOutstanding} />
+                )} />
             <DrawerButton />
         </View>
     )
-
-
 }
-
 
 const styles = StyleSheet.create({
     dropdown: {

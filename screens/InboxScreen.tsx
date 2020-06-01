@@ -18,10 +18,10 @@ const InboxScreen: React.FC = () => {
 
     useEffect(() => {
         fetch(url)
-          .then((response) => response.json())
-          .then((json) => setCertificates(json))
-          .catch((error) => console.error(error));
-      }, []);
+            .then((response) => response.json())
+            .then((json) => setCertificates(json))
+            .catch((error) => console.error(error));
+    }, []);
 
 
     // function to remove certificates in the certificates list
@@ -33,25 +33,23 @@ const InboxScreen: React.FC = () => {
 
     return (
         <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can see the data that an attester wants to add to your chain</Text>
+            <View style={styles.header}>
+                <Text style={styles.lighttext}>My Inbox</Text>
+                <Text style={styles.subtitle}>Here you can see the data that an attester wants to add to your chain</Text>
             </View>
             <View>
-                <FlatList                   // we use FlatList to provide list functionality
+                <FlatList // we use FlatList to provide list functionality
                     data={certificates}
                     keyExtractor={(item) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateView
-                             listID={item[0] + item[1]}
-                             certificate={{creatorID:item[0], holderID: "0", type: item[1]}}
-                             deleteCert={deleteCert}
-                        //     // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
-                        //     // TODO: Maybe refactor button? idk
-                             onClick={() => console.log("wooow")}
-                         />
-                    )}
-                />
+                        <CertificateView
+                            listID={item[0] + item[1]}
+                            certificate={{ creatorID: item[0], holderID: "0", type: item[1] }}
+                            deleteCert={deleteCert}
+                            // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
+                            // TODO: Maybe refactor button? idk
+                            onClick={() => console.log("wooow")} />
+                    )} />
             </View>
             <DrawerButton />
             <HelpButton />
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin:5,
+        margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',

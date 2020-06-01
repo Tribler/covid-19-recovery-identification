@@ -6,7 +6,7 @@ import DeclineButton from '../components/DeclineButton';
 import AcceptButton from '../components/AcceptButton';
 
 interface CertificateProps {
-    listID : number,
+    listID: number,
     certificate: Certificate,
     deleteCert: Function,
     onClick: Function
@@ -26,18 +26,16 @@ const CertificateView: React.FC<CertificateProps> = ({ listID, certificate, dele
                 <Text style={styles.labelDivision}>{"Creator: " + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
             </Divider>
             <View style={styles.buttonPair}>
-                    <AcceptButton
-                     attester={certificate.creatorID}
-                     deleteCert={deleteCert}
-                     listID={listID}
-                     type={certificate.type}
-                     postType={0}
-                    />
-                    <Text>{"\r"}</Text>
-                    <DeclineButton
-                     listID={listID} 
-                     deleteCert={deleteCert} // we pass the deleteCert function from inboxscreen to the declinebutton
-                     />  
+                <AcceptButton
+                    attester={certificate.creatorID}
+                    deleteCert={deleteCert}
+                    listID={listID}
+                    type={certificate.type}
+                    postType={0} />
+                <Text>{"\r"}</Text>
+                <DeclineButton
+                    listID={listID}
+                    deleteCert={deleteCert} /> {/* we pass the deleteCert function from inboxscreen to the declinebutton */}
             </View>
         </View>
     )
