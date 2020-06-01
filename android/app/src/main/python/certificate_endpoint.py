@@ -15,7 +15,7 @@ class CertificateEndpoint(AttestationEndpoint):
 
     def __init__(self):
         super(CertificateEndpoint, self).__init__()
-        self.certificate_overlay = self.attestation_overlay = self.identity_overlay = None
+        self.certificate_overlay = self.identity_overlay = None
 
     def setup_routes(self):
         """
@@ -51,8 +51,8 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         Send a certificate to a peer.
         """
-        if not self.attestation_overlay or not self.identity_overlay:
-            return Response({"error": "attestation or identity community not found"},
+        if not self.certificate_overlay or not self.identity_overlay:
+            return Response({"error": "certificate or identity community not found"},
                             status=HTTP_NOT_FOUND)
 
         args = request.query
@@ -72,3 +72,5 @@ class CertificateEndpoint(AttestationEndpoint):
                 return Response({"success": True})
             else:
                 return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
+        else:
+            return Response({"error": "type argument incorrect"}, status=HTTP_BAD_REQUEST)
