@@ -6,53 +6,48 @@ import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
+
+const getPeers = (url : string, setCertificates : Function) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => setCertificates(json))
+      .catch((error) => console.error(error));
+  }
 /*
- * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
- * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
+ * The Peer Screen contains all the other users connected to the network. After being opened the screen automatically checks for new peers every 5 seconds.
 */
 
-const InboxScreen: React.FC = () => {
+const PeerScreen: React.FC = () => {
 
     const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
-    const url = state.serverURL + '/attestation/certificate/recent'
+    const url = state.serverURL + '/attestation?type=peers'
 
+    const updateInterval = 5000; //how many milliseconds between checking for new peers
+    
     useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => setCertificates(json))
-            .catch((error) => console.error(error));
-    }, []);
-
-
-    // function to remove certificates in the certificates list
-    const deleteCert = (id: string) => {
-        setCertificates((certificates) => {
-            return certificates.filter((certificate) => certificate[0] + certificate[1] !== id);
-        });
-    };
+        const interval = setInterval(() => {            
+            getPeers(url, setCertificates)
+        }, updateInterval);
+        return () => clearInterval(interval);
+      }, []);
 
     return (
         <View style={styles.light}>
             <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+                <Text style = {styles.lighttext}>Peers</Text>
+                <Text style = {styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
-                <FlatList // we use FlatList to provide list functionality
+                <Button onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
+                {certificates.length == 0 ? <Text>NO PEERS FOUND</Text> : 
+                <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateViewInbox
-                             listID={item[0] + item[1]}
-                             certificate={{creatorID:item[0], holderID: "0", type: item[1]}}
-                             deleteCert={deleteCert}
-                        //     // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
-                        //     // TODO: Maybe refactor button? idk
-                             onClick={() => console.log("wooow")}
-                         />
+                        <Text>{item}</Text>
                     )}
                 />
+                }
             </View>
             <DrawerButton />
             <HelpButton />
@@ -105,7 +100,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin: 5,
+        margin:5,
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',
@@ -113,4 +108,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default InboxScreen;
+export default PeerScreen;

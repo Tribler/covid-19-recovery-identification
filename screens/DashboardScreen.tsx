@@ -1,46 +1,59 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Image} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState } from '../Store';
+import { State, useTrackedState} from '../Store';
+import { FlatList } from 'react-native-gesture-handler';
+import CertificateViewDashboard from '../components/CertificateViewDashboard';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
 */
+
 const Dashboard: React.FC = () => {
+    const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
+
+    const url = state.serverURL + "/attestation?type=attributes"
+
+    useEffect(() => {
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => setCertificates(json))
+          .catch((error) => console.error(error));
+      }, []);
 
     return (
         <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style={styles.instructions} >You can find your signed proofs below</Text>
+            <View style = {styles.header}>
+                <Text style={styles.lighttext}>My Dashboard</Text>
+                <Text style={styles.instructions} >You can find your earned badges below</Text>
+                <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
+            </View>
+
             <View style={styles.badges}>
                 <Image
                     resizeMode="cover"
-                    style={styles.star}
+                    style={styles.unlocked}
                     source={require('../assets/star.png')}>
                 </Image>
                 <Image
                     resizeMode="cover"
-                    style={styles.lock1}
+                    style={styles.locked}
                     source={require('../assets/Lock_icon.png')}>
                 </Image>
                 <Image
                     resizeMode="cover"
-                    style={styles.lock2}
+                    style={styles.locked}
                     source={require('../assets/Lock_icon.png')}>
-                </Image>
+                </Image>    
                 <Image
                     resizeMode="cover"
-                    style={styles.lock3}
+                    style={styles.locked}
                     source={require('../assets/Lock_icon.png')}>
                 </Image>
-                <Text style={styles.badgeText}>Immunity</Text>
             </View>
-            <View style={styles.rectangle} ></View>
-            <View style={styles.rectangle2}></View>
-            <View style={styles.rectangle3}></View>
-            <View style={styles.rectangle4}></View>
+            
             <DrawerButton />
             <HelpButton />
         </View>
@@ -58,7 +71,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 70,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -126,7 +138,8 @@ const styles = StyleSheet.create({
         fontStyle: "italic"
     },
     instructions: {
-        top: 80
+        fontSize:15,
+        fontWeight: '300'
     },
     rectangle: {
         width: 150,
@@ -161,33 +174,39 @@ const styles = StyleSheet.create({
         right: 90
     },
     badges: {
+        flexDirection:'row',
+        flexWrap:'wrap',
+        justifyContent: 'center',
+        alignItems: "center"
     },
-    lock1: {
+    locked: {
         width: 130,
         height: 120,
-        top: 130,
-        left: 90,
-        opacity: 0.4
+        opacity: 0.4,
+        margin:20
     },
-    lock2: {
+    unlocked: {
         width: 130,
         height: 120,
-        top: 230,
-        left: 90,
-        opacity: 0.4
+        margin:20
     },
-    lock3: {
-        width: 130,
-        height: 120,
-        top: 115,
-        right: 90,
-        opacity: 0.4
+    header: {
+        alignItems: 'center',
+        marginTop: 35,
+        marginBottom: 30,
+        padding:5
     },
-    star: {
-        width: 130,
-        height: 120,
-        top: 260,
-        right: 90,
+    subtitle: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    idtext: {
+        fontSize: 15,
+        fontWeight: '400'
     }
 });
 
