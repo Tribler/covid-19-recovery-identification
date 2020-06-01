@@ -44,12 +44,19 @@ class TestCertificateEndpoint(RESTTestBase):
         """
         return await self.make_request(node, 'attestation/certificate/recent', 'GET', {})
 
-    async def make_certificate(self, node, certificate_id, mid):
+    async def make_send_certificate(self, node, certificate_id, mid):
         """
         Forward a request to make a certificate.
         """
         return await self.make_request(node, 'attestation/certificate', 'POST', {'type': 'send',
                                                                                  'certificate_id': certificate_id,
+                                                                                 'mid': mid})
+
+    async def make_delete_certificate(self, node, mid):
+        """
+        Forward a request to delete a certificate.
+        """
+        return await self.make_request(node, 'attestation/certificate', 'POST', {'type': 'delete',
                                                                                  'mid': mid})
 
     async def create_certificate_request(self, node, certificate_id):
@@ -58,7 +65,7 @@ class TestCertificateEndpoint(RESTTestBase):
         """
         peer_list = await self.test_attestation_endpoint.wait_for_peers(node)
         for mid in peer_list:
-            await self.make_certificate(node, certificate_id, mid)
+            await self.make_send_certificate(node, certificate_id, mid)
 
     async def wait_for_outstanding_certificates(self, node):
         """
@@ -90,7 +97,7 @@ class TestCertificateEndpoint(RESTTestBase):
         self.assertEqual(result[0][0], mid)
         self.assertEqual(result[0][1], 'cv19-i')
 
-    async def test_post_certificate(self):
+    async def test_post_send_certificate(self):
         """
         Test the (POST: send) request type.
         """
@@ -109,6 +116,26 @@ class TestCertificateEndpoint(RESTTestBase):
         self.assertEqual(outstanding_certificates, [[b64encode(self.nodes[1].my_peer.mid).decode('utf-8'), 'hepB-v']],
                          "List of outstanding certificates should not be empty")
 
+    async def test_post_delete_certificate(self):
+        """
+        Test the (POST: delete) request type.
+        """
+        outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
+        self.assertEqual(outstanding_certificates, [], "Should be no outstanding certificates")
+
+        await self.introduce_nodes()
+        await self.create_certificate_request(self.nodes[1], 1)
+        mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
+
+        outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
+        self.assertEqual(outstanding_certificates, [[mid, 'cv19-i']],
+                         "List of outstanding certificates should not be empty")
+
+        await self.make_delete_certificate(self.nodes[0], mid)
+
+        outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
+        self.assertEqual(outstanding_certificates, [], "List of outstanding certificates should be deleted")
+
     async def test_post_certificate_wrong(self):
         """
         Test POST request with no args, no peer found.
@@ -117,7 +144,7 @@ class TestCertificateEndpoint(RESTTestBase):
         result = await self.make_request(self.nodes[0], 'attestation/certificate', 'POST', {})
         self.assertEqual(result, {'error': 'parameters or type missing'}, "No args should give error but didn't.")
 
-        result2 = await self.make_certificate(self.nodes[0], 1, b64encode(b"notapeer").decode('utf-8'))
+        result2 = await self.make_send_certificate(self.nodes[0], 1, b64encode(b"notapeer").decode('utf-8'))
         self.assertEqual(result2, {'error': 'peer unknown'}, "Peer should not be known while post certificate.")
 
         await self.introduce_nodes()
