@@ -55,13 +55,17 @@ class CertCommunity(Community):
         """
         Add the certificate as peer -> certificate.
         """
-        peer_id = b64encode(payload.peer_id).decode()
-        self.certificates[peer_id] = self.certificate_map[payload.certificate]
+        peer_id = b64encode(payload.peer_id).decode('utf-8')
+        self.certificates[peer_id + self.certificate_map[payload.certificate]] = \
+        (peer_id, self.certificate_map[payload.certificate])
         # Persist the certificates with every new certificate received.
         self.write_certificates_file(self.working_directory)
 
-    def on_delete_certificate(self, peer):
-        self.certificates.pop(peer, None)
+    def on_delete_certificate(self, key):
+        """
+        Delete the certificate in the certificates dictionary by 
+        """
+        self.certificates.pop(key, None)
         # Persist the certificates after deleting certificate.
         self.write_certificates_file(self.working_directory)
 

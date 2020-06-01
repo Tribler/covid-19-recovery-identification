@@ -7,10 +7,9 @@ import AcceptButton from '../components/AcceptButton';
 import CertificateView from './CertificateView';
 
 interface InboxCertificateProps {
-    listID : number,
+    listID : string,
     certificate: Certificate,
     deleteCert: Function,
-    onClick: Function
 }
 
 const checkUserIsOwner = (userId: string, id: string) => {

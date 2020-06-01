@@ -28,7 +28,7 @@ const InboxScreen: React.FC = () => {
     // function to remove certificates in the certificates list
     const deleteCert = (id: string) => {
         setCertificates((certificates) => {
-            return certificates.filter((certificate) => certificate[0] + certificate[1] !== id);
+            return certificates.filter((certificate) => certificate.id !== id);
         });
     };
 
@@ -41,15 +41,12 @@ const InboxScreen: React.FC = () => {
             <View>
                 <FlatList // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item[0] + item[1]}
+                    keyExtractor={(item, index) => item.id} // 
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                          <CertificateViewInbox
-                             listID={item[0] + item[1]}
-                             certificate={{creatorID:item[0], holderID: "0", type: item[1]}}
+                             listID={item.id} // the id of every certificate is used as identifier
+                             certificate={{creatorID:item.certificate[0], holderID: "0", type: item.certificate[1]}}
                              deleteCert={deleteCert}
-                        //     // we pass the deleteCert function as a prop to the certificateview, which passes it to deletebutton
-                        //     // TODO: Maybe refactor button? idk
-                             onClick={() => console.log("wooow")}
                          />
                     )}
                 />
