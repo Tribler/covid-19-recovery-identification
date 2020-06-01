@@ -72,5 +72,11 @@ class CertificateEndpoint(AttestationEndpoint):
                 return Response({"success": True})
             else:
                 return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
+
+        elif args['type'] == 'delete':
+            mid_b64 = args['mid']
+            self.certificate_overlay.on_delete_certificate(mid_b64)
+            return Response({"success": True})
+
         else:
             return Response({"error": "type argument incorrect"}, status=HTTP_BAD_REQUEST)
