@@ -6,7 +6,7 @@ import DeclineButton from '../components/DeclineButton';
 import AcceptButton from '../components/AcceptButton';
 
 interface CertificateProps {
-    listID : number,
+    listID: number,
     certificate: Certificate,
     deleteCert: Function,
     onClick: Function

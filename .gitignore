@@ -36,3 +36,10 @@ buck-out/
 
 # Bundle artifacts
 *.jsbundle
+
+# Unit test/ coverage reports
+.nox/
+.coverage
+
+# Byte-compiled / optimized / DLL files
+__pycache__/

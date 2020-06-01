@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, FlatList, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import Attribute from "../components/Attribute";
@@ -12,30 +12,26 @@ const AttestationScreen: React.FC = () => {
 
     useEffect(() => {
         fetch(state.serverURL + '/attestation?type=attributes')
-          .then((response) => response.json())
-          .then((json) => setData(json))
-          .catch((error) => console.error(error));
-      }, []);
-
+            .then((response) => response.json())
+            .then((json) => setData(json))
+            .catch((error) => console.error(error));
+    }, []);
 
     return (
         <View>
-            <View style = {styles.header}>
-                <Text style = {styles.title}>Attestations</Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>Attestations</Text>
             </View>
-
             <Text> Hello World </Text>
             {console.log(data[0])}
-            <FlatList 
-            data={data}
-            renderItem={({ item }) => (
-                <Attribute 
-                    attributeName={JSON.stringify(item[0])}
-                    attester={JSON.stringify(item[3])}
-                    attributeValue = {JSON.stringify(item[1])}
-                />
-              )}
-            />
+            <FlatList
+                data={data}
+                renderItem={({ item }) => (
+                    <Attribute
+                        attributeName={JSON.stringify(item[0])}
+                        attester={JSON.stringify(item[3])}
+                        attributeValue={JSON.stringify(item[1])} />
+                )} />
             <DrawerButton />
             <HelpButton />
         </View>

@@ -1,6 +1,6 @@
-import { Certificate, State } from "../Store"
+import { State } from "../Store"
 
-const GetCertificates = (state : State) => {
+const GetCertificates = (state: State) => {
     var xhr = new XMLHttpRequest();
     const url = state.serverURL + "/attestation/certificate/recent"
     xhr.open("GET", url, true);

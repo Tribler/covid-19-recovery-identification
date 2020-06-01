@@ -1,6 +1,7 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity} from "react-native";
 import { useTrackedState } from "../Store";
+
 
 interface DeclineProps {
   attester: string,
@@ -42,8 +43,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ attester, listID, deleteCert }:
           marginRight: 200,
           bottom: 9,
           right: 3,
-        }}
-      >
+        }}>
         <Text
           style={{
             fontWeight: "bold",
@@ -52,10 +52,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ attester, listID, deleteCert }:
             height: 35,
             textAlign: "center",
             textAlignVertical: "center",
-          }}
-        >
-          DECLINE
-        </Text>
+          }}> DECLINE </Text>
       </View>
     </TouchableOpacity>
   );

@@ -19,9 +19,9 @@ type Certificate = {
     type: string
 }
 
-type OutstandingRequest ={
+type OutstandingRequest = {
     creatorID: string
-    type : string
+    type: string
 }
 
 var defaultState: State = {

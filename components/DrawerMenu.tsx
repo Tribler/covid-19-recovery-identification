@@ -23,9 +23,9 @@ const DrawerMenu: React.FC = () => {
           {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen} /> : <></>}
           <Drawer.Screen name="Inbox" component={InboxScreen} />
           {state.attester ? <Drawer.Screen name="Outstanding" component={OutstandingScreen} /> : <></>}
-          <Drawer.Screen name="Attestations" component={AttestationScreen}/>
+          <Drawer.Screen name="Attestations" component={AttestationScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Help" component={HelpScreen}/>
+          <Drawer.Screen name="Help" component={HelpScreen} />
         </Drawer.Navigator>
       </NavigationContainer> : <LoginScreen />
   )
