@@ -4,6 +4,7 @@ import { Divider } from 'react-native-paper'
 import { Certificate, useTrackedState } from '../Store'
 import DeclineButton from '../components/DeclineButton';
 import AcceptButton from '../components/AcceptButton';
+import CertificateView from './CertificateView';
 
 interface CertificateProps {
     certificate: Certificate
@@ -13,14 +14,10 @@ const checkUserIsOwner = (userId: string, id: string) => {
     return (userId == id ? "You" : id)
 }
 
-const CertificateView: React.FC<CertificateProps> = ({certificate}: CertificateProps) => {
+const CertificateViewDashboard: React.FC<CertificateProps> = ({certificate}: CertificateProps) => {
     const state = useTrackedState()
     return (
-        <Divider accessibilityStates={['disabled']} style={styles.container}>
-            <Text style={styles.labelDivision}>{"Type: " + certificate.type}</Text>
-            {/* <Text style={styles.labelDivision}>{"Holder: " + checkUserIsOwner(state.ID, certificate.holderID)}</Text> */}
-            <Text style={styles.labelDivision}>{"Creator: " + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
-        </Divider>
+        <CertificateView certificate = {certificate}/>
     )
 }
 
@@ -52,4 +49,4 @@ const certificateStyle = {
     font: 'Open Sans',
 }
 
-export default CertificateView
+export default CertificateViewDashboard

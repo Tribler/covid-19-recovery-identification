@@ -23,19 +23,20 @@ const HelpScreen: React.FC = () => {
                     <B>Verifier</B>: the person/organization checking the document validity.{"\n\n"}
                     <B>Chain</B>: the Holder's stored data{"\n"}
                 </Paragraph>
-                <Title>The Holder Process</Title>
+                <Title>The Holder Process {state.attester ? "" : "(you)"}</Title>
                 <Paragraph>
                     1. An <B>Attester</B> will send you a request to add data to your <B>Chain</B>, this request shows up in your <B>Inbox</B>. {"\n\n"}
                     2. You can decide wheter to add that data to your <B>Chain</B>, if you choose to add it the <B>Attester</B> will be sent a request to sign the data.{"\n\n"}
                     3. Once the Attester signs the data you can find the proof in your <B>Dashboard</B>.{"\n\n"}
                     4. You can click a proof on your <B>Dashboard</B> in order to send it to a <B>Verifier</B>.{"\n\n"}
                 </Paragraph>
-                {state.attester ? <><Title>The Attester Process</Title>
-                    <Paragraph>
-                        1. Once you have data you want to add to a <B>Holder's</B> <B>Chain</B> go to the <B>New Certificate</B> screen, choose certificate type and enter the Holder's ID, the <B>Holder</B> will be notified as soon as you create a certificate . {"\n\n"}
-                        2. If the <B>Holder</B> chooses to add that data to their <B>Chain</B> you will get a notification asking you to sign the data.{"\n\n"}
-                        3. Once you sign the data the <B>Holder</B> will get notified and they can show that data to a <B>Verifier</B>.{"\n\n"}
-                    </Paragraph></> : <></>}
+                {state.attester ? <><Title>The Attester Process {state.attester ? "(you)" : ""}</Title>
+                <Paragraph>
+                    1. Once you have data you want to add to a <B>Holder's</B> <B>chain</B> go to the <B>New Certificate</B> screen, choose certificate type and enter the Holder's ID,
+                        the <B>Holder</B> will be notified as soon as you create a certificate . {"\n\n"}
+                    2. If the <B>Holder</B> chooses to add that data to their <B>chain</B> you will get a notification asking you to sign the data.{"\n\n"}
+                    3. Once you sign the data the <B>Holder</B> will get notified and they can show that data to a <B>Verifier</B>.{"\n\n"}
+                </Paragraph></> : <></>}
             </View>
             <DrawerButton />
         </ScrollView>
