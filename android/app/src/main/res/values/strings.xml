@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Immune</string>
+    <string name="foreground_service_text">Certification Service</string>
+    <string name="foreground_service_description">This is the Certification Service!</string>
+    <string name="foreground_channel_text">Certification Service Channel</string>
+    <string name="foreground_channel_description">This is the Certification Service Channel!</string>
+</resources>

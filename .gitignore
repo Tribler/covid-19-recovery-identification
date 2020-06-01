@@ -1,0 +1,38 @@
+# General keystores, build and report folders
+#
+*.hprof
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
+
+# OSX
+#
+.DS_Store
+
+# Android/IntelliJ
+#
+*.apk
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
+node_modules/
+npm-debug.*
+yarn-error.log
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+
+# Bundle artifacts
+*.jsbundle
