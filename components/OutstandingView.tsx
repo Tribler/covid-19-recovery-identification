@@ -20,23 +20,20 @@ const OutstandingView: React.FC<OutstandingProps> = ({ listID, outstanding, dele
         <View >
             <Text >Type: {outstanding.type}, Creator: {outstanding.creatorID}</Text>
             <View style={styles.buttonPair}>
-                    <AcceptButton
-                     attester={outstanding.creatorID}
-                     deleteCert={deleteOutstanding}
-                     listID={listID}
-                     type={outstanding.type}
-                     postType={1}
-                    />
-                    <Text>{"\r"}</Text>
-                    <DeclineButton
-                     listID={listID} 
-                     deleteCert={deleteOutstanding} // we pass the deleteCert function from inboxscreen to the declinebutton
-                     />  
+                <AcceptButton
+                    attester={outstanding.creatorID}
+                    deleteCert={deleteOutstanding}
+                    listID={listID}
+                    type={outstanding.type}
+                    postType={1} />
+                <Text>{"\r"}</Text>
+                <DeclineButton
+                    listID={listID}
+                    deleteCert={deleteOutstanding} /> { /* we pass the deleteCert function from inboxscreen to the declinebutton */ }
             </View>
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     buttonPair: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 
 interface DeclineProps {
   listID: number,
@@ -9,8 +9,7 @@ interface DeclineProps {
 const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclineProps) => {
   return (
     <TouchableOpacity
-      onPress={() => deleteCert(listID)} //if pressed, delete the certficiate with the id which this button is attached to
-    >
+      onPress={() => deleteCert(listID)} > {/* if pressed, delete the certficiate with the id which this button is attached to  */}
       <View
         style={{
           backgroundColor: "red",
@@ -19,8 +18,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclinePr
           marginRight: 200,
           bottom: 9,
           right: 3,
-        }}
-      >
+        }}>
         <Text
           style={{
             fontWeight: "bold",
@@ -29,10 +27,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclinePr
             height: 35,
             textAlign: "center",
             textAlignVertical: "center",
-          }}
-        >
-          DECLINE
-        </Text>
+          }}> DECLINE </Text>
       </View>
     </TouchableOpacity>
   );

@@ -27,7 +27,7 @@ const LoginScreen: React.FC = () => {
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
-                }}>
+                }} >
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
             </TouchableOpacity>

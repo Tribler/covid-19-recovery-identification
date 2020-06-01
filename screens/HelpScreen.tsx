@@ -1,35 +1,34 @@
 
 import React from "react";
-import {View, StyleSheet,Text } from "react-native";
-import DrawerButton from "../components/DrawerButton";
+import { View, StyleSheet, Text } from "react-native";
 import { Paragraph, Title } from "react-native-paper";
-import { useTrackedState } from "../Store";
 import { ScrollView } from "react-native-gesture-handler";
+import DrawerButton from "../components/DrawerButton";
+import { useTrackedState } from "../Store";
 
-const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>
+const B = (props) => <Text style={{ fontWeight: 'bold' }}>{props.children}</Text>
 
 const HelpScreen: React.FC = () => {
     const state = useTrackedState()
     return (
         <ScrollView>
-            <View style = {styles.header}>
-                <Text style = {styles.title}>Help</Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>Help</Text>
             </View>
-            <View style = {{margin:10}}>
+            <View style={{ margin: 10 }}>
                 <Title>Key Terms</Title>
                 <Paragraph>
                     <B>Holder {state.attester ? "" : "(you)"}</B>: the person who will receive the document proving something. {"\n\n"}
                     <B>Attester {state.attester ? "(you)" : ""}</B>: the professional issuing the document.{"\n\n"}
                     <B>Verifier</B>: the person/organization checking the document validity.{"\n\n"}
-
-                    <B>chain</B>: the Holder's stored data{"\n"}
+                    <B>Chain</B>: the Holder's stored data{"\n"}
                 </Paragraph>
                 <Title>The Holder Process {state.attester ? "" : "(you)"}</Title>
                 <Paragraph>
-                    1. An <B>Attester</B> will send you a request to add data to your <B>chain</B>, this request shows up in your <B>inbox</B>. {"\n\n"}
-                    2. You can decide wheter to add that data to your <B>chain</B>, if you choose to add it the <B>Attester</B> will be sent a request to sign the data.{"\n\n"}
-                    3. Once the attester signs the data you can find the proof in your <B>dashboard</B>.{"\n\n"}
-                    4. You can click a proof on your <B>dashboard</B> in order to send it to a <B>Verifier</B>.{"\n\n"}
+                    1. An <B>Attester</B> will send you a request to add data to your <B>Chain</B>, this request shows up in your <B>Inbox</B>. {"\n\n"}
+                    2. You can decide wheter to add that data to your <B>Chain</B>, if you choose to add it the <B>Attester</B> will be sent a request to sign the data.{"\n\n"}
+                    3. Once the Attester signs the data you can find the proof in your <B>Dashboard</B>.{"\n\n"}
+                    4. You can click a proof on your <B>Dashboard</B> in order to send it to a <B>Verifier</B>.{"\n\n"}
                 </Paragraph>
                 {state.attester ? <><Title>The Attester Process {state.attester ? "(you)" : ""}</Title>
                 <Paragraph>
@@ -39,9 +38,8 @@ const HelpScreen: React.FC = () => {
                     3. Once you sign the data the <B>Holder</B> will get notified and they can show that data to a <B>Verifier</B>.{"\n\n"}
                 </Paragraph></> : <></>}
             </View>
-
             <DrawerButton />
-            </ScrollView>
+        </ScrollView>
     )
 }
 

@@ -19,10 +19,10 @@ const InboxScreen: React.FC = () => {
 
     useEffect(() => {
         fetch(url)
-          .then((response) => response.json())
-          .then((json) => setCertificates(json))
-          .catch((error) => console.error(error));
-      }, []);
+            .then((response) => response.json())
+            .then((json) => setCertificates(json))
+            .catch((error) => console.error(error));
+    }, []);
 
 
     // function to remove certificates in the certificates list
@@ -39,7 +39,7 @@ const InboxScreen: React.FC = () => {
                 <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
             <View>
-                <FlatList                   // we use FlatList to provide list functionality
+                <FlatList // we use FlatList to provide list functionality
                     data={certificates}
                     keyExtractor={(item, index) => item[0] + item[1]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin:5,
+        margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',
