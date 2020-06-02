@@ -6,6 +6,15 @@ import { Button } from 'react-native-paper';
 import GetCertificates from '../network/getCertificates';
 import { State, useTrackedState } from '../Store';
 
+/**
+ * used to toggle the dark theme for the app
+ * @param darkTheme whether to set it to dark or light depending on the option clicked.
+ * @param state the state, details can be found in Store.tsx
+ */
+const toggleDark = (darkTheme:boolean, state:State) => {
+    state.darkMode = darkTheme
+}
+
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
 */
@@ -13,9 +22,9 @@ const Dashboard: React.FC = () => {
     const state = useTrackedState()
 
     return (
-        <View style={styles.light}>
-            <Text style={styles.lighttext}>My Dashboard</Text>
-            <Text style={styles.instructions} >You can find your signed proofs below</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
+            <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
             <View>
                 <Image
                     resizeMode="cover"
@@ -139,6 +148,11 @@ const styles = StyleSheet.create({
     instructions: {
         marginTop: "20%",
         marginBottom: "-44%"
+    },
+    instructionsDark: {
+        marginTop: "20%",
+        marginBottom: "-44%",
+        color: "#fff"
     },
     rectangle: {
         width: "37%",

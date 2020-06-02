@@ -11,6 +11,7 @@ type State = {
     ID: string
     attester: boolean
     serverURL: string
+    darkMode: boolean
 }
 
 type Certificate = {
@@ -28,6 +29,7 @@ var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
+    darkMode: false,
     serverURL: "http://localhost:14411" 
 }
 

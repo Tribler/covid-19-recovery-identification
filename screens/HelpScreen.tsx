@@ -80,6 +80,13 @@ const styles = StyleSheet.create({
         fontFamily: "Sans-serif",
         color: "#000"
     },
+    titleDark: {
+        position: "relative",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin: 5,
@@ -87,7 +94,15 @@ const styles = StyleSheet.create({
         color: "#000",
         textAlign: 'center',
         justifyContent: 'center'
-    }
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin: 5,
+        fontFamily: "Sans-serif",
+        color: "#fff",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
 })
 
 export default HelpScreen;
