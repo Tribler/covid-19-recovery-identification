@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { createContainer } from "react-tracked";
-import UpdateID from "./network/UpdateID"
+import UpdateID from "./network/UpdateID";
+import produce, { Draft } from "immer";
 
 /*
 The store contains all data types and functions related to the global state of the React app, it defines what the global state contains and what the initial value is
@@ -20,24 +21,34 @@ type Certificate = {
     type: string
 }
 
-type OutstandingRequest ={ 
+type OutstandingRequest = {
     creatorID: string
-    type : string
+    type: string
 }
 
 var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
-    darkMode: false,
-    serverURL: "http://localhost:14411" 
+    serverURL: "http://localhost:8085",
+    darkMode: false
 }
 
 UpdateID(defaultState)
 
 const useValue = () => useState(defaultState);
 
-const { Provider, useTrackedState } = createContainer(useValue);
+const { Provider, useTrackedState, useUpdate } = createContainer(useValue);
+
+const useSetDraft = () => {
+    const setState = useUpdate();
+    return useCallback(
+        (draftUpdater: (draft: Draft<State>) => void) => {
+            setState(produce(draftUpdater));
+        },
+        [setState]
+    );
+};
 
 export { Certificate, State, OutstandingRequest };
-export { Provider, useTrackedState };
+export { Provider, useTrackedState, useSetDraft };
