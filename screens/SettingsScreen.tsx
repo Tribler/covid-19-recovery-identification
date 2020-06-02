@@ -21,8 +21,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={state.darkMode ? styles.settingDark : styles.setting}>Push Notifications</Text>
             <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
-            {/* <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text  onPress={() => toggleDark(false, state)}>Light</Text> / <Text  onPress={() => toggleDark(true, state)}>Dark</Text></Text> */}
-            <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight}>Light</Text> / <Text onPress={() => toggleDark}>Dark</Text></Text>
+            <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout(state)}>Log out</Text>
             <DrawerButton/>
