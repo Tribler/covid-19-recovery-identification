@@ -3,15 +3,8 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState, State} from '../Store';
-
-/**
- * used to toggle the dark theme for the app
- * @param darkTheme whether to set it to dark or light depending on the option clicked.
- * @param state the state, details can be found in Store.tsx
- */
-const toggleDark = (darkTheme:boolean, state:State) => {
-    state.darkMode = darkTheme
-}
+import { useToggleDark} from '../hooks/useToggleDark';
+import { useToggleLight } from '../hooks/useToggleLight';
 
 const logout = (state:State) => {
     state.loggedIn = false
@@ -19,14 +12,17 @@ const logout = (state:State) => {
 
 const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
-        return (
+    const toggleDark = useToggleDark()
+    const toggleLight = useToggleLight()
+    
+    return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <Text style={state.darkMode ? styles.darktext : styles.lighttext}>Settings</Text>
             <Text style={state.darkMode ? styles.settingDark : styles.setting}>Push Notifications</Text>
             <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
             {/* <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text  onPress={() => toggleDark(false, state)}>Light</Text> / <Text  onPress={() => toggleDark(true, state)}>Dark</Text></Text> */}
-            <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => state.darkMode = false}>Light</Text> / <Text onPress={() => state.darkMode = true}>Dark</Text></Text>
+            <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight}>Light</Text> / <Text onPress={() => toggleDark}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout(state)}>Log out</Text>
             <DrawerButton/>
