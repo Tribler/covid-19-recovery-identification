@@ -38,7 +38,7 @@ class CertificateEndpoint(AttestationEndpoint):
         formatted = []
         for k, v in self.certificate_overlay.certificates.items():
             formatted.append([k, v])
-        return Response([(x, y) for x, y in formatted], status=200)
+        return Response([{"id": x, "certificate": y} for x, y in formatted], status=200)
 
     async def id_get(self, request):
         """

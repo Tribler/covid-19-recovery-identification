@@ -75,7 +75,9 @@ class TestCertificateEndpoint(RESTTestBase):
         while not outstanding_requests:
             await sleep(.1)
             outstanding_requests = await self.make_outstanding_certificates(node)
-        return [(x[0], x[1]) for x in outstanding_requests]
+        return [x for x in outstanding_requests]
+
+    # (x[0], x[1])
 
     async def test_get_id(self):
         """
@@ -94,8 +96,7 @@ class TestCertificateEndpoint(RESTTestBase):
 
         result = await self.wait_for_outstanding_certificates(self.nodes[0])
         mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
-        self.assertEqual(result[0][0], mid)
-        self.assertEqual(result[0][1], 'cv19-i')
+        self.assertEqual(result[0], {"id": mid + "cv19-i", "certificate": [mid, 'cv19-i']})
 
     async def test_post_send_certificate(self):
         """
@@ -106,32 +107,32 @@ class TestCertificateEndpoint(RESTTestBase):
 
         await self.introduce_nodes()
         await self.create_certificate_request(self.nodes[1], 1)
+        mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
 
         outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
-        self.assertEqual(outstanding_certificates, [[b64encode(self.nodes[1].my_peer.mid).decode('utf-8'), 'cv19-i']],
+        self.assertEqual(outstanding_certificates, [{"id": mid + "cv19-i", "certificate": [mid, 'cv19-i']}],
                          "List of outstanding certificates should not be empty")
 
         await self.create_certificate_request(self.nodes[1], 2)
         outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
-        self.assertEqual(outstanding_certificates, [[b64encode(self.nodes[1].my_peer.mid).decode('utf-8'), 'hepB-v']],
-                         "List of outstanding certificates should not be empty")
+        self.assertEqual(outstanding_certificates, [{"id": mid + "cv19-i", "certificate": [mid, 'cv19-i']},
+                                                    {"id": mid + "hepB-v", "certificate": [mid, 'hepB-v']}
+                                                    ],
+                         "List of outstanding certificates should include two certificates.")
 
     async def test_post_delete_certificate(self):
         """
         Test the (POST: delete) request type.
         """
-        outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
-        self.assertEqual(outstanding_certificates, [], "Should be no outstanding certificates")
-
         await self.introduce_nodes()
         await self.create_certificate_request(self.nodes[1], 1)
         mid = b64encode(self.nodes[1].my_peer.mid).decode('utf-8')
 
         outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
-        self.assertEqual(outstanding_certificates, [[mid, 'cv19-i']],
+        self.assertEqual(outstanding_certificates, [{"id": mid + "cv19-i", "certificate": [mid, 'cv19-i']}],
                          "List of outstanding certificates should not be empty")
 
-        await self.make_delete_certificate(self.nodes[0], mid)
+        await self.make_delete_certificate(self.nodes[0], mid + "cv19-i")
 
         outstanding_certificates = await self.make_outstanding_certificates(self.nodes[0])
         self.assertEqual(outstanding_certificates, [], "List of outstanding certificates should be deleted")
