@@ -14,7 +14,7 @@ const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
     const toggleDark = useToggleDark()
     const toggleLight = useToggleLight()
-    
+
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <Text style={state.darkMode ? styles.darktext : styles.lighttext}>Settings</Text>
@@ -26,7 +26,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout(state)}>Log out</Text>
             <DrawerButton/>
-            <HelpButton/>
+            <HelpButton/> 
         </View>
     )
 }
