@@ -1,15 +1,21 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity} from "react-native";
+import { useTrackedState } from "../Store";
+import {DeleteCertificate} from "../network/NetworkCalls"
 
 interface DeclineProps {
-  listID: number,
+  listID: string,
   deleteCert: Function,
 }
 
 const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclineProps) => {
+  const state = useTrackedState()
+
   return (
     <TouchableOpacity
-      onPress={() => deleteCert(listID)} //if pressed, delete the certficiate with the id which this button is attached to
+      onPress={() =>{
+         DeleteCertificate(state, listID);
+         deleteCert(listID)}} //if pressed, delete the certficiate with the id which this button is attached to
     >
       <View
         style={{
@@ -19,8 +25,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclinePr
           marginRight: 200,
           bottom: 9,
           right: 3,
-        }}
-      >
+        }}>
         <Text
           style={{
             fontWeight: "bold",
@@ -29,10 +34,7 @@ const DeclineButton: React.FC<DeclineProps> = ({ listID, deleteCert }: DeclinePr
             height: 35,
             textAlign: "center",
             textAlignVertical: "center",
-          }}
-        >
-          DECLINE
-        </Text>
+          }}> DECLINE </Text>
       </View>
     </TouchableOpacity>
   );

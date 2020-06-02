@@ -6,50 +6,48 @@ import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
+
+const getPeers = (url : string, setCertificates : Function) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => setCertificates(json))
+      .catch((error) => console.error(error));
+  }
 /*
- * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
- * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
+ * The Peer Screen contains all the other users connected to the network. After being opened the screen automatically checks for new peers every 5 seconds.
 */
 
-const InboxScreen: React.FC = () => {
+const PeerScreen: React.FC = () => {
 
     const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
-    const url = state.serverURL + '/attestation/certificate/recent'
+    const url = state.serverURL + '/attestation?type=peers'
 
+    const updateInterval = 5000; //how many milliseconds between checking for new peers
+    
     useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => setCertificates(json))
-            .catch((error) => console.error(error));
-    }, []);
-
-
-    // function to remove certificates in the certificates list
-    const deleteCert = (id: string) => {
-        setCertificates((certificates) => {
-            return certificates.filter((certificate) => certificate.id !== id);
-        });
-    };
+        const interval = setInterval(() => {            
+            getPeers(url, setCertificates)
+        }, updateInterval);
+        return () => clearInterval(interval);
+      }, []);
 
     return (
         <View style={styles.light}>
             <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+                <Text style = {styles.lighttext}>Peers</Text>
+                <Text style = {styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
-                <FlatList // we use FlatList to provide list functionality
+                <Button onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
+                {certificates.length == 0 ? <Text>NO PEERS FOUND</Text> : 
+                <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item.id} // 
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateViewInbox
-                             listID={item.id} // the id of every certificate is used as identifier
-                             certificate={{creatorID:item.certificate[0], holderID: "0", type: item.certificate[1]}}
-                             deleteCert={deleteCert}
-                         />
+                        <Text>{item}</Text>
                     )}
                 />
+                }
             </View>
             <DrawerButton />
             <HelpButton />
@@ -57,10 +55,6 @@ const InboxScreen: React.FC = () => {
     );
 };
 
-/**
- * various styles for use in various situations. For example, white text in a potential
- * dark mode or black text in the current light mode.
- */
 const styles = StyleSheet.create({
     dropdown: {
         backgroundColor: "#fff",
@@ -77,20 +71,17 @@ const styles = StyleSheet.create({
     },
     darktext: {
         position: "relative",
-        marginTop: "3%",
         fontWeight: "bold",
-        fontSize: 40,
+        fontSize: 60,
         fontFamily: "Sans-serif",
-        color: "#fff"
+        color: "#fff",
     },
     lighttext: {
         position: "relative",
-        marginTop: "3%",
-        marginBottom: "5%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
-        color: "#000"
+        color: "#000",
     },
     dark: {
         flex: 1,
@@ -109,7 +100,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin: 5,
+        margin:5,
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',
@@ -117,4 +108,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default InboxScreen;
+export default PeerScreen;

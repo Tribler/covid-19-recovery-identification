@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Alert, YellowBox} from 'react-native';
+import { StyleSheet, Text, View, Alert, YellowBox } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
@@ -24,25 +24,23 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
         holderID: holder,
         type: certType
     }
-    if(holder){
-    CreateCertificate(certificate, state);
+    if (holder) {
+        CreateCertificate(certificate, state);
     }
-    else{
+    else {
         Alert.alert(
             'Failure',
             'Please enter ID',
             [
-              {
-                text: 'Understood',
-                style: 'cancel',
-              },
+                {
+                    text: 'Understood',
+                    style: 'cancel',
+                },
             ],
-            {cancelable: true},
-          );
+            { cancelable: true },
+        );
     }
 }
-
-
 
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("1")
@@ -53,18 +51,15 @@ const NewCertificateScreen: React.FC = () => {
     ]
     return (
         <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>New Certificate</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            <View style={styles.header}>
+                <Text style={styles.lighttext}>New Certificate</Text>
+                <Text style={styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
-
             <View style={styles.dropdown} >
                 <Dropdown
                     data={options}
                     label="Choose..."
-                    onChangeText = {(value:string, index:number) => setCertificateType((index +1).toString()) }
-                >
-                    
+                    onChangeText={(value: string, index: number) => setCertificateType((index + 1).toString())} >
                 </Dropdown>
             </View>
             <TextInput
@@ -74,17 +69,15 @@ const NewCertificateScreen: React.FC = () => {
                 label="Holder ID">
             </TextInput>
             <Button
-             mode="contained" 
-             onPress={() => 
-                {
+                mode="contained"
+                onPress={() => {
                     createNewCertificate(state.ID, holderID, certificateType, state)
                     setHolderID("");
-                }
-            }>
-              CREATE CERTIFICATE
-              </Button>
+                }} >
+                CREATE CERTIFICATE
+            </Button>
             <DrawerButton />
-            <HelpButton/>
+            <HelpButton />
         </View>
     )
 }

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "start": "react-native start"
+    "start": "react-native start",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@babel/core": "^7.9.6",
@@ -20,7 +21,7 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-paper": "^3.10.1",
     "react-native-reanimated": "^1.8.0",
-    "react-native-safe-area-context": "^1.0.2",
+    "react-native-safe-area-context": "^3.0.2",
     "react-native-screens": "^2.7.0",
     "react-native-vector-icons": "^6.6.0",
     "react-tracked": "^1.4.0",
@@ -31,8 +32,5 @@
     "@types/react": "^16.9.35",
     "@types/react-native": "^0.62.10",
     "@types/react-native-material-dropdown": "^0.11.4"
-  },
-  "scripts": {
-   "postinstall": "patch-package"
   }
 }
