@@ -1,4 +1,5 @@
 import {State} from "../Store"
+import {Base64} from "js-base64"
 
 
 /**
