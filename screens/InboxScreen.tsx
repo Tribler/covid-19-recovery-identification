@@ -11,18 +11,20 @@ import HelpButton from "../components/HelpButton";
  * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
 */
 
+const getCertificates = (url : string, setCertificates: Function) => {
+        fetch(url)
+            .then((response) => response.json())
+            .then((json) => setCertificates(json))
+            .catch((error) => console.error(error));
+}
+
 const InboxScreen: React.FC = () => {
 
     const [certificates, setCertificates] = useState([]);
     const state = useTrackedState()
     const url = state.serverURL + '/attestation/certificate/recent'
 
-    useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => setCertificates(json))
-            .catch((error) => console.error(error));
-    }, []);
+    useEffect(() => {getCertificates(url, setCertificates)})
 
 
     // function to remove certificates in the certificates list
@@ -38,19 +40,24 @@ const InboxScreen: React.FC = () => {
                 <Text style = {styles.lighttext}>My Inbox</Text>
                 <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
+            <Button style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
+            <Button style = {{flex:1}} onPress = {() => console.log(certificates)}>DEBUG</Button>
+
+            {certificates.length > 0 ? 
             <View>
                 <FlatList // we use FlatList to provide list functionality
                     data={certificates}
-                    keyExtractor={(item, index) => item.id} // 
+                    keyExtractor={(item) => item[0]} // 
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                          <CertificateViewInbox
-                             listID={item.id} // the id of every certificate is used as identifier
-                             certificate={{creatorID:item.certificate[0], holderID: "0", type: item.certificate[1]}}
+                             listID={item[0]} // the id of every certificate is used as identifier
+                             certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
                              deleteCert={deleteCert}
                          />
                     )}
                 />
             </View>
+             : <Text>There are no pending certificates</Text>}
             <DrawerButton />
             <HelpButton />
         </View>

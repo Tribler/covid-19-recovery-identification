@@ -5,6 +5,7 @@ import HelpButton from '../components/HelpButton';
 import { State, useTrackedState} from '../Store';
 import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
+import { Button } from 'react-native-paper';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -30,6 +31,13 @@ const Dashboard: React.FC = () => {
                 <Text style={styles.instructions} >You can find your earned badges below</Text>
                 <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
             </View>
+
+            <Button
+            mode="outlined"
+            icon="menu"
+            onPress={() => {
+                console.log(certificates);
+            }}> DEBUG </Button>
 
             <View style={styles.badges}>
                 <Image

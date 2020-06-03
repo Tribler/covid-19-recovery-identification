@@ -43,6 +43,7 @@ const PeerScreen: React.FC = () => {
                 {certificates.length == 0 ? <Text>NO PEERS FOUND</Text> : 
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
+                    keyExtractor={(item) => item[0]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                         <Text>{item}</Text>
                     )}
