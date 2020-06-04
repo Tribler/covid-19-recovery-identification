@@ -6,6 +6,7 @@ import { useTrackedState} from '../Store';
 import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import VerificationModal from '../components/VerificationModal';
+import QRModal from '../components/QRModal';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -26,7 +27,7 @@ const Dashboard: React.FC = () => {
 
     const url = state.serverURL + "/attestation?type=attributes"
 
-    useEffect(() => {getAttributes(url, setAttributes)})
+    //useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
         <View style={styles.light}>
@@ -44,7 +45,7 @@ const Dashboard: React.FC = () => {
                         keyExtractor={(item) => item.id} // 
                         renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                             <CertificateViewDashboard
-                                certificate={{creatorID:item.signed, holderID: "0", type: item.id}}
+                                certificate={{creatorID:item.signed, holderID: state.ID, type: item.id}}
                                 modalVisible = {setVerificationVisible}
                                 setSelected= {setSelected}
                             />
@@ -91,6 +92,8 @@ const Dashboard: React.FC = () => {
                   >
                 <VerificationModal attribute={selected} setModalOpen={setVerificationVisible}/>
             </Modal>
+
+            <QRModal></QRModal>
 
             <DrawerButton />
             <HelpButton />
