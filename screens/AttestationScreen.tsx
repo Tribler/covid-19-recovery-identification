@@ -4,9 +4,11 @@ import { Text, View, FlatList, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import Attribute from "../components/Attribute";
 import HelpButton from "../components/HelpButton";
+import { useTrackedState } from "../Store";
 
 const AttestationScreen: React.FC = () => {
     const [data, setData] = useState([]);
+    const state = useTrackedState()
 
     useEffect(() => {
         fetch('http://localhost:14411/attestation?type=attributes')
@@ -16,12 +18,12 @@ const AttestationScreen: React.FC = () => {
       }, []);
 
     return (
-        <View>
-            <View style = {styles.lighttext}>
-                <Text style = {styles.title}>Attestations</Text>
+        <View style = {state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.darktext : styles.lighttext}>
+                <Text style = {state.darkMode ? styles.titleDark : styles.title}>Attestations</Text>
             </View>
 
-            <Text> Hello World </Text>
+            <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}> Hello World </Text>
             {console.log(data[0])}
             <FlatList 
             data={data}
@@ -44,6 +46,20 @@ const AttestationScreen: React.FC = () => {
  * dark mode or black text in the current light mode.
  */
 const styles = StyleSheet.create({
+    dark: {
+        flex: 1,
+        backgroundColor: "#222",
+    },
+    light: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
+    darkColor: {
+        color: "#fff",
+    },
+    lightColor: {
+        color: "#000"
+    },
     darktext: {
         alignItems: "center",
         position: "relative",

@@ -26,6 +26,7 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
     }
     if (holder) {
         CreateCertificate(certificate, state);
+        Alert.alert("certificate sent!");
     }
     else {
         Alert.alert(
@@ -50,12 +51,12 @@ const NewCertificateScreen: React.FC = () => {
         { value: "covid-immunity" }
     ]
     return (
-        <View style={styles.light}>
-            <View style={styles.header}>
-                <Text style={styles.lighttext}>New Certificate</Text>
-                <Text style={styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.headerDark : styles.header}>
+                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>New Certificate</Text>
+                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
-            <View style={styles.dropdown} >
+            <View style={state.darkMode ? styles.dropdownDark : styles.dropdown} >
                 <Dropdown
                     data={options}
                     label="Choose..."
@@ -63,7 +64,7 @@ const NewCertificateScreen: React.FC = () => {
                 </Dropdown>
             </View>
             <TextInput
-                style={styles.textInput}
+                style={state.darkMode ? styles.textInputDark : styles.textInput}
                 value={holderID.toString()}
                 onChangeText={input => setHolderID(input)}
                 label="Holder ID">
@@ -98,10 +99,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 200
     },
+    dropdownDark: {
+        backgroundColor: '#222',
+        fontSize: 15,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        borderWidth: 1,
+        margin: 0,
+        padding: 5,
+        justifyContent: 'center',
+        width: 200
+    },
     textInput: {
         margin: 10,
         width: 200,
-        height: 100
+        height: 100,
+        borderColor: "#000",
+        borderWidth: 1
+    },
+    textInputDark: {
+        backgroundColor: "#222",
+        color: "#fff",
+        margin: 10,
+        width: 200,
+        height: 100,
+        borderColor: "#000",
+        borderWidth: 1
     },
     darktext: {
         position: "relative",
@@ -135,11 +158,25 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 30
     },
+    headerDark: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30,
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
     }
