@@ -5,29 +5,28 @@ import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
 import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
-import { Button} from 'react-native-paper';
 import VerificationModal from '../components/VerificationModal';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
 */
 
-const getCertificates = (url : string, setCertificates: Function) => {
+const getAttributes = (url : string, setAttributes: Function) => {
     fetch(url)
         .then((response) => response.json())
-        .then((json) => setCertificates(json))
+        .then((json) => setAttributes(json))
         .catch((error) => console.error(error));
 }
 
 const Dashboard: React.FC = () => {
-    const [certificates, setCertificates] = useState([{id: "covid-19-immunity", signed: "bobbymcfly"}, {id: "answers", signed: "themachine"}]);
+    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly"}, {id: "answers", signed: "themachine"}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:""})
     const state = useTrackedState()
 
     const url = state.serverURL + "/attestation?type=attributes"
 
-    //useEffect(() => {getCertificates(url, setCertificates)})
+    useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
         <View style={styles.light}>
@@ -37,11 +36,11 @@ const Dashboard: React.FC = () => {
                 <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
             </View>
 
-            {certificates.length > 0 ? 
+            {attributes.length > 0 ? 
             <View>
                 <View style = {{minHeight: 200}}>
                     <FlatList // we use FlatList to provide list functionality
-                        data={certificates}
+                        data={attributes}
                         keyExtractor={(item) => item.id} // 
                         renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                             <CertificateViewDashboard
@@ -90,7 +89,7 @@ const Dashboard: React.FC = () => {
                     setVerificationVisible(false)
                   }}  
                   >
-                <VerificationModal certificate={selected} setModalOpen={setVerificationVisible}/>
+                <VerificationModal attribute={selected} setModalOpen={setVerificationVisible}/>
             </Modal>
 
             <DrawerButton />

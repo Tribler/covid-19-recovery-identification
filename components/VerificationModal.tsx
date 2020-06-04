@@ -7,7 +7,7 @@ import { Certificate } from '../Store'
 
 
 interface VerificationModalProps {
-    certificate: Certificate
+    attribute: Certificate
     setModalOpen: Function
   }
 
@@ -16,7 +16,7 @@ const closeshit = (setClosed: Function) => {
     setClosed(true)
 }
 
-const VerificationModal: React.FC<VerificationModalProps> = ({certificate, setModalOpen}:VerificationModalProps) => {
+const VerificationModal: React.FC<VerificationModalProps> = ({attribute, setModalOpen}:VerificationModalProps) => {
     const [verifierID,setVerifierID] = useState("")
 
     return (
@@ -39,7 +39,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({certificate, setMo
                             setModalOpen(false)
 
                         }}
-                        title={"SEND "+ certificate.type+ " PROOF"} >
+                        title={"SEND "+ attribute.type+ " PROOF"} >
                     </Button>
                 </View>
 
