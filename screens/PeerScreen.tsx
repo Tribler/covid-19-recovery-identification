@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Button } from "react-native-paper";
+import Clipboard from "@react-native-community/clipboard";
+import { Button, Snackbar} from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
-import CertificateViewInbox from "../components/CertificateViewInbox";
-import { Certificate, useTrackedState } from "../Store";
+import {useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 
 
@@ -20,6 +20,7 @@ const getPeers = (url : string, setCertificates : Function) => {
 const PeerScreen: React.FC = () => {
 
     const [certificates, setCertificates] = useState([]);
+    const [snackbar, setSnackbar] = useState(false)
     const state = useTrackedState()
     const url = state.serverURL + '/attestation?type=peers'
 
@@ -45,10 +46,27 @@ const PeerScreen: React.FC = () => {
                     data={certificates}
                     keyExtractor={(item) => item[0]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                        <Text>{item}</Text>
+                        <Text 
+                        style={{margin:5}}
+                        onPress={() => {
+                            console.log("Copied ID")
+                            // // Clipboard.setString(item)
+                            // setSnackbar(true)
+                        }}>{item}</Text>
                     )}
                 />
                 }
+            <Snackbar 
+                accessibilityStates = {true}
+                visible={snackbar}
+                onDismiss={() => {setSnackbar(false)}}
+                action={{ 
+                    label: 'Undo',
+                    onPress: () => {
+                        console.log("Undoing");
+                    },
+                }}>
+              Copied peer ID</Snackbar>
             </View>
             <DrawerButton />
             <HelpButton />
