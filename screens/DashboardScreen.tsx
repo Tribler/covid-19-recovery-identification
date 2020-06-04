@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image, Modal} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { State, useTrackedState} from '../Store';
+import { useTrackedState} from '../Store';
 import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
-import { Button } from 'react-native-paper';
+import { Button} from 'react-native-paper';
+import VerificationModal from '../components/VerificationModal';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
 */
 
+const getCertificates = (url : string, setCertificates: Function) => {
+    fetch(url)
+        .then((response) => response.json())
+        .then((json) => setCertificates(json))
+        .catch((error) => console.error(error));
+}
+
 const Dashboard: React.FC = () => {
-    const [certificates, setCertificates] = useState([]);
+    const [certificates, setCertificates] = useState([{id: "covid-19-immunity", signed: "bobbymcfly"}, {id: "answers", signed: "themachine"}]);
+    const [verificationVisible, setVerificationVisible] = useState(false)
+    const [selected, setSelected] = useState({holderID:"", creatorID:"",type:""})
     const state = useTrackedState()
 
     const url = state.serverURL + "/attestation?type=attributes"
 
-    useEffect(() => {
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => setCertificates(json))
-          .catch((error) => console.error(error));
-      }, []);
+    //useEffect(() => {getCertificates(url, setCertificates)})
 
     return (
         <View style={styles.light}>
@@ -32,12 +37,24 @@ const Dashboard: React.FC = () => {
                 <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
             </View>
 
-            <Button
-            mode="outlined"
-            icon="menu"
-            onPress={() => {
-                console.log(certificates);
-            }}> DEBUG </Button>
+            {certificates.length > 0 ? 
+            <View>
+                <View style = {{minHeight: 200}}>
+                    <FlatList // we use FlatList to provide list functionality
+                        data={certificates}
+                        keyExtractor={(item) => item.id} // 
+                        renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                            <CertificateViewDashboard
+                                certificate={{creatorID:item.signed, holderID: "0", type: item.id}}
+                                modalVisible = {setVerificationVisible}
+                                setSelected= {setSelected}
+                            />
+                        )}
+                    />
+                </View>
+            </View>
+            
+             : <Text>You have no signed attributes yet</Text>}
 
             <View style={styles.badges}>
                 <Image
@@ -62,6 +79,20 @@ const Dashboard: React.FC = () => {
                 </Image>
             </View>
             
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={verificationVisible}
+                onRequestClose={() => {
+                    setVerificationVisible(false)
+                  }}
+                onDismiss= {() => {
+                    setVerificationVisible(false)
+                  }}  
+                  >
+                <VerificationModal certificate={selected} setModalOpen={setVerificationVisible}/>
+            </Modal>
+
             <DrawerButton />
             <HelpButton />
         </View>
