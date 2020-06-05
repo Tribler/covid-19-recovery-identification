@@ -1,23 +1,21 @@
 import React from 'react'
 import { Button } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 
-const HelpButton: React.FC = () => {
-    const navigation = useNavigation()
+const QRButton: React.FC = () => {
     return (
         <Button
             accessibilityStates =""
             style={{
                 position: "absolute",
-                top: 0,
-                right: 0,
+                top: 0
             }}
             mode="outlined"
-            icon="help"
+            icon="qrcode"
             onPress={() => {
-                navigation.navigate('Help')
-            }}> Help </Button>
+                console.log("qr");
+                
+            }}> QR </Button>
     )
 }
 
-export default HelpButton
+export default QRButton

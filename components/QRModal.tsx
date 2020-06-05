@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { View, Button, Text, StyleSheet, Modal} from 'react-native'
 import { TouchableOpacity} from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 
 
 
 const QRModal: React.FC = () => {
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
 
     return (
         <Modal
@@ -20,30 +21,25 @@ const QRModal: React.FC = () => {
                 setVisible(false)
                 }}  
                 >
-            <TouchableOpacity
-                onPress={() => setVisible(false)}
-                style={{height:'100%', width:'100%', justifyContent:'center'}}
-                
-            >
-                <View style = {{margin: 10}}>
 
-                <QRCodeScanner
+            <QRCodeScanner
                     onRead={(e) => console.log(e)}
                     topContent={
-                    <Text style={styles.centerText}>
+                      <Text style={styles.centerText}>
                         Go to{' '}
                         <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
                         your computer and scan the QR code.
-                    </Text>
+                      </Text>
                     }
                     bottomContent={
-                    <TouchableOpacity style={styles.buttonTouchable}>
+                      <TouchableOpacity style={styles.buttonTouchable}>
                         <Text style={styles.buttonText}>OK. Got it!</Text>
-                    </TouchableOpacity>
+                      </TouchableOpacity>
                     }
-                />
-                </View>                    
-            </TouchableOpacity>
+                  />
+            <View style = {{margin: 10}}>
+                
+            </View>           
         </Modal>
         
     )

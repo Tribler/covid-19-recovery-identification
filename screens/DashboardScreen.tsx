@@ -7,6 +7,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import VerificationModal from '../components/VerificationModal';
 import QRModal from '../components/QRModal';
+import QRButton from '../components/QRButton';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -93,8 +94,8 @@ const Dashboard: React.FC = () => {
                 <VerificationModal attribute={selected} setModalOpen={setVerificationVisible}/>
             </Modal>
 
-            <QRModal></QRModal>
-
+            <QRModal />
+            <QRButton />
             <DrawerButton />
             <HelpButton />
         </View>
