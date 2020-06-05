@@ -9,7 +9,7 @@ import DeclineButton from './DeclineButton'
  */
 
 interface OutstandingProps {
-    listID: number
+    listID: string
     outstanding: OutstandingRequest
     deleteOutstanding: Function
 
@@ -29,8 +29,8 @@ const OutstandingView: React.FC<OutstandingProps> = ({ listID, outstanding, dele
                 <Text>{"\r"}</Text>
                 <DeclineButton
                     listID={listID}
-                    deleteCert={deleteOutstanding} /> { /* we pass the deleteCert function from inboxscreen to the declinebutton */ }
-            </View>
+                    deleteCert={deleteOutstanding} /> 
+            </View> 
         </View>
     )
 }

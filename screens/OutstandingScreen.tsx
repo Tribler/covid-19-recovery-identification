@@ -21,9 +21,9 @@ const OutstandingScreen: React.FC = () => {
             .catch((error) => console.error(error));
     }, []);
 
-    const deleteOutstanding = (id: number) => {
+    const deleteOutstanding = (id: string) => {
         setOutstanding((outsList) => {
-            return outsList.filter((out) => out[0] + out[1] !== id);
+            return outsList.filter((out) => out[0] + "" +  out[1] !== id);
         });
     };
 
@@ -32,10 +32,10 @@ const OutstandingScreen: React.FC = () => {
         <View>
             <FlatList
                 data={outstanding}
-                keyExtractor={(item, index) => item[0] + item[1]}
+                keyExtractor={(item, index) => item[0] + "" + item[1]}
                 renderItem={({ item }) => (
                     <OutstandingView
-                        listID={item[0] + item[1]}
+                        listID={item[0] + "" + item[1]}
                         outstanding={{ creatorID: item[0], type: item[1] }}
                         deleteOutstanding={deleteOutstanding} />
                 )} />
