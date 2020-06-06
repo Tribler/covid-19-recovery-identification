@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState } from "react";
 import { Text, View, FlatList, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
@@ -11,11 +10,12 @@ const AttestationScreen: React.FC = () => {
     const state = useTrackedState()
 
     useEffect(() => {
-        fetch('http://localhost:14411/attestation?type=attributes')
-          .then((response) => response.json())
-          .then((json) => setData(json))
-          .catch((error) => console.error(error));
-      }, []);
+        fetch(state.serverURL + '/attestation?type=attributes')
+            .then((response) => response.json())
+            .then((json) => setData(json))
+            .catch((error) => console.error(error));
+    }, []);
+
 
     return (
         <View style = {state.darkMode ? styles.dark : styles.light}>
