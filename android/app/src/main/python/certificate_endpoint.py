@@ -33,6 +33,8 @@ class CertificateEndpoint(AttestationEndpoint):
         super(CertificateEndpoint, self).initialize(session)
         self.certificate_overlay = next((overlay for overlay in session.overlays
                                          if isinstance(overlay, CertCommunity)), None)
+        if self.attestation_overlay:
+            self.attestation_overlay.set_attestation_request_callback(self.on_request_attestation_custom)
 
     async def certificate_get(self, request):
         formatted = []
@@ -51,8 +53,8 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         Send a certificate to a peer.
         """
-        if not self.certificate_overlay or not self.identity_overlay:
-            return Response({"error": "certificate or identity community not found"},
+        if not self.certificate_overlay or not self.identity_overlay or not self.attestation_overlay:
+            return Response({"error": "certificate, attestation or dentity community not found"},
                             status=HTTP_NOT_FOUND)
 
         args = request.query
@@ -80,3 +82,7 @@ class CertificateEndpoint(AttestationEndpoint):
 
         else:
             return Response({"error": "type argument incorrect"}, status=HTTP_BAD_REQUEST)
+
+    def on_request_attestation_custom(self, peer, attribute_name, metadata):
+        self.attestation_metadata[(peer, attribute_name)] = metadata
+        return "positive"
