@@ -79,7 +79,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+        enableHermes: false,  // clean and rebuild if changing TODO Check if this works or remove later.
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -144,7 +144,7 @@ android {
                 install "pyipv8 == 2.1.0"
             }
             pyc {
-                src false  // For testing bytecode compilation on device.
+                src false  //TODO This needs to be removed in release!
             }
         }
         ndk {
