@@ -27,7 +27,8 @@ configuration['keys'] = [
 ]
 
 # Only load the basic communities.
-requested_overlays = ['DiscoveryCommunity', 'AttestationCommunity', 'IdentityCommunity']
+requested_overlays = ['DHTDiscoveryCommunity', 'AttestationCommunity',
+                      'IdentityCommunity']
 configuration['overlays'] = [o for o in configuration['overlays']
                              if o['class'] in requested_overlays]
 

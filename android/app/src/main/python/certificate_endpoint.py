@@ -1,9 +1,11 @@
-from base64 import b64encode
+from base64 import b64decode, b64encode
 
 from aiohttp import web
 from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, HTTP_NOT_FOUND, Response
 from ipv8.REST.attestation_endpoint import AttestationEndpoint
 from ipv8.util import cast_to_bin
+from ipv8.dht.community import DHTCommunity
+from ipv8.peer import Peer
 
 from cert_community import CertCommunity
 
@@ -15,7 +17,7 @@ class CertificateEndpoint(AttestationEndpoint):
 
     def __init__(self):
         super(CertificateEndpoint, self).__init__()
-        self.certificate_overlay = self.identity_overlay = None
+        self.certificate_overlay = self.identity_overlay = self.dht = None
 
     def setup_routes(self):
         """
@@ -33,6 +35,7 @@ class CertificateEndpoint(AttestationEndpoint):
         super(CertificateEndpoint, self).initialize(session)
         self.certificate_overlay = next((overlay for overlay in session.overlays
                                          if isinstance(overlay, CertCommunity)), None)
+        self.dht = session.get_overlay(DHTCommunity)
 
     async def certificate_get(self, request):
         formatted = []
@@ -51,8 +54,10 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         Send a certificate to a peer.
         """
-        if not self.certificate_overlay or not self.identity_overlay:
-            return Response({"error": "certificate or identity community not found"},
+        if not self.certificate_overlay or not self.identity_overlay or not \
+                self.dht:
+            return Response({"error": "dhtdiscovery, certificate or identity "
+                                      "community not found"},
                             status=HTTP_NOT_FOUND)
 
         args = request.query
@@ -66,12 +71,18 @@ class CertificateEndpoint(AttestationEndpoint):
             peer = self.get_peer_from_mid(mid_b64)
             if certificate_id not in self.certificate_overlay.certificate_map:
                 return Response({"error": "id not available"})
-
-            if peer:
-                self.certificate_overlay.send_certificate(peer, own_peer, certificate_id)
-                return Response({"success": True})
-            else:
-                return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
+            try:
+                nodes = await self.dht.connect_peer(b64decode(mid_b64))
+            except Exception as e:
+                return Response({
+                        "error": e
+                }, status=500)
+            for node in nodes:
+                peer = Peer(node.public_key.key_to_bin(), node.address)
+                self.identity_overlay.send_introduction_request(peer)
+                self.certificate_overlay.send_certificate(peer, own_peer,
+                                                          certificate_id)
+            return Response({"success": True})
 
         elif args['type'] == 'delete':
             mid_b64 = args['mid']
