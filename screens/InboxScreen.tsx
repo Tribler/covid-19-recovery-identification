@@ -33,10 +33,10 @@ const InboxScreen: React.FC = () => {
     };
 
     return (
-        <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.headerDark : styles.header}>
+                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>My Inbox</Text>
+                <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
             <View>
                 <FlatList // we use FlatList to provide list functionality
@@ -57,33 +57,34 @@ const InboxScreen: React.FC = () => {
     );
 };
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
-    dropdown: {
-        backgroundColor: "#fff",
-        fontSize: 15,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        borderWidth: 1,
-        margin: 15,
-        padding: 5,
-        justifyContent: "center",
-    },
     textInput: {
         margin: 10,
     },
+    textInputDark: {
+        backgroundColor: "#222",
+        margin: 10,
+      },
     darktext: {
         position: "relative",
-        fontWeight: "bold",
-        fontSize: 60,
-        fontFamily: "Sans-serif",
-        color: "#fff",
-    },
-    lighttext: {
-        position: "relative",
+        marginTop: "3%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
-        color: "#000",
+        color: "#fff"
+    },
+    lighttext: {
+        position: "relative",
+        marginTop: "3%",
+        marginBottom: "5%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     dark: {
         flex: 1,
@@ -100,11 +101,26 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 30
     },
+    headerDark: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30,
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        marginTop:25,
+        fontFamily: "Sans-serif",
+        color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
     }

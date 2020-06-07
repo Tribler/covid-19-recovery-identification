@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState } from '../Store';
+import { State, useTrackedState} from '../Store';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
@@ -29,7 +29,10 @@ const OutstandingScreen: React.FC = () => {
 
 
     return (
-        <View>
+        <View style = {state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.darktext : styles.lighttext}>
+                <Text style = {state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
+            </View>
             <FlatList
                 data={outstanding}
                 keyExtractor={(item, index) => item[0] + "" + item[1]}
@@ -37,14 +40,36 @@ const OutstandingScreen: React.FC = () => {
                     <OutstandingView
                         listID={item[0] + "" + item[1]}
                         outstanding={{ creatorID: item[0], type: item[1] }}
-                        deleteOutstanding={deleteOutstanding} />
-                )} />
+                        deleteOutstanding={deleteOutstanding}
+                    />
+                )}
+            />
             <DrawerButton />
         </View>
     )
+
+
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
+    dark: {
+        flex: 1,
+        backgroundColor: "#222",
+    },
+    light: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
+    darkColor: {
+        color: "#fff"
+    },
+    lightColor: {
+        color: "#000"
+    },
     dropdown: {
         backgroundColor: "#fff",
         fontSize: 15,
@@ -65,6 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff",
+        alignItems: "center"
     },
     lighttext: {
         position: "relative",
@@ -73,16 +99,21 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000",
+        alignItems: "center"
     },
-    dark: {
-        flex: 1,
-        backgroundColor: "#222",
-        alignItems: "center",
+    title: {
+        position: "relative",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
-    light: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
+    titleDark: {
+        position: "relative",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     },
 });
 
