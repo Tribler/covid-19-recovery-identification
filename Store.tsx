@@ -17,6 +17,7 @@ type Certificate = {
     creatorID: string
     holderID: string
     type: string
+    hash?:string //only available once the data has been double attested
 }
 
 type OutstandingRequest = {

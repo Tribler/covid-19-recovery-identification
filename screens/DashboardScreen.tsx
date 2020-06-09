@@ -21,7 +21,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 }
 
 const Dashboard: React.FC = () => {
-    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly"}, {id: "answers", signed: "themachine"}]);
+    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:""})
     const state = useTrackedState()
@@ -46,7 +46,7 @@ const Dashboard: React.FC = () => {
                         keyExtractor={(item) => item.id} // 
                         renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                             <CertificateViewDashboard
-                                certificate={{creatorID:item.signed, holderID: state.ID, type: item.id}}
+                                certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
                                 modalVisible = {setVerificationVisible}
                                 setSelected= {setSelected}
                             />
@@ -79,23 +79,8 @@ const Dashboard: React.FC = () => {
                     source={require('../assets/Lock_icon.png')}>
                 </Image>
             </View>
-            
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={verificationVisible}
-                onRequestClose={() => {
-                    setVerificationVisible(false)
-                  }}
-                onDismiss= {() => {
-                    setVerificationVisible(false)
-                  }}  
-                  >
-                <VerificationModal attribute={selected} setModalOpen={setVerificationVisible}/>
-            </Modal>
 
-            <QRModal />
-            <QRButton />
+            <VerificationModal attribute={selected} visible={verificationVisible} setVisible={setVerificationVisible}/>
             <DrawerButton />
             <HelpButton />
         </View>

@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { View, Button, Text, StyleSheet, Modal} from 'react-native'
 import { TouchableOpacity} from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
+
+interface QRModalProps {
+  visible:boolean
+  setVisible:Function
+}
 
 
-
-const QRModal: React.FC = () => {
-    const [visible, setVisible] = useState(false)
+const QRModal: React.FC<QRModalProps> = ({visible,setVisible}) => {
 
     return (
         <Modal
@@ -36,10 +38,7 @@ const QRModal: React.FC = () => {
                         <Text style={styles.buttonText}>OK. Got it!</Text>
                       </TouchableOpacity>
                     }
-                  />
-            <View style = {{margin: 10}}>
-                
-            </View>           
+                  />           
         </Modal>
         
     )
