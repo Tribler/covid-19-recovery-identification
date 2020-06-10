@@ -3,11 +3,9 @@ import { StyleSheet, Text, View, Image, Modal} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import VerificationModal from '../components/VerificationModal';
-import QRModal from '../components/QRModal';
-import QRButton from '../components/QRButton';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -32,57 +30,59 @@ const Dashboard: React.FC = () => {
 
     return (
         <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style={styles.lighttext}>My Dashboard</Text>
-                <Text style={styles.instructions} >You can find your earned badges below</Text>
-                <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
-            </View>
-
-            {attributes.length > 0 ? 
-            <View>
-                <View style = {{minHeight: 200}}>
-                    <FlatList // we use FlatList to provide list functionality
-                        data={attributes}
-                        keyExtractor={(item) => item.id} // 
-                        renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                            <CertificateViewDashboard
-                                certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
-                                modalVisible = {setVerificationVisible}
-                                setSelected= {setSelected}
-                            />
-                        )}
-                    />
+            <ScrollView>
+                <View style = {styles.header}>
+                    <Text style={styles.lighttext}>My Dashboard</Text>
+                    <Text style={styles.instructions} >You can find your earned badges below</Text>
+                    <Text style={styles.idtext}>{"Your ID is: " + state.ID}</Text>   
                 </View>
-            </View>
-            
-             : <Text>You have no signed attributes yet</Text>}
 
-            <View style={styles.badges}>
-                <Image
-                    resizeMode="cover"
-                    style={styles.unlocked}
-                    source={require('../assets/star.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.locked}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.locked}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>    
-                <Image
-                    resizeMode="cover"
-                    style={styles.locked}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-            </View>
+                {attributes.length > 0 ? 
+                <View>
+                    <View style = {{minHeight: 200}}>
+                        <FlatList // we use FlatList to provide list functionality
+                            data={attributes}
+                            keyExtractor={(item) => item.id} // 
+                            renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                                <CertificateViewDashboard
+                                    certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
+                                    modalVisible = {setVerificationVisible}
+                                    setSelected= {setSelected}
+                                />
+                            )}
+                        />
+                    </View>
+                </View>
+                
+                : <Text>You have no signed attributes yet</Text>}
 
-            <VerificationModal attribute={selected} visible={verificationVisible} setVisible={setVerificationVisible}/>
-            <DrawerButton />
-            <HelpButton />
+                <View style={styles.badges}>
+                    <Image
+                        resizeMode="cover"
+                        style={styles.unlocked}
+                        source={require('../assets/star.png')}>
+                    </Image>
+                    <Image
+                        resizeMode="cover"
+                        style={styles.locked}
+                        source={require('../assets/Lock_icon.png')}>
+                    </Image>
+                    <Image
+                        resizeMode="cover"
+                        style={styles.locked}
+                        source={require('../assets/Lock_icon.png')}>
+                    </Image>    
+                    <Image
+                        resizeMode="cover"
+                        style={styles.locked}
+                        source={require('../assets/Lock_icon.png')}>
+                    </Image>
+                </View>
+
+                <VerificationModal attribute={selected} visible={verificationVisible} setVisible={setVerificationVisible}/>
+                <DrawerButton />
+                <HelpButton />
+            </ScrollView>
         </View>
     )
 }

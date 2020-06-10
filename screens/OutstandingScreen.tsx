@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet, View } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
@@ -28,8 +28,8 @@ const OutstandingScreen: React.FC = () => {
     };
 
 
-    return (
-        <View>
+    return (       
+        <ScrollView>
             <FlatList
                 data={outstanding}
                 keyExtractor={(item, index) => item[0] + item[1]}
@@ -40,7 +40,7 @@ const OutstandingScreen: React.FC = () => {
                         deleteOutstanding={deleteOutstanding} />
                 )} />
             <DrawerButton />
-        </View>
+        </ScrollView>
     )
 }
 

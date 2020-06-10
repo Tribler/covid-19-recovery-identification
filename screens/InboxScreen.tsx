@@ -5,6 +5,7 @@ import DrawerButton from "../components/DrawerButton";
 import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
+import { ScrollView } from "react-native-gesture-handler";
 
 /*
  * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
@@ -36,30 +37,32 @@ const InboxScreen: React.FC = () => {
 
     return (
         <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
-            </View>
-            <Button accessibilityStates style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
-            <Button accessibilityStates style = {{flex:1}} onPress = {() => console.log(certificates)}>DEBUG</Button>
+            <ScrollView>
+                <View style = {styles.header}>
+                    <Text style = {styles.lighttext}>My Inbox</Text>
+                    <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+                </View>
+                <Button accessibilityStates style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
+                <Button accessibilityStates style = {{flex:1}} onPress = {() => console.log(certificates)}>DEBUG</Button>
 
-            {certificates.length > 0 ? 
-            <View>
-                <FlatList // we use FlatList to provide list functionality
-                    data={certificates}
-                    keyExtractor={(item) => item[0]} // 
-                    renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateViewInbox
-                             listID={item[0]} // the id of every certificate is used as identifier
-                             certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
-                             deleteCert={deleteCert}
-                         />
-                    )}
-                />
-            </View>
-             : <Text>There are no pending certificates</Text>}
-            <DrawerButton />
-            <HelpButton />
+                {certificates.length > 0 ? 
+                <View>
+                    <FlatList // we use FlatList to provide list functionality
+                        data={certificates}
+                        keyExtractor={(item) => item[0]} // 
+                        renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                            <CertificateViewInbox
+                                listID={item[0]} // the id of every certificate is used as identifier
+                                certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
+                                deleteCert={deleteCert}
+                            />
+                        )}
+                    />
+                </View>
+                : <Text>There are no pending certificates</Text>}
+                <DrawerButton />
+                <HelpButton />
+            </ScrollView>
         </View>
     );
 };
