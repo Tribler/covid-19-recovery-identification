@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { View, Button, Text, StyleSheet, Modal} from 'react-native'
 import { TouchableOpacity} from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import { PostVerification } from '../network/NetworkCalls';
+import { useTrackedState, State } from '../Store';
 
 interface QRModalProps {
   visible:boolean
   setVisible:Function
+  onRead:Function
 }
 
-
-const QRModal: React.FC<QRModalProps> = ({visible,setVisible}) => {
-
+const QRModal: React.FC<QRModalProps> = ({visible,setVisible, onRead}) => {
     return (
         <Modal
             animationType="slide"
@@ -25,7 +26,7 @@ const QRModal: React.FC<QRModalProps> = ({visible,setVisible}) => {
                 >
 
             <QRCodeScanner
-                    onRead={(e) => console.log(e)}
+                    onRead={(e) => onRead(e.data)}
                     topContent={
                       <Text style={styles.centerText}>
                         Go to{' '}

@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
                 <View style = {styles.header}>
                     <Text style={styles.lighttext}>My Dashboard</Text>
                     <Text style={styles.instructions} >You can find your earned badges below</Text>
-                    <Button accessibilityStates onPress={()=>setIDModalVisible(true)}>YOUR ID</Button>
+                    <Button accessibilityStates mode='outlined' onPress={()=>setIDModalVisible(true)}>YOUR ID</Button>
                 </View>
 
                 {attributes.length > 0 ? 

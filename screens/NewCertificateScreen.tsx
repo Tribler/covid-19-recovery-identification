@@ -6,6 +6,7 @@ import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 import HelpButton from '../components/HelpButton';
+import QRModal from '../components/QRModal';
 
 YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
 
@@ -45,6 +46,7 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
+    const [scannerVisible, setScannerVisible] = useState(false)
     const state = useTrackedState()
     const options = [
         { value: "covid-immunity" }
@@ -55,6 +57,7 @@ const NewCertificateScreen: React.FC = () => {
                 <Text style={styles.lighttext}>New Certificate</Text>
                 <Text style={styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
+
             <View style={styles.dropdown} >
                 <Dropdown
                     data={options}
@@ -69,6 +72,17 @@ const NewCertificateScreen: React.FC = () => {
                 onChangeText={input => setHolderID(input)}
                 label="Holder ID">
             </TextInput>
+
+            <Button
+                accessibilityStates
+                mode="contained"
+                style={{backgroundColor:'dodgerblue', marginVertical:5}}
+                onPress={() => {
+                    setScannerVisible(true)
+                }} >
+                GET ID FROM QR CODE
+            </Button>
+
             <Button
                 accessibilityStates
                 mode="contained"
@@ -79,6 +93,8 @@ const NewCertificateScreen: React.FC = () => {
                 }} >
                 CREATE CERTIFICATE
             </Button>
+
+            <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={setHolderID}/>
             <DrawerButton />
             <HelpButton />
         </View>

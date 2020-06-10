@@ -8,14 +8,15 @@ import QRModal from "../components/QRModal";
 import { PostVerification } from "../network/NetworkCalls";
 import {Button} from "react-native-paper" 
 
-const verifyAttribute = (state: State, userId:string, attributeHash:string) => {
-    PostVerification(state, userId, attributeHash)
-}
-
 const VerificationScreen: React.FC = () => {
     const [scannerOpen, setScannerOpen] = useState(false);
     const state = useTrackedState()
 
+    
+    const verify = (qrdata:string) => {
+        const data = JSON.parse(qrdata)
+        PostVerification(state, data.holderID, data.hash)
+    }
 
     return (
         <View>
@@ -24,7 +25,7 @@ const VerificationScreen: React.FC = () => {
             </View>
             <Button accessibilityStates mode="contained" style={styles.verifyButton} onPress={()=> setScannerOpen(true)}> Verify</Button>
 
-            <QRModal visible={scannerOpen} setVisible={setScannerOpen}></QRModal>
+            <QRModal visible={scannerOpen} setVisible={setScannerOpen} onRead={verify}></QRModal>
             <DrawerButton />
             <HelpButton />
         </View>
