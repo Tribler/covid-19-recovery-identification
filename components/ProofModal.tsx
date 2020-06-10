@@ -7,18 +7,13 @@ import QRCode from "react-qr-code"
 
 
 
-interface VerificationModalProps {
+interface ProofModalProps {
     attribute: Certificate
     visible:boolean
     setVisible: Function
   }
 
-const getHash = (attribute:Certificate) => {
-    //const hash = attribute.hash ? attribute.hash : console.error("ATTRIBUTE IS NOT VERIFIED")
-    return attribute.hash  
-}
-
-const VerificationModal: React.FC<VerificationModalProps> = ({attribute, visible, setVisible}:VerificationModalProps) => {
+const ProofModal: React.FC<ProofModalProps> = ({attribute, visible, setVisible}:ProofModalProps) => {
     const [verifierID,setVerifierID] = useState("")
 
     return (
@@ -55,7 +50,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({attribute, visible
                             setVisible(false)
 
                         }}
-                        title={"SEND "+ attribute.type+ " PROOF"} >
+                        title={"SHOW "+ attribute.type+ " PROOF"} >
                     </Button>
                 </View>                
             </TouchableOpacity>
@@ -63,14 +58,5 @@ const VerificationModal: React.FC<VerificationModalProps> = ({attribute, visible
     )
 }
 
-const modalStyle = {
-    borderRadius:10,
-    margin:10,
-    backgroundColor:'green',
-    justifyContent: "center",
-    aligntItems:"center",
-    flex:1
-}
-
-export default VerificationModal
+export default ProofModal
 

@@ -14,9 +14,9 @@ const CertificateViewDashboard: React.FC<CertificateProps> = ({certificate, moda
     return (
         <View style = {styles.container}>
             <CertificateView certificate = {certificate}/>
-            <Button title="Send To Verifier" onPress ={() =>{ 
+            <Button title="Show Proof" onPress ={() =>{ 
                 setSelected(certificate)
-                modalVisible(true)}}>Send to verifier</Button>
+                modalVisible(true)}}></Button>
         </View>
     )
 }
