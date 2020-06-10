@@ -23,7 +23,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 const Dashboard: React.FC = () => {
     const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
-    const [IDModalVisible, setIDModalVisible] = useState(true)
+    const [IDModalVisible, setIDModalVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
     const state = useTrackedState()
 
