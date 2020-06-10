@@ -63,13 +63,16 @@ const NewCertificateScreen: React.FC = () => {
                 </Dropdown>
             </View>
             <TextInput
+                accessibilityStates
                 style={styles.textInput}
                 value={holderID.toString()}
                 onChangeText={input => setHolderID(input)}
                 label="Holder ID">
             </TextInput>
             <Button
+                accessibilityStates
                 mode="contained"
+                style={{backgroundColor:'dodgerblue'}}
                 onPress={() => {
                     createNewCertificate(state.ID, holderID, certificateType, state)
                     setHolderID("");

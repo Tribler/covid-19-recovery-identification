@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Button, Modal} from 'react-native'
-import { TextInput, Text } from 'react-native-paper'
+import { View, Modal} from 'react-native'
+import { TextInput, Text, Button } from 'react-native-paper'
 import { TouchableOpacity} from 'react-native'
 import { Certificate } from '../Store'
 import QRCode from "react-qr-code"
@@ -18,7 +18,7 @@ const BasicQRModal: React.FC<QRModalProps> = ({data, visible, setVisible}:QRModa
     return (
         <Modal
                 animationType="slide"
-                transparent={true}
+                transparent={false}
                 visible={visible}
                 onRequestClose={() => {
                     setVisible(false)
@@ -28,13 +28,15 @@ const BasicQRModal: React.FC<QRModalProps> = ({data, visible, setVisible}:QRModa
                   }}  
                   >
             <TouchableOpacity
-                onPress={() => setVisible(false)}
-                style={{height:'100%', width:'100%', justifyContent:'center', alignContent:'center', alignItems:'center', backgroundColor:'rgba(1,1,1,0.5)'}}
+                onPressOut={() => setVisible(false)}
+                style={{height:'100%', width:'100%', justifyContent:'center', alignContent:'center', alignItems:'center', backgroundColor:'rgba(1,1,1,0)'}}
                 
             >
                 <View style = {{margin: 10}}>
                     <QRCode value={data} />
                 </View>                
+
+                <Text accessibilityStates>Touch anywhere to close</Text>
             </TouchableOpacity>
         </Modal>
     )
