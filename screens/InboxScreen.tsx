@@ -43,7 +43,6 @@ const InboxScreen: React.FC = () => {
                     <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
                 </View>
                 <Button accessibilityStates style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
-                <Button accessibilityStates style = {{flex:1}} onPress = {() => console.log(certificates)}>DEBUG</Button>
 
                 {certificates.length > 0 ? 
                 <View>
