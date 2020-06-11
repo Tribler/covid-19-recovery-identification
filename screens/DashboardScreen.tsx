@@ -5,9 +5,9 @@ import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
-import ProofModal from '../components/ProofModal';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
+import QRModal from '../components/QRModal';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -23,7 +23,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 const Dashboard: React.FC = () => {
     const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
-    const [IDModalVisible, setIDModalVisible] = useState(false)
+    const [scannerVisible, setScannerVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
     const state = useTrackedState()
 
@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
                 <View style = {styles.header}>
                     <Text style={styles.lighttext}>My Dashboard</Text>
                     <Text style={styles.instructions} >You can find your earned badges below</Text>
-                    <Button accessibilityStates mode='outlined' onPress={()=>setIDModalVisible(true)}>YOUR ID</Button>
+                    <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
                 </View>
 
                 {attributes.length > 0 ? 
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
                 </View>
 
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
-                <BasicQRModal data={state.ID} visible={IDModalVisible} setVisible={setIDModalVisible}></BasicQRModal>
+                <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
                 <DrawerButton />
                 <HelpButton />
             </ScrollView>

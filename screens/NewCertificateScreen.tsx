@@ -7,6 +7,7 @@ import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State } from '../Store';
 import HelpButton from '../components/HelpButton';
 import QRModal from '../components/QRModal';
+import BasicQRModal from '../components/BasicQRModal';
 
 YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
 
@@ -46,7 +47,7 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState("1")
     const [holderID, setHolderID] = useState("")
-    const [scannerVisible, setScannerVisible] = useState(false)
+    const [codeVisible, setCodeVisible] = useState(false)
     const state = useTrackedState()
     const options = [
         { value: "covid-immunity" }
@@ -65,36 +66,19 @@ const NewCertificateScreen: React.FC = () => {
                     onChangeText={(value: string, index: number) => setCertificateType((index + 1).toString())} >
                 </Dropdown>
             </View>
-            <TextInput
-                accessibilityStates
-                style={styles.textInput}
-                value={holderID.toString()}
-                onChangeText={input => setHolderID(input)}
-                label="Holder ID">
-            </TextInput>
 
             <Button
                 accessibilityStates
                 mode="contained"
                 style={{backgroundColor:'dodgerblue', marginVertical:5}}
                 onPress={() => {
-                    setScannerVisible(true)
+                    setCodeVisible(true)
                 }} >
-                GET ID FROM QR CODE
+                GENERATE QR CODE
             </Button>
 
-            <Button
-                accessibilityStates
-                mode="contained"
-                style={{backgroundColor:'dodgerblue'}}
-                onPress={() => {
-                    createNewCertificate(state.ID, holderID, certificateType, state)
-                    setHolderID("");
-                }} >
-                CREATE CERTIFICATE
-            </Button>
-
-            <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={setHolderID}/>
+            {/* <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={setHolderID}/> */}
+            <BasicQRModal data={JSON.stringify({id:state.ID,type:certificateType })} visible={codeVisible} setVisible={setCodeVisible}/>
             <DrawerButton />
             <HelpButton />
         </View>
