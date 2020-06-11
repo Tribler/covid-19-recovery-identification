@@ -4,9 +4,9 @@ import { Text, View, FlatList, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import HelpButton from "../components/HelpButton";
 import { useTrackedState, State } from "../Store";
-import QRModal from "../components/QRModal";
 import { PostVerification } from "../network/NetworkCalls";
 import {Button} from "react-native-paper" 
+import QRScannerModal from "../components/QRScannerModal";
 
 const VerificationScreen: React.FC = () => {
     const [scannerOpen, setScannerOpen] = useState(false);
@@ -25,7 +25,7 @@ const VerificationScreen: React.FC = () => {
             </View>
             <Button accessibilityStates mode="contained" style={styles.verifyButton} onPress={()=> setScannerOpen(true)}> Verify</Button>
 
-            <QRModal visible={scannerOpen} setVisible={setScannerOpen} onRead={verify}></QRModal>
+            <QRScannerModal visible={scannerOpen} setVisible={setScannerOpen} onRead={verify}></QRScannerModal>
             <DrawerButton />
             <HelpButton />
         </View>

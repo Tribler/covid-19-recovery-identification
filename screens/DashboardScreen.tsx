@@ -7,7 +7,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
-import QRModal from '../components/QRModal';
+import QRScannerModal from '../components/QRScannerModal';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -23,7 +23,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 const Dashboard: React.FC = () => {
     const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
-    const [scannerVisible, setScannerVisible] = useState(false)
+    const [scannerVisible, setScannerVisible] = useState(true)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
     const state = useTrackedState()
 
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
                 </View>
 
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
-                <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
+                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
                 <DrawerButton />
                 <HelpButton />
             </ScrollView>

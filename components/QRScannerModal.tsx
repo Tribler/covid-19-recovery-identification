@@ -1,5 +1,5 @@
 import React, { } from 'react'
-import {  Text, StyleSheet, Modal} from 'react-native'
+import {  Text, StyleSheet, Modal, View} from 'react-native'
 import { TouchableOpacity} from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 interface QRScannerModalProps {
@@ -21,34 +21,22 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({visible,setVisible, onRe
                 setVisible(false)
                 }}  
                 >
-
-            <QRCodeScanner
-                    onRead={(e) => onRead(e.data)}
-                    topContent={
-                      <Text style={styles.centerText}>
-                        Go to{' '}
-                        <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-                        your computer and scan the QR code.
-                      </Text>
-                    }
-                    bottomContent={
-                      <TouchableOpacity style={styles.buttonTouchable}>
-                        <Text style={styles.buttonText}>OK. Got it!</Text>
-                      </TouchableOpacity>
-                    }
-                  />           
+          <TouchableOpacity style={{backgroundColor:'white', flex:1}}
+              onPressOut={() => setVisible(false)}>
+              <QRCodeScanner 
+                      onRead={(e) => { 
+                        setVisible(false)
+                        onRead(e.data)}}
+                      bottomContent={
+                        <TouchableOpacity style={styles.buttonTouchable} onPressOut={() => setVisible(false)}>
+                          <Text style={styles.buttonText}>CLOSE</Text>
+                        </TouchableOpacity>
+                      }
+                    />
+          </TouchableOpacity>    
         </Modal>
         
     )
-}
-
-const modalStyle = {
-    borderRadius:10,
-    margin:10,
-    backgroundColor:'green',
-    justifyContent: "center",
-    aligntItems:"center",
-    flex:1
 }
 
 const styles = StyleSheet.create({
@@ -64,10 +52,12 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       fontSize: 21,
-      color: 'rgb(0,122,255)'
+      color: 'white'
     },
     buttonTouchable: {
-      padding: 16
+      padding: 16,
+      backgroundColor: 'dodgerblue',
+      borderRadius:5
     }
   });
 
