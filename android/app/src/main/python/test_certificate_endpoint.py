@@ -2,6 +2,8 @@ import os
 from asyncio import sleep
 from base64 import b64encode
 from sys import modules
+
+import bcrypt
 from aiohttp import ClientSession
 
 from certificate_endpoint import CertificateEndpoint
@@ -9,7 +11,7 @@ from certificate_community import CertCommunity
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
 from ipv8.test.REST.rest_base import RESTTestBase, partial_cls
-from user import User, UserStorage
+from user import UserStorage
 
 root = modules["ipv8.REST.root_endpoint"]
 root.AttestationEndpoint = CertificateEndpoint
@@ -19,7 +21,9 @@ modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
 class RESTTestCert(RESTTestBase):
     def __init__(self, method_name):
         super(RESTTestCert, self).__init__(method_name)
-        UserStorage.create_user(id='user', password='password')  # nosec
+        hashed_pw = bcrypt.hashpw('password'.encode('utf-8'),
+                                  bcrypt.gensalt()).decode("utf-8")
+        UserStorage.create_user(id='user', password=hashed_pw)  # nosec
         self.jwt = None
         self.user = 'user'
         self.password = 'password'

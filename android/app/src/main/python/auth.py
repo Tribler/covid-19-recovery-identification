@@ -4,7 +4,7 @@ from base64 import b64decode
 import bcrypt
 from os import urandom
 
-from user import User, UserStorage
+from user import UserStorage
 from ipv8.REST.base_endpoint import Response
 
 JWT_SECRET = urandom(32).hex()
@@ -23,8 +23,8 @@ async def auth_middleware(request, handler):
     jwt_token = request.headers.get('Authorization', None)
     if jwt_token and not auth_type == 'Basic':
         try:
-            payload = jwt.decode(jwt_token, JWT_SECRET,
-                                 algorithms=[JWT_ALGORITHM])
+            jwt.decode(jwt_token, JWT_SECRET,
+                       algorithms=[JWT_ALGORITHM])
         except (jwt.DecodeError, jwt.ExpiredSignatureError):
             return Response({'message': 'Token is invalid'},
                             status=400)
@@ -69,9 +69,9 @@ async def login(request):
 
 async def register(request):
     """
-    Register handler. Checks if you already registered, if not persist the user.
-    Registration is done by checking the x-registration header.
-    It is in the form password:is_doc in base64 form.
+    Register handler. Checks if you already registered, if not persist the
+    user. Registration is done by checking the x-registration header. It is in
+    the form password:is_doc in base64 form.
     """
     if UserStorage.registered():
         return Response({'message': 'Already registered'}, status=400)
@@ -81,5 +81,3 @@ async def register(request):
     hashed_pw = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode("utf-8")
     UserStorage.create_user("user", hashed_pw, cred[1])
     return Response({'success': True})
-
-

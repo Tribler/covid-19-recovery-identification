@@ -1,5 +1,3 @@
-from base64 import b64encode
-
 import bcrypt
 
 
@@ -12,10 +10,12 @@ class User:
 
     def match_password(self, password):
         """
-        bcrypt checks if the given password is equal to the hashed password. If the password is incorrect,
-        it might take a long time as Bbrypt is intentionally slow.
+        bcrypt checks if the given password is equal to the hashed password.
+        If the password is incorrect,
+        it might take a long time as bcrypt is intentionally slow.
         """
-        if not bcrypt.checkpw(password.encode("utf8"), self.password.encode("utf8")):
+        if not bcrypt.checkpw(password.encode("utf8"),
+                              self.password.encode("utf8")):
             raise User.PasswordDoesNotMatch
 
     class PasswordDoesNotMatch(BaseException):
@@ -47,4 +47,6 @@ class UserStorage:
         """
         Read the JSON imported file into a User object.
         """
-        cls._storage = User(storage['id'], storage['password'], storage['is_doc'])
+        cls._storage = User(storage['id'],
+                            storage['password'],
+                            storage['is_doc'])
