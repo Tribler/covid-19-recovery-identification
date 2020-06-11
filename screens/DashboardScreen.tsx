@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, Image, Modal, Alert} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
                 : <Text>You have no signed attributes yet</Text>}
 
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
-                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
+                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>Alert.alert(data)}/>
                 <DrawerButton />
                 <HelpButton />
             </ScrollView>
