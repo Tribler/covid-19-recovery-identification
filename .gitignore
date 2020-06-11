@@ -1,15 +1,3 @@
-# General keystores, build and report folders
-#
-*.hprof
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
-web-report/
-
 # OSX
 #
 .DS_Store
@@ -40,6 +28,7 @@ buck-out/
 # Unit test/ coverage reports
 .nox/
 .coverage
+htmlcov/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

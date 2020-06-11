@@ -1,28 +1,26 @@
-from datetime import datetime, timedelta
-
 import jwt
 from aiohttp.web_middlewares import middleware
+from base64 import b64decode
+from os import urandom
 
-from User import User
+from user import User
 from ipv8.REST.base_endpoint import Response
 
-JWT_SECRET = 'secretwoo'
+JWT_SECRET = urandom(32).hex()
 JWT_ALGORITHM = 'HS256'
-# expiration time of JWT token
-JWT_EXP_DELTA_SECONDS = 600
-
-User.UserStorage.create_user(id='user', password='password')
 
 
 @middleware
 async def auth_middleware(request, handler):
     """
-    Middleware that gets the JWT token in the "authorization" header. Checks if this JWT token is valid and not
+    Middleware that gets the JWT token in the "authorization" header. Checks
+    if this JWT token is valid and not
     expired. Passes the result to the login_required_middleware.
     """
     request.user = None
-    jwt_token = request.headers.get('authorization', None)
-    if jwt_token:
+    auth_type = request.headers.get('WWW-Authorization', None)
+    jwt_token = request.headers.get('Authorization', None)
+    if jwt_token and not auth_type == 'Basic':
         try:
             payload = jwt.decode(jwt_token, JWT_SECRET,
                                  algorithms=[JWT_ALGORITHM])
@@ -37,8 +35,10 @@ async def auth_middleware(request, handler):
 @middleware
 async def login_required_middleware(request, handler):
     """
-    Middleware that checks if you are authenticated. Depending on the result of auth_middleware, one either passes
-    the request to the actual handler or gives an 401 error. The login handler is exempted from this check.
+    Middleware that checks if you are authenticated. Depending on the result
+    of auth_middleware, one either passes
+    the request to the actual handler or gives an 401 error. The login
+    handler is exempted from this check.
     """
     if handler == login:
         return await handler(request)
@@ -49,21 +49,20 @@ async def login_required_middleware(request, handler):
 
 async def login(request):
     """
-    Login handler which fetches the password from the body and compares it to the saved password. If they match up,
+    Login handler which fetches the password from the body and compares it
+    to the saved password. If they match up,
     returns a JWT token.
     """
-    post_data = await request.post()
-
+    auth = request.headers.get('Authorization')
+    auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
     try:
-        user = User.UserStorage.get(post_data['user_id'])
-        user.match_password(post_data['password'])
+        user = User.UserStorage.get(auth[0])
+        user.match_password(auth[1])
     except (User.DoesNotExist, User.PasswordDoesNotMatch):
         return Response({'message': 'Wrong credentials'}, status=400)
 
     payload = {
-        'user_id': user.id,
-        'exp': datetime.utcnow() + timedelta(seconds=JWT_EXP_DELTA_SECONDS)
+            'user_id': user.id,
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
     return Response({'token': jwt_token.decode('utf-8')})
-

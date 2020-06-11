@@ -2,8 +2,10 @@ from ipv8.messaging.payload import Payload
 
 
 class CertificatePayload(Payload):
-    format_list = ['I']  # When reading data, we unpack an unsigned integer from it.
-    optional_format_list = ['raw']  # And the remaining string, which is the peer_id of original sender.
+    # When reading data, we unpack an unsigned integer from it.
+    format_list = ['I']
+    # And the remaining string, which is the peer_id of the sender.
+    optional_format_list = ['raw']
 
     def __init__(self, certificate, peer_id):
         super(CertificatePayload, self).__init__()
