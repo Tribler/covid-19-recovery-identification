@@ -1,18 +1,18 @@
 from base64 import b64encode
 
 from aiohttp import web
-
 from auth import auth_middleware, login_required_middleware, login
 from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, HTTP_NOT_FOUND, Response
 from ipv8.REST.attestation_endpoint import AttestationEndpoint
 from ipv8.util import cast_to_bin
 
-from cert_community import CertCommunity
+from certificate_community import CertCommunity
 
 
 class CertificateEndpoint(AttestationEndpoint):
     """
-    This endpoint is responsible for handing all requests regarding Certificates.
+    This endpoint is responsible for handing all requests regarding
+    Certificates.
     """
 
     def __init__(self):
@@ -24,27 +24,33 @@ class CertificateEndpoint(AttestationEndpoint):
         The paths that are available for REST calls.
         """
         super(CertificateEndpoint, self).setup_routes()
-        self.app.add_routes([web.get('/certificate/recent', self.certificate_get),
-                             web.get('/certificate/id', self.id_get),
-                             web.post('/certificate', self.post_certificate),
-                             web.post('/login', login)])
-        # this adds the authentication middleware to the aiohttp configuration. Might want to refactor into separate
-        # endpoint maybe. 
-        self.app.middlewares.extend([auth_middleware, login_required_middleware])
+        self.app.add_routes(
+                [web.get('/certificate/recent', self.certificate_get),
+                 web.get('/certificate/id', self.id_get),
+                 web.post('/certificate', self.post_certificate),
+                 web.post('/login', login)])
+        # this adds the authentication middleware to the aiohttp
+        # configuration. Might want to refactor into separate
+        # endpoint maybe.
+        self.app.middlewares.extend(
+                [auth_middleware, login_required_middleware])
 
     def initialize(self, session):
         """
-        We initialize the AttestationCommunity,IdentityCommunity and CertificateCommunity
+        We initialize the AttestationCommunity,IdentityCommunity and
+        CertificateCommunity.
         """
         super(CertificateEndpoint, self).initialize(session)
-        self.certificate_overlay = next((overlay for overlay in session.overlays
-                                         if isinstance(overlay, CertCommunity)), None)
+        self.certificate_overlay = next(
+                (overlay for overlay in session.overlays
+                 if isinstance(overlay, CertCommunity)), None)
 
     async def certificate_get(self, request):
         formatted = []
         for k, v in self.certificate_overlay.certificates.items():
             formatted.append([k, v])
-        return Response([{"id": x, "certificate": y} for x, y in formatted], status=200)
+        return Response([{"id": x, "certificate": y} for x, y in formatted],
+                        status=200)
 
     async def id_get(self, request):
         """
@@ -58,12 +64,14 @@ class CertificateEndpoint(AttestationEndpoint):
         Send a certificate to a peer.
         """
         if not self.certificate_overlay or not self.identity_overlay:
-            return Response({"error": "certificate or identity community not found"},
-                            status=HTTP_NOT_FOUND)
+            return Response(
+                    {"error": "certificate or identity community not found"},
+                    status=HTTP_NOT_FOUND)
 
         args = request.query
         if not args or 'type' not in args:
-            return Response({"error": "parameters or type missing"}, status=HTTP_BAD_REQUEST)
+            return Response({"error": "parameters or type missing"},
+                            status=HTTP_BAD_REQUEST)
 
         if args['type'] == 'send':
             own_peer = cast_to_bin(self.identity_overlay.my_peer.mid)
@@ -74,10 +82,12 @@ class CertificateEndpoint(AttestationEndpoint):
                 return Response({"error": "id not available"})
 
             if peer:
-                self.certificate_overlay.send_certificate(peer, own_peer, certificate_id)
+                self.certificate_overlay.send_certificate(peer, own_peer,
+                                                          certificate_id)
                 return Response({"success": True})
             else:
-                return Response({"error": "peer unknown"}, status=HTTP_BAD_REQUEST)
+                return Response({"error": "peer unknown"},
+                                status=HTTP_BAD_REQUEST)
 
         elif args['type'] == 'delete':
             mid_b64 = args['mid']
@@ -85,4 +95,5 @@ class CertificateEndpoint(AttestationEndpoint):
             return Response({"success": True})
 
         else:
-            return Response({"error": "type argument incorrect"}, status=HTTP_BAD_REQUEST)
+            return Response({"error": "type argument incorrect"},
+                            status=HTTP_BAD_REQUEST)

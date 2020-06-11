@@ -1,0 +1,124 @@
+image: docker
+services:
+  - docker:dind
+
+stages:
+  - container
+  - build
+  - validate
+  - test
+
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+
+variables:
+  SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
+  DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
+  SAST_DISABLE_DIND: "false"
+  DS_DISABLE_DIND: "false"
+
+container:
+  stage: container
+  only:
+    changes:
+      - Dockerfile
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+build:
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/local.properties
+      - android/app/build/
+      - android/app/debug.keystore
+      - node_modules/
+
+checkstyle:
+  stage: validate
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest checkstyle
+  artifacts:
+    paths:
+      - android/app/build/reports/checkstyle/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/local.properties
+      - android/app/build/
+      - android/app/debug.keystore
+      - node_modules/
+
+code_quality:
+  stage: validate
+
+dependency_scanning:
+  stage: validate
+
+pmd:
+  stage: test
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest pmd
+  artifacts:
+    paths:
+      - android/app/build/reports/pmd/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/local.properties
+      - android/app/build/
+      - android/app/debug.keystore
+      - node_modules/
+
+java_test:
+  stage: test
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest java_test
+  artifacts:
+    paths:
+      - android/app/build/reports/lint-results*.xml
+      - android/app/build/outputs/reports/coverage/debug/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/local.properties
+      - android/app/build/
+      - android/app/debug.keystore
+      - node_modules/
+
+python_test:
+  stage: test
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest python_test
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
+  artifacts:
+    paths:
+      - android/app/src/main/python/htmlcov/

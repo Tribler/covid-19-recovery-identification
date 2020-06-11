@@ -1,6 +1,8 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
     ext {
-        applicationId = "com.immune"
+        applicationId = 'nl.tudelft.immune'
         buildToolsVersion = "29.0.3"
         minSdkVersion = 16
         compileSdkVersion = 29
@@ -18,7 +20,7 @@ buildscript {
     dependencies {
         //noinspection GradleDependency
         classpath('com.android.tools.build:gradle:3.6.1')
-        classpath 'com.chaquo.python:gradle:7.0.3'
+        classpath('com.chaquo.python:gradle:7.0.3')
     }
 }
 
@@ -35,10 +37,6 @@ allprojects {
         }
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
+        maven { url 'https://jitpack.io' }
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
