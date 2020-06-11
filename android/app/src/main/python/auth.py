@@ -1,9 +1,10 @@
 import jwt
 from aiohttp.web_middlewares import middleware
 from base64 import b64decode
+import bcrypt
 from os import urandom
 
-from user import User
+from user import User, UserStorage
 from ipv8.REST.base_endpoint import Response
 
 JWT_SECRET = urandom(32).hex()
@@ -28,7 +29,7 @@ async def auth_middleware(request, handler):
             return Response({'message': 'Token is invalid'},
                             status=400)
 
-        request.user = User.UserStorage.get(id=payload['user_id'])
+        request.user = UserStorage.get_storage()
     return await handler(request)
 
 
@@ -40,7 +41,7 @@ async def login_required_middleware(request, handler):
     the request to the actual handler or gives an 401 error. The login
     handler is exempted from this check.
     """
-    if handler == login:
+    if handler == login or register:
         return await handler(request)
     if not request.user:
         return Response({'message': 'Auth required'}, status=401)
@@ -55,14 +56,30 @@ async def login(request):
     """
     auth = request.headers.get('Authorization')
     auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
-    try:
-        user = User.UserStorage.get(auth[0])
-        user.match_password(auth[1])
-    except (User.DoesNotExist, User.PasswordDoesNotMatch):
+    user = UserStorage.get_storage()
+    if user is None or (user.match_password(auth[1]) is False):
         return Response({'message': 'Wrong credentials'}, status=400)
 
     payload = {
-            'user_id': user.id,
+        'user_id': user.id,
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
     return Response({'token': jwt_token.decode('utf-8')})
+
+
+async def register(request):
+    """
+    Register handler. Checks if you already registered, if not persist the user.
+    Registration is done by checking the x-registration header.
+    It is in the form password:is_doc in base64 form.
+    """
+    if UserStorage.registered():
+        return Response({'message': 'Already registered'}, status=400)
+    cred = request.headers.get('x-registration')
+    cred = b64decode(cred.encode('utf-8')).decode('utf-8').split(':')
+    pwd = cred[0].encode('utf8')
+    hashed_pw = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode("utf-8")
+    UserStorage.create_user("user", hashed_pw, cred[1])
+    return Response({'success': True})
+
+

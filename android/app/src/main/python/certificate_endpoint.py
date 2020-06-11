@@ -1,7 +1,7 @@
 from base64 import b64encode
 
 from aiohttp import web
-from auth import auth_middleware, login_required_middleware, login
+from auth import auth_middleware, login_required_middleware, login, register
 from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, HTTP_NOT_FOUND, Response
 from ipv8.REST.attestation_endpoint import AttestationEndpoint
 from ipv8.util import cast_to_bin
@@ -25,10 +25,11 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         super(CertificateEndpoint, self).setup_routes()
         self.app.add_routes(
-                [web.get('/certificate/recent', self.certificate_get),
-                 web.get('/certificate/id', self.id_get),
-                 web.post('/certificate', self.post_certificate),
-                 web.post('/login', login)])
+            [web.get('/certificate/recent', self.certificate_get),
+             web.get('/certificate/id', self.id_get),
+             web.post('/certificate', self.post_certificate),
+             web.post('/login', self.login),
+             web.post('/register', self.register)])
         # this adds the authentication middleware to the aiohttp
         # configuration. Might want to refactor into separate
         # endpoint maybe.
@@ -97,3 +98,18 @@ class CertificateEndpoint(AttestationEndpoint):
         else:
             return Response({"error": "type argument incorrect"},
                             status=HTTP_BAD_REQUEST)
+
+    async def login(self, request):
+        """
+        Handles the login in which the logic is in auth.py
+        """
+        return await login(request)
+
+    async def register(self, request):
+        """
+        Handles the register in which the logic is in auth.py.
+        Afterwards the user gets persisted in a credentials.txt file.
+        """
+        response = await register(request)
+        self.certificate_overlay.write_credentials_file()
+        return response

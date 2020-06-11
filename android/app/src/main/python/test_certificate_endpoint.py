@@ -9,7 +9,7 @@ from certificate_community import CertCommunity
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
 from ipv8.test.REST.rest_base import RESTTestBase, partial_cls
-from user import User
+from user import User, UserStorage
 
 root = modules["ipv8.REST.root_endpoint"]
 root.AttestationEndpoint = CertificateEndpoint
@@ -19,7 +19,7 @@ modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
 class RESTTestCert(RESTTestBase):
     def __init__(self, method_name):
         super(RESTTestCert, self).__init__(method_name)
-        User.UserStorage.create_user(id='user', password='password')  # nosec
+        UserStorage.create_user(id='user', password='password')  # nosec
         self.jwt = None
         self.user = 'user'
         self.password = 'password'

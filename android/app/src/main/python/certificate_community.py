@@ -10,6 +10,7 @@ from ipv8.messaging.payload_headers import BinMemberAuthenticationPayload, \
 from ipv8.peer import Peer
 
 from certificate_payload import CertificatePayload
+from user import UserStorage
 
 
 class CertCommunity(Community):
@@ -34,9 +35,7 @@ class CertCommunity(Community):
                 2: "hepB-v"
         }
         self.read_certificates_file(self.working_directory)
-        self.decode_map.update({
-                chr(20): self.on_certificate
-        })
+        self.read_credentials_file(self.working_directory)
 
     def send_certificate(self, peer, own_peer, certificate_id):
         """
@@ -91,4 +90,26 @@ class CertCommunity(Community):
         filepath = working_directory + "/certificates.txt"
         f = open(filepath, 'w')
         f.write(json.dumps(self.certificates))
+        f.close()
+
+    def read_credentials_file(self, working_directory):
+        """
+        Put credentials in User Storage.
+        """
+        filepath = working_directory + "/credentials.txt"
+        # Check if the file exists.
+        if path.exists(filepath) and stat(filepath).st_size != 0:
+            # Write your credentials to User.UserStorage.
+            UserStorage.set_storage(json.load(open(filepath)))
+        else:
+            open(filepath, "w").close()
+
+    def write_credentials_file(self):
+        """
+        Write credentials to file.
+        """
+        filepath = self.working_directory + "/credentials.txt"
+        f = open(filepath, 'w')
+        # To serialize a simple class  to JSON in python, we can call __dict__.
+        f.write(json.dumps(UserStorage.get_storage().__dict__))
         f.close()
