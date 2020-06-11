@@ -59,29 +59,6 @@ const Dashboard: React.FC = () => {
                 
                 : <Text>You have no signed attributes yet</Text>}
 
-                <View style={styles.badges}>
-                    <Image
-                        resizeMode="cover"
-                        style={styles.unlocked}
-                        source={require('../assets/star.png')}>
-                    </Image>
-                    <Image
-                        resizeMode="cover"
-                        style={styles.locked}
-                        source={require('../assets/Lock_icon.png')}>
-                    </Image>
-                    <Image
-                        resizeMode="cover"
-                        style={styles.locked}
-                        source={require('../assets/Lock_icon.png')}>
-                    </Image>    
-                    <Image
-                        resizeMode="cover"
-                        style={styles.locked}
-                        source={require('../assets/Lock_icon.png')}>
-                    </Image>
-                </View>
-
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
                 <DrawerButton />
