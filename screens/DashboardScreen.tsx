@@ -8,6 +8,7 @@ import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
+import CertificationDialogue from '../components/CertificationDialgoue';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs
@@ -23,8 +24,9 @@ const getAttributes = (url : string, setAttributes: Function) => {
 const Dashboard: React.FC = () => {
     const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
-    const [scannerVisible, setScannerVisible] = useState(true)
+    const [scannerVisible, setScannerVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
+    const [dialogueVisible, setDialogueVisible] = useState(true)
     const state = useTrackedState()
 
     const url = state.serverURL + "/attestation?type=attributes"
@@ -58,7 +60,8 @@ const Dashboard: React.FC = () => {
                 </View>
                 
                 : <Text>You have no signed attributes yet</Text>}
-
+                 
+                <CertificationDialogue visible={dialogueVisible} setVisible={setDialogueVisible} data={"Covid19 immunity"}/>
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
                 <DrawerButton />
