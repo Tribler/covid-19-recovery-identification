@@ -57,7 +57,7 @@ async def login(request):
     auth = request.headers.get('Authorization')
     auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
     user = UserStorage.get_storage()
-    if user is None or (user.match_password(auth[1]) is False):
+    if (user is None) or (user.match_password(auth[1]) is False):
         return Response({'message': 'Wrong credentials'}, status=400)
 
     payload = {
