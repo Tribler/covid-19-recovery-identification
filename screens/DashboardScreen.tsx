@@ -24,6 +24,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 const Dashboard: React.FC = () => {
     const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
+    const [certData, setCertData] = useState({type:"0",attester:""}) //this states what data will show up in the confirmation dialogue after a scan
     const [scannerVisible, setScannerVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
     const [dialogueVisible, setDialogueVisible] = useState(true)
@@ -31,6 +32,14 @@ const Dashboard: React.FC = () => {
 
     const url = state.serverURL + "/attestation?type=attributes"
 
+
+    const handleQRScan = (dataString:string) => {
+        const data = JSON.parse(dataString)
+        console.log(data)
+        setCertData({type:data.type, attester:data.attestater})
+        setDialogueVisible(true)
+        
+    }
     //useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
@@ -61,12 +70,12 @@ const Dashboard: React.FC = () => {
                 
                 : <Text>You have no signed attributes yet</Text>}
                  
-                <CertificationDialogue visible={dialogueVisible} setVisible={setDialogueVisible} data={"Covid19 immunity"}/>
+                <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible}/>
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
-                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={(data:string)=>console.log(data)}/>
-                <DrawerButton />
-                <HelpButton />
+                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan}/>
             </ScrollView>
+            <DrawerButton />
+            <HelpButton />
         </View>
     )
 }
