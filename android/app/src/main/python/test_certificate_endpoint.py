@@ -63,6 +63,8 @@ class TestCertificateEndpoint(RESTTestCert):
         super(TestCertificateEndpoint, self).setUp()
         if os.path.exists('resource/certificates.txt'):
             os.remove('resource/certificates.txt')
+        if os.path.exists('resource/credentials.txt'):
+            os.remove('resource/credentials.txt')
         await self.initialize([partial_cls(AttestationCommunity,
                                            working_directory=':memory:'),
                                partial_cls(IdentityCommunity,

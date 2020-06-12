@@ -4,7 +4,6 @@ from base64 import b64decode
 import bcrypt
 from os import urandom
 
-from certificate_community import CertCommunity
 from user import UserStorage
 from ipv8.REST.base_endpoint import Response
 
@@ -42,7 +41,9 @@ async def login_required_middleware(request, handler):
     the request to the actual handler or gives an 401 error. The login
     handler is exempted from this check.
     """
-    if (handler == login) or (handler == register):
+
+    if (request.path == '/attestation/login') or \
+            (request.path == '/attestation/register'):
         return await handler(request)
     if not request.user:
         return Response({'message': 'Auth required'}, status=401)
@@ -82,5 +83,4 @@ async def register(request):
     pwd = cred[0].encode('utf8')
     hashed_pw = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode("utf-8")
     UserStorage.create_user("user", hashed_pw, cred[1])
-    CertCommunity.write_credentials_file()
     return Response({'success': True})

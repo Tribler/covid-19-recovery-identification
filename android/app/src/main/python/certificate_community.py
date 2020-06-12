@@ -18,9 +18,9 @@ class CertCommunity(Community):
     Community for sharing Certificates.
     """
     master_peer = Peer(
-            unhexlify(
-                    "4c69624e61434c504b3a2ae61adf85aa3bf223c4180632912a92f1094bae64495ff47e50e1447771"  # noqa
-                    "7739a917700b7af02d382bcdb0ccc4f5c81341066ffd0062a3cc45f0d8d74e566092"))  # noqa
+        unhexlify(
+            "4c69624e61434c504b3a2ae61adf85aa3bf223c4180632912a92f1094bae64495ff47e50e1447771"  # noqa
+            "7739a917700b7af02d382bcdb0ccc4f5c81341066ffd0062a3cc45f0d8d74e566092"))  # noqa
 
     def __init__(self, *args, **kwargs):
         self.working_directory = kwargs.pop('working_directory', '')
@@ -31,8 +31,8 @@ class CertCommunity(Community):
         self.certificates = {}
         # Example certificates which can be added later on the road if wanted.
         self.certificate_map = {
-                1: "cv19-i",
-                2: "hepB-v"
+            1: "cv19-i",
+            2: "hepB-v"
         }
         self.read_certificates_file(self.working_directory)
         self.read_credentials_file(self.working_directory)
@@ -43,7 +43,7 @@ class CertCommunity(Community):
         """
         global_time = self.claim_global_time()
         auth = BinMemberAuthenticationPayload(
-                self.my_peer.public_key.key_to_bin()).to_pack_list()
+            self.my_peer.public_key.key_to_bin()).to_pack_list()
         payload = CertificatePayload(certificate_id, own_peer).to_pack_list()
         dist = GlobalTimeDistributionPayload(global_time).to_pack_list()
         packet = self._ez_pack(self._prefix, 20, [auth, dist, payload])
@@ -104,12 +104,11 @@ class CertCommunity(Community):
         else:
             open(filepath, "w").close()
 
-    @classmethod
-    def write_credentials_file(cls):
+    def write_credentials_file(self):
         """
         Write credentials to file.
         """
-        filepath = "resource/credentials.txt"
+        filepath = self.working_directory + "/credentials.txt"
         f = open(filepath, 'w')
         # To serialize a simple class  to JSON in python, we can call __dict__.
         f.write(json.dumps(UserStorage.get_storage().__dict__))

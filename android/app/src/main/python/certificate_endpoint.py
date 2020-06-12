@@ -1,7 +1,7 @@
 from base64 import b64encode
 
 from aiohttp import web
-from auth import auth_middleware, login_required_middleware, login, register
+import auth
 from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, HTTP_NOT_FOUND, Response
 from ipv8.REST.attestation_endpoint import AttestationEndpoint
 from ipv8.util import cast_to_bin
@@ -28,13 +28,13 @@ class CertificateEndpoint(AttestationEndpoint):
             [web.get('/certificate/recent', self.certificate_get),
              web.get('/certificate/id', self.id_get),
              web.post('/certificate', self.post_certificate),
-             web.post('/login', login),
-             web.post('/register', register)])
+             web.post('/login', self.login_handler),
+             web.post('/register', self.register_handler)])
         # this adds the authentication middleware to the aiohttp
         # configuration. Might want to refactor into separate
         # endpoint maybe.
         self.app.middlewares.extend(
-                [auth_middleware, login_required_middleware])
+                [auth.auth_middleware, auth.login_required_middleware])
 
     def initialize(self, session):
         """
@@ -98,3 +98,11 @@ class CertificateEndpoint(AttestationEndpoint):
         else:
             return Response({"error": "type argument incorrect"},
                             status=HTTP_BAD_REQUEST)
+
+    async def login_handler(self, request):
+        return await auth.login(request)
+
+    async def register_handler(self, request):
+        response = await auth.register(request)
+        self.certificate_overlay.write_credentials_file()
+        return response
