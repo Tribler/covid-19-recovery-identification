@@ -61,14 +61,12 @@ const DeleteCertificate = (state: State, listID : string) => {
 /**
  * Sends a request to the backend to request verification for a certain attribute of the holder.
  */
-const PostVerification = (state:State, holderID:string, attributeHash:string) => {
+const PostVerification = (state:State, holderID:string, attributeHash:string, callback:Function) => {
   const url = state.serverURL + "/attestation?type=verify&mid=" + encodeURIComponent(holderID) + "&attribute_hash=" + encodeURIComponent(attributeHash)
   const data = { method: 'POST', headers: {}, body: "" }
   return fetch(url, data)
     .then((response) => {
-      console.log(
-        response
-      )
+      callback(response)
     })
     .catch((error) => {
       console.error(error);

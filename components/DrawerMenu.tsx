@@ -7,7 +7,6 @@ import SettingsScreen from '../screens/SettingsScreen';
 import InboxScreen from '../screens/InboxScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen'
-import AttestationScreen from '../screens/AttestationScreen';
 import { useTrackedState } from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';

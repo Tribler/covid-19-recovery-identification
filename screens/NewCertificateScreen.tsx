@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
-import { useTrackedState, Certificate, State } from '../Store';
+import { useTrackedState, Certificate, State, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
 import QRModal from '../components/QRModal';
 import BasicQRModal from '../components/BasicQRModal';
@@ -45,13 +45,13 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 }
 
 const NewCertificateScreen: React.FC = () => {
-    const [certificateType, setCertificateType] = useState("1")
+    const [certificateType, setCertificateType] = useState(1)
     const [holderID, setHolderID] = useState("")
     const [codeVisible, setCodeVisible] = useState(false)
     const state = useTrackedState()
-    const options = [
-        { value: "covid-immunity" }
-    ]
+
+    const options =attributeTypeMap
+    
     return (
         <View style={styles.light}>
             <View style={styles.header}>
@@ -63,7 +63,7 @@ const NewCertificateScreen: React.FC = () => {
                 <Dropdown
                     data={options}
                     label="Choose..."
-                    onChangeText={(value: string, index: number) => setCertificateType((index + 1).toString())} >
+                    onChangeText={(value: string, index: number) => setCertificateType((index))} >
                 </Dropdown>
             </View>
 
