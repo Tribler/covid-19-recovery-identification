@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack'
 import DashboardScreen from '../screens/DashboardScreen'
 import NewCertificateScreen from '../screens/NewCertificateScreen'
 import SettingsScreen from '../screens/SettingsScreen';
@@ -11,14 +12,15 @@ import AttestationScreen from '../screens/AttestationScreen';
 import { useTrackedState } from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 const DrawerMenu: React.FC = () => {
   const state = useTrackedState()
   return (
     state.loggedIn ?
-      <NavigationContainer>
         <Drawer.Navigator initialRouteName="Dashboard">
           <Drawer.Screen name="Dashboard" component={DashboardScreen} />
           {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen} /> : <></>}
@@ -28,8 +30,11 @@ const DrawerMenu: React.FC = () => {
           <Drawer.Screen name="Peers" component={PeerScreen}/>
           <Drawer.Screen name="Settings" component={SettingsScreen} />
           <Drawer.Screen name="Help" component={HelpScreen} />
-        </Drawer.Navigator>
-      </NavigationContainer> : <LoginScreen />
+        </Drawer.Navigator> :
+           <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Login" headerMode="none" component={LoginScreen} />
+              <Stack.Screen name="Register" component={RegisterScreen} />
+            </Stack.Navigator> 
   )
 }
 

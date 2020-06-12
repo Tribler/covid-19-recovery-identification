@@ -2,12 +2,13 @@ import React from 'react'
 import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 import RegisterScreen from './RegisterScreen';
+import { NavigationHelpersContext } from '@react-navigation/native';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
  */
-const LoginScreen: React.FC = () => {
+const LoginScreen: React.FC = ({navigation}) => {
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -54,7 +55,7 @@ const LoginScreen: React.FC = () => {
                 </View>
             </TouchableOpacity>
             <Text style={{ color: "#1d5", top: 20 }}>Don't have an account?</Text>
-            <Button style={{ top: 20 }} onPress={() => <RegisterScreen />}> Sign up  </Button>
+            <Button style={{ top: 20 }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
         </View>
     )
 }

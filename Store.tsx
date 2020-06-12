@@ -13,6 +13,7 @@ type State = {
     attester: boolean
     serverURL: string
     darkMode: boolean
+    jwt : string
 }
 
 type Certificate = {
@@ -27,11 +28,12 @@ type OutstandingRequest = {
 }
 
 var defaultState: State = {
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
-    darkMode: false
+    darkMode: false,
+    jwt: ""
 }
 
 UpdateID(defaultState)
