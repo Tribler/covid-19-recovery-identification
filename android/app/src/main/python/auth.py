@@ -41,7 +41,7 @@ async def login_required_middleware(request, handler):
     the request to the actual handler or gives an 401 error. The login
     handler is exempted from this check.
     """
-    if handler == (login or register):
+    if (handler is login) or (handler is register):
         return await handler(request)
     if not request.user:
         return Response({'message': 'Auth required'}, status=401)
