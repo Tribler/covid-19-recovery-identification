@@ -21,9 +21,6 @@ modules["ipv8.REST.rest_manager"].RootEndpoint = root.RootEndpoint
 class RESTTestCert(RESTTestBase):
     def __init__(self, method_name):
         super(RESTTestCert, self).__init__(method_name)
-        hashed_pw = bcrypt.hashpw('password'.encode('utf-8'),
-                                  bcrypt.gensalt()).decode("utf-8")
-        UserStorage.create_user(id='user', password=hashed_pw)  # nosec
         self.jwt = None
         self.user = 'user'
         self.password = 'password'
@@ -72,6 +69,9 @@ class TestCertificateEndpoint(RESTTestCert):
                                            working_directory=':memory:'),
                                partial_cls(CertCommunity,
                                            working_directory='resource')], 2)
+        hashed_pw = bcrypt.hashpw('password'.encode('utf-8'),
+                                  bcrypt.gensalt()).decode("utf-8")
+        UserStorage.create_user(id='user', password=hashed_pw)  # nosec
         await self.log_in(self.nodes[0])
 
     async def wait_for_peers(self, node):

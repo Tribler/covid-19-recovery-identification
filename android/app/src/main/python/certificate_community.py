@@ -104,11 +104,12 @@ class CertCommunity(Community):
         else:
             open(filepath, "w").close()
 
-    def write_credentials_file(self):
+    @classmethod
+    def write_credentials_file(cls):
         """
         Write credentials to file.
         """
-        filepath = self.working_directory + "/credentials.txt"
+        filepath = "resource/credentials.txt"
         f = open(filepath, 'w')
         # To serialize a simple class  to JSON in python, we can call __dict__.
         f.write(json.dumps(UserStorage.get_storage().__dict__))

@@ -14,12 +14,9 @@ class User:
         If the password is incorrect,
         it might take a long time as bcrypt is intentionally slow.
         """
-        if not bcrypt.checkpw(password.encode("utf8"),
-                              self.password.encode("utf8")):
-            raise User.PasswordDoesNotMatch
-
-    class PasswordDoesNotMatch(BaseException):
-        pass
+        result = bcrypt.checkpw(password.encode("utf8"),
+                                self.password.encode("utf8"))
+        return result
 
 
 class UserStorage:
@@ -50,3 +47,7 @@ class UserStorage:
         cls._storage = User(storage['id'],
                             storage['password'],
                             storage['is_doc'])
+
+    @classmethod
+    def clear_storage(cls):
+        cls._storage = None

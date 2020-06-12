@@ -28,8 +28,8 @@ class CertificateEndpoint(AttestationEndpoint):
             [web.get('/certificate/recent', self.certificate_get),
              web.get('/certificate/id', self.id_get),
              web.post('/certificate', self.post_certificate),
-             web.post('/login', self.login),
-             web.post('/register', self.register)])
+             web.post('/login', login),
+             web.post('/register', register)])
         # this adds the authentication middleware to the aiohttp
         # configuration. Might want to refactor into separate
         # endpoint maybe.
@@ -98,18 +98,3 @@ class CertificateEndpoint(AttestationEndpoint):
         else:
             return Response({"error": "type argument incorrect"},
                             status=HTTP_BAD_REQUEST)
-
-    async def login(self, request):
-        """
-        Handles the login in which the logic is in auth.py
-        """
-        return await login(request)
-
-    async def register(self, request):
-        """
-        Handles the register in which the logic is in auth.py.
-        Afterwards the user gets persisted in a credentials.txt file.
-        """
-        response = await register(request)
-        self.certificate_overlay.write_credentials_file()
-        return response
