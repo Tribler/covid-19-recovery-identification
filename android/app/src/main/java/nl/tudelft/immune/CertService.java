@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
@@ -26,25 +27,16 @@ public class CertService extends Service {
   // The identifier of the custom channel needed in APIs 26+
   private static final String CHANNEL_ID = "Certification Service Channel";
 
-  /**
-   * Creation method. Gets called whenever the gui tries to bind to the service or
-   * a new widget gets created. Responsible for creating a persistent notification,
-   * creating a custom notification channel and changing the state of the service
-   * to foreground service.
-   */
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
-        .setTicker(getText(R.string.foreground_service_text))
-        .setContentTitle(getText(R.string.foreground_service_description))
-        .setContentText(getText(R.string.foreground_service_text))
-        .setPriority(NotificationCompat.PRIORITY_LOW)
-        .build();
-    createNotificationChannel();
-    startForeground(android.os.Process.myPid(), notification);
-  }
+//  /**
+//   * Creation method. Gets called whenever the gui tries to bind to the service or
+//   * a new widget gets created. Responsible for creating a persistent notification,
+//   * creating a custom notification channel and changing the state of the service
+//   * to foreground service.
+//   */
+//  @Override
+//  public void onCreate() {
+//    super.onCreate();
+//  }
 
   /**
    * Destruction method. Gets called whenever the gui tries to unbind from the service or
@@ -54,13 +46,7 @@ public class CertService extends Service {
    */
   @Override
   public void onDestroy() {
-    if (running) {
-      Python.getInstance().getModule("certificate_service").callAttr("stop");
-      running = false;
-      deleteNotificationChannel();
-      stopForeground(true);
-      android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
-    }
+    stopService();
     super.onDestroy();
   }
 
@@ -85,20 +71,20 @@ public class CertService extends Service {
   @Override
   public IBinder onBind(Intent intent) {
     startService();
-    return null;
+    return certBinder;
   }
 
   // The binder that provides connection with the service to clients.
-  // private final IBinder certBinder = new CertBinder();
-  // /*
-  //   Binder class that provides service control methods
-  //   to all clients which bind to the service.
-  //  */
-  // class CertBinder extends Binder {
-  //   CertService getService() {
-  //     return CertService.this;
-  //   }
-  // }
+   private final IBinder certBinder = new CertBinder();
+   /*
+     Binder class that provides service control methods
+     to all clients which bind to the service.
+    */
+   class CertBinder extends Binder {
+     CertService getService() {
+       return CertService.this;
+     }
+   }
 
   /**
    * Helper method. Gets called when the service is being started.
@@ -111,6 +97,25 @@ public class CertService extends Service {
       }
       Python.getInstance().getModule("certificate_service").callAttr("start");
       running = true;
+      Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+          .setSmallIcon(R.drawable.ic_launcher_foreground)
+          .setTicker(getText(R.string.foreground_service_text))
+          .setContentTitle(getText(R.string.foreground_service_description))
+          .setContentText(getText(R.string.foreground_service_text))
+          .setPriority(NotificationCompat.PRIORITY_LOW)
+          .build();
+      createNotificationChannel();
+      startForeground(android.os.Process.myPid(), notification);
+    }
+  }
+
+  private void stopService() {
+    if (running) {
+      Python.getInstance().getModule("certificate_service").callAttr("stop");
+      running = false;
+      deleteNotificationChannel();
+      stopForeground(true);
+      android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
     }
   }
 

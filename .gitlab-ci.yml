@@ -101,7 +101,7 @@ java_test:
   artifacts:
     paths:
       - android/app/build/reports/lint-results*.xml
-      - android/app/build/outputs/reports/coverage/debug/
+      - android/app/build/reports/coverage/debug/
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
