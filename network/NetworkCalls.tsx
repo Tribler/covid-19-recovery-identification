@@ -60,4 +60,50 @@ const DeleteCertificate = (state: State, listID : string) => {
     });
   }
 
-  export {DeleteCertificate, PostCertificate, PostOutstanding}
+
+/**
+ * Sends a request to the backend to login.
+ */
+const PostLogin = (state : State, password : string) => {
+  const url = state.serverURL + "/attestation/login"
+  const data = {
+    method: 'POST', 
+    headers: {
+      "Authorization" : Base64.encode("user:" + password),
+      "WWW-Authorization" : "Basic"
+    }, 
+    body: ""}
+  return fetch(url,data)
+  .then((response) => {
+            console.log(
+                response
+            )
+        })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+/**
+ * Sends a request to register.
+ */
+const RegisterLogin = (state : State, password : string, isAttester:boolean) => {
+  const url = state.serverURL + "/attestation/register"
+  const data = {
+    method: 'POST', 
+    headers: {
+      "x-registration" : Base64.encode(password + ":" + isAttester),
+    }, 
+    body: ""}
+  return fetch(url,data)
+  .then((response) => {
+            console.log(
+                response
+            )
+        })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+  export {DeleteCertificate, PostCertificate, PostOutstanding, PostLogin, RegisterLogin}

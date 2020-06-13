@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
-import RegisterScreen from './RegisterScreen';
-import { NavigationHelpersContext } from '@react-navigation/native';
+import { useTrackedState } from '../Store';
+import { PostLogin } from '../network/NetworkCalls';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
  */
 const LoginScreen: React.FC = ({navigation}) => {
+    const state = useTrackedState()
+    const [password, setPassword] = useState("")
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -27,8 +29,9 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
+                secureTextEntry={true} 
+                onChangeText={input => setPassword(input)}/>
+            <TouchableOpacity onPress={() => PostLogin(state, password)}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
@@ -45,8 +48,9 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
+                secureTextEntry={true} 
+                onChangeText={input => setPassword(input)}/>
+            <TouchableOpacity onPress={() => PostLogin(state, password)}>
                 <View style={{
                     zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
