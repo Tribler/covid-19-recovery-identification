@@ -1,9 +1,6 @@
 import React from 'react'
-import { StyleSheet, View, Text, Clipboard } from 'react-native'
-import { Divider } from 'react-native-paper'
+import { StyleSheet, View, Text } from 'react-native'
 import { Certificate, useTrackedState } from '../Store'
-import DeclineButton from '../components/DeclineButton';
-import AcceptButton from '../components/AcceptButton';
 
 interface CertificateProps {
     certificate: Certificate
