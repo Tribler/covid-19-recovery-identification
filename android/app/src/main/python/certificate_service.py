@@ -3,12 +3,25 @@ from asyncio import set_event_loop, get_event_loop, ensure_future, \
 from sys import modules
 from threading import Thread
 
-from com.chaquo.python import Python
 from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
 from ipv8_service import IPv8
 
 from certificate_endpoint import CertificateEndpoint
+
+
+def directory():
+    try:
+        from com.chaquo.python import Python
+        return str(
+            Python.getPlatform().getApplication().getFilesDir() +
+            '/certificates')
+    except ModuleNotFoundError as e:
+        if str(e) != "No module named 'com'":
+            raise
+        else:
+            return "./certificates"
+
 
 # Launch an IPv8 service. We run REST endpoints for this service on
 # http://localhost:8085/.
@@ -16,8 +29,7 @@ from certificate_endpoint import CertificateEndpoint
 configuration = get_default_configuration()
 
 # On Android we need the complete path when new files are created!
-files_dir = str(Python.getPlatform().getApplication()
-                .getFilesDir()) + '/certificates'
+files_dir = directory()
 
 # Generate signature keys.
 # TODO WHY TWO IDS?
