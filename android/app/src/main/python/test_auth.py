@@ -5,6 +5,7 @@ from sys import modules
 import bcrypt
 from aiohttp import ClientSession
 
+import auth
 from certificate_endpoint import CertificateEndpoint
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
