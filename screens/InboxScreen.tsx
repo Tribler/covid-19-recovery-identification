@@ -36,46 +36,39 @@ const InboxScreen: React.FC = () => {
     };
 
     return (
-        <View style={styles.light}>
-            <ScrollView>
-                <View style = {styles.header}>
-                    <Text style = {styles.lighttext}>My Inbox</Text>
-                    <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
-                </View>
-                <Button accessibilityStates style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
-
-                {certificates.length > 0 ? 
-                <View>
-                    <FlatList // we use FlatList to provide list functionality
-                        data={certificates}
-                        keyExtractor={(item) => item[0]} // 
-                        renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                            <CertificateViewInbox
-                                listID={item[0]} // the id of every certificate is used as identifier
-                                certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
-                                deleteCert={deleteCert}
-                            />
-                        )}
-                    />
-                </View>
-                : <Text>There are no pending certificates</Text>}
-                <DrawerButton />
-                <HelpButton />
-            </ScrollView>
+        <View style={styles.container}>
+            <View style = {styles.header}>
+                <Text style = {styles.lighttext}>My Inbox</Text>
+                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            </View>
+                <ScrollView>
+                    <Button accessibilityStates color='dodgerblue' style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
+                    {certificates.length > 0 ? 
+                    <View>
+                        <FlatList // we use FlatList to provide list functionality
+                            data={certificates}
+                            keyExtractor={(item) => item[0]} // 
+                            renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                                <CertificateViewInbox
+                                    listID={item[0]} // the id of every certificate is used as identifier
+                                    certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
+                                    deleteCert={deleteCert}
+                                />
+                            )}
+                        />
+                    </View>
+                    : <Text style={{fontSize:16, borderWidth:1,padding:5}}>There are no pending certificates</Text>}
+                </ScrollView>
+            <DrawerButton />
+            <HelpButton />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    dropdown: {
-        backgroundColor: "#fff",
-        fontSize: 15,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        borderWidth: 1,
-        margin: 15,
-        padding: 5,
-        justifyContent: "center",
+    container:{
+        alignContent:'center',
+        alignItems:'center'
     },
     textInput: {
         margin: 10,

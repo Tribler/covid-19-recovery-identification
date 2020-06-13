@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import Clipboard from "@react-native-community/clipboard";
 import { Button, Snackbar} from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
 import {useTrackedState } from "../Store";
@@ -40,7 +39,7 @@ const PeerScreen: React.FC = () => {
                 <Text style = {styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
-                <Button onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
+                <Button accessibilityStates onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
                 {certificates.length == 0 ? <Text>NO PEERS FOUND</Text> : 
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
