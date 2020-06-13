@@ -26,7 +26,7 @@ const CertificateView: React.FC<CertificateProps> = ({certificate}: CertificateP
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: '#fff',
+        backgroundColor:'transparent',
         alignItems: 'center',
         justifyContent: 'center',
         display: 'flex',
