@@ -5,7 +5,6 @@ from sys import modules
 import bcrypt
 from aiohttp import ClientSession
 
-from certificate_community import CertCommunity
 from certificate_endpoint import CertificateEndpoint
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
@@ -26,16 +25,16 @@ class TestAuth(RESTTestBase):
 
     async def setUp(self):
         super(TestAuth, self).setUp()
-        if os.path.exists('resource/credentials.txt'):
-            os.remove('resource/credentials.txt')
         UserStorage.clear_storage()
         await self.initialize([partial_cls(AttestationCommunity,
                                            working_directory=':memory:'),
                                partial_cls(IdentityCommunity,
-                                           working_directory=':memory:'),
-                               partial_cls(CertCommunity,
-                                           working_directory='resource')], 2)
+                                           working_directory=':memory:')], 2)
         # await self.log_in(self.nodes[0])
+
+    def tearDown(self):
+        if os.path.exists('credentials.txt'):
+            os.remove('credentials.txt')
 
     async def make_request(self, node, endpoint, request_type,
                            arguments, jwt=None, auth=None, register=None,

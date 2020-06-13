@@ -8,7 +8,6 @@ from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
 from ipv8_service import IPv8
 
-from certificate_community import CertCommunity
 from certificate_endpoint import CertificateEndpoint
 
 # Launch an IPv8 service. We run REST endpoints for this service on
@@ -17,9 +16,11 @@ from certificate_endpoint import CertificateEndpoint
 configuration = get_default_configuration()
 
 # On Android we need the complete path when new files are created!
-files_dir = str(Python.getPlatform().getApplication().getFilesDir())
+files_dir = str(Python.getPlatform().getApplication()
+                .getFilesDir()) + '/certificates'
 
 # Generate signature keys.
+# TODO WHY TWO IDS?
 configuration['keys'] = [
         {'alias': "anonymous id", 'generation': u"curve25519",
          'file': files_dir + u"/ec_multichain.pem"},
@@ -38,23 +39,7 @@ working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
 for overlay in configuration['overlays']:
     if overlay['class'] in working_directory_overlays:
         overlay['initialize'] = {
-                'working_directory': files_dir + '/certificates'}
-
-# Add the new Certification Community to the Configuration.
-cert_community = {
-        'class': 'CertCommunity',
-        'key': "my peer",
-        'walkers': [{
-                'strategy': "RandomWalk",
-                'peers': 10,
-                'init': {
-                        'timeout': 3.0
-                }
-        }],
-        'initialize': {'working_directory': files_dir + '/certificates'},
-        'on_start': []
-}
-configuration['overlays'].append(cert_community)
+                'working_directory': files_dir}
 
 # Override one endpoint in the RootEndpoint.
 root_endpoint = modules["ipv8.REST.root_endpoint"]
@@ -62,7 +47,7 @@ root_endpoint.AttestationEndpoint = CertificateEndpoint
 modules["ipv8.REST.rest_manager"].RootEndpoint = root_endpoint.RootEndpoint
 
 # SetUp the certification service.
-ipv8 = IPv8(configuration, extra_communities={'CertCommunity': CertCommunity})
+ipv8 = IPv8(configuration)
 rest_manager = RESTManager(ipv8)
 
 

@@ -1,8 +1,10 @@
 import jwt
+import json
+import bcrypt
 from aiohttp.web_middlewares import middleware
 from base64 import b64decode
-import bcrypt
-from os import urandom
+from os import urandom, path
+from com.chaquo.python import Python
 
 from user import UserStorage
 from ipv8.REST.base_endpoint import Response
@@ -56,6 +58,9 @@ async def login(request):
     to the saved password. If they match up,
     returns a JWT token.
     """
+    working_directory = str(Python.getPlatform().getApplication()
+                            .getFilesDir()) + "/credentials.txt"
+    read_credentials_file(working_directory)
     auth = request.headers.get('Authorization')
     auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
     user = UserStorage.get_storage()
@@ -64,7 +69,7 @@ async def login(request):
 
     payload = {
         'user_id': user.id,
-        'is_doc': user.is_doc
+        'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
     return Response({'token': jwt_token.decode('utf-8')})
@@ -74,8 +79,10 @@ async def register(request):
     """
     Register handler. Checks if you already registered, if not persist the
     user. Registration is done by checking the x-registration header. It is in
-    the form password:is_doc in base64 form.
+    the form password:is_attester in base64 form.
     """
+    working_directory = str(Python.getPlatform().getApplication()
+                            .getFilesDir()) + "/credentials.txt"
     if UserStorage.registered():
         return Response({'message': 'Already registered'}, status=400)
     cred = request.headers.get('x-registration')
@@ -83,4 +90,25 @@ async def register(request):
     pwd = cred[0].encode('utf8')
     hashed_pw = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode("utf-8")
     UserStorage.create_user("user", hashed_pw, cred[1])
+    write_credentials_file(working_directory)
     return Response({'success': True})
+
+
+def read_credentials_file(working_directory):
+    """
+    Put credentials in User Storage.
+    """
+    # Check if the file exists.
+    if path.exists(working_directory):
+        # Write your credentials to User.UserStorage.
+        UserStorage.set_storage(json.load(open(working_directory)))
+
+
+def write_credentials_file(working_directory):
+    """
+    Write credentials to file.
+    """
+    f = open(working_directory, 'w')
+    # To serialize a simple class  to JSON in python, we can call __dict__.
+    f.write(json.dumps(UserStorage.get_storage().__dict__))
+    f.close()

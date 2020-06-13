@@ -3,10 +3,10 @@ import bcrypt
 
 class User:
 
-    def __init__(self, id, password, is_doc):
+    def __init__(self, id, password, is_attester):
         self.id = id
         self.password = password
-        self.is_doc = is_doc
+        self.is_attester = is_attester
 
     def match_password(self, password):
         """
@@ -24,12 +24,8 @@ class UserStorage:
     _storage = None
 
     @classmethod
-    def create_user(cls, id, password, is_doc=False):
-        cls._storage = User(id, password, is_doc)
-
-    @classmethod
-    def get(cls, id):
-        return cls._storage
+    def create_user(cls, id, password, is_attester=False):
+        cls._storage = User(id, password, is_attester)
 
     @classmethod
     def registered(cls):
@@ -46,7 +42,7 @@ class UserStorage:
         """
         cls._storage = User(storage['id'],
                             storage['password'],
-                            storage['is_doc'])
+                            storage['is_attester'])
 
     @classmethod
     def clear_storage(cls):
