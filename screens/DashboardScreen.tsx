@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
     const [certData, setCertData] = useState({type:"0",attester:""}) //this states what data will show up in the confirmation dialogue after a scan
     const [scannerVisible, setScannerVisible] = useState(false)
     const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
-    const [dialogueVisible, setDialogueVisible] = useState(true)
+    const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
 
     const url = state.serverURL + "/attestation?type=attributes"
