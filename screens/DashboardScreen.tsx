@@ -22,7 +22,7 @@ const getAttributes = (url : string, setAttributes: Function) => {
 }
 
 const Dashboard: React.FC = () => {
-    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
+    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}, {id: "answers", signed: "themachine", hash:'DEF'}]);
     const [verificationVisible, setVerificationVisible] = useState(false)
     const [certData, setCertData] = useState({type:"0",attester:""}) //this states what data will show up in the confirmation dialogue after a scan
     const [scannerVisible, setScannerVisible] = useState(false)
@@ -43,18 +43,18 @@ const Dashboard: React.FC = () => {
     //useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
-        <View style={styles.light}>
-            <ScrollView>
-                <View style = {styles.header}>
+        <View style={styles.container}>
+            <View style = {styles.header}>
                     <Text style={styles.lighttext}>My Dashboard</Text>
                     <Text style={styles.instructions} >You can find your earned badges below</Text>
                     <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
                 </View>
-
+            <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}> 
                 {attributes.length > 0 ? 
                 <View>
-                    <View style = {{minHeight: 200}}>
+                    <View>
                         <FlatList // we use FlatList to provide list functionality
+                            style={{maxWidth:'95%', alignSelf:'center'}}
                             data={attributes}
                             keyExtractor={(item) => item.id} // 
                             renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
@@ -81,6 +81,11 @@ const Dashboard: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
+    container:{
+        alignContent:'center',
+        alignItems:'center',
+        flex:1
+    },
     darktext: {
         position: "relative",
         top: 30,
@@ -99,11 +104,6 @@ const styles = StyleSheet.create({
     dark: {
         flex: 1,
         backgroundColor: '#222',
-        alignItems: 'center'
-    },
-    light: {
-        flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center'
     },
     certificate: {

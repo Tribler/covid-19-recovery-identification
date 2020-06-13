@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         top: 20
     },
     container: {
-        margin: 5
+        margin: 10
     },
     labelDivision: {
         borderWidth: 2,
