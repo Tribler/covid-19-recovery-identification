@@ -1,11 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
-import LoginScreen from '../screens/LoginScreen';
 
 /**
  * The register screen which will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = () => {
+const RegisterScreen: React.FC = ({navigation}) => {
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -63,7 +62,7 @@ const RegisterScreen: React.FC = () => {
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <LoginScreen />} />
+            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => navigation.navigate("Login")} />
         </View>
     )
 }
