@@ -79,6 +79,20 @@ class TestAuth(RESTTestBase):
         self.assertEqual(response, {'message': 'Token is invalid'},
                          "The given JWT token should be invalid.")
 
+    async def test_login(self):
+        """
+        Test a (POST: login) request.
+        """
+        UserStorage.create_user(id='user', password=self.hashed_pw)
+        auth.write_credentials_file()
+
+        response = await self.make_request(self.nodes[0],  # nosec
+                                           'attestation/login',
+                                           'POST', {}, auth=True, user="user",
+                                           password="password")
+        self.assertTrue("token" in response,
+                        "The given credentials should be valid.")
+
     async def test_with_wrong_password(self):
         """
         Test a (POST: login) request while giving wrong credentials.
