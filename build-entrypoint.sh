@@ -29,6 +29,7 @@ case "${1}" in
   ./gradlew :app:pmd
   ;;
 "java_test")
+  echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test29" --device "pixel" --package "system-images;android-29;google_apis;x86" --tag "google_apis" --abi "x86"
   cd .. && yarn install && ./start.sh "${2}" && cd android
   ./gradlew :app:connectedCheck
   ;;
