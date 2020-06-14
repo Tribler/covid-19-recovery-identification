@@ -23,8 +23,9 @@ const toggleDark = (darkTheme:boolean, state:State) => {
  * The Dashboard is the entry point to the app and displays the user's stored proofs.
 */
 
-const getAttributes = (url : string, setAttributes: Function) => {
-    fetch(url)
+const getAttributes = (url : string, setAttributes: Function, jwt: string) => {
+    const data = { method: 'GET', headers: {"Authorization" : jwt}, body: "" }
+    fetch(url, data)
         .then((response) => response.json())
         .then((json) => setAttributes(json))
         .catch((error) => console.error(error));
@@ -49,7 +50,7 @@ const Dashboard: React.FC = () => {
         setDialogueVisible(true)
 
     }
-    //useEffect(() => {getAttributes(url, setAttributes)})
+    //useEffect(() => {getAttributes(url, setAttributes, state.jwt)})
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>

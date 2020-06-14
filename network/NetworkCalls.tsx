@@ -7,7 +7,7 @@ import {Base64} from "js-base64"
 const PostCertificate = (state: State, attester: string, type: string) => {
   // we have to uri encode our attester string
   const url = state.serverURL + "/attestation?type=request&mid=" + encodeURIComponent(attester) + "&attribute_name=" + type
-  const data = { method: 'POST', headers: {}, body: "" }
+  const data = { method: 'POST', headers: {"Authorization" : state.jwt}, body: "" }
   return fetch(url, data)
     .then((response) => {
       console.log(
@@ -27,7 +27,7 @@ const PostOutstanding = (state: State, attestee: string, type: string, value: st
   // we have to uri encode our attester string and base64 + uri encode our value
   const b64value = encodeURIComponent(Base64.encode(value))
   const url = state.serverURL + "/attestation?type=attest&mid=" + encodeURIComponent(attestee) + "&attribute_name=" + type + "&attribute_value=" + b64value
-  const data = { method: 'POST', headers: {}, body: "" }
+  const data = { method: 'POST', headers: {"Authorization" : state.jwt}, body: "" }
   return fetch(url, data)
     .then((response) => {
       console.log(
@@ -45,7 +45,7 @@ const PostOutstanding = (state: State, attestee: string, type: string, value: st
 const DeleteCertificate = (state: State, listID : string) => {
     // we have to uri encode our attester string
     const url = state.serverURL + "/attestation/certificate?type=delete&mid=" + encodeURIComponent(listID) 
-    const data = {method: 'POST', headers: {}, body: ""}
+    const data = {method: 'POST', headers: {"Authorization" : state.jwt}, body: ""}
     return fetch(url,data)
     .then((response) => {
               console.log(
@@ -118,7 +118,7 @@ const RegisterLogin = (state : State, password : string, isAttester:boolean) => 
  */
 const PostVerification = (state:State, holderID:string, attributeHash:string, callback:Function) => {
   const url = state.serverURL + "/attestation?type=verify&mid=" + encodeURIComponent(holderID) + "&attribute_hash=" + encodeURIComponent(attributeHash)
-  const data = { method: 'POST', headers: {}, body: "" }
+  const data = { method: 'POST', headers: {"Authorization" : state.jwt}, body: "" }
   return fetch(url, data)
     .then((response) => {
       callback(response)
