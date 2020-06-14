@@ -20,48 +20,39 @@ const LoginScreen: React.FC = ({navigation}) => {
                 source={require('../assets/background.jpeg')}>
             </ImageBackground>
             <ImageBackground
-                resizeMode="cover"
                 style={styles.im2}
                 source={require('../assets/logo.png')}>
             </ImageBackground>
-            <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as patient</Text>
-            <Text>{"\n"}</Text>
+            <Text style={styles.role}> Sign in as patient</Text>
             <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
             <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
-                <View style={{
-                    backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop: 20
-                }} >
-                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                <View style={styles.textField} >
+                    <Text style={styles.submitText}>Submit</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
             <Text>{"\n"}</Text>
-            <Text style={{ fontWeight: "bold", color: "#74d14c", fontSize: 20 }}> Sign in as health expert</Text>
-            <Text>{"\n"}</Text>
+            <Text style={styles.role}> Sign in as health expert</Text>
             <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
             <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
-                <View style={{
-                    zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop: 20
-                }}>
-                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                <View style={styles.submitButton}>
+                    <Text style={styles.submitText}>Submit</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={{ color: "#1d5", top: 20 }}>Don't have an account?</Text>
-            <Button style={{ top: 20 }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
+            <Text style={{ color: "#32CD32", top: "10%" }}>Don't have an account?</Text>
+            <Button style={{ top: "10%" }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
         </View>
     )
 }
@@ -76,14 +67,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
-        bottom: 270
+        bottom: "46%"
     },
     im: {
         width: "110%",
         height: "117%",
         flexDirection: "column",
         resizeMode: "cover",
-        top: 325,
+        top: 370,
         right: 20
     },
     im2: {
@@ -91,11 +82,47 @@ const styles = StyleSheet.create({
         width: 250,
         height: 250,
         resizeMode: 'contain',
-        bottom: 250,
+        bottom: 210,
         right: 20
     },
     sbutton: {
         color: "#0f0"
+    },
+    textField: {
+        backgroundColor: '#74d14c', 
+        alignItems: 'center',
+        justifyContent: 'center', 
+        borderRadius: 7, 
+        marginTop: 20
+    },
+    textInput: {
+        height: 45, 
+        width: "95%", 
+        borderColor: "gray", 
+        borderWidth: 2, 
+        borderRadius: 4, 
+        backgroundColor: "white" 
+    },
+    submitButton: {
+        zIndex: 1,
+        backgroundColor: '#74d14c',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+        marginTop: 20
+    },
+    submitText: {
+        fontWeight: "bold",
+        color: 'white',
+        width: 150,
+        height: 25,
+        textAlign: "center", 
+        textAlignVertical: "center" 
+    },
+    role: {
+        fontWeight: "bold",
+        color: "#74d14c",
+        fontSize: 20 
     }
 });
 
