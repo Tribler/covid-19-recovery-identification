@@ -29,7 +29,6 @@ RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && curl -L https://www.npmjs.com/install.sh | sh
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-RUN   npm i -g eslint
 
 # Add Build Script
 COPY ./build-entrypoint.sh /build-entrypoint.sh
