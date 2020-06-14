@@ -3,7 +3,7 @@ import json
 import bcrypt
 from aiohttp.web_middlewares import middleware
 from base64 import b64decode
-from os import urandom, path
+from os import urandom, path, stat
 
 from user import UserStorage
 from ipv8.REST.base_endpoint import Response
@@ -109,7 +109,7 @@ def read_credentials_file():
     Put credentials in User Storage.
     """
     # Check if the file exists.
-    if path.exists(working_directory):
+    if path.exists(working_directory) and stat(working_directory).st_size != 0:
         # Write your credentials to User.UserStorage.
         UserStorage.set_storage(json.load(open(working_directory)))
 
