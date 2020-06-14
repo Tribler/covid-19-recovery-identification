@@ -74,7 +74,14 @@ const PostLogin = (state : State, updateLogin:any, password : string) => {
     }, 
     body: ""}
   return fetch(url,data)
-  .then((response) => response.json())
+  .then((response) =>{
+    if(response.ok){
+      response.json()
+    }
+    else{
+      return alert("no")
+    }
+  } )
   .then((json) => {  // TODO wrong password handling
             console.log(json)
             state.jwt = json.id
