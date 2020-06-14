@@ -74,10 +74,12 @@ const PostLogin = (state : State, password : string) => {
     }, 
     body: ""}
   return fetch(url,data)
-  .then((response) => {
-            console.log(
-                response
-            )
+  .then((response) => response.json())
+  .then((json) => {  // TODO wrong password handling
+            console.log(json)
+            state.jwt = json.id
+            state.loggedIn = true   
+            console.log(state.loggedIn)     
         })
   .catch((error) => {
     console.error(error);
