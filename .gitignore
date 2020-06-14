@@ -40,6 +40,8 @@ buck-out/
 # Unit test/ coverage reports
 .nox/
 .coverage
+htmlcov/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.pytest_cache
