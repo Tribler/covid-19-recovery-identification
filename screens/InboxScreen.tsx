@@ -36,18 +36,18 @@ const InboxScreen: React.FC = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>My Inbox</Text>
-                <Text style = {styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.headerDark : styles.header}>
+                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>My Inbox</Text>
+                <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
                 <ScrollView>
                     <Button accessibilityStates color='dodgerblue' style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
-                    {certificates.length > 0 ? 
+                    {certificates.length > 0 ?
                     <View>
                         <FlatList // we use FlatList to provide list functionality
                             data={certificates}
-                            keyExtractor={(item) => item[0]} // 
+                            keyExtractor={(item) => item[0]} //
                             renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                 <CertificateViewInbox
                                     listID={item[0]} // the id of every certificate is used as identifier
@@ -65,48 +65,72 @@ const InboxScreen: React.FC = () => {
     );
 };
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
-    container:{
-        alignContent:'center',
-        alignItems:'center'
-    },
     textInput: {
         margin: 10,
     },
+    textInputDark: {
+        backgroundColor: "#222",
+        margin: 10,
+      },
     darktext: {
         position: "relative",
-        fontWeight: "bold",
-        fontSize: 60,
-        fontFamily: "Sans-serif",
-        color: "#fff",
-    },
-    lighttext: {
-        position: "relative",
+        marginTop: "3%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
-        color: "#000",
+        color: "#fff"
+    },
+    lighttext: {
+        position: "relative",
+        marginTop: "3%",
+        marginBottom: "5%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     dark: {
         flex: 1,
         backgroundColor: "#222",
         alignItems: "center",
+        alignContent:'center',
     },
     light: {
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
+        alignContent:'center',
     },
     header: {
         alignItems: 'center',
         marginTop: 50,
         marginBottom: 30
     },
+    headerDark: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30,
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        marginTop:25,
+        fontFamily: "Sans-serif",
+        color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
     }

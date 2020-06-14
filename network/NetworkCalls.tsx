@@ -1,4 +1,5 @@
 import {State} from "../Store"
+import {Base64} from "js-base64"
 
 /**
  * Sends a request to the backend to request attestation for a certain attribute of the attester.

@@ -3,7 +3,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet, View, Text } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState } from '../Store';
+import { State, useTrackedState } from '../Store';
 import HelpButton from '../components/HelpButton';
 
 /**
@@ -30,11 +30,11 @@ const OutstandingScreen: React.FC = () => {
 
 
     return (
-        <View style={styles.container}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>Outstanding</Text>
-                <Text style = {styles.subtitle}>Here you can see attestation requests from users of the network. If you accept a claim you will officially sign their request as true.</Text>
-            </View>       
+        <View style = {state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.darktext : styles.lighttext}>
+                <Text style = {state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
+                <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see attestation requests from users of the network. If you accept a claim you will officially sign their request as true.</Text>
+            </View>
             {outstanding.length>0 ?
                 <ScrollView>
                     <FlatList
@@ -54,11 +54,41 @@ const OutstandingScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
-    container:{
+    dark: {
+        flex: 1,
+        backgroundColor: "#222",
         alignContent:'center',
         alignItems:'center'
     },
+    light: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignContent:'center',
+        alignItems:'center'
+    },
+    darkColor: {
+        color: "#fff"
+    },
+    lightColor: {
+        color: "#000"
+    },
+    dropdown: {
+        backgroundColor: "#fff",
+        fontSize: 15,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        borderWidth: 1,
+        margin: 15,
+        padding: 5,
+        justifyContent: "center",
+    },
+    textInput: {
+        margin: 10,
     darktext: {
         position: "relative",
         top: 30,
@@ -66,24 +96,32 @@ const styles = StyleSheet.create({
         fontSize: 60,
         fontFamily: "Sans-serif",
         color: "#fff",
+        alignItems: "center"
     },
     lighttext: {
+        position: "relative",
+        top: 100,
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        alignItems: "center"
+    },
+    title: {
         position: "relative",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
     },
-    dark: {
-        flex: 1,
-        backgroundColor: "#222",
-        alignItems: "center",
+    titleDark: {
+        position: "relative",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     },
-    light: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-    },header: {
+    header: {
         alignItems: 'center',
         marginTop: 50,
         marginBottom: 30
@@ -95,7 +133,15 @@ const styles = StyleSheet.create({
         color: "#000",
         textAlign: 'center',
         justifyContent: 'center'
-    }
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#fff",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
 });
 
 export default OutstandingScreen;

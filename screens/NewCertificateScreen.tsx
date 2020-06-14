@@ -27,6 +27,7 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
     }
     if (holder) {
         CreateCertificate(certificate, state);
+        Alert.alert("certificate sent!");
     }
     else {
         Alert.alert(
@@ -50,15 +51,15 @@ const NewCertificateScreen: React.FC = () => {
     const state = useTrackedState()
 
     const options =attributeTypeMap
-    
+
     return (
-        <View style={styles.light}>
-            <View style={styles.header}>
-                <Text style={styles.lighttext}>New Certificate</Text>
-                <Text style={styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.headerDark : styles.header}>
+                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>New Certificate</Text>
+                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
 
-            <View style={styles.dropdown} >
+            <View style={state.darkMode ? styles.dropdownDark : styles.dropdown} >
                 <Dropdown
                     data={options}
                     label="Choose..."
@@ -84,6 +85,10 @@ const NewCertificateScreen: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     dropdown: {
         backgroundColor: '#fff',
@@ -96,14 +101,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 200
     },
+    dropdownDark: {
+        backgroundColor: '#222',
+        fontSize: 15,
+        fontFamily: "Sans-serif",
+        color: "#000",
+        borderWidth: 1,
+        margin: 0,
+        padding: 5,
+        justifyContent: 'center',
+        width: 200
+    },
     textInput: {
         margin: 10,
         width: 200,
-        height: 100
+        height: 100,
+        borderColor: "#000",
+        borderWidth: 1
+    },
+    textInputDark: {
+        backgroundColor: "#222",
+        color: "#fff",
+        margin: 10,
+        width: 200,
+        height: 100,
+        borderColor: "#000",
+        borderWidth: 1
     },
     darktext: {
         position: "relative",
-        top: 30,
+        marginTop: "3%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -111,6 +138,8 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
+        marginTop: "3%",
+        marginBottom: "5%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -131,11 +160,25 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 30
     },
+    headerDark: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30,
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
     }

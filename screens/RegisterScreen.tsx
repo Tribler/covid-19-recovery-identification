@@ -1,7 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View, ImageBackground, Button } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 
+/**
+ * The register screen which will be prompted on first startup and then never again.
+ */
 const RegisterScreen: React.FC = () => {
     return (
         <View style={styles.container}>
@@ -15,39 +18,60 @@ const RegisterScreen: React.FC = () => {
                 source={require('../assets/logo.png')}>
             </ImageBackground>
             <Text style={{ fontWeight: "bold", color: "#1d5" }}> Register as patient</Text>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Password" placeholder="Password" />
-                </label>
-                <Text>{"\n"}</Text>
-            </form>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Confirm Password" placeholder="Confirm Password" />
-                </label>
-                <Text>{"\n"}</Text>
-            </form>
+            <TextInput
+                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                placeholder=" Enter Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true} />
+            <TextInput
+                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                placeholder=" Confirm Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true} />
+            
+            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+                <View style={{
+                    backgroundColor: '#74d14c', alignItems: 'center',
+                    justifyContent: 'center', borderRadius: 7, marginTop:20
+                }}>
+                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                </View>
+            </TouchableOpacity>
             <Text>{"\n"}</Text>
             <Text style={{ fontWeight: "bold", color: "#1d5" }}> Register as health expert</Text>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Password" placeholder="Password" />
-                </label>
-            </form>
-            <form style={{ alignItems: "center" }}>
-                <label>
-                    <input type="password" name="Confirm Password" placeholder="Confirm Password" />
-                </label>
-                <Text>{"\n"}</Text>
-            </form>
-            <Text>{"\n"}</Text>
-            <input type="submit" value="register" style={{ alignItems: "center" }} />
+            <TextInput
+                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                placeholder=" Enter Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true} />
+            <TextInput
+                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                placeholder=" Confirm Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true} />
+            
+            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+                <View style={{
+                    backgroundColor: '#74d14c', alignItems: 'center',
+                    justifyContent: 'center', borderRadius: 7, marginTop:20
+                }}>
+                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                </View>
+            </TouchableOpacity>
             <Text>{"\n"}</Text>
             <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <LoginScreen />} />
         </View>
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
     container: {
         flex: 1,

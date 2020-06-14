@@ -33,20 +33,20 @@ const PeerScreen: React.FC = () => {
       }, []);
 
     return (
-        <View style={styles.light}>
-            <View style = {styles.header}>
-                <Text style = {styles.lighttext}>Peers</Text>
-                <Text style = {styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
+        <View style = {state.darkMode ? styles.dark : styles.light}>
+            <View style = {state.darkMode ? styles.headerDark : styles.header}>
+                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>Peers</Text>
+                <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
                 <Button accessibilityStates onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
-                {certificates.length == 0 ? <Text>NO PEERS FOUND</Text> : 
+                {certificates.length == 0 ? <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}>NO PEERS FOUND</Text> :
                 <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
                     keyExtractor={(item) => item[0]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                        <Text 
-                        style={{margin:5}}
+                        <Text
+                        style = {state.darkMode ? styles.darkColor : styles.lightColor}
                         onPress={() => {
                             console.log("Copied ID")
                             // // Clipboard.setString(item)
@@ -55,11 +55,11 @@ const PeerScreen: React.FC = () => {
                     )}
                 />
                 }
-            <Snackbar 
+            <Snackbar
                 accessibilityStates = {true}
                 visible={snackbar}
                 onDismiss={() => {setSnackbar(false)}}
-                action={{ 
+                action={{
                     label: 'Undo',
                     onPress: () => {
                         console.log("Undoing");
@@ -74,6 +74,14 @@ const PeerScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+    darkColor: {
+        color: "#fff",
+        margin:5,
+    },
+    lightColor: {
+        color: "#000",
+        margin:5,
+    },
     dropdown: {
         backgroundColor: "#fff",
         fontSize: 15,
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
     darktext: {
         position: "relative",
         fontWeight: "bold",
-        fontSize: 60,
+        fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff",
     },
@@ -116,11 +124,25 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 30
     },
+    headerDark: {
+        alignItems: 'center',
+        marginTop: 50,
+        marginBottom: 30,
+        color: "#fff"
+    },
     subtitle: {
         fontSize: 15,
         margin:5,
         fontFamily: "Sans-serif",
         color: "#000",
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    subtitleDark: {
+        fontSize: 15,
+        margin:5,
+        fontFamily: "Sans-serif",
+        color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
     }

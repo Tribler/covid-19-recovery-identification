@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Image, Modal} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState} from '../Store';
+import { State, useTrackedState } from '../Store';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
@@ -10,8 +10,17 @@ import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
 
+/**
+ * Used to toggle the dark theme for the app.
+ * @param darkTheme whether to set it to dark or light depending on the option clicked.
+ * @param state the state, details can be found in Store.tsx
+ */
+const toggleDark = (darkTheme:boolean, state:State) => {
+    state.darkMode = darkTheme
+}
+
 /*
- * The Dashboard is the entry point to the app and displays the user's stored proofs
+ * The Dashboard is the entry point to the app and displays the user's stored proofs.
 */
 
 const getAttributes = (url : string, setAttributes: Function) => {
@@ -43,20 +52,20 @@ const Dashboard: React.FC = () => {
     //useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
-        <View style={styles.container}>
+        <View style={state.darkMode ? styles.dark : styles.light}>
             <View style = {styles.header}>
-                    <Text style={styles.lighttext}>My Dashboard</Text>
-                    <Text style={styles.instructions} >You can find your earned badges below</Text>
+                    <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
+                    <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
                     <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
                 </View>
             <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}>
-                {attributes.length > 0 ? 
+                {attributes.length > 0 ?
                 <View>
                     <View>
                         <FlatList // we use FlatList to provide list functionality
                             style={{maxWidth:'95%', alignSelf:'center'}}
                             data={attributes}
-                            keyExtractor={(item) => item.id} // 
+                            keyExtractor={(item) => item.id} //
                             renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                 <CertificateViewDashboard
                                     certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
@@ -67,7 +76,7 @@ const Dashboard: React.FC = () => {
                         />
                     </View>
                 </View>
-                
+
                 : <Text>You have no signed attributes yet</Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible}/>
@@ -80,22 +89,24 @@ const Dashboard: React.FC = () => {
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
-    container:{
-        alignContent:'center',
-        alignItems:'center',
-        flex:1
-    },
     darktext: {
         position: "relative",
-        top: 30,
+        marginTop: "15%",
+        marginBottom: "-13%",
         fontWeight: "bold",
-        fontSize: 60,
+        fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff"
     },
     lighttext: {
         position: "relative",
+        marginTop: "15%",
+        marginBottom: "-13%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -106,127 +117,31 @@ const styles = StyleSheet.create({
         backgroundColor: '#222',
         alignItems: 'center'
     },
-    certificate: {
-        width: 300,
-        top: 100,
-        borderWidth: 4,
-        borderColor: "#20232a",
-        borderRadius: 10,
-        backgroundColor: "#fffffb",
-        color: "#20232a",
-        textAlign: "center",
-        fontSize: 30,
-        fontWeight: "bold",
-        fontFamily: "Sans-serif"
-    },
-    twelvePointBurstMain: {
-        width: 100,
-        height: 100,
-        backgroundColor: "#74d14c",
-        top: 250,
-        right: 75,
-        borderColor: "black"
-    },
-    twelvePointBurst30: {
-        width: 100,
-        height: 100,
-        position: 'absolute',
-        backgroundColor: '#74d14c',
-        borderColor: "black",
-        top: 250,
-        right: 105,
-        transform: [
-            { rotate: '30deg' }
-        ],
-    },
-    twelvePointBurst60: {
-        width: 100,
-        height: 100,
-        position: 'absolute',
-        backgroundColor: '#74d14c',
-        top: 250,
-        right: 105,
-        borderColor: "black",
-        transform: [
-            { rotate: '60deg' }
-        ]
+    light: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center'
     },
     badgeText: {
-        bottom: 180,
-        right: 55,
+        bottom: "37%",
+        right: "13%",
         fontWeight: "bold",
         fontStyle: "italic"
     },
     instructions: {
-        fontSize:15,
-        fontWeight: '300'
+        marginTop: "20%",
+        marginBottom: "-44%"
     },
-    rectangle: {
-        width: 150,
-        height: 200,
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: 280,
-        right: 90
-    },
-    rectangle2: {
-        width: 150,
-        height: 200,
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: 480,
-        left: 90
-    },
-    rectangle3: {
-        width: 150,
-        height: 200,
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: 460,
-        left: 90
-    },
-    rectangle4: {
-        width: 150,
-        height: 200,
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: 660,
-        right: 90
-    },
-    badges: {
-        flexDirection:'row',
-        flexWrap:'wrap',
-        justifyContent: 'center',
-        alignItems: "center"
-    },
-    locked: {
-        width: 130,
-        height: 120,
-        opacity: 0.4,
-        margin:20
-    },
-    unlocked: {
-        width: 130,
-        height: 120,
-        margin:20
+    instructionsDark: {
+        marginTop: "20%",
+        marginBottom: "-44%",
+        color: "#fff"
     },
     header: {
         alignItems: 'center',
         marginTop: 35,
         marginBottom: 30,
         padding:5
-    },
-    subtitle: {
-        fontSize: 15,
-        margin:5,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        textAlign: 'center',
-        justifyContent: 'center'
-    },
-    idtext: {
-        fontSize: 15,
-        fontWeight: '400'
     }
 });
 

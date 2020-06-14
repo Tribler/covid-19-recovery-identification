@@ -2,88 +2,148 @@ import React from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
+import { useTrackedState, State} from '../Store';
+import { useToggleDark} from '../hooks/useToggleDark';
+import { useToggleLight } from '../hooks/useToggleLight';
+
+const logout = (state:State) => {
+    state.loggedIn = false
+}
 
 const SettingsScreen: React.FC = () => {
+    const state = useTrackedState()
+    const toggleDark = useToggleDark()
+    const toggleLight = useToggleLight()
+
     return (
-        <View style={styles.container}>
-            <Text style={{ fontWeight: "bold", fontSize: 40, fontFamily: "Sans-serif", top: 80 }}>Settings</Text>
-            <Text style={styles.setting}>Push Notifications</Text>
-            <Text style={styles.option}><Text onPress={() => Alert.alert("enabled")}>Enabled</Text> / <Text onPress={() => Alert.alert("disabled")}>Disabled</Text></Text>
-            <Text style={styles.setting2}>Theme</Text>
-            <Text style={styles.option1}><Text onPress={() => Alert.alert("light")}>Light</Text> / <Text onPress={() => Alert.alert("dark")}>Dark</Text></Text>
-            <Text style={styles.settingred2} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
-            <Text style={styles.settingred} onPress={() => Alert.alert("delete acc")}>Delete your Account</Text>
-            <DrawerButton />
-            <HelpButton />
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <Text style={state.darkMode ? styles.darktext : styles.lighttext}>Settings</Text>
+            <Text style={state.darkMode ? styles.settingDark : styles.setting}>Push Notifications</Text>
+            <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
+            <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
+            <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
+            <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
+            <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout(state)}>Log out</Text>
+            <DrawerButton/>
+            <HelpButton/> 
         </View>
     )
 }
 
+/**
+ * various styles for use in various situations. For example, white text in a potential
+ * dark mode or black text in the current light mode.
+ */
 const styles = StyleSheet.create({
-    container: {
+    dark: {
+        flex: 1,
+        backgroundColor: '#222',
+        alignItems: 'center'
+    },
+    light: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        alignItems: 'center'
+    },
+    darktext: {
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "3%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#fff"
+    },
+    lighttext: {
+        position: "relative",
+        marginTop: "15%",
+        marginBottom: "3%",
+        fontWeight: "bold",
+        fontSize: 40,
+        fontFamily: "Sans-serif",
+        color: "#000"
     },
     setting: {
         position: "relative",
-        top: 300,
-        left: 80,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "7%",
+        marginRight: "48%",
         fontSize: 20,
         fontFamily: "Sans-serif",
     },
-    setting2: {
+    settingDark: {
         position: "relative",
-        top: 290,
-        left: 130,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "7%",
+        marginRight: "48%",
         fontSize: 20,
         fontFamily: "Sans-serif",
+        color: "#fff"
+    },
+    setting1: {
+        position: "relative",
+        marginTop: "8%",
+        marginRight: "72.5%",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+    },
+    setting1Dark: {
+        position: "relative",
+        marginTop: "8%",
+        marginRight: "72.5%",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     },
     option: {
         position: "relative",
-        top: 110,
-        left: 80,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "-6.5%",
+        marginLeft: "63%",
         fontSize: 20,
         fontFamily: "Sans-serif"
+    },
+    optionDark: {
+        position: "relative",
+        marginTop: "-6.5%",
+        marginLeft: "63%",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     },
     option1: {
         position: "relative",
-        top: 100,
-        left: 109,
-        textAlign: "left",
-        paddingVertical: 8,
-        color: "#20232a",
+        marginTop: "-6.5%",
+        marginLeft: "61%",
         fontSize: 20,
         fontFamily: "Sans-serif"
+    },
+    option1Dark: {
+        position: "relative",
+        marginTop: "-6.5%",
+        marginLeft: "61%",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     },
     settingred: {
         position: "relative",
-        top: 400,
-        textAlign: "left",
-        paddingVertical: 8,
-        right: 100,
+        marginTop: "15%",
         color: "#FF0000",
         fontSize: 20,
         fontFamily: "Sans-serif"
     },
-    settingred2: {
+    logout: {
         position: "relative",
-        top: 400,
-        textAlign: "left",
-        paddingVertical: 8,
-        right: 105,
-        color: "#FF0000",
+        marginTop: "69%",
+        marginLeft: "72%",
         fontSize: 20,
         fontFamily: "Sans-serif"
+    },
+    logoutDark: {
+        position: "relative",
+        marginTop: "69%",
+        marginLeft: "72%",
+        fontSize: 20,
+        fontFamily: "Sans-serif",
+        color: "#fff"
     }
 });
 
