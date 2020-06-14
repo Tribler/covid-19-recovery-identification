@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
-import LoginScreen from '../screens/LoginScreen';
+import { RegisterLogin } from '../network/NetworkCalls';
+import { useTrackedState } from '../Store';
 
 /**
  * The register screen which will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = () => {
+const RegisterScreen: React.FC = ({navigation}) => {
+    const state = useTrackedState()
+    const [password, setPassword] = useState("")
+    const [passwordConfirm, setPasswordConfirm] = useState("")
+
+    const checkSamePassword = () =>{
+        return password == passwordConfirm
+    }
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -23,15 +32,22 @@ const RegisterScreen: React.FC = () => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
+                secureTextEntry={true}
+                onChangeText={input => setPassword(input)}/>
+                
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
                 placeholder=" Confirm Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
+                secureTextEntry={true} 
+                onChangeText={input => setPasswordConfirm(input)}/>
             
-            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+            <TouchableOpacity  onPress={() =>{
+                 if(checkSamePassword()) RegisterLogin(state, password, false)
+                 setPassword("")
+                 setPasswordConfirm("")
+                 }}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop:20
@@ -46,15 +62,20 @@ const RegisterScreen: React.FC = () => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
+                secureTextEntry={true}
+                onChangeText={input => setPassword(input)}/>
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
                 placeholder=" Confirm Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            
-            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+                secureTextEntry={true} 
+                onChangeText={input => setPasswordConfirm(input)}/>
+                
+            <TouchableOpacity  onPress={() => {
+                if(checkSamePassword()) RegisterLogin(state, password, false)
+                setPassword("")
+                setPasswordConfirm("")}}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop:20
@@ -63,7 +84,7 @@ const RegisterScreen: React.FC = () => {
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <LoginScreen />} />
+            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => navigation.navigate("Login")} />
         </View>
     )
 }
