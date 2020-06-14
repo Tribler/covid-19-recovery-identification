@@ -75,13 +75,11 @@ const PostLogin = (state : State, updateLogin:any, password : string) => {
     body: ""}
   return fetch(url,data)
   .then((response) =>{
-    if(response.ok){
-      response.json()
+    if(!response.ok){
+      throw alert(response.status)
     }
-    else{
-      return alert("no")
-    }
-  } )
+      return response.json()
+  })
   .then((json) => {  // TODO wrong password handling
             console.log(json)
             state.jwt = json.id
@@ -89,7 +87,6 @@ const PostLogin = (state : State, updateLogin:any, password : string) => {
             console.log(state.loggedIn)     
         })
   .catch((error) => {
-    console.error(error);
   });
 }
 
