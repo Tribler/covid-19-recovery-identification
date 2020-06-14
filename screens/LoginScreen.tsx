@@ -3,6 +3,7 @@ import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpa
 import { Button } from 'react-native-paper';
 import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
+import { useToggleLogin } from '../hooks/useToggleLogin';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
@@ -10,6 +11,7 @@ import { PostLogin } from '../network/NetworkCalls';
  */
 const LoginScreen: React.FC = ({navigation}) => {
     const state = useTrackedState()
+    const updateLogin = useToggleLogin()
     const [password, setPassword] = useState("")
     return (
         <View style={styles.container}>
@@ -31,7 +33,7 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, password)}>
+            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
@@ -50,7 +52,7 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, password)}>
+            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
                 <View style={{
                     zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
