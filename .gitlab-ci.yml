@@ -107,7 +107,7 @@ java_lint_and_test:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest java_test
+      -w /code $CI_REGISTRY_IMAGE:latest java_test 29
   artifacts:
     paths:
       - android/app/build/reports/lint-results*.xml
