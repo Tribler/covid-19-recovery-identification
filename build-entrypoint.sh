@@ -2,7 +2,7 @@
 set -eu
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-cd android
+yarn install && cd android
 
 if [ ! -f app/debug.keystore ] && [ ! -f local.properties ]; then
   keytool -genkey -v -keystore app/debug.keystore -storepass android \
@@ -17,20 +17,16 @@ fi
 
 case "${1}" in
 "build")
-  cd .. && yarn install && cd android
   ./gradlew :app:assemble
   ;;
 "checkstyle")
-  cd .. && yarn install && cd android
   ./gradlew :app:checkstyle
   ;;
 "pmd")
-  cd .. && yarn install && cd android
   ./gradlew :app:pmd
   ;;
 "java_test")
-  echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test29" --device "pixel" --package "system-images;android-29;google_apis;x86" --tag "google_apis" --abi "x86"
-  cd .. && yarn install && ./start.sh "${2}" && cd android
+  # ../start.sh "${2}" && cd android
   ./gradlew :app:connectedCheck
   ;;
 "python_test")
