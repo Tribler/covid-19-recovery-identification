@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
@@ -59,9 +57,7 @@ public class CertService extends Service {
   /**
    * Start method. Gets called whenever the widget creates a new instance of the service.
    * Responsible for starting the service.
-   *
-   * @return The flag indicating that the os should not try to restart the service if it has
-   * previously stopped it.
+   * @return Flag indicating that the service should not be restarted if it was previously stopped.
    */
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {

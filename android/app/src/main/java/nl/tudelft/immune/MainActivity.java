@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -15,9 +14,9 @@ public class MainActivity extends ReactActivity {
   // Prevents from unwanted unbinding.
   private transient boolean shouldUnbind;
 
-//  public boolean isShouldUnbind() {
-//    return shouldUnbind;
-//  }
+  //  public boolean isShouldUnbind() {
+  //    return shouldUnbind;
+  //  }
 
   /**
    * Returns the name of the main component registered from JavaScript.
