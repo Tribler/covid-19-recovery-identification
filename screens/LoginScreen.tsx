@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleLogin';
+import { useToggleJwt } from '../hooks/useToggleJwt';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
@@ -12,6 +13,7 @@ import { useToggleLogin } from '../hooks/useToggleLogin';
 const LoginScreen: React.FC = ({navigation}) => {
     const state = useTrackedState()
     const updateLogin = useToggleLogin()
+    const updateJwt = useToggleJwt()
     const [password, setPassword] = useState("")
     return (
         <View style={styles.container}>
@@ -33,7 +35,7 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
+            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, updateJwt, password)}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
@@ -52,7 +54,7 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
+            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, updateJwt, password)}>
                 <View style={{
                     zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20

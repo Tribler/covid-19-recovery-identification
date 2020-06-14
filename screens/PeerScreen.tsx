@@ -5,12 +5,17 @@ import DrawerButton from "../components/DrawerButton";
 import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
+import { State } from "react-native-gesture-handler";
 
 
-const getPeers = (url : string, setCertificates : Function) => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setCertificates(json))
+const getPeers = (url : string, setCertificates : Function, jwt : string) => {
+    const data = { method: 'GET', headers: {"Authorization" : jwt}, body: "" }
+    fetch(url, data)
+      .then((response) => {
+         return response.json()})
+      .then((json) => {
+          setCertificates(json)
+      })
       .catch((error) => console.error(error));
   }
 /*
@@ -27,7 +32,7 @@ const PeerScreen: React.FC = () => {
     
     useEffect(() => {
         const interval = setInterval(() => {            
-            getPeers(url, setCertificates)
+            getPeers(url, setCertificates, state.jwt)
         }, updateInterval);
         return () => clearInterval(interval);
       }, []);
@@ -39,7 +44,7 @@ const PeerScreen: React.FC = () => {
                 <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
-                <Button onPress = {() => getPeers(url, setCertificates)}>REFRESH</Button>
+                <Button onPress = {() => getPeers(url, setCertificates, state.jwt)}>REFRESH</Button>
                 {certificates.length == 0 ? <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}>NO PEERS FOUND</Text> : 
                 <FlatList                  // we use FlatList to provide list functionality
                     data={certificates}
