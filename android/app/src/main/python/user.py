@@ -1,31 +1,49 @@
+import bcrypt
+
+
 class User:
 
-    def __init__(self, id, password, is_doc):
+    def __init__(self, id, password, is_attester):
         self.id = id
         self.password = password
-        self.is_doc = is_doc
+        self.is_attester = is_attester
 
     def match_password(self, password):
-        if password != self.password:
-            raise User.PasswordDoesNotMatch
+        """
+        bcrypt checks if the given password is equal to the hashed password.
+        If the password is incorrect,
+        it might take a long time as bcrypt is intentionally slow.
+        """
+        result = bcrypt.checkpw(password.encode("utf8"),
+                                self.password.encode("utf8"))
+        return result
 
-    class DoesNotExist(BaseException):
-        pass
 
-    class TooManyObjects(BaseException):
-        pass
+class UserStorage:
+    # Should only be one user.
+    _storage = None
 
-    class PasswordDoesNotMatch(BaseException):
-        pass
+    @classmethod
+    def create_user(cls, id, password, is_attester=False):
+        cls._storage = User(id, password, is_attester)
 
-    class UserStorage:
-        # Should only be one user.
-        _storage = {}
+    @classmethod
+    def registered(cls):
+        return cls._storage is not None
 
-        @classmethod
-        def create_user(cls, id, password, is_doc=False):
-            cls._storage[id] = User(id, password, is_doc)
+    @classmethod
+    def get_storage(cls):
+        return cls._storage
 
-        @classmethod
-        def get(cls, id):
-            return cls._storage[id]
+    @classmethod
+    def set_storage(cls, storage):
+        """
+        Read the JSON imported file into a User object.
+        """
+        cls._storage = User(storage['id'],
+                            storage['password'],
+                            storage['is_attester'])
+
+    @classmethod
+    def clear_storage(cls):
+        cls._storage = None
