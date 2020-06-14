@@ -102,19 +102,11 @@ public class CertServiceTest {
   }
 
   @Test
-  public void permissionInternet() {
+  public void permissions() {
     assertEquals(PackageManager.PERMISSION_GRANTED,
         service.checkSelfPermission(Manifest.permission.INTERNET));
     assertEquals(PackageManager.PERMISSION_GRANTED,
         service.checkSelfPermission(Manifest.permission.FOREGROUND_SERVICE));
   }
-
-//  @Test
-//  public void runPythonTests() {
-//    if (!Python.isStarted()) {
-//      Python.start(new AndroidPlatform(service));
-//    }
-//    Python.getInstance().getModule("unittest").callAttr("discover", "ipv8.test" );
-//  }
 
 }

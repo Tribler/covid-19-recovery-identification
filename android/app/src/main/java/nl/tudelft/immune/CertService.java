@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
@@ -22,9 +24,9 @@ public class CertService extends Service {
   // or stopping the service more than once.
   private static Boolean running = false;
 
-  private Notification notification;
+  private transient Notification notification;
 
-  private NotificationChannel notificationChannel;
+  private transient NotificationChannel notificationChannel;
 
   // The identifier of the custom channel needed in APIs 26+
   private static final String CHANNEL_ID = "Certification Service Channel";
@@ -57,8 +59,9 @@ public class CertService extends Service {
   /**
    * Start method. Gets called whenever the widget creates a new instance of the service.
    * Responsible for starting the service.
+   *
    * @return The flag indicating that the os should not try to restart the service if it has
-   *         previously stopped it.
+   * previously stopped it.
    */
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
@@ -69,6 +72,7 @@ public class CertService extends Service {
   /**
    * Start method. Gets called whenever the gui creates a new instance of the service.
    * Responsible for starting the service.
+   *
    * @return The binder which provides access of the service object to clients.
    */
   @Nullable
@@ -78,16 +82,17 @@ public class CertService extends Service {
   }
 
   // The binder that provides connection with the service to clients.
-   private final IBinder certBinder = new CertBinder();
-   /*
-     Binder class that provides service control methods
-     to all clients which bind to the service.
-    */
-   class CertBinder extends Binder {
-     CertService getService() {
-       return CertService.this;
-     }
-   }
+  private final transient IBinder certBinder = new CertBinder();
+
+  /*
+    Binder class that provides service control methods
+    to all clients which bind to the service.
+   */
+  class CertBinder extends Binder {
+    CertService getService() {
+      return CertService.this;
+    }
+  }
 
   /**
    * Helper method. Gets called when the service is being started.
