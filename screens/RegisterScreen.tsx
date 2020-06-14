@@ -83,7 +83,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
 
             <TouchableOpacity onPress={() => {
                 if (passwordAttester == passwordAttesterConfirm) {
-                    RegisterLogin(state, passwordAttester, false)
+                    RegisterLogin(state, passwordAttester, true)
                 }
                 else {
                     alert("Passwords don't match")

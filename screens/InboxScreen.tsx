@@ -5,11 +5,19 @@ import DrawerButton from "../components/DrawerButton";
 import CertificateViewInbox from "../components/CertificateViewInbox";
 import { Certificate, useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
+import { ScrollView } from "react-native-gesture-handler";
 
 /*
  * The Inbox contains all certificates received by this attestee, the attestee can choose wheter to keep or discard (accept / decline) this data.
  * The certificates shown here are the ones that an attester wants to add the the attestee's chain.
 */
+
+const getCertificates = (url : string, setCertificates: Function) => {
+        fetch(url)
+            .then((response) => response.json())
+            .then((json) => setCertificates(json))
+            .catch((error) => console.error(error));
+}
 
 const InboxScreen: React.FC = () => {
 
@@ -17,12 +25,7 @@ const InboxScreen: React.FC = () => {
     const state = useTrackedState()
     const url = state.serverURL + '/attestation/certificate/recent'
 
-    useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => setCertificates(json))
-            .catch((error) => console.error(error));
-    }, []);
+    useEffect(() => {getCertificates(url, setCertificates)})
 
 
     // function to remove certificates in the certificates list
@@ -38,19 +41,24 @@ const InboxScreen: React.FC = () => {
                 <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>My Inbox</Text>
                 <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
-            <View>
-                <FlatList // we use FlatList to provide list functionality
-                    data={certificates}
-                    keyExtractor={(item, index) => item.id} // 
-                    renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                         <CertificateViewInbox
-                             listID={item.id} // the id of every certificate is used as identifier
-                             certificate={{creatorID:item.certificate[0], holderID: "0", type: item.certificate[1]}}
-                             deleteCert={deleteCert}
-                         />
-                    )}
-                />
-            </View>
+                <ScrollView>
+                    <Button accessibilityStates color='dodgerblue' style = {{flex:1}} onPress = {() => getCertificates(url, setCertificates)}>REFRESH</Button>
+                    {certificates.length > 0 ?
+                    <View>
+                        <FlatList // we use FlatList to provide list functionality
+                            data={certificates}
+                            keyExtractor={(item) => item[0]} //
+                            renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                                <CertificateViewInbox
+                                    listID={item[0]} // the id of every certificate is used as identifier
+                                    certificate={{creatorID:item[0], holderID: state.ID, type: item[1]}}
+                                    deleteCert={deleteCert}
+                                />
+                            )}
+                        />
+                    </View>
+                    : <Text style={{fontSize:16, borderWidth:1,padding:5}}>There are no pending certificates</Text>}
+                </ScrollView>
             <DrawerButton />
             <HelpButton />
         </View>
@@ -90,11 +98,13 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#222",
         alignItems: "center",
+        alignContent:'center',
     },
     light: {
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
+        alignContent:'center',
     },
     header: {
         alignItems: 'center',

@@ -1,13 +1,17 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { Button } from 'react-native-paper';
-import GetCertificates from '../network/getCertificates';
 import { State, useTrackedState } from '../Store';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import CertificateViewDashboard from '../components/CertificateViewDashboard';
+import { Button } from 'react-native-paper';
+import BasicQRModal from '../components/BasicQRModal';
+import QRScannerModal from '../components/QRScannerModal';
+import CertificationDialogue from '../components/CertificationDialgoue';
 
 /**
- * used to toggle the dark theme for the app
+ * Used to toggle the dark theme for the app.
  * @param darkTheme whether to set it to dark or light depending on the option clicked.
  * @param state the state, details can be found in Store.tsx
  */
@@ -16,44 +20,71 @@ const toggleDark = (darkTheme:boolean, state:State) => {
 }
 
 /*
- * The Dashboard is the entry point to the app and displays the user's stored proofs
+ * The Dashboard is the entry point to the app and displays the user's stored proofs.
 */
+
+const getAttributes = (url : string, setAttributes: Function) => {
+    fetch(url)
+        .then((response) => response.json())
+        .then((json) => setAttributes(json))
+        .catch((error) => console.error(error));
+}
+
 const Dashboard: React.FC = () => {
+    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}]);
+    const [verificationVisible, setVerificationVisible] = useState(false)
+    const [certData, setCertData] = useState({type:"0",attester:""}) //this states what data will show up in the confirmation dialogue after a scan
+    const [scannerVisible, setScannerVisible] = useState(false)
+    const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
+    const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
+
+    const url = state.serverURL + "/attestation?type=attributes"
+
+
+    const handleQRScan = (dataString:string) => {
+        const data = JSON.parse(dataString)
+        console.log(data)
+        setCertData({type:data.type, attester:data.attestater})
+        setDialogueVisible(true)
+
+    }
+    //useEffect(() => {getAttributes(url, setAttributes)})
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
-            <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
-            <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
-            <View>
-                <Image
-                    resizeMode="cover"
-                    style={styles.star}
-                    source={require('../assets/star.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock1}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock2}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Image
-                    resizeMode="cover"
-                    style={styles.lock3}
-                    source={require('../assets/Lock_icon.png')}>
-                </Image>
-                <Text style={styles.badgeText}>Immunity</Text>
-            </View>
-            <View style={styles.rectangle} ></View>
-            <View style={styles.rectangle2}></View>
-            <View style={styles.rectangle3}></View>
-            <View style={styles.rectangle4}></View>
-            <DrawerButton/>
-            <HelpButton/>
+            <View style = {styles.header}>
+                    <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
+                    <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
+                    <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
+                </View>
+            <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}>
+                {attributes.length > 0 ?
+                <View>
+                    <View>
+                        <FlatList // we use FlatList to provide list functionality
+                            style={{maxWidth:'95%', alignSelf:'center'}}
+                            data={attributes}
+                            keyExtractor={(item) => item.id} //
+                            renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                                <CertificateViewDashboard
+                                    certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
+                                    modalVisible = {setVerificationVisible}
+                                    setSelected= {setSelected}
+                                />
+                            )}
+                        />
+                    </View>
+                </View>
+
+                : <Text>You have no signed attributes yet</Text>}
+
+                <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible}/>
+                <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
+                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan}/>
+            </ScrollView>
+            <DrawerButton />
+            <HelpButton />
         </View>
     )
 }
@@ -91,54 +122,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
-    /** 
-     * Don't know what these are, but they're not used so I commented them out.
-    **/
-    // certificate: {
-    //     width: 300,
-    //     marginTop: 100,
-    //     borderWidth: 4,
-    //     borderColor: "#20232a",
-    //     borderRadius: 10,
-    //     backgroundColor: "#fffffb",
-    //     color: "#20232a",
-    //     textAlign: "center",
-    //     fontSize: 30,
-    //     fontWeight: "bold",
-    //     fontFamily: "Sans-serif"
-    // },
-    // twelvePointBurstMain: {
-    //     width: 100,
-    //     height: 100,
-    //     backgroundColor: "#74d14c",
-    //     top: 250,
-    //     right: 75,
-    //     borderColor: "black"
-    // },
-    // twelvePointBurst30: {
-    //     width: 100,
-    //     height: 100,
-    //     position: 'absolute',
-    //     backgroundColor: '#74d14c',
-    //     borderColor: "black",
-    //     top: 250,
-    //     right: 105,
-    //     transform: [
-    //         { rotate: '30deg' }
-    //     ],
-    // },
-    // twelvePointBurst60: {
-    //     width: 100,
-    //     height: 100,
-    //     position: 'absolute',
-    //     backgroundColor: '#74d14c',
-    //     top: 250,
-    //     right: 105,
-    //     borderColor: "black",
-    //     transform: [
-    //         { rotate: '60deg' }
-    //     ]
-    // },
     badgeText: {
         bottom: "37%",
         right: "13%",
@@ -154,64 +137,11 @@ const styles = StyleSheet.create({
         marginBottom: "-44%",
         color: "#fff"
     },
-    rectangle: {
-        width: "37%",
-        height: "30%",
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: "43%",
-        right: "22%"
-    },
-    rectangle2: {
-        width: "37%",
-        height: "30%",
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: "73%",
-        left: "22%"
-    },
-    rectangle3: {
-        width: "37%",
-        height: "30%",
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: "70%",
-        left: "22%"
-    },
-    rectangle4: {
-        width: "37%",
-        height: "30%",
-        backgroundColor: 'grey',
-        opacity: 0.1,
-        bottom: "100%",
-        right: "22%"
-    },
-    lock1: {
-        width: 130,
-        height: 120,
-        top: "26%",
-        left: "22.2%",
-        opacity: 0.4
-    },
-    lock2: {
-        width: 130,
-        height: 120,
-        top: "46%",
-        left: "22.2%",
-        opacity: 0.4
-    },
-    lock3: {
-        width: 130,
-        height: 120,
-        top: "22.2%",
-        right: "22.2%",
-        opacity: 0.4
-    },
-    star: {
-        width: 130,
-        height: 120,
-        top: "51%",
-        right: "22%",
+    header: {
+        alignItems: 'center',
+        marginTop: 35,
+        marginBottom: 30,
+        padding:5
     }
 });
 

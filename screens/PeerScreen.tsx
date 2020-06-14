@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Snackbar} from "react-native-paper";
 import DrawerButton from "../components/DrawerButton";
-import CertificateViewInbox from "../components/CertificateViewInbox";
-import { Certificate, useTrackedState } from "../Store";
+import {useTrackedState } from "../Store";
 import HelpButton from "../components/HelpButton";
 import { State } from "react-native-gesture-handler";
 
@@ -25,6 +24,7 @@ const getPeers = (url : string, setCertificates : Function, jwt : string) => {
 const PeerScreen: React.FC = () => {
 
     const [certificates, setCertificates] = useState([]);
+    const [snackbar, setSnackbar] = useState(false)
     const state = useTrackedState()
     const url = state.serverURL + '/attestation?type=peers'
 
@@ -44,15 +44,33 @@ const PeerScreen: React.FC = () => {
                 <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see all the other users detected on the network. (It can take several minutes for a new user to be detected)</Text>
             </View>
             <View>
-                <Button onPress = {() => getPeers(url, setCertificates, state.jwt)}>REFRESH</Button>
-                {certificates.length == 0 ? <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}>NO PEERS FOUND</Text> : 
-                <FlatList                  // we use FlatList to provide list functionality
+                <Button accessibilityStates onPress = {() => getPeers(url, setCertificates, state.jwt)}>REFRESH</Button>
+                {certificates.length == 0 ? <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}>NO PEERS FOUND</Text> :
+                <FlatList                   // we use FlatList to provide list functionality
                     data={certificates}
+                    keyExtractor={(item) => item[0]}
                     renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                        <Text style = {state.darkMode ? styles.darkColor : styles.lightColor}>{item}</Text>
+                        <Text
+                        style = {state.darkMode ? styles.darkColor : styles.lightColor}
+                        onPress={() => {
+                            console.log("Copied ID")
+                            // // Clipboard.setString(item)
+                            // setSnackbar(true)
+                        }}>{item}</Text>
                     )}
                 />
                 }
+            <Snackbar
+                accessibilityStates = {true}
+                visible={snackbar}
+                onDismiss={() => {setSnackbar(false)}}
+                action={{
+                    label: 'Undo',
+                    onPress: () => {
+                        console.log("Undoing");
+                    },
+                }}>
+              Copied peer ID</Snackbar>
             </View>
             <DrawerButton />
             <HelpButton />
@@ -62,10 +80,12 @@ const PeerScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
     darkColor: {
-        color: "#fff"
+        color: "#fff",
+        margin:5,
     },
     lightColor: {
-        color: "#000"
+        color: "#000",
+        margin:5,
     },
     dropdown: {
         backgroundColor: "#fff",

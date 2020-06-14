@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Base64 } from "js-base64"
 import { useTrackedState } from "../Store";
 import {DeleteCertificate, PostCertificate, PostOutstanding} from "../network/NetworkCalls"
 

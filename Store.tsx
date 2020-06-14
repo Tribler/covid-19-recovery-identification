@@ -20,6 +20,7 @@ type Certificate = {
     creatorID: string
     holderID: string
     type: string
+    hash?:string //only available once the data has been double attested
 }
 
 type OutstandingRequest = {
@@ -38,6 +39,9 @@ var defaultState: State = {
 
 UpdateID(defaultState)
 
+// TODO ask if this is still necessary?
+const attributeTypeMap = [{ value: "" },{ value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
+
 const useValue = () => useState(defaultState);
 
 const { Provider, useTrackedState, useUpdate } = createContainer(useValue);
@@ -52,5 +56,5 @@ const useSetDraft = () => {
     );
 };
 
-export { Certificate, State, OutstandingRequest };
+export { Certificate, State, OutstandingRequest, attributeTypeMap};
 export { Provider, useTrackedState, useSetDraft };
