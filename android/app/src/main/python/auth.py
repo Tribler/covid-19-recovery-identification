@@ -13,8 +13,8 @@ def directory():  # pragma: no cover
     try:
         from com.chaquo.python import Python
         return str(
-            Python.getPlatform().getApplication().getFilesDir() +
-            '/certificates/credentials.txt')
+            Python.getPlatform().getApplication().getFilesDir()) + \
+               '/certificates/credentials.txt'
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
