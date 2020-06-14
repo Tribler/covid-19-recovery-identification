@@ -22,29 +22,29 @@ RUN curl -o android-sdk.zip \
 RUN unzip -d android-sdk-linux android-sdk.zip && rm android-sdk.zip
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} \
     "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" \
-    "ndk;${ANDROID_NDK}" "platform-tools" "emulator" "system-images;android-*30*;google_apis;x86" \
-    "system-images;android-*29*;google_apis;x86" "system-images;android-*28*;google_apis;x86" \
-    "system-images;android-*27*;google_apis;x86" "system-images;android-*26*;google_apis;x86" \
-    "system-images;android-*25*;google_apis;x86" "system-images;android-*24*;google_apis;x86" \
-    "system-images;android-*23*;google_apis;x86" "system-images;android-*22*;google_apis;x86" \
-    "system-images;android-*21*;google_apis;x86" "system-images;android-*19*;google_apis;x86" \
-    "system-images;android-*18*;google_apis;x86" "system-images;android-*17*;google_apis;x86" \
-    "system-images;android-*16*;google_apis;x86"
+    "ndk;${ANDROID_NDK}" "platform-tools" "emulator" "system-images;android-30;google_apis;x86" \
+    "system-images;android-29;google_apis;x86" "system-images;android-*28*;google_apis;x86" \
+    "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86" \
+    "system-images;android-25;google_apis;x86" "system-images;android-24;google_apis;x86" \
+    "system-images;android-23;google_apis;x86" "system-images;android-22;google_apis;x86" \
+    "system-images;android-21;google_apis;x86" "system-images;android-19;google_apis;x86" \
+    "system-images;android-18;google_apis;x86" "system-images;android-17;google_apis;x86" \
+    "system-images;android-16;google_apis;x86"
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test30" --device "pixel" --package "system-images;android-*30*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test29" --device "pixel" --package "system-images;android-*29*;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test30" --device "pixel" --package "system-images;android-30;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test29" --device "pixel" --package "system-images;android-29;google_apis;x86" --tag "google_apis" --abi "x86"
 RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test28" --device "pixel" --package "system-images;android-*28*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test27" --device "pixel" --package "system-images;android-*27*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test26" --device "pixel" --package "system-images;android-*26*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test25" --device "pixel" --package "system-images;android-*25*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test24" --device "pixel" --package "system-images;android-*24*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test23" --device "pixel" --package "system-images;android-*23*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test22" --device "pixel" --package "system-images;android-*22*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test21" --device "pixel" --package "system-images;android-*21*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test19" --device "pixel" --package "system-images;android-*19*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test18" --device "pixel" --package "system-images;android-*18*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test17" --device "pixel" --package "system-images;android-*17*;google_apis;x86" --tag "google_apis" --abi "x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test16" --device "pixel" --package "system-images;android-*16*;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test27" --device "pixel" --package "system-images;android-27;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test26" --device "pixel" --package "system-images;android-26;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test25" --device "pixel" --package "system-images;android-25;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test24" --device "pixel" --package "system-images;android-24;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test23" --device "pixel" --package "system-images;android-23;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test22" --device "pixel" --package "system-images;android-22;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test21" --device "pixel" --package "system-images;android-21;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test19" --device "pixel" --package "system-images;android-19;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test18" --device "pixel" --package "system-images;android-18;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test17" --device "pixel" --package "system-images;android-17;google_apis;x86" --tag "google_apis" --abi "x86"
+RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test16" --device "pixel" --package "system-images;android-16;google_apis;x86" --tag "google_apis" --abi "x86"
 
 # Install Node, npm and Yarn
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
