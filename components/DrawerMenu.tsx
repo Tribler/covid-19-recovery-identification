@@ -1,21 +1,21 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import DashboardScreen from '../screens/DashboardScreen'
-import NewCertificateScreen from '../screens/NewCertificateScreen'
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import DashboardScreen from '../screens/DashboardScreen';
+import NewCertificateScreen from '../screens/NewCertificateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import InboxScreen from '../screens/InboxScreen';
 import LoginScreen from '../screens/LoginScreen';
-import OutstandingScreen from '../screens/OutstandingScreen'
+import OutstandingScreen from '../screens/OutstandingScreen';
 import AttestationScreen from '../screens/AttestationScreen';
-import { useTrackedState } from '../Store';
+import {useTrackedState} from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerMenu: React.FC = () => {
-  const state = useTrackedState()
+  const state = useTrackedState();
   return (
     state.loggedIn ?
       <NavigationContainer>
@@ -30,7 +30,7 @@ const DrawerMenu: React.FC = () => {
           <Drawer.Screen name="Help" component={HelpScreen} />
         </Drawer.Navigator>
       </NavigationContainer> : <LoginScreen />
-  )
-}
+  );
+};
 
-export default DrawerMenu
+export default DrawerMenu;

@@ -18,7 +18,7 @@ fi
 case "${1}" in
 "build")
   yarn install
-  ./gradlew :app:assembleDebug
+  ./gradlew :app:assemble
   ;;
 "checkstyle")
   yarn install
@@ -30,9 +30,12 @@ case "${1}" in
   ;;
 "java_test")
   yarn install
-  ./gradlew :app:check :app:createDebugCoverageReport
+  ./gradlew :app:connectedCheck
   ;;
 "python_test")
   cd app/src/main/python && nox && coverage html
+  ;;
+"typescript_eslint")
+  cd .. && npx eslint -o android/app/build/reports/eslint.html -f html ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   ;;
 esac

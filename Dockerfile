@@ -31,6 +31,6 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
 # Add Build Script
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY ./build-entrypoint.sh /build-entrypoint.sh
+RUN chmod +x /build-entrypoint.sh
+ENTRYPOINT ["/build-entrypoint.sh"]

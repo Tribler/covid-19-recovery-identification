@@ -48,7 +48,7 @@ build:
       - android/app/debug.keystore
       - node_modules/
 
-checkstyle:
+java_checkstyle:
   stage: validate
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -67,13 +67,23 @@ checkstyle:
       - android/app/debug.keystore
       - node_modules/
 
+typescript_eslint:
+  stage: test
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --rm --mount type=bind,src="$PWD",dst=/code
+      -w /code $CI_REGISTRY_IMAGE:latest typescript_eslint
+  artifacts:
+    paths:
+      - android/app/build/reports/eslint.html
+
 code_quality:
   stage: validate
 
 dependency_scanning:
   stage: validate
 
-pmd:
+java_pmd:
   stage: test
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -92,7 +102,7 @@ pmd:
       - android/app/debug.keystore
       - node_modules/
 
-java_test:
+java_lint_and_test:
   stage: test
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -112,7 +122,7 @@ java_test:
       - android/app/debug.keystore
       - node_modules/
 
-python_test:
+python_validation_and_test:
   stage: test
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
