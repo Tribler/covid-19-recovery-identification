@@ -6,7 +6,6 @@ import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
-import QRModal from '../components/QRModal';
 import BasicQRModal from '../components/BasicQRModal';
 
 YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);

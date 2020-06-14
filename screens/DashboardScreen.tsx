@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
         console.log(data)
         setCertData({type:data.type, attester:data.attestater})
         setDialogueVisible(true)
-        
+
     }
     //useEffect(() => {getAttributes(url, setAttributes)})
 
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
                     <Text style={styles.instructions} >You can find your earned badges below</Text>
                     <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
                 </View>
-            <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}> 
+            <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}>
                 {attributes.length > 0 ? 
                 <View>
                     <View>
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
                 </View>
                 
                 : <Text>You have no signed attributes yet</Text>}
-                 
+
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible}/>
                 <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan}/>
