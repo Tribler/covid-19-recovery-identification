@@ -34,8 +34,12 @@ const LoginScreen: React.FC = ({navigation}) => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
+                value={password}
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, updateJwt, password)}>
+            <TouchableOpacity onPress={() =>{
+                 PostLogin(state, updateLogin, updateJwt, password)
+                 setPassword("")
+            }}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20
@@ -53,8 +57,12 @@ const LoginScreen: React.FC = ({navigation}) => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true} 
+                value={password}
                 onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, updateJwt, password)}>
+            <TouchableOpacity onPress={() =>{
+                 PostLogin(state, updateLogin, updateJwt, password)
+                 setPassword("")
+            }}>
                 <View style={{
                     zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',
                     justifyContent: 'center', borderRadius: 7, marginTop: 20

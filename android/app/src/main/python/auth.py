@@ -14,7 +14,7 @@ def directory():  # pragma: no cover
         from com.chaquo.python import Python
         return str(
             Python.getPlatform().getApplication().getFilesDir()) + \
-               '/certificates/credentials.txt'
+            '/certificates/credentials.txt'
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
@@ -76,12 +76,15 @@ async def login(request):
     auth = request.headers.get('Authorization')
     auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
     user = UserStorage.get_storage()
-    if (user is None) or (user.match_password(auth[1]) is False):
-        return Response({'message': 'Wrong credentials'}, status=400)
+    if user is None:
+        return Response({'message': 'Not registered'}, status=417)
+
+    if user.match_password(auth[1]) is False:
+        return Response({'message': 'Wrong credentials'}, status=403)
 
     payload = {
-            'user_id': user.id,
-            'is_attester': user.is_attester
+        'user_id': user.id,
+        'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
     return Response({'token': jwt_token.decode('utf-8')})
@@ -93,6 +96,7 @@ async def register(request):
     user. Registration is done by checking the x-registration header. It is in
     the form password:is_attester in base64 form.
     """
+    read_credentials_file()
     if UserStorage.registered():
         return Response({'message': 'Already registered'}, status=400)
     cred = request.headers.get('x-registration')

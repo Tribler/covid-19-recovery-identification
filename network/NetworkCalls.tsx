@@ -86,6 +86,7 @@ const PostLogin = (state : State, updateLogin:any, updateJwt:any, password : str
             updateLogin()
         })
   .catch((error) => {
+    //console.error(error)
   });
 }
 
@@ -102,12 +103,16 @@ const RegisterLogin = (state : State, password : string, isAttester:boolean) => 
     body: ""}
   return fetch(url,data)
   .then((response) => {
-            console.log(
-                response
-            )
+    if(!response.ok){
+      throw alert(response.status)
+    }
+     return response.json()
         })
+  .then((json) => {
+    console.log(json)
+  })
   .catch((error) => {
-    console.error(error);
+    //console.error(error);
   });
 }
 
