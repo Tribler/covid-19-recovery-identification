@@ -68,14 +68,12 @@ java_checkstyle:
       - node_modules/
 
 typescript_eslint:
-  stage: test
+  stage: validate
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
       -w /code $CI_REGISTRY_IMAGE:latest typescript_eslint
-  artifacts:
-    paths:
-      - android/app/build/reports/eslint.html
+  allow_failure: true
 
 code_quality:
   stage: validate

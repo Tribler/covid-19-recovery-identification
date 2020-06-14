@@ -33,8 +33,7 @@ case "${1}" in
   cd app/src/main/python && nox && coverage html
   ;;
 "typescript_eslint")
-  cd .. && npm i -g eslint
-  eslint -f html ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
-  # -o android/app/build/reports/eslint.html
+  cd .. && node_modules/eslint/bin/eslint.js ./components/** \
+  ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   ;;
 esac
