@@ -118,7 +118,7 @@ public class CertService extends Service {
       running = false;
       stopForeground(true);
       deleteNotificationChannel();
-      android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
+      //android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
     }
   }
 
