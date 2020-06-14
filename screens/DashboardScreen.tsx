@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Image, Modal} from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { State, useTrackedState } from '../Store';
