@@ -12,9 +12,8 @@ from ipv8.REST.base_endpoint import Response
 def directory():  # pragma: no cover
     try:
         from com.chaquo.python import Python
-        return str(
-            Python.getPlatform().getApplication().getFilesDir() +
-            '/certificates/credentials.txt')
+        return str(Python.getPlatform().getApplication().getFilesDir()) + \
+            '/certificates/credentials.txt'
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise

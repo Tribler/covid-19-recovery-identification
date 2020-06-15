@@ -2,6 +2,7 @@ from asyncio import set_event_loop, get_event_loop, ensure_future, \
     run_coroutine_threadsafe
 from sys import modules
 from threading import Thread
+from os import path, makedirs
 
 from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
@@ -13,14 +14,19 @@ from certificate_endpoint import CertificateEndpoint
 def directory():
     try:
         from com.chaquo.python import Python
-        return str(
-            Python.getPlatform().getApplication().getFilesDir() +
-            '/certificates')
+        file_dir = path.dirname(str(Python.getPlatform().getApplication()
+                                    .getFilesDir()) + '/certificates')
+        if not path.exists(file_dir):
+            makedirs(file_dir)
+        return file_dir
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
-            return "./certificates"
+            file_dir = './certificates'
+            if not path.exists(file_dir):
+                makedirs(file_dir)
+            return file_dir
 
 
 # Launch an IPv8 service. We run REST endpoints for this service on
@@ -35,9 +41,9 @@ files_dir = directory()
 # TODO WHY TWO IDS?
 configuration['keys'] = [
         {'alias': "anonymous id", 'generation': u"curve25519",
-         'file': files_dir + u"/ec_multichain.pem"},
+         'file' : files_dir + u"/ec_multichain.pem"},
         {'alias': "my peer", 'generation': u"medium",
-         'file': files_dir + u"/ec.pem"}
+         'file' : files_dir + u"/ec.pem"}
 ]
 
 # Only load the basic communities.
