@@ -39,7 +39,12 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 value={password}
                 onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
-                PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
                 setPassword("")
             }}>
                 <View style={{
@@ -62,7 +67,12 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 value={password}
                 onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
-                PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
                 setPassword("")
             }}>
                 <View style={{

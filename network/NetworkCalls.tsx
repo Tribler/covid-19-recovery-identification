@@ -75,7 +75,9 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
   return fetch(url, data)
     .then((response) => {
       if (!response.ok) {
-        throw alert(response.status)
+        if (response.status == 417) throw alert("Not registered")
+        if (response.status == 403) throw alert("wrong credentials")
+        else throw alert("Error while logging in")
       }
       return response.json()
     })
@@ -91,7 +93,7 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
       return json;
     })
     .catch((error) => {
-      console.error(error)
+      // console.error(error)
     });
 }
 
@@ -110,7 +112,8 @@ const RegisterLogin = (state: State, password: string, isAttester: boolean) => {
   return fetch(url, data)
     .then((response) => {
       if (!response.ok) {
-        throw alert(response.status)
+        if (response.status == 400) throw alert("Already registered")
+        else throw alert("Error while registering")
       }
       return response.json()
     })
@@ -136,6 +139,7 @@ const PostVerification = (state: State, holderID: string, attributeHash: string,
       console.error(error);
     });
 }
+
 
 
 export { DeleteCertificate, PostCertificate, PostOutstanding, PostLogin, RegisterLogin, PostVerification }
