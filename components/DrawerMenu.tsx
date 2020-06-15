@@ -7,11 +7,11 @@ import SettingsScreen from '../screens/SettingsScreen';
 import InboxScreen from '../screens/InboxScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen'
-import AttestationScreen from '../screens/AttestationScreen';
 import { useTrackedState } from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import VerificationScreen from '../screens/VerificationScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +26,7 @@ const DrawerMenu: React.FC = () => {
             {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen}/> : <></>}
             <Drawer.Screen name="Inbox" component={InboxScreen} />
             {state.attester ? <Drawer.Screen name="Outstanding" component={OutstandingScreen}/> : <></>}
-            <Drawer.Screen name="Attestations" component={AttestationScreen}/>
+            <Drawer.Screen name="Verification" component={VerificationScreen}/>
             <Drawer.Screen name="Peers" component={PeerScreen}/>
             <Drawer.Screen name="Settings" component={SettingsScreen}/>
             <Drawer.Screen name="Help" component={HelpScreen} />

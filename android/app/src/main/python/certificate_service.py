@@ -14,8 +14,8 @@ def directory():
     try:
         from com.chaquo.python import Python
         return str(
-            Python.getPlatform().getApplication().getFilesDir() +
-            '/certificates')
+            Python.getPlatform().getApplication().getFilesDir()) +\
+            '/certificates'
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise

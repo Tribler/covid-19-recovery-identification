@@ -4,14 +4,16 @@ import { Button } from 'react-native-paper';
 import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleLogin';
+import { useToggleJwt } from '../hooks/useToggleJwt';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
  */
-const LoginScreen: React.FC = ({navigation}) => {
+const LoginScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
     const updateLogin = useToggleLogin()
+    const updateJwt = useToggleJwt()
     const [password, setPassword] = useState("")
     return (
         <View style={styles.container}>
@@ -29,9 +31,13 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
-                onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
+                secureTextEntry={true}
+                value={password}
+                onChangeText={input => setPassword(input)} />
+            <TouchableOpacity onPress={() => {
+                PostLogin(state, updateLogin, updateJwt, password)
+                setPassword("")
+            }}>
                 <View style={styles.textField} >
                     <Text style={styles.submitText}>Submit</Text>
                 </View>
@@ -44,9 +50,13 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
-                onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() => PostLogin(state, updateLogin, password)}>
+                secureTextEntry={true}
+                value={password}
+                onChangeText={input => setPassword(input)} />
+            <TouchableOpacity onPress={() => {
+                PostLogin(state, updateLogin, updateJwt, password)
+                setPassword("")
+            }}>
                 <View style={styles.submitButton}>
                     <Text style={styles.submitText}>Submit</Text>
                 </View>
@@ -89,19 +99,19 @@ const styles = StyleSheet.create({
         color: "#0f0"
     },
     textField: {
-        backgroundColor: '#74d14c', 
+        backgroundColor: '#74d14c',
         alignItems: 'center',
-        justifyContent: 'center', 
-        borderRadius: 7, 
+        justifyContent: 'center',
+        borderRadius: 7,
         marginTop: 20
     },
     textInput: {
-        height: 45, 
-        width: "95%", 
-        borderColor: "gray", 
-        borderWidth: 2, 
-        borderRadius: 4, 
-        backgroundColor: "white" 
+        height: 45,
+        width: "95%",
+        borderColor: "gray",
+        borderWidth: 2,
+        borderRadius: 4,
+        backgroundColor: "white"
     },
     submitButton: {
         zIndex: 1,
@@ -116,13 +126,13 @@ const styles = StyleSheet.create({
         color: 'white',
         width: 150,
         height: 25,
-        textAlign: "center", 
-        textAlignVertical: "center" 
+        textAlign: "center",
+        textAlignVertical: "center"
     },
     role: {
         fontWeight: "bold",
         color: "#74d14c",
-        fontSize: 20 
+        fontSize: 20
     }
 });
 

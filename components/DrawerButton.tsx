@@ -6,12 +6,14 @@ const DrawerButton: React.FC = () => {
     const navigation = useNavigation()
     return (
         <Button
+            accessibilityStates
             style={{
                 position: "absolute",
                 top: 0,
                 left: 0,
-                flex: 1
+                flex: 1,
             }}
+            color="dodgerblue"
             mode="outlined"
             icon="menu"
             onPress={() => {

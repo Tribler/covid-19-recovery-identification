@@ -7,14 +7,12 @@ import { useTrackedState } from '../Store';
 /**
  * The register screen which will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = ({navigation}) => {
+const RegisterScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
-
-    const checkSamePassword = () =>{
-        return password == passwordConfirm
-    }
+    const [passwordAttester, setPasswordAttester] = useState("")
+    const [passwordAttesterConfirm, setPasswordAttesterConfirm] = useState("")
 
     return (
         <View style={styles.container}>
@@ -28,27 +26,35 @@ const RegisterScreen: React.FC = ({navigation}) => {
                 source={require('../assets/logo.png')}>
             </ImageBackground>
             <Text style={styles.role}> Register as patient</Text>
+            <TextInput  //TODO fix this out of focus i think because goes above screen
+                style={styles.textInput}
+                placeholder=" Enter Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={input => setPassword(input)} />
+
             <TextInput
                 style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true}
-                onChangeText={input => setPassword(input)}/>
-                
-            <TextInput
-                style={styles.textInput}
-                placeholder=" Confirm Your Password"
-                underlineColorAndroid="transparent"
-                placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
-                onChangeText={input => setPasswordConfirm(input)}/>
-            
-            <TouchableOpacity  onPress={() =>{
-                 if(checkSamePassword()) RegisterLogin(state, password, false)
-                 setPassword("")
-                 setPasswordConfirm("")
-                 }}>
+                value={passwordConfirm}
+                onChangeText={input => setPasswordConfirm(input)} />
+
+            <TouchableOpacity onPress={() => {
+                if (password == passwordConfirm) {
+                    RegisterLogin(state, password, false)
+
+                }
+                else {
+                    alert("Passwords don't match")
+                }
+                setPassword("")
+                setPasswordConfirm("")
+            }}>
                 <View style={styles.submitButton}>
                     <Text style={styles.submitText}>Submit</Text>
                 </View>
@@ -61,19 +67,27 @@ const RegisterScreen: React.FC = ({navigation}) => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true}
-                onChangeText={input => setPassword(input)}/>
+                value={passwordAttester}
+                onChangeText={input => setPasswordAttester(input)} />
             <TextInput
                 style={styles.textInput}
                 placeholder=" Confirm Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
-                onChangeText={input => setPasswordConfirm(input)}/>
-                
-            <TouchableOpacity  onPress={() => {
-                if(checkSamePassword()) RegisterLogin(state, password, false)
-                setPassword("")
-                setPasswordConfirm("")}}>
+                secureTextEntry={true}
+                value={passwordAttesterConfirm}
+                onChangeText={input => setPasswordAttesterConfirm(input)} />
+
+            <TouchableOpacity onPress={() => {
+                if (passwordAttester == passwordAttesterConfirm) {
+                    RegisterLogin(state, passwordAttester, true)
+                }
+                else {
+                    alert("Passwords don't match")
+                }
+                setPasswordAttester("")
+                setPasswordAttesterConfirm("")
+            }}>
                 <View style={styles.submitButton}>
                     <Text style={styles.submitText}>Submit</Text>
                 </View>
@@ -116,19 +130,19 @@ const styles = StyleSheet.create({
         color: "#0f0"
     },
     textField: {
-        backgroundColor: '#74d14c', 
+        backgroundColor: '#74d14c',
         alignItems: 'center',
-        justifyContent: 'center', 
-        borderRadius: 7, 
+        justifyContent: 'center',
+        borderRadius: 7,
         marginTop: 20
     },
     textInput: {
-        height: 45, 
-        width: "95%", 
-        borderColor: "gray", 
-        borderWidth: 2, 
-        borderRadius: 4, 
-        backgroundColor: "white" 
+        height: 45,
+        width: "95%",
+        borderColor: "gray",
+        borderWidth: 2,
+        borderRadius: 4,
+        backgroundColor: "white"
     },
     submitButton: {
         zIndex: 1,
@@ -143,13 +157,13 @@ const styles = StyleSheet.create({
         color: 'white',
         width: 150,
         height: 25,
-        textAlign: "center", 
-        textAlignVertical: "center" 
+        textAlign: "center",
+        textAlignVertical: "center"
     },
     role: {
         fontWeight: "bold",
         color: "#74d14c",
-        fontSize: 20 
+        fontSize: 20
     }
 });
 
