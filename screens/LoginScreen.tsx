@@ -15,6 +15,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
     const updateLogin = useToggleLogin()
     const updateJwt = useToggleJwt()
     const [password, setPassword] = useState("")
+    const [password1, setPassword1] = useState("")
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -51,11 +52,11 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true}
-                value={password}
-                onChangeText={input => setPassword(input)} />
+                value={password1}
+                onChangeText={input => setPassword1(input)} />
             <TouchableOpacity onPress={() => {
-                PostLogin(state, updateLogin, updateJwt, password)
-                setPassword("")
+                PostLogin(state, updateLogin, updateJwt, password1)
+                setPassword1("")
             }}>
                 <View style={styles.submitButton}>
                     <Text style={styles.submitText}>Submit</Text>
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        padding: 24,
+        padding: "5.8%",
         justifyContent: 'center',
         bottom: "46%"
     },
@@ -91,6 +92,8 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "80%",
         height: 250,
+        alignItems: 'center',
+        justifyContent: 'center',
         resizeMode: 'contain',
         bottom: "31.95%"
     },
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
-        marginTop: 20
+        marginTop: "5%"
     },
     textInput: {
         height: 45,
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
-        marginTop: 20
+        marginTop: "5%"
     },
     submitText: {
         fontWeight: "bold",

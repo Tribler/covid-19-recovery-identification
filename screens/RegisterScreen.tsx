@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         resizeMode: "cover",
         top: "64%",
-        right: "6%"
+        right: "5.8%"
     },
     im2: {
         flex: 1,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
-        marginTop: 20
+        marginTop: "5%"
     },
     textInput: {
         height: 45,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 7,
-        marginTop: 20
+        marginTop: "5%"
     },
     submitText: {
         fontWeight: "bold",
