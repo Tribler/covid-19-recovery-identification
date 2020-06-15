@@ -52,6 +52,7 @@ public class CertService extends Service {
   public void onDestroy() {
     stopService();
     super.onDestroy();
+    android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
   }
 
   /**
@@ -119,7 +120,6 @@ public class CertService extends Service {
       running = false;
       stopForeground(true);
       deleteNotificationChannel();
-      //android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
     }
   }
 
