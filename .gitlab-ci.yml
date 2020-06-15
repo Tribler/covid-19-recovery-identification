@@ -21,7 +21,8 @@ variables:
 
 container:
   stage: container
-  tag: longJob
+  tags:
+    - longJob
   only:
     changes:
       - Dockerfile
