@@ -20,6 +20,9 @@ variables:
   DS_DISABLE_DIND: "false"
 
 container:
+  image: docker
+  services:
+    - docker:dind
   stage: container
   tags:
     - longJob

@@ -3,26 +3,23 @@ import json
 import bcrypt
 from aiohttp.web_middlewares import middleware
 from base64 import b64decode
-from os import urandom, path, stat, makedirs
+from os import urandom, path, stat
 
 from user import UserStorage
 from ipv8.REST.base_endpoint import Response
 
 
-def directory():
+def directory():  # pragma: no cover
     try:
         from com.chaquo.python import Python
-        file_dir = path.dirname(str(Python.getPlatform()
-                                    .getApplication().getFilesDir()) +
-                                '/certificates/credentials.txt')
+        return str(
+            Python.getPlatform().getApplication().getFilesDir()) + \
+            '/certificates/credentials.txt'
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
-            file_dir = './certificates/credentials.txt'
-    if not path.exists(file_dir):
-        makedirs(file_dir)
-    return file_dir
+            return './credentials.txt'
 
 
 JWT_SECRET = urandom(32).hex()
@@ -86,8 +83,8 @@ async def login(request):
         return Response({'message': 'Wrong credentials'}, status=403)
 
     payload = {
-            'user_id': user.id,
-            'is_attester': user.is_attester
+        'user_id': user.id,
+        'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
     return Response({'token': jwt_token.decode('utf-8')})

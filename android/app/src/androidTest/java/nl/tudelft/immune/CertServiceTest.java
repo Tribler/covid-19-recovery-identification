@@ -6,22 +6,17 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ServiceTestRule;
-
 import com.chaquo.python.Python;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import java.util.concurrent.TimeoutException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +30,7 @@ public class CertServiceTest {
   private CertService service;
 
   @Before
-  public void create() throws TimeoutException {
+  public void setUp() throws TimeoutException {
     Intent serviceIntent = new Intent(ApplicationProvider.getApplicationContext(),
         CertService.class);
     serviceRule.bindService(serviceIntent);
