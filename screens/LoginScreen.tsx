@@ -61,8 +61,8 @@ const LoginScreen: React.FC = ({ navigation }) => {
                     <Text style={styles.submitText}>Submit</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={{ color: "#32CD32", top: "10%" }}>Don't have an account?</Text>
-            <Button style={{ top: "10%" }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
+            <Text style={{ color: "#32CD32", top: "11.4%" }}>Don't have an account?</Text>
+            <Button style={{ top: "11.4%", left: "1%" }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
         </View>
     )
 }
@@ -84,16 +84,15 @@ const styles = StyleSheet.create({
         height: "117%",
         flexDirection: "column",
         resizeMode: "cover",
-        top: 370,
-        right: 20
+        top: "62%",
+        right: "6%"
     },
     im2: {
         flex: 1,
-        width: 250,
+        width: "80%",
         height: 250,
         resizeMode: 'contain',
-        bottom: 210,
-        right: 20
+        bottom: "31.95%"
     },
     sbutton: {
         color: "#0f0"

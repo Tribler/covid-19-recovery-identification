@@ -25,7 +25,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 style={styles.im2}
                 source={require('../assets/logo.png')}>
             </ImageBackground>
-            <Text style={styles.role}> Register as patient</Text>
+            <Text style={styles.role}> Sign up as patient</Text>
             <TextInput  //TODO fix this out of focus i think because goes above screen
                 style={styles.textInput}
                 placeholder=" Enter Your Password"
@@ -60,7 +60,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text style={styles.role}> Register as health expert</Text>
+            <Text style={styles.role}> Sign up as health expert</Text>
             <TextInput
                 style={styles.textInput}
                 placeholder=" Enter Your Password"
