@@ -1,15 +1,14 @@
 import { useCallback } from "react";
 import { useSetDraft } from "../Store";
 
-
 /**
- * Hook used to change the darkmode to true in the store.
+ * Hook used to change the ID in the store.
  */
-export const useToggleDark = () => {
+export const useToggleID = () => {
     const setDraft = useSetDraft();
-    return useCallback(() => {
+    return useCallback((ID: string) => {
         setDraft((draft) => {
-            draft.darkMode = true;
+            draft.ID = ID;
         });
     }, [setDraft]);
 };
