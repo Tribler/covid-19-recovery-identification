@@ -35,8 +35,8 @@ COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "system-images;android-30;google_apis;x86"
-RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test30" --device "pixel" --package "system-images;android-30;google_apis;x86" --tag "google_apis" --abi "x86"
+# RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "system-images;android-30;google_apis;x86"
+# RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test30" --device "pixel" --package "system-images;android-30;google_apis;x86" --tag "google_apis" --abi "x86"
 
 # RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "system-images;android-29;google_apis;x86"
 # RUN echo "no" | android-sdk-linux/tools/bin/avdmanager --verbose create avd --force --name "test29" --device "pixel" --package "system-images;android-29;google_apis;x86" --tag "google_apis" --abi "x86"

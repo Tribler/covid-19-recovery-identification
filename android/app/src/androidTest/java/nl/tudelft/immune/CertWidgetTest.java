@@ -22,7 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class CertServiceTest {
+public class CertWidgetTest {
 
   @Rule
   public final ServiceTestRule serviceRule = new ServiceTestRule();

@@ -26,6 +26,9 @@ public class CertService extends Service {
 
   private transient NotificationChannel notificationChannel;
 
+  // The binder that provides connection with the service to clients.
+  private final transient IBinder certBinder = new CertBinder();
+
   // The identifier of the custom channel needed in APIs 26+
   private static final String CHANNEL_ID = "Certification Service Channel";
 
@@ -76,19 +79,6 @@ public class CertService extends Service {
   @Override
   public IBinder onBind(Intent intent) {
     return certBinder;
-  }
-
-  // The binder that provides connection with the service to clients.
-  private final transient IBinder certBinder = new CertBinder();
-
-  /*
-    Binder class that provides service control methods
-    to all clients which bind to the service.
-   */
-  class CertBinder extends Binder {
-    CertService getService() {
-      return CertService.this;
-    }
   }
 
   /**
@@ -159,6 +149,16 @@ public class CertService extends Service {
       NotificationManager notificationManager = getSystemService(NotificationManager.class);
       assert notificationManager != null;
       notificationManager.deleteNotificationChannel(CHANNEL_ID);
+    }
+  }
+
+  /*
+  Binder class that provides service control methods
+  to all clients which bind to the service.
+ */
+  protected class CertBinder extends Binder {
+    CertService getService() {
+      return CertService.this;
     }
   }
 }
