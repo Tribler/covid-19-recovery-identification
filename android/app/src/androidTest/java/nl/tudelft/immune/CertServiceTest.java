@@ -33,7 +33,6 @@ public class CertServiceTest {
   public void setUp() throws TimeoutException {
     Intent serviceIntent = new Intent(ApplicationProvider.getApplicationContext(),
         CertService.class);
-    serviceRule.bindService(serviceIntent);
     IBinder binder = serviceRule.bindService(serviceIntent);
     // Get the reference to the service, or you can call public methods on the binder directly.
     service = ((CertService.CertBinder) binder).getService();

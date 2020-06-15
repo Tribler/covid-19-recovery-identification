@@ -1,131 +1,229 @@
 package nl.tudelft.immune;
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.IBinder;
+import androidx.lifecycle.Lifecycle;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.SdkSuppress;
-import androidx.test.rule.ServiceTestRule;
-import com.chaquo.python.Python;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import java.util.concurrent.TimeoutException;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-  @Rule
-  public final ServiceTestRule serviceRule = new ServiceTestRule();
+  private CertWidget certWidget;
 
-  private CertService service;
+  private ActivityScenario<MainActivity> scenario;
+
+  @Rule
+  public final ActivityScenarioRule<MainActivity> activityRule =
+      new ActivityScenarioRule<>(MainActivity.class);
 
   @Before
-  public void setUp() throws TimeoutException {
-    Intent serviceIntent = new Intent(ApplicationProvider.getApplicationContext(),
-        CertService.class);
-    serviceRule.bindService(serviceIntent);
-    IBinder binder = serviceRule.bindService(serviceIntent);
-    // Get the reference to the service, or you can call public methods on the binder directly.
-    service = ((CertService.CertBinder) binder).getService();
+  public void setUp() {
+    assert !CertService.getRunning();
+    scenario = activityRule.getScenario();
+    certWidget = new CertWidget();
   }
 
-  @After
+  @Before
   public void destroy() {
-    if (CertService.getRunning()) {
-      service.stopService();
-    }
-    serviceRule.unbindService();
-    service = null;
+    scenario = null;
+    certWidget = null;
   }
 
   @Test
-  public void useAppContext() {
-    // Verify that the service is working correctly.
-    assertEquals("nl.tudelft.immune",
-        service.getApplicationContext().getPackageName());
-  }
-
-  @Test
-  public void startService() {
-    assert !CertService.getRunning();
-    service.startService();
+  public void runningServiceOnInitialized() {
+    scenario.moveToState(Lifecycle.State.INITIALIZED);
     assertTrue(CertService.getRunning());
   }
 
   @Test
-  public void doubleStartService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assert CertService.getRunning();
-    service.startService();
+  public void runningServiceOnCreated() {
+    scenario.moveToState(Lifecycle.State.CREATED);
     assertTrue(CertService.getRunning());
   }
 
   @Test
-  public void stopService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assert CertService.getRunning();
-    service.stopService();
+  public void runningServiceOnStarted() {
+    scenario.moveToState(Lifecycle.State.STARTED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void runningServiceOnResumed() {
+    scenario.moveToState(Lifecycle.State.RESUMED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void runningServiceOnDestroyed() {
+    scenario.moveToState(Lifecycle.State.DESTROYED);
     assertFalse(CertService.getRunning());
   }
 
   @Test
-  public void doubleStopService() {
-    assert !CertService.getRunning();
-    service.startService();
+  public void startingServiceThroughWidgetOnInitialized() {
+    scenario.moveToState(Lifecycle.State.INITIALIZED);
     assert CertService.getRunning();
-    service.stopService();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughWidgetOnInitialized() {
+    scenario.moveToState(Lifecycle.State.INITIALIZED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughWidgetOnCreated() {
+    scenario.moveToState(Lifecycle.State.CREATED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughWidgetOnCreated() {
+    scenario.moveToState(Lifecycle.State.CREATED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughWidgetOnStarted() {
+    scenario.moveToState(Lifecycle.State.STARTED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughWidgetOnStarted() {
+    scenario.moveToState(Lifecycle.State.STARTED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughWidgetOnResumed() {
+    scenario.moveToState(Lifecycle.State.RESUMED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughWidgetOnResumed() {
+    scenario.moveToState(Lifecycle.State.RESUMED);
+    assert CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughWidgetOnDestroyed() {
+    scenario.moveToState(Lifecycle.State.DESTROYED);
     assert !CertService.getRunning();
-    service.stopService();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughWidgetOnDestroyed() {
+    scenario.moveToState(Lifecycle.State.DESTROYED);
+    assert !CertService.getRunning();
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
     assertFalse(CertService.getRunning());
   }
 
   @Test
-  public void pythonInstance() {
-    assert !Python.isStarted();
-    service.startService();
-    assertTrue(Python.isStarted());
+  public void startingServiceThroughActivityOnInitialized() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.INITIALIZED);
+    assertTrue(CertService.getRunning());
   }
 
   @Test
-  public void notificationInstance() {
-    assert service.getNotification() == null;
-    service.startService();
-    Notification notification = service.getNotification();
-    assertEquals(service.getText(R.string.foreground_service_text), notification.tickerText);
+  public void stoppingServiceThroughActivityOnInitialized() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.INITIALIZED);
+    assertTrue(CertService.getRunning());
   }
 
   @Test
-  @SdkSuppress(minSdkVersion = 26)
-  public void notificationChannelInstance() {
-    service.startService();
-    NotificationManager notificationManager = service.getSystemService(NotificationManager.class);
-    assert notificationManager != null;
-    assertEquals(notificationManager.getNotificationChannels().get(0).getId(),
-        service.getNotificationChannel().getId());
+  public void startingServiceThroughActivityOnCreated() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.CREATED);
+    assertTrue(CertService.getRunning());
   }
 
   @Test
-  public void permissionsInternet() {
-    assertEquals(PackageManager.PERMISSION_GRANTED,
-        service.checkSelfPermission(Manifest.permission.INTERNET));
+  public void stoppingServiceThroughActivityOnCreated() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.CREATED);
+    assertTrue(CertService.getRunning());
   }
 
   @Test
-  public void permissionsForegroundService() {
-    assertEquals(PackageManager.PERMISSION_GRANTED,
-        service.checkSelfPermission(Manifest.permission.FOREGROUND_SERVICE));
+  public void startingServiceThroughActivityOnStarted() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.STARTED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughActivityOnStarted() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.STARTED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughActivityOnResumed() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.RESUMED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughActivityOnResumed() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.RESUMED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void startingServiceThroughActivityOnDestroyed() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.DESTROYED);
+    assertTrue(CertService.getRunning());
+  }
+
+  @Test
+  public void stoppingServiceThroughActivityOnDestroyed() {
+    certWidget.onEnabled(ApplicationProvider.getApplicationContext());
+    certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    scenario.moveToState(Lifecycle.State.DESTROYED);
+    assertFalse(CertService.getRunning());
   }
 
 }
