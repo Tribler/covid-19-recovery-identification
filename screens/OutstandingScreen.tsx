@@ -14,9 +14,10 @@ const OutstandingScreen: React.FC = () => {
     const [outstanding, setOutstanding] = useState([])
     const state = useTrackedState()
     const url = state.serverURL + '/attestation?type=outstanding'
+    const data = { method: 'GET', headers: {"Authorization" : state.jwt}, body: "" }
 
     useEffect(() => {
-        fetch(url)
+        fetch(url,data)
             .then((response) => response.json())
             .then((json) => setOutstanding(json))
             .catch((error) => console.error(error));
@@ -88,7 +89,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     textInput: {
-        margin: 10,
+        margin: 10
+    },
     darktext: {
         position: "relative",
         top: 30,
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
-    },
+    }
 });
 
 export default OutstandingScreen;

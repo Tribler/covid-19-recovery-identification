@@ -5,15 +5,13 @@ import HelpButton from '../components/HelpButton';
 import { useTrackedState, State} from '../Store';
 import { useToggleDark} from '../hooks/useToggleDark';
 import { useToggleLight } from '../hooks/useToggleLight';
-
-const logout = (state:State) => {
-    state.loggedIn = false
-}
+import { useToggleLogout } from '../hooks/useToggleLogout';
 
 const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
     const toggleDark = useToggleDark()
     const toggleLight = useToggleLight()
+    const logout = useToggleLogout()
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
@@ -23,7 +21,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
             <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
-            <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout(state)}>Log out</Text>
+            <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout()}>Log out</Text>
             <DrawerButton/>
             <HelpButton/> 
         </View>

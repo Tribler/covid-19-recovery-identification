@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
-import LoginScreen from '../screens/LoginScreen';
+import { RegisterLogin } from '../network/NetworkCalls';
+import { useTrackedState } from '../Store';
 
 /**
  * The register screen which will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = () => {
+const RegisterScreen: React.FC = ({ navigation }) => {
+    const state = useTrackedState()
+    const [password, setPassword] = useState("")
+    const [passwordConfirm, setPasswordConfirm] = useState("")
+    const [passwordAttester, setPasswordAttester] = useState("")
+    const [passwordAttesterConfirm, setPasswordAttesterConfirm] = useState("")
+
+  
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -18,23 +26,38 @@ const RegisterScreen: React.FC = () => {
                 source={require('../assets/logo.png')}>
             </ImageBackground>
             <Text style={{ fontWeight: "bold", color: "#1d5" }}> Register as patient</Text>
+            <TextInput  //TODO fix this out of focus i think because goes above screen
+                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                placeholder=" Enter Your Password"
+                underlineColorAndroid="transparent"
+                placeholderTextColor="#32CD32"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={input => setPassword(input)} />
+
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
-                placeholder=" Confirm Your Password"
-                underlineColorAndroid="transparent"
-                placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            
-            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+                secureTextEntry={true}
+                value={passwordConfirm}
+                onChangeText={input => setPasswordConfirm(input)} />
+
+            <TouchableOpacity onPress={() => {
+                if (password == passwordConfirm) {
+                    RegisterLogin(state, password, false)
+
+                }
+                else {
+                    alert("Passwords don't match")
+                }
+                setPassword("")
+                setPasswordConfirm("")
+            }}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop:20
+                    justifyContent: 'center', borderRadius: 7, marginTop: 20
                 }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
@@ -46,24 +69,37 @@ const RegisterScreen: React.FC = () => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
+                secureTextEntry={true}
+                value={passwordAttester}
+                onChangeText={input => setPasswordAttester(input)} />
             <TextInput
                 style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
                 placeholder=" Confirm Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} />
-            
-            <TouchableOpacity  onPress={() => Alert.alert('Simple Button pressed')}>
+                secureTextEntry={true}
+                value={passwordAttesterConfirm}
+                onChangeText={input => setPasswordAttesterConfirm(input)} />
+
+            <TouchableOpacity onPress={() => {
+                if (passwordAttester == passwordAttesterConfirm) {
+                    RegisterLogin(state, passwordAttester, true)
+                }
+                else {
+                    alert("Passwords don't match")
+                }
+                setPasswordAttester("")
+                setPasswordAttesterConfirm("")
+            }}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop:20
+                    justifyContent: 'center', borderRadius: 7, marginTop: 20
                 }}>
                     <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => <LoginScreen />} />
+            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => navigation.navigate("Login")} />
         </View>
     )
 }
