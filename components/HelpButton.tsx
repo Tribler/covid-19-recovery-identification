@@ -6,11 +6,13 @@ const HelpButton: React.FC = () => {
     const navigation = useNavigation()
     return (
         <Button
+            accessibilityStates
             style={{
                 position: "absolute",
                 top: 0,
                 right: 0,
             }}
+            color="dodgerblue"
             mode="outlined"
             icon="help"
             onPress={() => {

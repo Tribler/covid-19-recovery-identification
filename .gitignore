@@ -8,6 +8,7 @@
 build/
 .idea
 .gradle
+.jest
 local.properties
 *.iml
 
@@ -32,3 +33,4 @@ htmlcov/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+.pytest_cache

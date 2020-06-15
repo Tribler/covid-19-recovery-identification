@@ -4,8 +4,9 @@ import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import CreateCertificate from '../network/CreateCertificate';
-import { useTrackedState, Certificate, State } from '../Store';
+import { useTrackedState, Certificate, State, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
+import BasicQRModal from '../components/BasicQRModal';
 
 YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
 
@@ -44,39 +45,40 @@ const createNewCertificate = (creator: string, holder: string, certType: string,
 }
 
 const NewCertificateScreen: React.FC = () => {
-    const [certificateType, setCertificateType] = useState("1")
+    const [certificateType, setCertificateType] = useState(1)
     const [holderID, setHolderID] = useState("")
+    const [codeVisible, setCodeVisible] = useState(false)
     const state = useTrackedState()
-    const options = [
-        { value: "covid-immunity" }
-    ]
+
+    const options =attributeTypeMap
+
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <View style = {state.darkMode ? styles.headerDark : styles.header}>
                 <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>New Certificate</Text>
                 <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
             </View>
+
             <View style={state.darkMode ? styles.dropdownDark : styles.dropdown} >
                 <Dropdown
                     data={options}
                     label="Choose..."
-                    onChangeText={(value: string, index: number) => setCertificateType((index + 1).toString())} >
+                    onChangeText={(value: string, index: number) => setCertificateType((index))} >
                 </Dropdown>
             </View>
-            <TextInput
-                style={state.darkMode ? styles.textInputDark : styles.textInput}
-                value={holderID.toString()}
-                onChangeText={input => setHolderID(input)}
-                label="Holder ID">
-            </TextInput>
+
             <Button
+                accessibilityStates
                 mode="contained"
+                style={{backgroundColor:'dodgerblue', marginVertical:5}}
                 onPress={() => {
-                    createNewCertificate(state.ID, holderID, certificateType, state)
-                    setHolderID("");
+                    setCodeVisible(true)
                 }} >
-                CREATE CERTIFICATE
+                GENERATE QR CODE
             </Button>
+
+            {/* <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={setHolderID}/> */}
+            <BasicQRModal data={JSON.stringify({id:state.ID,type:certificateType })} visible={codeVisible} setVisible={setCodeVisible}/>
             <DrawerButton />
             <HelpButton />
         </View>

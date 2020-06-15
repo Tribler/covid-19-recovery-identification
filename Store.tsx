@@ -13,12 +13,14 @@ type State = {
     attester: boolean
     serverURL: string
     darkMode: boolean
+    jwt : string
 }
 
 type Certificate = {
     creatorID: string
     holderID: string
     type: string
+    hash?:string //only available once the data has been double attested
 }
 
 type OutstandingRequest = {
@@ -27,14 +29,18 @@ type OutstandingRequest = {
 }
 
 var defaultState: State = {
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
-    darkMode: false
+    darkMode: false,
+    jwt: ""
 }
 
 UpdateID(defaultState)
+
+// TODO ask if this is still necessary?
+const attributeTypeMap = [{ value: "" },{ value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
 
 const useValue = () => useState(defaultState);
 
@@ -50,5 +56,5 @@ const useSetDraft = () => {
     );
 };
 
-export { Certificate, State, OutstandingRequest };
+export { Certificate, State, OutstandingRequest, attributeTypeMap};
 export { Provider, useTrackedState, useSetDraft };
