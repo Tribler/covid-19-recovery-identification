@@ -86,7 +86,7 @@ async def login(request):
         return Response({'message': 'Wrong credentials'}, status=403)
 
     payload = {
-            'user_id'    : user.id,
+            'user_id': user.id,
             'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
