@@ -3,22 +3,26 @@ import json
 import bcrypt
 from aiohttp.web_middlewares import middleware
 from base64 import b64decode
-from os import urandom, path
+from os import urandom, path, stat, makedirs
 
 from user import UserStorage
 from ipv8.REST.base_endpoint import Response
 
 
-def directory():  # pragma: no cover
+def directory():
     try:
         from com.chaquo.python import Python
-        return str(Python.getPlatform().getApplication().getFilesDir()) + \
-            '/certificates/credentials.txt'
+        file_dir = path.dirname(str(Python.getPlatform()
+                                    .getApplication().getFilesDir()) +
+                                '/certificates/credentials.txt')
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
-            return './credentials.txt'
+            file_dir = './certificates/credentials.txt'
+    if not path.exists(file_dir):
+        makedirs(file_dir)
+    return file_dir
 
 
 JWT_SECRET = urandom(32).hex()
@@ -75,11 +79,14 @@ async def login(request):
     auth = request.headers.get('Authorization')
     auth = b64decode(auth.encode('utf-8')).decode('utf-8').split(':')
     user = UserStorage.get_storage()
-    if (user is None) or (user.match_password(auth[1]) is False):
-        return Response({'message': 'Wrong credentials'}, status=400)
+    if user is None:
+        return Response({'message': 'Not registered'}, status=417)
+
+    if user.match_password(auth[1]) is False:
+        return Response({'message': 'Wrong credentials'}, status=403)
 
     payload = {
-            'user_id': user.id,
+            'user_id'    : user.id,
             'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
@@ -92,6 +99,7 @@ async def register(request):
     user. Registration is done by checking the x-registration header. It is in
     the form password:is_attester in base64 form.
     """
+    read_credentials_file()
     if UserStorage.registered():
         return Response({'message': 'Already registered'}, status=400)
     cred = request.headers.get('x-registration')
@@ -108,7 +116,7 @@ def read_credentials_file():
     Put credentials in User Storage.
     """
     # Check if the file exists.
-    if path.exists(working_directory):
+    if path.exists(working_directory) and stat(working_directory).st_size != 0:
         # Write your credentials to User.UserStorage.
         UserStorage.set_storage(json.load(open(working_directory)))
 

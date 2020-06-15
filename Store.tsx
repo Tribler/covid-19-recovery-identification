@@ -1,7 +1,7 @@
-import {useState, useCallback} from 'react';
-import {createContainer} from 'react-tracked';
-import UpdateID from './network/UpdateID';
-import produce, {Draft} from 'immer';
+import { useState, useCallback } from 'react'
+import { createContainer } from "react-tracked";
+import UpdateID from "./network/UpdateID";
+import produce, { Draft } from "immer";
 
 /*
 The store contains all data types and functions related to the global state of the React app, it defines what the global state contains and what the initial value is
@@ -13,12 +13,14 @@ type State = {
     attester: boolean
     serverURL: string
     darkMode: boolean
+    jwt : string
 }
 
 type Certificate = {
     creatorID: string
     holderID: string
     type: string
+    hash?:string //only available once the data has been double attested
 }
 
 type OutstandingRequest = {
@@ -26,29 +28,33 @@ type OutstandingRequest = {
     type: string
 }
 
-const defaultState: State = {
-  loggedIn: true,
-  attester: true,
-  ID: '0',
-  serverURL: 'http://localhost:8085',
-  darkMode: false,
-};
+var defaultState: State = {
+    loggedIn: false,
+    attester: true,
+    ID: "0",
+    serverURL: "http://localhost:8085",
+    darkMode: false,
+    jwt: ""
+}
 
-UpdateID(defaultState);
+UpdateID(defaultState)
+
+// TODO ask if this is still necessary?
+const attributeTypeMap = [{ value: "" },{ value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
 
 const useValue = () => useState(defaultState);
 
-const {Provider, useTrackedState, useUpdate} = createContainer(useValue);
+const { Provider, useTrackedState, useUpdate } = createContainer(useValue);
 
 const useSetDraft = () => {
-  const setState = useUpdate();
-  return useCallback(
-      (draftUpdater: (draft: Draft<State>) => void) => {
-        setState(produce(draftUpdater));
-      },
-      [setState],
-  );
+    const setState = useUpdate();
+    return useCallback(
+        (draftUpdater: (draft: Draft<State>) => void) => {
+            setState(produce(draftUpdater));
+        },
+        [setState]
+    );
 };
 
-export {Certificate, State, OutstandingRequest};
-export {Provider, useTrackedState, useSetDraft};
+export { Certificate, State, OutstandingRequest, attributeTypeMap};
+export { Provider, useTrackedState, useSetDraft };

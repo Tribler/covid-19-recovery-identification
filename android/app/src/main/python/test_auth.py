@@ -115,7 +115,7 @@ class TestAuth(RESTTestBase):
                                            'attestation/login',
                                            'POST', {}, auth=True, user="user",
                                            password="wrongpassword")
-        self.assertEqual(response, {'message': 'Wrong credentials'},
+        self.assertEqual(response, {'message': 'Not registered'},
                          "The user should not be registered yet.")
 
     async def test_register(self):

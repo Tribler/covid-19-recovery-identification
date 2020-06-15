@@ -16,17 +16,14 @@ def directory():
         from com.chaquo.python import Python
         file_dir = path.dirname(str(Python.getPlatform().getApplication()
                                     .getFilesDir()) + '/certificates')
-        if not path.exists(file_dir):
-            makedirs(file_dir)
-        return file_dir
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
             file_dir = './certificates'
-            if not path.exists(file_dir):
-                makedirs(file_dir)
-            return file_dir
+    if not path.exists(file_dir):
+        makedirs(file_dir)
+    return file_dir
 
 
 # Launch an IPv8 service. We run REST endpoints for this service on
@@ -41,9 +38,9 @@ files_dir = directory()
 # TODO WHY TWO IDS?
 configuration['keys'] = [
         {'alias': "anonymous id", 'generation': u"curve25519",
-         'file' : files_dir + u"/ec_multichain.pem"},
+         'file': files_dir + u"/ec_multichain.pem"},
         {'alias': "my peer", 'generation': u"medium",
-         'file' : files_dir + u"/ec.pem"}
+         'file': files_dir + u"/ec.pem"}
 ]
 
 # Only load the basic communities.
