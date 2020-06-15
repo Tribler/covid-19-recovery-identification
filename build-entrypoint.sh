@@ -26,7 +26,7 @@ case "${1}" in
   ./gradlew :app:pmd
   ;;
 "java_test")
-  # ../start.sh "${2}" && cd android
+  ../start.sh "${2}" && cd android
   ./gradlew :app:connectedCheck
   ;;
 "python_test")
