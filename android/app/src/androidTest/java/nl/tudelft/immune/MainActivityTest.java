@@ -36,6 +36,10 @@ public class MainActivityTest {
 
   @After
   public void destroy() {
+    if (CertService.getRunning()) {
+      scenario.moveToState(Lifecycle.State.DESTROYED);
+      certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    }
     scenario = null;
     certWidget = null;
   }

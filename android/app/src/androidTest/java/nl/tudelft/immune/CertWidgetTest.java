@@ -26,6 +26,9 @@ public class CertWidgetTest {
 
   @After
   public void destroy() {
+    if (CertService.getRunning()) {
+      certWidget.onDisabled(ApplicationProvider.getApplicationContext());
+    }
     certWidget = null;
   }
 

@@ -107,6 +107,7 @@ public class CertService extends Service {
   protected void stopService() {
     if (running) {
       Python.getInstance().getModule("certificate_service").callAttr("stop");
+      Python.getInstance().getModule("certificate_service").close();
       stopForeground(true);
       deleteNotificationChannel();
       running = false;

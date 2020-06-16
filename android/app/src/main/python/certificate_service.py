@@ -1,7 +1,7 @@
-from asyncio import set_event_loop, get_event_loop, ensure_future, \
+from asyncio import new_event_loop, set_event_loop, ensure_future, \
     run_coroutine_threadsafe
 from sys import modules
-from threading import Thread
+from multiprocessing import Process
 from os import path, makedirs
 
 from ipv8.REST.rest_manager import RESTManager
@@ -64,6 +64,7 @@ modules["ipv8.REST.rest_manager"].RootEndpoint = root_endpoint.RootEndpoint
 # SetUp the certification service.
 ipv8 = IPv8(configuration)
 rest_manager = RESTManager(ipv8)
+main_loop = new_event_loop()
 
 
 def run_in_thread(loop):
@@ -81,10 +82,10 @@ async def start_communities():
 
 def stop():
     # Stop the certification service.
-    run_coroutine_threadsafe(rest_manager.stop(), get_event_loop())
-    run_coroutine_threadsafe(ipv8.stop(), get_event_loop())
+    run_coroutine_threadsafe(rest_manager.stop(), main_loop)
+    run_coroutine_threadsafe(ipv8.stop(), main_loop)
 
 
 def start():
     # Service entry point.
-    Thread(target=run_in_thread, args=(get_event_loop(),)).start()
+    Process(target=run_in_thread, args=(main_loop,)).start()
