@@ -129,7 +129,8 @@ const RegisterLogin = (state: State, password: string, isAttester: boolean) => {
  * Sends a request to the backend to request verification for a certain attribute of the holder.
  */
 const PostVerification = (state: State, holderID: string, attributeHash: string, callback: Function) => {
-  const url = state.serverURL + "/attestation?type=verify&mid=" + encodeURIComponent(holderID) + "&attribute_hash=" + encodeURIComponent(attributeHash)
+  const url = state.serverURL + "/attestation?type=verify&mid=" + encodeURIComponent(holderID)
+    + "&attribute_hash=" + encodeURIComponent(attributeHash) + "&attribute_values" + encodeURIComponent(Base64.encode("positive")) // TODO: hardcode value or let attester fill in?
   const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url, data)
     .then((response) => {
