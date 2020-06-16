@@ -27,7 +27,7 @@ case "${1}" in
   ;;
 "java_test")
   ../start.sh "${2}" && cd android
-  ./gradlew :app:connectedCheck
+  ./gradlew :app:connectedAndroidTest
   ;;
 "python_test")
   cd app/src/main/python && nox && coverage html
