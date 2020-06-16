@@ -87,7 +87,7 @@ async def login(request):
         'is_attester': user.is_attester
     }
     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
-    return Response({'token': jwt_token.decode('utf-8')})
+    return Response({'token': jwt_token.decode('utf-8')}, status=200)
 
 
 async def register(request):
@@ -105,7 +105,7 @@ async def register(request):
     hashed_pw = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode("utf-8")
     UserStorage.create_user("user", hashed_pw, cred[1])
     write_credentials_file()
-    return Response({'success': True})
+    return Response({'success': True}, status=200)
 
 
 def read_credentials_file():
