@@ -46,12 +46,11 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 onChangeText={input => setPasswordConfirm(input)} />
 
             <TouchableOpacity onPress={() => {
-                if (password == passwordConfirm) {
+                if (password == passwordConfirm && password.length > 0) {
                     RegisterLogin(state, password, false)
-
                 }
                 else {
-                    alert("Passwords don't match")
+                    alert("Passwords don't match or are empty")
                 }
                 setPassword("")
                 setPasswordConfirm("")
@@ -80,11 +79,11 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 onChangeText={input => setPasswordAttesterConfirm(input)} />
 
             <TouchableOpacity onPress={() => {
-                if (passwordAttester == passwordAttesterConfirm) {
+                if (passwordAttester == passwordAttesterConfirm && passwordAttester.length > 0) {
                     RegisterLogin(state, passwordAttester, true)
                 }
                 else {
-                    alert("Passwords don't match")
+                    alert("Passwords don't match or are empty")
                 }
                 setPasswordAttester("")
                 setPasswordAttesterConfirm("")

@@ -5,6 +5,7 @@ import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleLogin';
 import { useToggleJwt } from '../hooks/useToggleJwt';
+import { useToggleID } from '../hooks/useToggleID';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
@@ -12,8 +13,9 @@ import { useToggleJwt } from '../hooks/useToggleJwt';
  */
 const LoginScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
-    const updateLogin = useToggleLogin()
-    const updateJwt = useToggleJwt()
+    const updateLogin = useToggleLogin()   // a hook to change logged in state in the store.
+    const updateJwt = useToggleJwt()    // a hook to change jwt in the store.
+    const updateIDHook = useToggleID() // a hook to change ID in state in the store.
     const [password, setPassword] = useState("")
     const [password1, setPassword1] = useState("")
     return (
@@ -36,7 +38,12 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 value={password}
                 onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
-                PostLogin(state, updateLogin, updateJwt, password)
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
                 setPassword("")
             }}>
                 <View style={styles.textField} >
@@ -52,11 +59,16 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
                 secureTextEntry={true}
-                value={password1}
-                onChangeText={input => setPassword1(input)} />
+                value={password}
+                onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
-                PostLogin(state, updateLogin, updateJwt, password1)
-                setPassword1("")
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
+                setPassword("")
             }}>
                 <View style={styles.submitButton}>
                     <Text style={styles.submitText}>Submit</Text>
