@@ -3,10 +3,10 @@
 buildscript {
     ext {
         applicationId = 'nl.tudelft.immune'
-        buildToolsVersion = "29.0.3"
+        buildToolsVersion = "30.0.0"
         minSdkVersion = 16
-        compileSdkVersion = 29
-        targetSdkVersion = 29
+        compileSdkVersion = 30
+        targetSdkVersion = 30
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
         versionCode = 1
@@ -19,8 +19,8 @@ buildscript {
     }
     dependencies {
         //noinspection GradleDependency
-        classpath('com.android.tools.build:gradle:3.6.1')
-        classpath('com.chaquo.python:gradle:7.0.3')
+        classpath('com.android.tools.build:gradle:4.0.0')
+        classpath('com.chaquo.python:gradle:8.0.0')
     }
 }
 

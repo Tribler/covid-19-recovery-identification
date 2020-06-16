@@ -2,7 +2,6 @@ apply plugin: "com.android.application"
 apply plugin: "com.chaquo.python"
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: 'jacoco'
 apply from: "../../node_modules/react-native/react.gradle"
 
 import com.android.build.OutputFile
@@ -161,7 +160,6 @@ task checkstyle(type: Checkstyle) {
 }
 
 task pmd(type: Pmd) {
-    pmd.incrementalAnalysis = true
     pmd.consoleOutput = true
     source = fileTree("src/main/java")
     include "**/*.java"

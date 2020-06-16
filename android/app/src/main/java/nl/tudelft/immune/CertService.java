@@ -55,7 +55,7 @@ public class CertService extends Service {
   public void onDestroy() {
     stopService();
     super.onDestroy();
-    android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
+    //android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
   }
 
   /**
@@ -91,10 +91,10 @@ public class CertService extends Service {
         Python.start(new AndroidPlatform(this));
       }
       Python.getInstance().getModule("certificate_service").callAttr("start");
-      running = true;
       createNotificationChannel();
       createNotification();
       startForeground(android.os.Process.myPid(), getNotification());
+      running = true;
     }
   }
 
@@ -107,9 +107,9 @@ public class CertService extends Service {
   protected void stopService() {
     if (running) {
       Python.getInstance().getModule("certificate_service").callAttr("stop");
-      running = false;
       stopForeground(true);
       deleteNotificationChannel();
+      running = false;
     }
   }
 
