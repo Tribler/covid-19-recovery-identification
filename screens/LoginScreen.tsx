@@ -69,7 +69,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
 }
 
 /**
- * various styles for use in various situations. For example, white text in a potential
+ * various styles for use in various situations. For example, white text in
  * dark mode or black text in the current light mode.
  */
 const styles = StyleSheet.create({

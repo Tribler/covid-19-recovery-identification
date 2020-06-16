@@ -5,7 +5,8 @@ import { RegisterLogin } from '../network/NetworkCalls';
 import { useTrackedState } from '../Store';
 
 /**
- * The register screen which will be prompted on first startup and then never again.
+ * In the register screen, a user can sign up for the app and thereby create an account
+ * The register screen will be prompted on first startup and then never again.
  */
 const RegisterScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
@@ -100,7 +101,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
 }
 
 /**
- * various styles for use in various situations. For example, white text in a potential
+ * various styles for use in various situations. For example, white text in
  * dark mode or black text in the current light mode.
  */
 const styles = StyleSheet.create({
