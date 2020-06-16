@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { createContainer } from "react-tracked";
-import UpdateID from "./network/UpdateID";
 import produce, { Draft } from "immer";
 
 /*
@@ -13,14 +12,14 @@ type State = {
     attester: boolean
     serverURL: string
     darkMode: boolean
-    jwt : string
+    jwt: string
 }
 
 type Certificate = {
     creatorID: string
     holderID: string
     type: string
-    hash?:string //only available once the data has been double attested
+    hash?: string //only available once the data has been double attested
 }
 
 type OutstandingRequest = {
@@ -37,10 +36,8 @@ var defaultState: State = {
     jwt: ""
 }
 
-UpdateID(defaultState)
-
 // TODO ask if this is still necessary?
-const attributeTypeMap = [{ value: "" },{ value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
+const attributeTypeMap = [{ value: "" }, { value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
 
 const useValue = () => useState(defaultState);
 
@@ -56,5 +53,5 @@ const useSetDraft = () => {
     );
 };
 
-export { Certificate, State, OutstandingRequest, attributeTypeMap};
+export { Certificate, State, OutstandingRequest, attributeTypeMap };
 export { Provider, useTrackedState, useSetDraft };
