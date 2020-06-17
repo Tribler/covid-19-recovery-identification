@@ -35,7 +35,35 @@ RUN curl -o /android-emulator-container-scripts/emulator.zip \
 RUN curl -o /android-emulator-container-scripts/system-image.zip \
     "https://dl.google.com/android/repository/sys-img/google_apis/${ANDROID_VERSION}.zip"
 
-RUN apk -U add bash
+ARG GLIBC_VERSION="2.31-r0"
+ENV IVY_HOME /cache
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH ${PATH}:${GRADLE_HOME}/bin
+ENV GRADLE_USER_HOME /gradle
+
+RUN apk -U update && apk -U add \
+  bash \
+  ca-certificates \
+  expect \
+  fontconfig \
+  make \
+  libstdc++ \
+  libgcc \
+  mesa-dev \
+  nodejs \
+  npm \
+  pulseaudio-dev \
+  su-exec \
+  ncurses \
+  unzip \
+  wget \
+  zlib \
+  && wget https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -O /etc/apk/keys/sgerrand.rsa.pub \
+	&& wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk -O /tmp/glibc.apk \
+	&& wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk -O /tmp/glibc-bin.apk \
+	&& apk add /tmp/glibc.apk /tmp/glibc-bin.apk \
+  && rm -rf /tmp/* \
+	&& rm -rf /var/cache/apk/*
 
 CMD ["bash"]
 
