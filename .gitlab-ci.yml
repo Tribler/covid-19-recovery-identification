@@ -1,4 +1,4 @@
-image: docker
+image: $CI_REGISTRY_IMAGE:latest
 services:
   - docker:dind
 
@@ -7,6 +7,14 @@ stages:
   - build
   - validate
   - test
+
+before_script:
+  - yarn install && cd android
+  - keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  - echo "sdk.dir=${ANDROID_HOME}" >>local.properties
+
+after_script:
+  - rm local.properties && rm app/debug.keystore
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
@@ -24,8 +32,8 @@ container:
   services:
     - docker:dind
   stage: container
-  # tags:
-  #   - longJob
+  before_script: []
+  after_script: []
   only:
     changes:
       - Dockerfile
@@ -33,15 +41,24 @@ container:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+      --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:latest
+
+android_29:
+  stage: build
+  when: manual
+  before_script: []
+  after_script: []
+  script: 
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - cd android-emulator-container-scripts && source ./configure.sh
+    - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
+    - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
 build:
   stage: build
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest build
+    - ./gradlew :app:assemble
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -55,9 +72,7 @@ build:
 java_checkstyle:
   stage: validate
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest checkstyle
+    - ./gradlew :app:checkstyle
   artifacts:
     paths:
       - android/app/build/reports/checkstyle/
@@ -74,23 +89,28 @@ java_checkstyle:
 typescript_eslint:
   stage: validate
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest typescript_eslint
+    - cd .. && node_modules/eslint/bin/eslint.js ./components/**
+    ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   allow_failure: true
 
 code_quality:
   stage: validate
+  before_script: []
+  after_script: []
 
 dependency_scanning:
   stage: validate
+  before_script: []
+  after_script: []
+
+sast:
+  before_script: []
+  after_script: []
 
 java_pmd:
   stage: test
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest pmd
+    - ./gradlew :app:pmd
   artifacts:
     paths:
       - android/app/build/reports/pmd/
@@ -108,8 +128,9 @@ java_lint_and_test:
   stage: test
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest java_test 29
+    - docker run --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
+    - adb connect localhost:5555
+    - ./gradlew :app:connectedAndroidTest
   artifacts:
     paths:
       - android/app/build/reports/lint-results*.xml
@@ -127,9 +148,7 @@ java_lint_and_test:
 python_validation_and_test:
   stage: test
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest python_test
+    - cd app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
     paths:
