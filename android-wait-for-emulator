@@ -3,7 +3,14 @@
 sec=0
 timeout=60
 
+err() {
+	echo "$@"
+}
+
 while true; do
+	if [[ $sec -ge $timeout ]]; then
+		err "Timeout ($timeout seconds) reached - Failed to start emulator"
+	fi
 	out=$(docker ps 2>&1 | grep -v '^\*')
 	let "r = sec % 5"
 	if [[ $r -eq 0 ]]; then
