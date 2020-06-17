@@ -2,7 +2,7 @@
 
 # Originally written by Ralf Kistner <ralf@embarkmobile.com>, but placed in the public domain
 
-set +e
+set -eu
 
 bootanim=""
 failcounter=0
