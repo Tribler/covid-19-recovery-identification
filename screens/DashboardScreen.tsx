@@ -96,8 +96,9 @@ const Dashboard: React.FC = () => {
 }
 
 /**
- * various styles for use in various situations. For example, white text in a potential
- * dark mode or black text in the current light mode.
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
  */
 const styles = StyleSheet.create({
     darktext: {
