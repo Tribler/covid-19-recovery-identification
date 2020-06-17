@@ -13,16 +13,16 @@ before_script:
   - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
   - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
-include:
-  - template: Dependency-Scanning.gitlab-ci.yml
-  - template: Code-Quality.gitlab-ci.yml
-  - template: SAST.gitlab-ci.yml
+# include:
+#   - template: Dependency-Scanning.gitlab-ci.yml
+#   - template: Code-Quality.gitlab-ci.yml
+#   - template: SAST.gitlab-ci.yml
 
-variables:
-  SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
-  DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
-  SAST_DISABLE_DIND: "false"
-  DS_DISABLE_DIND: "false"
+# variables:
+#   SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
+#   DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
+#   SAST_DISABLE_DIND: "false"
+#   DS_DISABLE_DIND: "false"
 
 container:
   image: docker
@@ -42,7 +42,7 @@ container:
 
 android_29:
   stage: build
-  when: manual
+  # when: manual
   before_script: []
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -50,102 +50,105 @@ android_29:
     - cd /android-emulator-container-scripts && source ./configure.sh
     - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
     - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    - docker push $CI_REGISTRY_IMAGE:q-google-x86
-
-build:
-  stage: build
-  script:
-    - cd android && ./gradlew :app:assemble
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - android/build/
-      - android/.gradle/
-      - android/app/build/
-      - node_modules/
-
-java_checkstyle:
-  stage: validate
-  script:
-    - cd android && ./gradlew :app:checkstyle
-  artifacts:
-    paths:
-      - android/app/build/reports/checkstyle/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - android/build/
-      - android/.gradle/
-      - android/app/build/
-      - node_modules/
-
-typescript_eslint:
-  stage: validate
-  script:
-    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
-  allow_failure: true
-
-code_quality:
-  stage: validate
-  before_script: []
-
-dependency_scanning:
-  stage: validate
-  before_script: []
-
-sast:
-  before_script: []
-
-java_pmd:
-  stage: test
-  script:
-    - cd android && ./gradlew :app:pmd
-  artifacts:
-    paths:
-      - android/app/build/reports/pmd/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - android/build/
-      - android/.gradle/
-      - android/app/build/
-      - node_modules/
-
-java_lint_and_test:
-  stage: test
-  services:
-    - docker:dind
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || ture
     - /android-emulator-container-scripts/run.sh $CI_REGISTRY_IMAGE:q-google-x86
     - /android-sdk-linux/platform-tools/adb connect localhost:5555
     - /android-sdk-linux/platform-tools/adb devices
-    - cd android && ./gradlew :app:connectedAndroidTest
-  artifacts:
-    paths:
-      - android/app/build/reports/lint-results*.xml
-      - android/app/build/reports/coverage/debug/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - android/build/
-      - android/.gradle/
-      - android/app/build/
-      - node_modules/
+    - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
-python_validation_and_test:
-  stage: test
-  script:
-    - cd android/app/src/main/python && nox && coverage html
-  coverage: '/^TOTAL.*\s+(\d+\%)$/'
-  artifacts:
-    paths:
-      - android/app/src/main/python/htmlcov/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - __pycache__/
-      - .pytest_cache/
-      - .nox/
-      - node_modules/
+# build:
+#   stage: build
+#   script:
+#     - cd android && ./gradlew :app:assemble
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - android/build/
+#       - android/.gradle/
+#       - android/app/build/
+#       - node_modules/
+
+# java_checkstyle:
+#   stage: validate
+#   script:
+#     - cd android && ./gradlew :app:checkstyle
+#   artifacts:
+#     paths:
+#       - android/app/build/reports/checkstyle/
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - android/build/
+#       - android/.gradle/
+#       - android/app/build/
+#       - node_modules/
+
+# typescript_eslint:
+#   stage: validate
+#   script:
+#     - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+#   allow_failure: true
+
+# code_quality:
+#   stage: validate
+#   before_script: []
+
+# dependency_scanning:
+#   stage: validate
+#   before_script: []
+
+# sast:
+#   before_script: []
+
+# java_pmd:
+#   stage: test
+#   script:
+#     - cd android && ./gradlew :app:pmd
+#   artifacts:
+#     paths:
+#       - android/app/build/reports/pmd/
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - android/build/
+#       - android/.gradle/
+#       - android/app/build/
+#       - node_modules/
+
+# java_lint_and_test:
+#   stage: test
+#   services:
+#     - docker:dind
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || ture
+#     - /android-emulator-container-scripts/run.sh $CI_REGISTRY_IMAGE:q-google-x86
+#     - /android-sdk-linux/platform-tools/adb connect localhost:5555
+#     - /android-sdk-linux/platform-tools/adb devices
+#     - cd android && ./gradlew :app:connectedAndroidTest
+#   artifacts:
+#     paths:
+#       - android/app/build/reports/lint-results*.xml
+#       - android/app/build/reports/coverage/debug/
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - android/build/
+#       - android/.gradle/
+#       - android/app/build/
+#       - node_modules/
+
+# python_validation_and_test:
+#   stage: test
+#   script:
+#     - cd android/app/src/main/python && nox && coverage html
+#   coverage: '/^TOTAL.*\s+(\d+\%)$/'
+#   artifacts:
+#     paths:
+#       - android/app/src/main/python/htmlcov/
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     paths:
+#       - __pycache__/
+#       - .pytest_cache/
+#       - .nox/
+#       - node_modules/
