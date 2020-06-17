@@ -10,11 +10,8 @@ stages:
 
 before_script:
   - yarn install
-  # - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
-  # - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
-
-after_script:
-  - rm ./android/local.properties && rm ./android/app/debug.keystore
+  - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
@@ -36,7 +33,6 @@ container:
       - Dockerfile  
   stage: container
   before_script: []
-  after_script: []
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:latest || true
@@ -46,39 +42,26 @@ container:
 
 android_29:
   stage: build
-  # when: manual
+  when: manual
   before_script: []
-  after_script: []
   script:
-    - export PATH=/android-sdk-linux/platform-tools:$PATH
-    - compgen -c
-    - ls
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
-    # - cd /android-emulator-container-scripts && source ./configure.sh
-    # - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
+    - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
+    - cd /android-emulator-container-scripts && source ./configure.sh
+    - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
     # - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
-    - cd /android-sdk-linux/platform-tools
-    - ./adb connect localhost:5555
-    - ./adb devices
     - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
 build:
   stage: build
   script:
-    - echo $HOME
-    - ls $HOME
-    - export GRADLE_USER_HOME=./.gradle
-    - cd android && ./gradlew :app:assemble -Dorg.gradle.daemon=true --stacktrace
+    - cd android && ./gradlew :app:assemble
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - android/build/
       - android/.gradle/
-      - android/local.properties
       - android/app/build/
-      - android/app/debug.keystore
       - node_modules/
 
 java_checkstyle:
@@ -93,9 +76,7 @@ java_checkstyle:
     paths:
       - android/build/
       - android/.gradle/
-      - android/local.properties
       - android/app/build/
-      - android/app/debug.keystore
       - node_modules/
 
 typescript_eslint:
@@ -107,16 +88,13 @@ typescript_eslint:
 code_quality:
   stage: validate
   before_script: []
-  after_script: []
 
 dependency_scanning:
   stage: validate
   before_script: []
-  after_script: []
 
 sast:
   before_script: []
-  after_script: []
 
 java_pmd:
   stage: test
@@ -130,9 +108,7 @@ java_pmd:
     paths:
       - android/build/
       - android/.gradle/
-      - android/local.properties
       - android/app/build/
-      - android/app/debug.keystore
       - node_modules/
 
 java_lint_and_test:
@@ -151,9 +127,7 @@ java_lint_and_test:
     paths:
       - android/build/
       - android/.gradle/
-      - android/local.properties
       - android/app/build/
-      - android/app/debug.keystore
       - node_modules/
 
 python_validation_and_test:
