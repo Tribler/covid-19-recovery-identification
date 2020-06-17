@@ -47,7 +47,7 @@ container:
 
 android_29:
   stage: build
-  when: manual
+  # when: manual
   before_script: []
   after_script: []
   script:
