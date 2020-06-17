@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
             <View style={styles.header}>
                 <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
                 <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
-                <Button style={{backgroundColor:"dodgerblue"}} accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
+                <Button style={{backgroundColor:"dodgerblue"}} accessibilityStates color='white' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
                 <Text> {'\n'}</Text> 
                 <Text> {'\n'}</Text> 
             </View>
