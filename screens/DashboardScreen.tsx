@@ -145,9 +145,9 @@ const styles = StyleSheet.create({
     },
     header: {
         alignItems: 'center',
-        marginTop: 35,
-        marginBottom: 30,
-        padding: 5
+        marginTop: "8.5%",
+        marginBottom: "7.2%",
+        padding: "1.2%"
     }
 });
 
