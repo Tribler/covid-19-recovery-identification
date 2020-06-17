@@ -61,14 +61,4 @@ RUN apk -U update && apk -U add \
   && rm -rf /tmp/* \
 	&& rm -rf /var/cache/apk/*
 
-CMD ["bash"]
-
-# RUN mkdir /usr/lib/gradle
-# ENV GRADLE_VERSION 6.5
-# ENV GRADLE_HOME /usr/lib/gradle/gradle-${GRADLE_VERSION}
-# ENV PATH ${PATH}:${GRADLE_HOME}/bin
-
-# RUN set -x \
-#   && curl -L -o /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
-#   && unzip /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip \
-#   && rm /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip
+COPY ./android-wait-for-emulator.sh /android-wait-for-emulator.sh
