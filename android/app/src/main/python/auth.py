@@ -9,7 +9,7 @@ from user import UserStorage
 from ipv8.REST.base_endpoint import Response
 
 
-def directory():
+def directory():  # pragma: no cover
     try:
         from com.chaquo.python import Python
         file_dir = str(Python.getPlatform().getApplication()
