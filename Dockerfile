@@ -36,10 +36,6 @@ RUN curl -o /android-emulator-container-scripts/system-image.zip \
     "https://dl.google.com/android/repository/sys-img/google_apis/${ANDROID_VERSION}.zip"
 
 ARG GLIBC_VERSION="2.31-r0"
-ENV IVY_HOME /cache
-ENV GRADLE_HOME /usr/local/gradle
-ENV PATH ${PATH}:${GRADLE_HOME}/bin
-ENV GRADLE_USER_HOME /gradle
 
 RUN apk -U update && apk -U add \
   bash \
