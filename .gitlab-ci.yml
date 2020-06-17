@@ -61,6 +61,7 @@ android_29:
     - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
     - cd /android-sdk-linux/platform-tools
     - ./adb connect localhost:5555
+    - ./adb devices
     - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
 build:
