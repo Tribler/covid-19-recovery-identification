@@ -10,9 +10,8 @@ stages:
 
 before_script:
   - yarn install
-  - cd android
-  # - keytool -genkey -v -keystore ./app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
-  # - echo "sdk.dir=${ANDROID_HOME}" >>./local.properties
+  # - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  # - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
 after_script:
   - rm ./android/local.properties && rm ./android/app/debug.keystore
@@ -59,6 +58,7 @@ android_29:
 build:
   stage: build
   script:
+    - cd android
     - ./gradlew :app:assemble
   cache:
     key: ${CI_COMMIT_REF_SLUG}
@@ -73,6 +73,7 @@ build:
 java_checkstyle:
   stage: validate
   script:
+    - cd android
     - ./gradlew :app:checkstyle
   artifacts:
     paths:
@@ -90,7 +91,7 @@ java_checkstyle:
 typescript_eslint:
   stage: validate
   script:
-    - cd .. && node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   allow_failure: true
 
 code_quality:
@@ -110,6 +111,7 @@ sast:
 java_pmd:
   stage: test
   script:
+    - cd android
     - ./gradlew :app:pmd
   artifacts:
     paths:
@@ -130,6 +132,7 @@ java_lint_and_test:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
     - adb connect localhost:5555
+    - cd android
     - ./gradlew :app:connectedAndroidTest
   artifacts:
     paths:
@@ -148,7 +151,7 @@ java_lint_and_test:
 python_validation_and_test:
   stage: test
   script:
-    - cd app/src/main/python && nox && coverage html
+    - cd android/app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
     paths:
