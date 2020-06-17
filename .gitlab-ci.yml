@@ -89,8 +89,7 @@ java_checkstyle:
 typescript_eslint:
   stage: validate
   script:
-    - cd .. && node_modules/eslint/bin/eslint.js ./components/**
-    ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+    - cd .. && node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   allow_failure: true
 
 code_quality:
