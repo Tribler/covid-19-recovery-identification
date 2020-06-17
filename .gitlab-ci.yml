@@ -40,22 +40,22 @@ container:
       --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:latest
 
-android_29:
-  stage: build
-  # when: manual
-  before_script: []
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
-    - cd /android-emulator-container-scripts && source ./configure.sh
-    - python3 /android-emulator-container-scripts/emu/emu_docker.py emulator.zip system-image.zip $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    - /android-sdk-linux/platform-tools/adb start-server
-    - docker run -d --device /dev/kvm --privileged --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
-    - bash ./android-wait-for-emulator
-    - /android-sdk-linux/platform-tools/adb connect localhost:5555
-    - /android-sdk-linux/platform-tools/adb devices
-    - docker push $CI_REGISTRY_IMAGE:q-google-x86
+# android_29:
+#   stage: build
+#   # when: manual
+#   before_script: []
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
+#     - cd /android-emulator-container-scripts && source ./configure.sh
+#     - python3 /android-emulator-container-scripts/emu/emu_docker.py emulator.zip system-image.zip $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
+#     - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
+#     - /android-sdk-linux/platform-tools/adb start-server
+#     - docker run -d --device /dev/kvm --privileged --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
+#     - bash ./android-wait-for-emulator
+#     - /android-sdk-linux/platform-tools/adb connect localhost:5555
+#     - /android-sdk-linux/platform-tools/adb devices
+#     - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
 # build:
 #   stage: build
@@ -116,28 +116,27 @@ android_29:
 #       - android/app/build/
 #       - node_modules/
 
-# java_lint_and_test:
-#   stage: test
-#   services:
-#     - docker:dind
-#   script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#     - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || ture
-#     - /android-emulator-container-scripts/run.sh $CI_REGISTRY_IMAGE:q-google-x86
-#     - /android-sdk-linux/platform-tools/adb connect localhost:5555
-#     - /android-sdk-linux/platform-tools/adb devices
-#     - cd android && ./gradlew :app:connectedAndroidTest
-#   artifacts:
-#     paths:
-#       - android/app/build/reports/lint-results*.xml
-#       - android/app/build/reports/coverage/debug/
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - android/build/
-#       - android/.gradle/
-#       - android/app/build/
-#       - node_modules/
+java_lint_and_test:
+  stage: test
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker run --privileged -d -p 6080:6080 -p 5554:5554 -p 5555:5555 -e DEVICE="Samsung Galaxy S10" --name android-container budtmo/docker-android-x86-10.0
+    - /android-sdk-linux/platform-tools/adb connect localhost:5555
+    - /android-sdk-linux/platform-tools/adb devices
+    - cd android && ./gradlew :app:connectedAndroidTest
+  artifacts:
+    paths:
+      - android/app/build/reports/lint-results*.xml
+      - android/app/build/reports/coverage/debug/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/app/build/
+      - node_modules/
 
 # python_validation_and_test:
 #   stage: test
