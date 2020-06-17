@@ -53,7 +53,7 @@ android_29:
     - /android-sdk-linux/platform-tools/adb start-server
     - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
     - /android-sdk-linux/platform-tools/adb connect localhost:5555
-    - bash ./android-wait-for-emmulator
+    - bash ./android-wait-for-emulator
     - /android-sdk-linux/platform-tools/adb devices
     - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
