@@ -10,7 +10,6 @@ stages:
 
 before_script:
   - yarn install
-  - ls /dev
   # - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
   # - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
@@ -51,6 +50,7 @@ android_29:
   before_script: []
   after_script: []
   script:
+    - ls /
     - export PATH=/android-sdk-linux/sdk/tools:$PATH
     - export PATH=/android-sdk-linux/sdk/platform-tools:$PATH
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -59,7 +59,9 @@ android_29:
     # - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
     # - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
     - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
-    - adb connect localhost:5555
+    - ls /
+    - ls /android-sdk-linux/
+    - /android-sdk-linux/sdk/platform-tools/adb connect localhost:5555
     - docker push $CI_REGISTRY_IMAGE:q-google-x86
 
 build:
