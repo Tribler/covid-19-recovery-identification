@@ -132,7 +132,7 @@ java_lint_and_test:
   stage: test
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker run --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
+    - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
     - adb connect localhost:5555
     - cd android && ./gradlew :app:connectedAndroidTest
   artifacts:
