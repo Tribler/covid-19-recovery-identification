@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
+import AcceptButton from '../components/AcceptButton';
 
 /**
  * Used to toggle the dark theme for the app.
@@ -57,7 +58,9 @@ const Dashboard: React.FC = () => {
             <View style={styles.header}>
                 <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
                 <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
-                <Button accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
+                <Button style={{backgroundColor:"dodgerblue"}} accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
+                <Text> {'\n'}</Text> 
+                <Text> {'\n'}</Text> 
             </View>
             <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center' }}>
                 {attributes.length > 0 ?
@@ -82,8 +85,8 @@ const Dashboard: React.FC = () => {
                             />
                         </View>
                     </View>
-
-                    : <Text>You have no signed attributes yet</Text>}
+                      
+                    : <Text style={{left: "23%"}}>You have no signed attributes yet</Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
     },
     instructions: {
         marginTop: "20%",
-        marginBottom: "-44%"
+        marginBottom: "10%"
     },
     instructionsDark: {
         marginTop: "20%",
