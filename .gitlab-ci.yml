@@ -50,7 +50,6 @@ android_29:
   before_script: []
   after_script: []
   script:
-    - apk add --no-cache bash
     - compgen -c
     - export PATH=/android-sdk-linux/tools:$PATH
     - export PATH=/android-sdk-linux/tools/bin:$PATH
@@ -62,7 +61,7 @@ android_29:
     # - emu-docker create emulator.zip system-image.zip --tag $CI_REGISTRY_IMAGE:q-google-x86
     # - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
     - docker run -d --device /dev/kvm --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
-    - ls /android-sdk-linux/platform-tools/
+    - ls /android-sdk-linux/platform-tools/adb
     - ls /root/
     - adb connect localhost:5555
     - docker push $CI_REGISTRY_IMAGE:q-google-x86
@@ -70,6 +69,7 @@ android_29:
 build:
   stage: build
   script:
+    - export GRADLE_USER_HOME=./android/.gradle
     - cd android && ./gradlew :app:assemble -Dorg.gradle.daemon=true --stacktrace
   cache:
     key: ${CI_COMMIT_REF_SLUG}
