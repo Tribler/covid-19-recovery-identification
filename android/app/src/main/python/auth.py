@@ -1,28 +1,27 @@
-import jwt
 import json
-import bcrypt
-from aiohttp.web_middlewares import middleware
 from base64 import b64decode
-from os import urandom, path, stat, makedirs
+from os import urandom, path, stat
+
+import bcrypt
+import jwt
+from aiohttp.web_middlewares import middleware
+from ipv8.REST.base_endpoint import Response
 
 from user import UserStorage
-from ipv8.REST.base_endpoint import Response
 
 
 def directory():  # pragma: no cover
     try:
         from com.chaquo.python import Python
         file_dir = str(Python.getPlatform().getApplication()
-                    .getFilesDir()) + '/certificates/credentials.txt'
+                       .getFilesDir()) + '/certificates/credentials.txt'
         return file_dir
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
-            file_dir = './certificates/credentials.txt'
+            file_dir = './credentials.txt'
             return file_dir
-
-
 
 
 JWT_SECRET = urandom(32).hex()
