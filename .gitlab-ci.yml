@@ -26,18 +26,18 @@ container:
       - Dockerfile
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker pull $CI_REGISTRY_IMAGE:old || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:old
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:old .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:old
 
 build:
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest build
+      -w /code $CI_REGISTRY_IMAGE:old build
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -53,7 +53,7 @@ checkstyle:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest checkstyle
+      -w /code $CI_REGISTRY_IMAGE:old checkstyle
   artifacts:
     paths:
       - android/app/build/reports/checkstyle/
@@ -78,7 +78,7 @@ pmd:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest pmd
+      -w /code $CI_REGISTRY_IMAGE:old pmd
   artifacts:
     paths:
       - android/app/build/reports/pmd/
@@ -97,7 +97,7 @@ java_test:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest java_test
+      -w /code $CI_REGISTRY_IMAGE:old java_test
   artifacts:
     paths:
       - android/app/build/reports/lint-results*.xml
@@ -117,7 +117,7 @@ python_test:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker run --rm --mount type=bind,src="$PWD",dst=/code
-      -w /code $CI_REGISTRY_IMAGE:latest python_test
+      -w /code $CI_REGISTRY_IMAGE:old python_test
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
     paths:
