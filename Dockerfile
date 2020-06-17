@@ -11,7 +11,7 @@ ENV ANDROID_VERSION x86-29_r10
 
 # Update the Image and Install Dependencies
 RUN apk -U add libvirt-daemon qemu-img qemu-system-x86_64 \
-    unzip git curl openrc python3 openjdk8 libsodium-dev
+    unzip git curl openrc python3 openjdk8 libsodium-dev yarn
 RUN rc-update add libvirtd
 
 # Download and Install Python Dependencies
