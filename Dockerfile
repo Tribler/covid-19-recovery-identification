@@ -34,3 +34,13 @@ RUN curl -o /android-emulator-container-scripts/emulator.zip \
     "https://dl.google.com/android/repository/emulator-linux-${ANDROID_EMULATOR}.zip"
 RUN curl -o /android-emulator-container-scripts/system-image.zip \
     "https://dl.google.com/android/repository/sys-img/google_apis/${ANDROID_VERSION}.zip"
+
+# RUN mkdir /usr/lib/gradle
+# ENV GRADLE_VERSION 6.5
+# ENV GRADLE_HOME /usr/lib/gradle/gradle-${GRADLE_VERSION}
+# ENV PATH ${PATH}:${GRADLE_HOME}/bin
+
+# RUN set -x \
+#   && curl -L -o /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
+#   && unzip /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip \
+#   && rm /usr/lib/gradle/gradle-${GRADLE_VERSION}-bin.zip
