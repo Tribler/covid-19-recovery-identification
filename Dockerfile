@@ -35,6 +35,10 @@ RUN curl -o /android-emulator-container-scripts/emulator.zip \
 RUN curl -o /android-emulator-container-scripts/system-image.zip \
     "https://dl.google.com/android/repository/sys-img/google_apis/${ANDROID_VERSION}.zip"
 
+RUN apk -U add bash
+
+CMD ["bash"]
+
 # RUN mkdir /usr/lib/gradle
 # ENV GRADLE_VERSION 6.5
 # ENV GRADLE_HOME /usr/lib/gradle/gradle-${GRADLE_VERSION}
