@@ -70,7 +70,7 @@ build:
   script:
     - echo $HOME
     - ls $HOME
-    - export GRADLE_USER_HOME=./android/.gradle
+    - export GRADLE_USER_HOME=./.gradle
     - cd android && ./gradlew :app:assemble -Dorg.gradle.daemon=true --stacktrace
   cache:
     key: ${CI_COMMIT_REF_SLUG}
