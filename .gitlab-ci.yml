@@ -10,7 +10,7 @@ stages:
 
 before_script:
   - ls /opt/
-  - export PATH="$PATH:/opt/yarn-/bin"
+  - export PATH="$PATH:/opt/yarn-1.22.4/bin"
   - yarn install
   - touch ./android/app/debug.keystore && touch ./android/local.properties
   - keytool -genkey -v -keystore ./app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
