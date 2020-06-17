@@ -10,6 +10,7 @@ stages:
 
 before_script:
   - yarn install && cd android
+  - touch ./app/debug.keystore && touch ./local.properties
   - keytool -genkey -v -keystore ./app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
   - echo "sdk.dir=${ANDROID_HOME}" >>./local.properties
 
