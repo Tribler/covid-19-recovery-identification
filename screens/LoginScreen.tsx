@@ -5,15 +5,17 @@ import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleLogin';
 import { useToggleJwt } from '../hooks/useToggleJwt';
+import { useToggleID } from '../hooks/useToggleID';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
  */
-const LoginScreen: React.FC = ({navigation}) => {
+const LoginScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
-    const updateLogin = useToggleLogin()
-    const updateJwt = useToggleJwt()
+    const updateLogin = useToggleLogin()   // a hook to change logged in state in the store.
+    const updateJwt = useToggleJwt()    // a hook to change jwt in the store.
+    const updateIDHook = useToggleID() // a hook to change ID in state in the store.
     const [password, setPassword] = useState("")
     return (
         <View style={styles.container}>
@@ -33,12 +35,17 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
+                secureTextEntry={true}
                 value={password}
-                onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() =>{
-                 PostLogin(state, updateLogin, updateJwt, password)
-                 setPassword("")
+                onChangeText={input => setPassword(input)} />
+            <TouchableOpacity onPress={() => {
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
+                setPassword("")
             }}>
                 <View style={{
                     backgroundColor: '#74d14c', alignItems: 'center',
@@ -56,12 +63,17 @@ const LoginScreen: React.FC = ({navigation}) => {
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
-                secureTextEntry={true} 
+                secureTextEntry={true}
                 value={password}
-                onChangeText={input => setPassword(input)}/>
-            <TouchableOpacity onPress={() =>{
-                 PostLogin(state, updateLogin, updateJwt, password)
-                 setPassword("")
+                onChangeText={input => setPassword(input)} />
+            <TouchableOpacity onPress={() => {
+                if (password.length > 0) {
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                }
+                else {
+                    throw alert("Password can't be empty")
+                }
+                setPassword("")
             }}>
                 <View style={{
                     zIndex: 1, backgroundColor: '#74d14c', alignItems: 'center',

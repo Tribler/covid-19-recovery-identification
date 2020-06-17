@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
@@ -15,7 +15,7 @@ import CertificationDialogue from '../components/CertificationDialgoue';
  * @param darkTheme whether to set it to dark or light depending on the option clicked.
  * @param state the state, details can be found in Store.tsx
  */
-const toggleDark = (darkTheme:boolean, state:State) => {
+const toggleDark = (darkTheme: boolean, state: State) => {
     state.darkMode = darkTheme
 }
 
@@ -23,8 +23,8 @@ const toggleDark = (darkTheme:boolean, state:State) => {
  * The Dashboard is the entry point to the app and displays the user's stored proofs.
 */
 
-const getAttributes = (url : string, setAttributes: Function, jwt: string) => {
-    const data = { method: 'GET', headers: {"Authorization" : jwt}, body: "" }
+const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
+    const data = { method: 'GET', headers: { "Authorization": jwt }, body: "" }
     fetch(url, data)
         .then((response) => response.json())
         .then((json) => setAttributes(json))
@@ -32,57 +32,62 @@ const getAttributes = (url : string, setAttributes: Function, jwt: string) => {
 }
 
 const Dashboard: React.FC = () => {
-    const [attributes, setAttributes] = useState([{id: "covid-19-immunity", signed: "bobbymcfly", hash:'XYZ'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}, {id: "example_attribute", signed: "example_attester", hash:'DEF'}]);
+    const [attributes, setAttributes] = useState([["hello", "kli9GyvPME2jh0uyyCqYfqBoUog=", {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
     const [verificationVisible, setVerificationVisible] = useState(false)
-    const [certData, setCertData] = useState({type:"0",attester:""}) //this states what data will show up in the confirmation dialogue after a scan
+    const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
     const [scannerVisible, setScannerVisible] = useState(false)
-    const [selected, setSelected] = useState({holderID:"", creatorID:"",type:"", hash:""})
+    const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
     const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
 
     const url = state.serverURL + "/attestation?type=attributes"
 
 
-    const handleQRScan = (dataString:string) => {
+    const handleQRScan = (dataString: string) => {
         const data = JSON.parse(dataString)
         console.log(data)
-        setCertData({type:data.type, attester:data.attestater})
+        setCertData({ type: data.type, attester: data.id })
         setDialogueVisible(true)
 
     }
-    //useEffect(() => {getAttributes(url, setAttributes, state.jwt)})
+    useEffect(() => { getAttributes(url, setAttributes, state.jwt) })
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
-            <View style = {styles.header}>
-                    <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
-                    <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
-                    <Button accessibilityStates color='black' mode='outlined' onPress={()=>setScannerVisible(true)}>GET CERTIFICATE</Button>
-                </View>
-            <ScrollView style={{minWidth:'100%', alignContent:'center', alignSelf:'center'}}>
+            <View style={styles.header}>
+                <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
+                <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
+                <Button accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
+            </View>
+            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center' }}>
                 {attributes.length > 0 ?
-                <View>
                     <View>
-                        <FlatList // we use FlatList to provide list functionality
-                            style={{maxWidth:'95%', alignSelf:'center'}}
-                            data={attributes}
-                            keyExtractor={(item) => item.id} //
-                            renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
-                                <CertificateViewDashboard
-                                    certificate={{creatorID:item.signed, holderID: state.ID, type: item.id, hash: item.hash}}
-                                    modalVisible = {setVerificationVisible}
-                                    setSelected= {setSelected}
-                                />
-                            )}
-                        />
+                        <View>
+                            <FlatList // we use FlatList to provide list functionality
+                                style={{ maxWidth: '95%', alignSelf: 'center' }}
+                                data={attributes}
+                                keyExtractor={(item) => item.id} //
+                                renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
+                                    <CertificateViewDashboard
+                                        certificate={{
+                                            creatorID: JSON.stringify(item[3]),
+                                            holderID: state.ID,
+                                            type: JSON.stringify(item[0]),
+                                            hash: JSON.stringify(item[1])
+                                        }}
+                                        modalVisible={setVerificationVisible}
+                                        setSelected={setSelected}
+                                    />
+                                )}
+                            />
+                        </View>
                     </View>
-                </View>
 
-                : <Text>You have no signed attributes yet</Text>}
+                    : <Text>You have no signed attributes yet</Text>}
 
-                <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible}/>
-                <BasicQRModal data={JSON.stringify({holderID:selected.holderID, hash:selected.hash})} visible={verificationVisible} setVisible={setVerificationVisible}/>
-                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan}/>
+                <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
+                <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
+                <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
             </ScrollView>
             <DrawerButton />
             <HelpButton />
@@ -142,7 +147,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 35,
         marginBottom: 30,
-        padding:5
+        padding: 5
     }
 });
 
