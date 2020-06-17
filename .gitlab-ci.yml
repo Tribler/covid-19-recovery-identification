@@ -71,6 +71,8 @@ android_29:
 build:
   stage: build
   script:
+    - echo $HOME
+    - ls $HOME
     - export GRADLE_USER_HOME=./android/.gradle
     - cd android && ./gradlew :app:assemble -Dorg.gradle.daemon=true --stacktrace
   cache:
