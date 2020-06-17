@@ -5,6 +5,7 @@ timeout=60
 
 err() {
 	echo "$@"
+	exit 0
 }
 
 while true; do
