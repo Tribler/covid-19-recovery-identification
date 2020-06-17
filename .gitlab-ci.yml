@@ -9,8 +9,8 @@ stages:
   - test
 
 before_script:
-  - ls && yarn install && cd android
-  - touch ./app/debug.keystore && touch ./local.properties
+  - yarn install
+  - touch ./android/app/debug.keystore && touch ./android/local.properties
   - keytool -genkey -v -keystore ./app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
   - echo "sdk.dir=${ANDROID_HOME}" >>./local.properties
 
@@ -32,6 +32,9 @@ container:
   image: docker
   services:
     - docker:dind
+  only:
+    changes:
+      - Dockerfile  
   stage: container
   before_script: []
   after_script: []
