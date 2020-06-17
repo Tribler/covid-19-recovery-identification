@@ -1,8 +1,8 @@
 from asyncio import set_event_loop, get_event_loop, ensure_future, \
     run_coroutine_threadsafe
+from os import path, makedirs
 from sys import modules
 from threading import Thread
-from os import path, makedirs
 
 from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
@@ -15,7 +15,7 @@ def directory():
     try:
         from com.chaquo.python import Python
         file_dir = str(Python.getPlatform().getApplication()
-                                    .getFilesDir()) + '/certificates'
+                       .getFilesDir()) + '/certificates'
         if not path.exists(file_dir):
             makedirs(file_dir)
         return file_dir
@@ -26,7 +26,6 @@ def directory():
             file_dir = './certificates'
             if not path.exists(file_dir):
                 makedirs(file_dir)
-
 
 
 # Launch an IPv8 service. We run REST endpoints for this service on
@@ -40,10 +39,10 @@ files_dir = directory()
 # Generate signature keys.
 # TODO WHY TWO IDS?
 configuration['keys'] = [
-        {'alias': "anonymous id", 'generation': u"curve25519",
-         'file': files_dir + u"/ec_multichain.pem"},
-        {'alias': "my peer", 'generation': u"medium",
-         'file': files_dir + u"/ec.pem"}
+    {'alias': "anonymous id", 'generation': u"curve25519",
+     'file': files_dir + u"/ec_multichain.pem"},
+    {'alias': "my peer", 'generation': u"medium",
+     'file': files_dir + u"/ec.pem"}
 ]
 
 # Only load the basic communities.
@@ -57,7 +56,7 @@ working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
 for overlay in configuration['overlays']:
     if overlay['class'] in working_directory_overlays:
         overlay['initialize'] = {
-                'working_directory': files_dir}
+            'working_directory': files_dir}
 
 # Override one endpoint in the RootEndpoint.
 root_endpoint = modules["ipv8.REST.root_endpoint"]
