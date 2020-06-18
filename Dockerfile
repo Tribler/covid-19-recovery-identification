@@ -7,8 +7,6 @@ ENV ANDROID_COMPILE_SDK 30
 ENV ANDROID_BUILD_TOOLS 30.0.0
 ENV ANDROID_NDK 21.0.6113669
 ENV ANDROID_HOME /android-sdk-linux/
-ENV ANDROID_EMULATOR 6466327
-ENV ANDROID_VERSION x86-29_r10
 
 # Update the Image and Install Dependencies
 RUN apk -U update && apk -U add libvirt-daemon qemu-img qemu-system-x86_64 \
@@ -35,7 +33,7 @@ RUN pip install nox coverage
 RUN wget -O android-sdk.zip \
     https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
 RUN unzip -d android-sdk-linux android-sdk.zip && rm android-sdk.zip
-RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} \
-    "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" "platform-tools" \
-    "emulator" "system-images;android-29;google_apis;x86"
-RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
+# RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} \
+#     "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" "platform-tools" \
+#     "emulator" "system-images;android-29;google_apis;x86"
+# RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
