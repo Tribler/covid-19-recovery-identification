@@ -33,9 +33,6 @@ container:
   only:
     changes:
       - Dockerfile 
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    untracked: true
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:latest || true

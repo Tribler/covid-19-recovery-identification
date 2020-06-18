@@ -2,13 +2,11 @@ package nl.tudelft.immune;
 
 import android.Manifest;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ServiceTestRule;
 import com.chaquo.python.Python;
 import org.junit.After;

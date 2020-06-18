@@ -17,19 +17,6 @@ import com.android.build.OutputFile
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
-/**
- * The preferred build flavor of JavaScriptCore.
- *
- * For example, to use the international variant, you can use:
- * `def jscFlavor = "org.webkit:android-jsc-intl:+"`
- *
- * The international variant includes ICU i18n library and necessary data
- * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
- * give correct results when using with locales other than en-US.  Note that
- * this variant is about 6MiB larger per architecture than default.
- */
-def jscFlavor = "org.webkit:android-jsc:+"
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -123,20 +110,14 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "androidx.appcompat:appcompat:1.1.0"
-    testImplementation "junit:junit:4.13"
-    testImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
-    androidTestImplementation 'androidx.test:runner:1.3.0-rc01'
-    androidTestImplementation 'androidx.test:rules:1.3.0-rc01'
+    androidTestImplementation "androidx.test:rules:1.3.0-rc01"
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:multidex:1.0.3"
     implementation "com.facebook.react:react-native:0.62.2"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation jscFlavor
+    //noinspection GradleDynamicVersion
+    implementation "org.webkit:android-jsc:+"
 }
 
 task checkstyle(type: Checkstyle) {
