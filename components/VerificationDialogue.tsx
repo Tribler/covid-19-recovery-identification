@@ -20,16 +20,22 @@ const VerificationDialogue: React.FC<DialogueProps> = ({ verificationResponse, v
   useEffect(() => {
     const url = state.serverURL + "/attestation?type=verification_output"
     const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+
     fetch(url, data)
       .then((response) => response.json())
-      .then((json) => setVerifiedOutput(json))
-      .then(() => checkVerified)
+      .then((json) => setVerifiedOutput(checkVerified(Object.entries(json))))
       .catch((error) => console.error(error));
-  })
+  }, [])
 
-  const checkVerified = (attributeHash: string) => {
-    const output =  verifiedOutput.filter((item) => item[0] == attributeHash)
+
+
+  const checkVerified = (data: any) => {
+    console.log(verificationResponse)
+    console.log(verifiedOutput)
+    const output = data.filter((item) => item[0] == verificationResponse)
+    console.log(output)
     setVerified(Math.round(output[1]) > 98)
+    return output
   }
 
   return (
