@@ -49,6 +49,12 @@ include:
   - template: Code-Quality.gitlab-ci.yml
   - template: SAST.gitlab-ci.yml
 
+variables:
+  # SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
+  # DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
+  SAST_DISABLE_DIND: "false"
+  DS_DISABLE_DIND: "false"
+
 code_quality:
   stage: validate
   before_script: []
