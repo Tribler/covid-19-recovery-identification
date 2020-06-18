@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
                       
-                    : <Text style={{marginLeft: "23%"}}>You have no signed attributes yet</Text>}
+                      : <Text style={{ fontSize:20,alignSelf:'center', borderWidth:2, borderColor:'black', paddingHorizontal:5, textAlign:'center', marginHorizontal:5}}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
