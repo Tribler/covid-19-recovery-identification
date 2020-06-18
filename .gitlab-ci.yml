@@ -47,10 +47,13 @@ cache:
 
 include:
   - template: Code-Quality.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
 
 code_quality:
   stage: validate
   before_script: []
+  artifacts:
+    paths: [gl-code-quality-report.json]
   # script:
   #   - docker run --env SOURCE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/ci-cd/codequality:${VERSION:-latest} /code
   # artifacts:
@@ -60,6 +63,7 @@ code_quality:
 
 license_scanning:
   stage: validate
+  # before_script: []
   script:
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - docker run --volume "$PWD/android":/code --volume "$PWD/node_modules/":/node_modules registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
@@ -80,11 +84,12 @@ dependency_scanning:
 
 sast:
   stage: validate
-  script:
-    - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
-  artifacts:
-    paths:
-      - gl-sast-report.json
+  before_script: []
+  # script:
+  #   - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
+  # artifacts:
+  #   paths:
+  #     - gl-sast-report.json
 
 typescript_eslint:
   stage: test
