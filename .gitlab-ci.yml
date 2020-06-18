@@ -70,7 +70,7 @@ dependency_scanning:
   before_script:
     - yarn install
   script:
-    - docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /code
+    - docker run --env "DS_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /code
   artifacts:
     paths:
       - gl-dependency-scanning-report.json
@@ -78,7 +78,7 @@ dependency_scanning:
 sast:
   stage: validate
   script:
-    - docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
+    - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
   artifacts:
     paths:
       - gl-sast-report.json
