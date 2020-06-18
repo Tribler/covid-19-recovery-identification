@@ -63,7 +63,7 @@ code_quality:
 
 license_scanning:
   stage: validate
-  # before_script: []
+  before_script: []
   script:
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - docker run --volume "$PWD/android":/code --volume "$PWD/node_modules/":/node_modules registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
