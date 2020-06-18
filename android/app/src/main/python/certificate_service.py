@@ -15,7 +15,7 @@ def directory():
     try:
         from com.chaquo.python import Python
         file_dir = str(Python.getPlatform().getApplication()
-                       .getFilesDir()) + '/certificates'
+                       .getFilesDir()) 
         if not path.exists(file_dir):
             makedirs(file_dir)
         return file_dir
