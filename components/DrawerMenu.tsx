@@ -17,27 +17,27 @@ const Drawer = createDrawerNavigator();
 
 const DrawerMenu: React.FC = () => {
   const state = useTrackedState()
-  
+
   return (
     <Drawer.Navigator initialRouteName="Dashboard">
       {state.loggedIn ?
         <>
-            <Drawer.Screen name="Dashboard" component={DashboardScreen}/>
-            {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen}/> : <></>}
-            <Drawer.Screen name="Inbox" component={InboxScreen} />
-            {state.attester ? <Drawer.Screen name="Outstanding" component={OutstandingScreen}/> : <></>}
-            <Drawer.Screen name="Verification" component={VerificationScreen}/>
-            <Drawer.Screen name="Peers" component={PeerScreen}/>
-            <Drawer.Screen name="Settings" component={SettingsScreen}/>
-            <Drawer.Screen name="Help" component={HelpScreen} />
+          <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+          {state.attester ? <Drawer.Screen name="New Certificate" component={NewCertificateScreen} /> : <></>}
+          <Drawer.Screen name="Inbox" component={InboxScreen} />
+          {state.attester ? <Drawer.Screen name="Outstanding" component={OutstandingScreen} /> : <></>}
+          <Drawer.Screen name="Verification" component={VerificationScreen} />
+          <Drawer.Screen name="Peers" component={PeerScreen} />
+          <Drawer.Screen name="Settings" component={SettingsScreen} />
+          <Drawer.Screen name="Help" component={HelpScreen} />
         </>
-          :
+        :
         <>
-            <Drawer.Screen name="Login"  component={LoginScreen}/>
-            <Drawer.Screen name="Register" component={RegisterScreen} />  
+          <Drawer.Screen name="Login" component={LoginScreen} />
+          <Drawer.Screen name="Register" component={RegisterScreen} />
         </>
-        }
-      </Drawer.Navigator>
+      }
+    </Drawer.Navigator>
   )
 }
 

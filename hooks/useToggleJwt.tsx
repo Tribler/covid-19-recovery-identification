@@ -7,12 +7,10 @@ import { useToggleAttester } from "./useToggleAttester";
  */
 export const useToggleJwt = () => {
     const setDraft = useSetDraft();
-    const updateAttester = useToggleAttester()
 
     return useCallback((jwt: string) => {
         setDraft((draft) => {
             draft.jwt = jwt;
-            updateAttester(jwt)
         });
     }, [setDraft]);
 };
