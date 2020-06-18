@@ -39,10 +39,3 @@ RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} \
     "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" "platform-tools" \
     "emulator" "system-images;android-29;google_apis;x86"
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
-
-# Install Android Emulator Scripts
-RUN git clone https://github.com/google/android-emulator-container-scripts.git
-RUN wget -O /android-emulator-container-scripts/emulator.zip \
-    https://dl.google.com/android/repository/emulator-linux-${ANDROID_EMULATOR}.zip
-RUN wget -O /android-emulator-container-scripts/system-image.zip \
-    https://dl.google.com/android/repository/sys-img/google_apis/${ANDROID_VERSION}.zip
