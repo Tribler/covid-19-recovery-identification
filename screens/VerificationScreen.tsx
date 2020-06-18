@@ -36,6 +36,7 @@ const VerificationScreen: React.FC = () => {
                 accessibilityStates 
                 mode="contained" 
                 style={styles.verifyButton} 
+                icon="camera"
                 onPress={()=> {
                     setVerificationResponse({attributeType:"covid-19-immunity", verified:true, id:"person"})
                     setScannerOpen(true)}}>
