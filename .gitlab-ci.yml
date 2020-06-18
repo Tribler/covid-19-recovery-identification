@@ -47,25 +47,27 @@ cache:
 
 include:
   - template: Code-Quality.gitlab-ci.yml
-  - template: SAST.gitlab-ci.yml
+  # - template: SAST.gitlab-ci.yml
 
 variables:
   # SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
   # DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
-  SAST_DISABLE_DIND: "false"
-  DS_DISABLE_DIND: "false"
+  # SAST_DISABLE_DIND: "false"
+  # DS_DISABLE_DIND: "false"
 
 code_quality:
   stage: validate
   before_script: []
   artifacts:
     paths: [gl-code-quality-report.json]
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths: []
   # script:
   #   - docker run --env SOURCE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/ci-cd/codequality:${VERSION:-latest} /code
   # artifacts:
   #   paths:
   #     - gl-code-quality-report.json
-  
 
 license_scanning:
   stage: validate
@@ -90,12 +92,12 @@ dependency_scanning:
 
 sast:
   stage: validate
-  before_script: []
-  # script:
-  #   - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
-  # artifacts:
-  #   paths:
-  #     - gl-sast-report.json
+  # before_script: []
+  script:
+    - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} apk -U update && apk -U add npm nodejs yarn && /app/bin/run /code
+  artifacts:
+    paths:
+      - gl-sast-report.json
 
 typescript_eslint:
   stage: test
