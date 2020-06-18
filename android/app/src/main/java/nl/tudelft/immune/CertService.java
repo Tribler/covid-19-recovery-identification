@@ -1,12 +1,9 @@
 package nl.tudelft.immune;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -24,8 +21,6 @@ public class CertService extends Service {
 
   private transient Notification notification;
 
-  private transient NotificationChannel notificationChannel;
-
   // The binder that provides connection with the service to clients.
   private final transient IBinder certBinder = new CertBinder();
 
@@ -40,10 +35,6 @@ public class CertService extends Service {
     return notification;
   }
 
-  public NotificationChannel getNotificationChannel() {
-    return notificationChannel;
-  }
-
 
   /**
    * Destruction method. Gets called whenever the gui tries to unbind from the service or
@@ -55,7 +46,6 @@ public class CertService extends Service {
   public void onDestroy() {
     stopService();
     super.onDestroy();
-    //android.os.Process.killProcess(android.os.Process.myPid()); // TODO Remove?
   }
 
   /**

@@ -106,16 +106,6 @@ public class CertServiceTest {
   }
 
   @Test
-  @SdkSuppress(minSdkVersion = 26)
-  public void notificationChannelInstance() {
-    service.startService();
-    NotificationManager notificationManager = service.getSystemService(NotificationManager.class);
-    assert notificationManager != null;
-    assertEquals(notificationManager.getNotificationChannels().get(0).getId(),
-        service.getNotificationChannel().getId());
-  }
-
-  @Test
   public void permissionsInternet() {
     assertEquals(PackageManager.PERMISSION_GRANTED,
         service.checkSelfPermission(Manifest.permission.INTERNET));
