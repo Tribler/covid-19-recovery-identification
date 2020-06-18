@@ -58,7 +58,7 @@ license_scanning:
   script:
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - cd android
-    - docker run --volume "$PWD":/code --volume "$PWD/node_modules":/ registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
+    - docker run --volume "$PWD":/code --volume "$PWD/node_modules/":/node_modules registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - cd app/src/main/python
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
   artifacts:
@@ -78,7 +78,7 @@ dependency_scanning:
 sast:
   stage: validate
   script:
-    - docker run -e "SAST_EXCLUDED_PATHS=/tmp/app/node_modules/" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
+    - docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
   artifacts:
     paths:
       - gl-sast-report.json
