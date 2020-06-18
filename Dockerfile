@@ -12,7 +12,7 @@ ENV ANDROID_HOME /android-sdk-linux/
 RUN apk -U update && apk -U add libvirt-daemon qemu-img qemu-system-x86_64 \
     unzip git wget openrc python3 openjdk8 libsodium-dev npm nodejs yarn \
     bash ca-certificates expect fontconfig make libstdc++ libgcc mesa-dev \
-    pulseaudio-dev su-exec ncurses zlib
+    pulseaudio-dev su-exec ncurses zlib gcc
 RUN wget -O /etc/apk/keys/sgerrand.rsa.pub \
     https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
 RUN wget -O /tmp/glibc.apk \
