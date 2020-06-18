@@ -28,9 +28,9 @@ container:
   image: docker
   services:
     - docker:dind
-  only:
-    changes:
-      - Dockerfile  
+  # only:
+  #   changes:
+  #     - Dockerfile  
   stage: container
   before_script: []
   script:
