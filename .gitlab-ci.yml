@@ -56,9 +56,8 @@ android_29:
     # - /android-sdk-linux/platform-tools/adb connect localhost:5555
     # - /android-sdk-linux/platform-tools/adb devices
     # - docker push $CI_REGISTRY_IMAGE:q-google-x86
-    - yes | /android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "emulator"
-    - echo no | /android-sdk-linux/tools/bin/avdmanager -v create avd --name avd28 --tag default --package "system-images;android-28;default;x86_64"
-    - /android-sdk-linux/emulator/emulator-headless -avd avd28 -no-accel -no-window &
+    - echo no | /android-sdk-linux/tools/bin/avdmanager -v create avd --name avd29 --tag default --package "system-images;android-29;google_apis;x86"
+    - /android-sdk-linux/emulator/emulator-headless -avd avd29 -no-accel -no-window &
     - adb devices
 
 # build:
