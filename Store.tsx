@@ -28,7 +28,7 @@ type OutstandingRequest = {
 }
 
 var defaultState: State = {
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
