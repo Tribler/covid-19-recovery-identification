@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { createContainer } from "react-tracked";
 import produce, { Draft } from "immer";
+import { AsyncStorage } from 'react-native';
 
 /*
 The store contains all data types and functions related to the global state of the React app, it defines what the global state contains and what the initial value is
@@ -11,7 +12,7 @@ type State = {
     ID: string
     attester: boolean
     serverURL: string
-    darkMode: boolean
+    darkMode: Promise<boolean> | undefined
     jwt: string
 }
 
@@ -26,13 +27,25 @@ type OutstandingRequest = {
     creatorID: string
     type: string
 }
-
+const getDarkMode = async () => {
+    try {
+      const value = await AsyncStorage.getItem('darkmode_enabled');
+      if (value === "true") {
+          return true
+      } else if (value === "false") {
+          return false
+      }
+      else return false
+    } catch (error) {
+      return false
+    }
+  };
 var defaultState: State = {
-    loggedIn: false,
+    loggedIn: true,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
-    darkMode: false,
+    darkMode: getDarkMode(),
     jwt: ""
 }
 

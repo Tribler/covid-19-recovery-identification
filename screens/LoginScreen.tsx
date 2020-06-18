@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpa
 import { Button } from 'react-native-paper';
 import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
-import { useToggleLogin } from '../hooks/useToggleLogin';
+import { useToggleLogin } from '../hooks/useToggleAuth';
 import { useToggleJwt } from '../hooks/useToggleJwt';
 import { useToggleID } from '../hooks/useToggleID';
 
