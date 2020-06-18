@@ -32,9 +32,7 @@ const getDarkMode = async () => {
       const value = await AsyncStorage.getItem('darkmode_enabled');
       if (value === "true") {
           return true
-      } else if (value === "false") {
-          return false
-      }
+      } 
       else return false
     } catch (error) {
       return false
