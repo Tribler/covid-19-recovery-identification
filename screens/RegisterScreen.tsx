@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ImageBackground, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
 import { RegisterLogin } from '../network/NetworkCalls';
 import { useTrackedState } from '../Store';
 
 /**
- * The register screen which will be prompted on first startup and then never again.
+ * In the register screen, a user can sign up for the app and thereby create an account
+ * The register screen will be prompted on first startup and then never again.
  */
 const RegisterScreen: React.FC = ({ navigation }) => {
     const state = useTrackedState()
@@ -12,7 +14,6 @@ const RegisterScreen: React.FC = ({ navigation }) => {
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [passwordAttester, setPasswordAttester] = useState("")
     const [passwordAttesterConfirm, setPasswordAttesterConfirm] = useState("")
-
 
     return (
         <View style={styles.container}>
@@ -25,9 +26,9 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 style={styles.im2}
                 source={require('../assets/logo.png')}>
             </ImageBackground>
-            <Text style={{ fontWeight: "bold", color: "#1d5" }}> Register as patient</Text>
+            <Text style={styles.role}> Sign up as patient</Text>
             <TextInput  //TODO fix this out of focus i think because goes above screen
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
@@ -36,7 +37,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 onChangeText={input => setPassword(input)} />
 
             <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
@@ -54,17 +55,14 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 setPassword("")
                 setPasswordConfirm("")
             }}>
-                <View style={{
-                    backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop: 20
-                }}>
-                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                <View style={styles.submitButton}>
+                    <Text style={styles.submitText}>Submit</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text style={{ fontWeight: "bold", color: "#1d5" }}> Register as health expert</Text>
+            <Text style={styles.role}> Sign up as health expert</Text>
             <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Enter Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
@@ -72,7 +70,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 value={passwordAttester}
                 onChangeText={input => setPasswordAttester(input)} />
             <TextInput
-                style={{ height: 45, width: "95%", borderColor: "gray", borderWidth: 2, borderRadius: 4, backgroundColor: "white" }}
+                style={styles.textInput}
                 placeholder=" Confirm Your Password"
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#32CD32"
@@ -90,22 +88,21 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 setPasswordAttester("")
                 setPasswordAttesterConfirm("")
             }}>
-                <View style={{
-                    backgroundColor: '#74d14c', alignItems: 'center',
-                    justifyContent: 'center', borderRadius: 7, marginTop: 20
-                }}>
-                    <Text style={{ fontWeight: "bold", color: 'white', width: 150, height: 25, textAlign: "center", textAlignVertical: "center" }}>Submit</Text>
+                <View style={styles.submitButton}>
+                    <Text style={styles.submitText}>Submit</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
-            <Text>Already have an account?</Text><Button title="Sign in" onPress={() => navigation.navigate("Login")} />
+            <Text style={{ color: "#32CD32", top: "1%" }}>Already have an account?</Text>
+            <Button style={{ top: "1%" }} onPress={() => navigation.navigate("Login")}> Sign in  </Button>
         </View>
     )
 }
 
 /**
- * various styles for use in various situations. For example, white text in a potential
- * dark mode or black text in the current light mode.
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
  */
 const styles = StyleSheet.create({
     container: {
@@ -113,24 +110,62 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 24,
         justifyContent: 'center',
-        bottom: 300
+        bottom: "42%"
     },
     im: {
         width: "110%",
         height: "117%",
         flexDirection: "column",
         resizeMode: "cover",
-        top: 370,
-        right: 20
+        top: "64%",
+        right: "5.8%"
     },
     im2: {
         flex: 1,
-        width: 250,
+        width: "80%",
         height: 250,
         resizeMode: 'contain',
-        bottom: 210,
-        right: 20
+        bottom: "30%",
     },
+    sbutton: {
+        color: "#0f0"
+    },
+    textField: {
+        backgroundColor: '#74d14c',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+        marginTop: "5%"
+    },
+    textInput: {
+        height: 45,
+        width: "95%",
+        borderColor: "gray",
+        borderWidth: 2,
+        borderRadius: 4,
+        backgroundColor: "white"
+    },
+    submitButton: {
+        zIndex: 1,
+        backgroundColor: '#74d14c',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7,
+        marginTop: "5%"
+    },
+    submitText: {
+        fontWeight: "bold",
+        color: 'white',
+        width: 150,
+        height: 25,
+        textAlign: "center",
+        textAlignVertical: "center"
+    },
+    role: {
+        fontWeight: "bold",
+        color: "#74d14c",
+        fontSize: 20
+    }
 });
 
 export default RegisterScreen

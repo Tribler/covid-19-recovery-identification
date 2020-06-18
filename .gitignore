@@ -17,6 +17,7 @@ local.properties
 node_modules/
 npm-debug.*
 yarn-error.log
+__tests__/
 
 # BUCK
 buck-out/

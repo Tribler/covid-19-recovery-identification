@@ -50,6 +50,11 @@ const VerificationScreen: React.FC = () => {
     )
 }
 
+/**
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
+ */
 const styles = StyleSheet.create({
     header: {
         alignItems: 'center',
