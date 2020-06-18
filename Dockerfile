@@ -33,7 +33,5 @@ RUN pip install nox coverage
 RUN wget -O android-sdk.zip \
     https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
 RUN unzip -d android-sdk-linux android-sdk.zip && rm android-sdk.zip
-# RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} \
-#     "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" "platform-tools" \
-#     "emulator" "system-images;android-29;google_apis;x86"
-# RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
+RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK}" "platform-tools" "emulator" "system-images;android-29;google_apis;x86"
+RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
