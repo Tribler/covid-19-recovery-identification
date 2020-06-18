@@ -38,5 +38,5 @@ RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "bui
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME}  "ndk;${ANDROID_NDK}"
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "platform-tools"
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "emulator"
-RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "system-images;android-29;google_apis;x86"
+# RUN yes | android-sdk-linux/tools/bin/sdkmanager --sdk_root=${ANDROID_HOME} "system-images;android-29;google_apis;x86"
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_HOME}
