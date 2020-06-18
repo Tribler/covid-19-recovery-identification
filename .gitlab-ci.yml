@@ -94,7 +94,7 @@ sast:
   stage: validate
   # before_script: []
   script:
-    - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} apk -U update && apk -U add npm nodejs yarn && /app/bin/run /code
+    - docker run --env "SAST_EXCLUDED_PATHS=spec, test, tests, tmp, node_modules" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} apt --yes update && apt --yes install npm nodejs yarn && /app/bin/run /code
   artifacts:
     paths:
       - gl-sast-report.json
