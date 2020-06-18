@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
                       
-                    : <Text style={{left: "23%"}}>You have no signed attributes yet</Text>}
+                    : <Text style={{marginLeft: "23%"}}>You have no signed attributes yet</Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
