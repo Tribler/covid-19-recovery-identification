@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
                 <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>My Dashboard</Text>
                 <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight} >You can find your signed proofs below</Text>
             </View>
-            <Button accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
+            <Button accessibilityStates color={state.darkMode? 'white' : 'black'} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
             <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
                 {attributes.length > 0 ?
                     <View>
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
 
-                    : <Text style={{ fontSize:20,alignSelf:'center', borderWidth:2, borderColor:'black', paddingHorizontal:5, textAlign:'center', marginHorizontal:5}}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
+                    : <Text style={state.darkMode? styles.noProofDark : styles.noProofLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
@@ -140,6 +140,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: .05*height,
         padding: "1.2%"
+    },
+    noProofLight:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'black',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
+    },
+    noProofDark:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'white',
+        color:'white',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
     }
 });
 
