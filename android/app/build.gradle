@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "com.chaquo.python"
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-//apply plugin: 'jacoco'
+apply plugin: 'jacoco'
 apply from: "../../node_modules/react-native/react.gradle"
 
 import com.android.build.OutputFile
@@ -16,11 +16,6 @@ import com.android.build.OutputFile
  * the correct one based on the CPU architecture of their device.
  */
 def enableSeparateBuildPerCPUArchitecture = false
-
-/**
- * Run Proguard to shrink the Java bytecode in release builds.
- */
-def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -54,9 +49,6 @@ android {
             pip {
                 install "-r", "src/main/python/requirements.txt"
             }
-            pyc {
-                src false  //TODO This needs to be removed in release!
-            }
         }
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -86,7 +78,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-//            testCoverageEnabled = true
+            testCoverageEnabled = true
         }
         release {
             // TODO Fix keystore files! CleanUp the assets folder. Remove debugging if not needed.

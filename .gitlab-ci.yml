@@ -13,26 +13,26 @@ before_script:
   - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
   - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
-# include:
-#   - template: Dependency-Scanning.gitlab-ci.yml
-#   - template: Code-Quality.gitlab-ci.yml
-#   - template: SAST.gitlab-ci.yml
-
-# variables:
-#   SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
-#   DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
-#   SAST_DISABLE_DIND: "false"
-#   DS_DISABLE_DIND: "false"
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - android/build/
+    - android/.gradle/
+    - android/app/build/
+    - node_modules/
 
 container:
   image: docker
   services:
     - docker:dind
-  # only:
-  #   changes:
-  #     - Dockerfile  
+  only:
+    changes:
+      - Dockerfile  
   stage: container
   before_script: []
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    untracked: true
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:latest || true
@@ -40,120 +40,130 @@ container:
       --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:latest
 
-android_29:
-  stage: build
-  # when: manual
-  before_script: []
-  script:
-    # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    # # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
-    # - cd /android-emulator-container-scripts && source ./configure.sh
-    # - python3 /android-emulator-container-scripts/emu/emu_docker.py emulator.zip system-image.zip $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    # - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
-    # - /android-sdk-linux/platform-tools/adb start-server
-    # - docker run -d --device /dev/kvm --privileged --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
-    # - bash ./android-wait-for-emulator
-    # - /android-sdk-linux/platform-tools/adb connect localhost:5555
-    # - /android-sdk-linux/platform-tools/adb devices
-    # - docker push $CI_REGISTRY_IMAGE:q-google-x86
-    - echo no | /android-sdk-linux/tools/bin/avdmanager -v create avd --name avd29 --tag default --package "system-images;android-29;google_apis;x86"
-    - /android-sdk-linux/emulator/emulator-headless -avd avd29 -no-accel -no-window &
-    - adb devices
-
-# build:
+# android_29:
 #   stage: build
-#   script:
-#     - cd android && ./gradlew :app:assemble
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - android/build/
-#       - android/.gradle/
-#       - android/app/build/
-#       - node_modules/
-
-# java_checkstyle:
-#   stage: validate
-#   script:
-#     - cd android && ./gradlew :app:checkstyle
-#   artifacts:
-#     paths:
-#       - android/app/build/reports/checkstyle/
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - android/build/
-#       - android/.gradle/
-#       - android/app/build/
-#       - node_modules/
-
-# typescript_eslint:
-#   stage: validate
-#   script:
-#     - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
-#   allow_failure: true
-
-# code_quality:
-#   stage: validate
+#   # when: manual
 #   before_script: []
-
-# dependency_scanning:
-#   stage: validate
-#   before_script: []
-
-# sast:
-#   before_script: []
-
-# java_pmd:
-#   stage: test
 #   script:
-#     - cd android && ./gradlew :app:pmd
-#   artifacts:
-#     paths:
-#       - android/app/build/reports/pmd/
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - android/build/
-#       - android/.gradle/
-#       - android/app/build/
-#       - node_modules/
+#     # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     # # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || true
+#     # - cd /android-emulator-container-scripts && source ./configure.sh
+#     # - python3 /android-emulator-container-scripts/emu/emu_docker.py emulator.zip system-image.zip $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
+#     # - docker build --cache-from $CI_REGISTRY_IMAGE:q-google-x86 --tag $CI_REGISTRY_IMAGE:q-google-x86 /android-emulator-container-scripts/src
+#     # - /android-sdk-linux/platform-tools/adb start-server
+#     # - docker run -d --device /dev/kvm --privileged --publish 8554:8554/tcp --publish 5555:5555/tcp $CI_REGISTRY_IMAGE:q-google-x86
+#     # - bash ./android-wait-for-emulator
+#     # - /android-sdk-linux/platform-tools/adb connect localhost:5555
+#     # - /android-sdk-linux/platform-tools/adb devices
+#     # - docker push $CI_REGISTRY_IMAGE:q-google-x86
+#     - echo no | /android-sdk-linux/tools/bin/avdmanager -v create avd --name avd29 --tag default --package "system-images;android-29;google_apis;x86"
+#     - /android-sdk-linux/emulator/emulator-headless -avd avd29 -no-accel -no-window &
+#     - adb devices
+
+build:
+  stage: build
+  script:
+    - cd android && ./gradlew :app:assemble
+
+java_checkstyle:
+  stage: validate
+  script:
+    - cd android && ./gradlew :app:checkstyle
+  artifacts:
+    paths:
+      - android/app/build/reports/checkstyle/
+
+typescript_eslint:
+  stage: validate
+  script:
+    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    untracked: true
+  allow_failure: true
+
+java_lint:
+  stage: validate
+  services:
+    - docker:dind
+  script:
+    - cd android && ./gradlew :app:lint
+  artifacts:
+    paths:
+      - android/app/build/reports/lint-results*.xml
+
+code_quality:
+  stage: validate
+  script:
+    - docker run --env SOURCE_CODE="$PWD" --volume "$PWD":/code registry. --volume /var/run/docker.sock:/var/run/docker.sock gitlab.com/gitlab-org/ci-cd/codequality:${VERSION:-latest} /code
+  artifacts:
+    paths:
+      - gl-code-quality-report.json
+
+license_scanning:
+  stage: validate
+  script:
+    - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
+    - cd android
+    - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
+    - cd app/src/main/python
+    - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
+  artifacts:
+    paths:
+      - gl-license-management-report.json
+
+dependency_scanning:
+  stage: validate
+  script:
+    - docker run --interactive --tty --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /code
+  artifacts:
+    paths:
+      - gl-dependency-scanning-report.json
+
+sast:
+  stage: test
+  script:
+    - docker run --interactive --tty --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
+  artifacts:
+    paths:
+      - gl-sast-report.json
+
+java_pmd:
+  stage: test
+  script:
+    - cd android && ./gradlew :app:pmd
+  artifacts:
+    paths:
+      - android/app/build/reports/pmd/
 
 # java_lint_and_test:
 #   stage: test
 #   services:
 #     - docker:dind
 #   script:
-#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#     - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || ture
-#     - /android-emulator-container-scripts/run.sh $CI_REGISTRY_IMAGE:q-google-x86
-#     - /android-sdk-linux/platform-tools/adb connect localhost:5555
-#     - /android-sdk-linux/platform-tools/adb devices
+#     # - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     # - docker pull $CI_REGISTRY_IMAGE:q-google-x86 || ture
+#     # - /android-emulator-container-scripts/run.sh $CI_REGISTRY_IMAGE:q-google-x86
+#     # - /android-sdk-linux/platform-tools/adb connect localhost:5555
+#     # - /android-sdk-linux/platform-tools/adb devices
 #     - cd android && ./gradlew :app:connectedAndroidTest
 #   artifacts:
 #     paths:
 #       - android/app/build/reports/lint-results*.xml
 #       - android/app/build/reports/coverage/debug/
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - android/build/
-#       - android/.gradle/
-#       - android/app/build/
-#       - node_modules/
 
-# python_validation_and_test:
-#   stage: test
-#   script:
-#     - cd android/app/src/main/python && nox && coverage html
-#   coverage: '/^TOTAL.*\s+(\d+\%)$/'
-#   artifacts:
-#     paths:
-#       - android/app/src/main/python/htmlcov/
-#   cache:
-#     key: ${CI_COMMIT_REF_SLUG}
-#     paths:
-#       - __pycache__/
-#       - .pytest_cache/
-#       - .nox/
-#       - node_modules/
+python_validation_and_test:
+  stage: test
+  script:
+    - cd android/app/src/main/python && nox && coverage html
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
+  artifacts:
+    paths:
+      - android/app/src/main/python/htmlcov/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - __pycache__/
+      - .pytest_cache/
+      - .nox/
+      - node_modules/
