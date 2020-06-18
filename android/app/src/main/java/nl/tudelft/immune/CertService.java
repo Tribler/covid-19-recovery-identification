@@ -91,7 +91,6 @@ public class CertService extends Service {
         Python.start(new AndroidPlatform(this));
       }
       Python.getInstance().getModule("certificate_service").callAttr("start");
-      createNotificationChannel();
       createNotification();
       startForeground(android.os.Process.myPid(), getNotification());
       running = true;
@@ -108,8 +107,7 @@ public class CertService extends Service {
     if (running) {
       Python.getInstance().getModule("certificate_service").callAttr("stop");
       Python.getInstance().getModule("certificate_service").close();
-      stopForeground(true);
-      deleteNotificationChannel();
+      stopForeground(false);
       running = false;
     }
   }
@@ -122,35 +120,6 @@ public class CertService extends Service {
         .setContentText(getText(R.string.foreground_service_text))
         .setPriority(NotificationCompat.PRIORITY_LOW)
         .build();
-  }
-
-  /**
-   * Helper method. Gets called when the service is being started.
-   * Responsible for creating the notification channel.
-   */
-  private void createNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = getString(R.string.foreground_channel_text);
-      String description = getString(R.string.foreground_channel_description);
-      int importance = NotificationManager.IMPORTANCE_LOW;
-      notificationChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-      notificationChannel.setDescription(description);
-      NotificationManager notificationManager = getSystemService(NotificationManager.class);
-      assert notificationManager != null;
-      notificationManager.createNotificationChannel(notificationChannel);
-    }
-  }
-
-  /**
-   * Helper method. Gets called when the service is being stopped.
-   * Responsible for deleting the notification channel.
-   */
-  private void deleteNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationManager notificationManager = getSystemService(NotificationManager.class);
-      assert notificationManager != null;
-      notificationManager.deleteNotificationChannel(CHANNEL_ID);
-    }
   }
 
   /*
