@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
                 <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>My Dashboard</Text>
                 <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight} >You can find your signed proofs below</Text>
             </View>
-            <Button accessibilityStates color={state.darkMode? 'white' : 'black'} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
+            <Button accessibilityStates color='white' style={{backgroundColor:'dodgerblue'}} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
             <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
                 {attributes.length > 0 ?
                     <View>
