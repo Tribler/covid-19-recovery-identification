@@ -2,22 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { State, useTrackedState } from '../Store';
+import { useTrackedState } from '../Store';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
-import CertificationDialogue from '../components/CertificationDialgoue';
+import CertificationDialogue from '../components/CertificationDialgoue';\
 
 /**
  * Used to toggle the dark theme for the app.
  * @param darkTheme whether to set it to dark or light depending on the option clicked.
  * @param state the state, details can be found in Store.tsx
  */
-const toggleDark = (darkTheme: boolean, state: State) => {
-    state.darkMode = darkTheme
-}
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs.
@@ -40,8 +37,8 @@ const Dashboard: React.FC = () => {
     const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
 
-    const url = state.serverURL + "/attestation?type=attributes"
-
+    const url = state.serverURL + "/attestation?type=attributes"   
+        
 
     const handleQRScan = (dataString: string) => {
         const data = JSON.parse(dataString)

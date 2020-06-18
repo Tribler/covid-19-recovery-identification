@@ -12,7 +12,7 @@ type State = {
     ID: string
     attester: boolean
     serverURL: string
-    darkMode: Promise<boolean> | undefined
+    darkMode: boolean
     jwt: string
 }
 
@@ -27,23 +27,16 @@ type OutstandingRequest = {
     creatorID: string
     type: string
 }
-const getDarkMode = async () => {
-    try {
-      const value = await AsyncStorage.getItem('darkmode_enabled');
-      if (value === "true") {
-          return true
-      } 
-      else return false
-    } catch (error) {
-      return false
-    }
-  };
+
+var darkmode = false
+AsyncStorage.getItem("darkmode_enabled", (error, result) => { darkmode = (result==="true")})
+
 var defaultState: State = {
     loggedIn: true,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
-    darkMode: getDarkMode(),
+    darkMode: darkmode,
     jwt: ""
 }
 

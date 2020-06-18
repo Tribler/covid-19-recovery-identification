@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DashboardScreen from '../screens/DashboardScreen'
 import NewCertificateScreen from '../screens/NewCertificateScreen'
@@ -12,11 +11,22 @@ import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
+import { StatusBar, AsyncStorage } from 'react-native';
+import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
 
 const Drawer = createDrawerNavigator();
 
+
 const DrawerMenu: React.FC = () => {
   const state = useTrackedState()
+
+  const toggleDark = useToggleDark()
+  const toggleLight = useToggleLight()
+  
+  useEffect(() =>{
+    StatusBar.setBackgroundColor('dodgerblue') // set the status bar's background color
+    AsyncStorage.getItem("darkmode_enabled", (error, result)=> { result==="true" ? toggleDark() : toggleLight()})
+  },[])
   
   return (
     <Drawer.Navigator initialRouteName="Dashboard">
