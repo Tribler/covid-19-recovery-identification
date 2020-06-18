@@ -21,44 +21,44 @@ cache:
     - android/app/build/
     - node_modules/
 
-container:
-  image: docker
-  services:
-    - docker:dind
-  only:
-    changes:
-      - Dockerfile  
-  stage: container
-  before_script: []
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    untracked: true
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
-      --tag $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:latest
+# container:
+#   image: docker
+#   services:
+#     - docker:dind
+#   only:
+#     changes:
+#       - Dockerfile  
+#   stage: container
+#   before_script: []
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}
+#     untracked: true
+#   script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#     - docker pull $CI_REGISTRY_IMAGE:latest || true
+#     - docker build --cache-from $CI_REGISTRY_IMAGE:latest
+#       --tag $CI_REGISTRY_IMAGE:latest .
+#     - docker push $CI_REGISTRY_IMAGE:latest
 
-build:
-  stage: build
-  script:
-    - cd android && ./gradlew :app:assemble
+# build:
+#   stage: build
+#   script:
+#     - cd android && ./gradlew :app:assemble
 
-code_quality:
-  stage: validate
-  script:
-    - docker run --env SOURCE_CODE="$PWD" --volume "$PWD":/code registry. --volume /var/run/docker.sock:/var/run/docker.sock gitlab.com/gitlab-org/ci-cd/codequality:${VERSION:-latest} /code
-  artifacts:
-    paths:
-      - gl-code-quality-report.json
+# code_quality:
+#   stage: validate
+#   script:
+#     - docker run --env SOURCE_CODE="$PWD" --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/ci-cd/codequality:${VERSION:-latest} /code
+#   artifacts:
+#     paths:
+#       - gl-code-quality-report.json
 
 license_scanning:
   stage: validate
   script:
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - cd android
-    - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
+    - docker run --volume "$PWD":/code --volume "$PWD/node_modules":/node_modules registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
     - cd app/src/main/python
     - docker run --volume "$PWD":/code registry.gitlab.com/gitlab-org/security-products/license-management:latest analyze /code
   artifacts:
@@ -67,8 +67,10 @@ license_scanning:
 
 dependency_scanning:
   stage: validate
+  before_script:
+    - yarn install
   script:
-    - docker run --interactive --tty --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /code
+    - docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /code
   artifacts:
     paths:
       - gl-dependency-scanning-report.json
@@ -76,7 +78,7 @@ dependency_scanning:
 sast:
   stage: validate
   script:
-    - docker run --interactive --tty --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
+    - docker run --volume "$PWD":/code --volume /var/run/docker.sock:/var/run/docker.sock registry.gitlab.com/gitlab-org/security-products/sast:${VERSION:-latest} /app/bin/run /code
   artifacts:
     paths:
       - gl-sast-report.json
