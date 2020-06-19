@@ -1,5 +1,5 @@
-import React from 'react'
-import {View, Text } from 'react-native'
+import React from 'react';
+import {View, Text} from 'react-native';
 
 interface AttributeProps{
     attributeName : String
@@ -7,12 +7,12 @@ interface AttributeProps{
     attributeValue : String
 }
 
-const Attribute: React.FC<AttributeProps> = ({ attributeName, attester, attributeValue}: AttributeProps) => {
-    return(
-        <View>
-            <Text> Name= {attributeName}, Attester= {attester}, HashValue= {attributeValue} </Text>
-        </View>
-    )
-}
+const Attribute: React.FC<AttributeProps> = ({attributeName, attester, attributeValue}: AttributeProps) => {
+  return (
+    <View>
+      <Text> Name= {attributeName}, Attester= {attester}, HashValue= {attributeValue} </Text>
+    </View>
+  );
+};
 
 export default Attribute;

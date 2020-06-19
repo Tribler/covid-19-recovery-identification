@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -30,8 +29,8 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    bindService();
     super.onCreate(savedInstanceState);
+    bindService();
   }
 
   /**
@@ -40,20 +39,18 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected void onDestroy() {
-    unbindService();
     super.onDestroy();
+    unbindService();
   }
 
   /**
    * Helper method. Attempts to establish a connection with the service.
    */
   private void bindService() {
-    if (bindService(new Intent(this, CertService.class),
-        connection, Context.BIND_AUTO_CREATE)) {
+    if (!shouldUnbind) {
+      bindService(new Intent(this, CertService.class),
+          connection, Context.BIND_AUTO_CREATE);
       shouldUnbind = true;
-    } else {
-      Log.e("CertService", "Error: The requested service doesn't "
-          + "exist, or this client isn't allowed access to it.");
     }
   }
 
@@ -66,21 +63,24 @@ public class MainActivity extends ReactActivity {
       shouldUnbind = false;
     }
   }
-  // To invoke the bound service, first make sure that this value is not null.
-  // private CertService mBoundCertService;
 
-  // This object is responsible for the connection with the service.
+  // This object is responsible for the connection with the service
+  // and its initialization.
   private transient ServiceConnection connection = new ServiceConnection() {
     /**
      * This is called when the connection with the service has been established,
      * giving us the service object we can use to interact with the service.
      */
-    public void onServiceConnected(ComponentName className, IBinder service) { }
+    public void onServiceConnected(ComponentName className, IBinder service) {
+      CertService.CertBinder binder = (CertService.CertBinder) service;
+      binder.getService().startService();
+    }
 
     /**
      * This is called when the connection with the service has been
      * unexpectedly disconnected -- that is, its process crashed.
      */
-    public void onServiceDisconnected(ComponentName className) { }
+    public void onServiceDisconnected(ComponentName className) {
+    }
   };
 }
