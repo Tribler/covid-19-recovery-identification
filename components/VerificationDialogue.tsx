@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, Modal, Image, Text, StyleSheet } from 'react-native'
 import { Dialog, Button, Portal } from 'react-native-paper'
 import { useTrackedState } from '../Store'
+import { useFocusEffect } from '@react-navigation/native'
 
 
 
@@ -13,29 +14,27 @@ interface DialogueProps {
 
 
 const VerificationDialogue: React.FC<DialogueProps> = ({ verificationResponse, visible, setVisible }: DialogueProps) => {
-  const [verified, setVerified] = useState(false)
-  const [verifiedOutput, setVerifiedOutput] = useState([])
+  const [verified, setVerified] = useState(true)
   const state = useTrackedState()
 
-  useEffect(() => {
-    const url = state.serverURL + "/attestation?type=verification_output"
-    const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+  useFocusEffect(() => {
+    // If visible and while the screen is in focus, we will fetch the output of verification.
+    if (visible) {
+      const url = state.serverURL + "/attestation?type=verification_output"
+      const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
 
-    fetch(url, data)
-      .then((response) => response.json())
-      .then((json) => setVerifiedOutput(checkVerified(Object.entries(json))))
-      .catch((error) => console.error(error));
-  }, [])
+      fetch(url, data)
+        .then((response) => response.json())
+        .then((json) => checkVerified(Object.entries(json))) // Map the object into an array
+        .catch((error) => console.error(error));
+    }
+  })
 
 
 
   const checkVerified = (data: any) => {
-    console.log(verificationResponse)
-    console.log(verifiedOutput)
-    const output = data.filter((item) => item[0] == verificationResponse)
-    console.log(output)
-    setVerified(Math.round(output[1]) > 98)
-    return output
+    const output = data.filter((item) => item[0] == verificationResponse) // From the output, get the hash you want.
+    setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1) //check if the output is 0.99, thus correct.
   }
 
   return (

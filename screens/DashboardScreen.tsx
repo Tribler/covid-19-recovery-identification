@@ -70,10 +70,10 @@ const Dashboard: React.FC = () => {
                                 renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                     <CertificateViewDashboard
                                         certificate={{
-                                            creatorID: JSON.stringify(item[3]),
+                                            creatorID: JSON.parse(JSON.stringify(item[3])),
                                             holderID: state.ID,
-                                            type: JSON.stringify(item[0]),
-                                            hash: JSON.stringify(item[1])
+                                            type: JSON.parse(JSON.stringify(item[0])),
+                                            hash: JSON.parse(JSON.stringify(item[1]))
                                         }}
                                         modalVisible={setVerificationVisible}
                                         setSelected={setSelected}
