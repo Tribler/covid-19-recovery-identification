@@ -8,6 +8,7 @@ The store contains all data types and functions related to the global state of t
 */
 
 type State = {
+    registered: boolean
     loggedIn: boolean
     ID: string
     attester: boolean
@@ -31,8 +32,12 @@ type OutstandingRequest = {
 var darkmode = false
 AsyncStorage.getItem("darkmode_enabled", (error, result) => { darkmode = (result==="true")})
 
+var registered = false
+AsyncStorage.getItem("darkmode_enabled", (error, result) => { registered = (result==="true")})
+
 var defaultState: State = {
-    loggedIn: true,
+    registered: registered,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",

@@ -8,7 +8,7 @@ import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
-import CertificationDialogue from '../components/CertificationDialgoue';\
+import CertificationDialogue from '../components/CertificationDialgoue';
 
 /**
  * Used to toggle the dark theme for the app.

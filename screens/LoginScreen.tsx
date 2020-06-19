@@ -18,6 +18,9 @@ const LoginScreen: React.FC = ({ navigation }) => {
     const updateIDHook = useToggleID() // a hook to change ID in state in the store.
     const [password, setPassword] = useState("")
     const [password1, setPassword1] = useState("")
+
+    if(!state.registered) navigation.navigate("Register")
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -47,7 +50,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 setPassword("")
             }}>
                 <View style={styles.textField} >
-                    <Text style={styles.submitText}>Submit</Text>
+                    <Text style={styles.submitText}>Sign In</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
@@ -71,11 +74,9 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 setPassword("")
             }}>
                 <View style={styles.submitButton}>
-                    <Text style={styles.submitText}>Submit</Text>
+                    <Text style={styles.submitText}>Sign In</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={{ color: "#32CD32", top: "11.4%" }}>Don't have an account?</Text>
-            <Button style={{ top: "11.4%", left: "1%" }} onPress={() => navigation.navigate("Register")}> Sign up  </Button>
         </View>
     )
 }
