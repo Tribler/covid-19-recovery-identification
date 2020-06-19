@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState, State} from '../Store';
+import { useTrackedState} from '../Store';
 import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
 import { useToggleLogout } from '../hooks/useToggleAuth';
 
