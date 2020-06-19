@@ -90,6 +90,7 @@ java_checkstyle_pmd_lint:
 python_sast_lint_test:
   stage: test
   script:
+    - apk -U update && apk -U add build-base gcc abuild binutils binutils-doc gcc-doc
     - cd android/app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
