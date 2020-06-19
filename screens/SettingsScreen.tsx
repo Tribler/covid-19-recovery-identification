@@ -1,11 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, Button } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
 import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
 import { useToggleLogout } from '../hooks/useToggleAuth';
+import { NativeModules } from 'react-native';
 
+const SharedStorage = NativeModules.SharedStorage;
 
 const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
@@ -18,6 +20,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={state.darkMode ? styles.settingDark : styles.setting}>Push Notifications</Text>
             <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
+            <Button title= "whaddup" onPress = {SharedStorage.set(JSON.stringify({enabled:'false'}))}>whaddup</Button>
             <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => toggleLogout()}>Log out</Text>
