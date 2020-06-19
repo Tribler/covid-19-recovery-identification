@@ -29,18 +29,7 @@
             android:name=".CertService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
-            android:isolatedProcess="false"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:label="@string/tile_name"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.quicksettings.ACTIVE_TILE"
-                android:value="true" />
-        </service>
-
+            android:isolatedProcess="false" />
         <receiver android:name=".CertWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
