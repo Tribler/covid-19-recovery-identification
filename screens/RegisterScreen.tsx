@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { Button } from 'react-native-paper';
 import { RegisterLogin } from '../network/NetworkCalls';
 import { useTrackedState } from '../Store';
 import { useToggleRegister } from '../hooks/useToggleRegister';
@@ -9,15 +8,13 @@ import { useToggleRegister } from '../hooks/useToggleRegister';
  * In the register screen, a user can sign up for the app and thereby create an account
  * The register screen will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = ({ navigation }) => {
+const RegisterScreen: React.FC = () => {
     const state = useTrackedState()
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [passwordAttester, setPasswordAttester] = useState("")
     const [passwordAttesterConfirm, setPasswordAttesterConfirm] = useState("")
     const toggleRegister = useToggleRegister()
-
-    if(state.registered) navigation.navigate("Login")
 
     return (
         <View style={styles.container}>

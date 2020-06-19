@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { ImageBackground, StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-paper';
+import { ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useTrackedState } from '../Store';
 import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleAuth';
@@ -12,16 +11,14 @@ import { useToggleAttester } from '../hooks/useToggleAttester';
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
  */
-const LoginScreen: React.FC = ({ navigation }) => {
+const LoginScreen: React.FC = () => {
     const state = useTrackedState()
     const updateLogin = useToggleLogin()   // a hook to change logged in state in the store.
     const updateJwt = useToggleJwt()    // a hook to change jwt in the store.
     const updateIDHook = useToggleID() // a hook to change ID in state in the store.
     const updateAttester = useToggleAttester() // a hook to change attester in state in the store.
     const [password, setPassword] = useState("")
-    const [password1, setPassword1] = useState("")
-
-    if(!state.registered) navigation.navigate("Register")
+    // const [password1, setPassword1] = useState("")
 
     return (
         <View style={styles.container}>
