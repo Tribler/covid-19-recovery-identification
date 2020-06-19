@@ -77,6 +77,8 @@ typescript_lint:
 
 java_checkstyle_pmd_lint:
   stage: test
+  before_script:
+    - install yarn
   script:
     - cd android && ./gradlew :app:checkstyle :app:pmd :app:lint
   artifacts:
