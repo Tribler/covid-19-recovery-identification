@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DashboardScreen from '../screens/DashboardScreen'
 import NewCertificateScreen from '../screens/NewCertificateScreen'
@@ -12,11 +11,25 @@ import HelpScreen from '../screens/HelpScreen';
 import PeerScreen from '../screens/PeerScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
+import { StatusBar, AsyncStorage } from 'react-native';
+import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
+import { useToggleRegister } from '../hooks/useToggleRegister'
 
 const Drawer = createDrawerNavigator();
 
+
 const DrawerMenu: React.FC = () => {
   const state = useTrackedState()
+
+  const toggleDark = useToggleDark()
+  const toggleLight = useToggleLight()
+  const toggleRegister = useToggleRegister()
+
+  useEffect(() => {
+    StatusBar.setBackgroundColor('dodgerblue') // set the status bar's background color
+    AsyncStorage.getItem("darkmode_enabled", (error, result) => { result === "true" ? toggleDark() : toggleLight() }) // remember whether user chose dark mode or light mode
+    AsyncStorage.getItem("registered", (error, result) => { if(result==="true") toggleRegister()}) // remember whether user registered or not
+  }, [])
 
   return (
     <Drawer.Navigator initialRouteName="Dashboard">
@@ -33,8 +46,15 @@ const DrawerMenu: React.FC = () => {
         </>
         :
         <>
+        {state.registered ?
+         <>
           <Drawer.Screen name="Login" component={LoginScreen} />
-          <Drawer.Screen name="Register" component={RegisterScreen} />
+         </> 
+         : 
+         <>
+          <Drawer.Screen name="Register" component={RegisterScreen} /> 
+         </>
+        }
         </>
       }
     </Drawer.Navigator>
