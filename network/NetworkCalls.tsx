@@ -62,7 +62,7 @@ const DeleteCertificate = (state: State, listID: string) => {
 /**
  * Sends a request to the backend to login.
  */
-const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook: any, password: string) => {
+const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook: any, updateAttester: any, password: string) => {
   const url = state.serverURL + "/attestation/login"
   const data = {
     method: 'POST',
@@ -83,6 +83,7 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
     })
     .then((json) => {  // TODO wrong password handling
       updateJwt(json.token);
+      updateAttester(json.token);
       return UpdateID(state, updateIDHook, json.token)
         .then(id => console.log(id))
         .catch((error) => console.error(error));

@@ -6,6 +6,7 @@ import { PostLogin } from '../network/NetworkCalls';
 import { useToggleLogin } from '../hooks/useToggleLogin';
 import { useToggleJwt } from '../hooks/useToggleJwt';
 import { useToggleID } from '../hooks/useToggleID';
+import { useToggleAttester } from '../hooks/useToggleAttester';
 
 /**
  * The login screen for logging in as a health expert or as a patient.
@@ -16,6 +17,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
     const updateLogin = useToggleLogin()   // a hook to change logged in state in the store.
     const updateJwt = useToggleJwt()    // a hook to change jwt in the store.
     const updateIDHook = useToggleID() // a hook to change ID in state in the store.
+    const updateAttester = useToggleAttester() // a hook to change attester in state in the store.
     const [password, setPassword] = useState("")
     const [password1, setPassword1] = useState("")
     return (
@@ -39,7 +41,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
                 if (password.length > 0) {
-                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password)
                 }
                 else {
                     throw alert("Password can't be empty")
@@ -63,7 +65,7 @@ const LoginScreen: React.FC = ({ navigation }) => {
                 onChangeText={input => setPassword(input)} />
             <TouchableOpacity onPress={() => {
                 if (password.length > 0) {
-                    PostLogin(state, updateLogin, updateJwt, updateIDHook, password)
+                    PostLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password)
                 }
                 else {
                     throw alert("Password can't be empty")
