@@ -90,7 +90,7 @@ stages:
 python_sast_lint_test:
   stage: test
   script:
-    - apk -U update && apk -U add python3-dev
+    - apk -U update && apk -U add python3-dev musl-dev
     - cd android/app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
