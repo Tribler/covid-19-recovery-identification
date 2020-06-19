@@ -7,7 +7,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.service.quicksettings.TileService;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
@@ -17,7 +20,8 @@ import com.chaquo.python.android.AndroidPlatform;
 /**
  * Implementation of the service initializer.
  */
-public class CertService extends Service {
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class CertService extends TileService {
 
   // Information about the service's state. Prevents from starting
   // or stopping the service more than once.
@@ -25,6 +29,10 @@ public class CertService extends Service {
 
   // The identifier of the custom channel needed in APIs 26+
   private static final String CHANNEL_ID = "Certification Service Channel";
+
+  @Override
+  public void onClick() {
+  }
 
   /**
    * Creation method. Gets called whenever the gui tries to bind to the service or

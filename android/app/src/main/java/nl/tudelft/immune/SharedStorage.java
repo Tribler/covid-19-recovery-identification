@@ -32,14 +32,14 @@ public class SharedStorage extends ReactContextBaseJavaModule {
   @ReactMethod
   public void createWidget() {
     Context appContext = Objects.requireNonNull(getCurrentActivity()).getApplicationContext();
-    Intent intent = createIntent(appContext, AppWidgetManager.ACTION_APPWIDGET_ENABLED);
+    Intent intent = createIntent(appContext, AppWidgetManager.ACTION_APPWIDGET_UPDATE);
     appContext.sendBroadcast(intent);
   }
 
   @ReactMethod
   public void destroyWidget() {
     Context appContext = Objects.requireNonNull(getCurrentActivity()).getApplicationContext();
-    Intent intent = createIntent(appContext, AppWidgetManager.ACTION_APPWIDGET_DISABLED);
+    Intent intent = createIntent(appContext, AppWidgetManager.ACTION_APPWIDGET_UPDATE);
     appContext.sendBroadcast(intent);
   }
 

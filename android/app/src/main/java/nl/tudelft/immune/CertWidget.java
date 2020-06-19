@@ -11,6 +11,8 @@ import android.widget.RemoteViews;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 /**
  * Implementation of the widget's behavior.
  */
@@ -18,11 +20,13 @@ public class CertWidget extends AppWidgetProvider {
 
   static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
     try {
-      SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);  String appString = sharedPref.getString("appData", "{\"text\":'no data'}");  JSONObject appData = new JSONObject(appString);  // Construct the RemoteViews object
+      SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+      String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
+      JSONObject appData = new JSONObject(Objects.requireNonNull(appString));  // Construct the RemoteViews object
       RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.service_widget);
       views.setTextViewText(R.id.appwidget_text, appData.getString("text"));  // Instruct the widget manager to update the widget
       appWidgetManager.updateAppWidget(appWidgetId, views);
-    }catch (JSONException e) {
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }
