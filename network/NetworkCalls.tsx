@@ -143,5 +143,21 @@ const PostVerification = (state: State, holderID: string, attributeHash: string,
 }
 
 
+/**
+ * Sends a request to the backend to allow a Verifier to access an attribute.
+ */
+const AllowVerification = (state: State, verifierID: string, attributeName: string, callback: Function) => {
+  const url = state.serverURL + "/attestation?type=allow_verify&mid=" + encodeURIComponent(state.ID)
+    + "&attribute_name=" + encodeURIComponent(attributeName)
+  const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
+  return fetch(url, data)
+    .then((response) => {
+      callback(response)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 
 export { DeleteCertificate, PostCertificate, PostOutstanding, PostLogin, RegisterLogin, PostVerification }
