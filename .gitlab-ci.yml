@@ -12,10 +12,10 @@ before_script:
   - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
   - yarn install
   # - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
-  # - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
+  - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
 
 after_script:
-  - rm ./android/app/debug,keystore && rm ./android/local.properties
+  - rm ./android/app/debug.keystore && rm ./android/local.properties
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
