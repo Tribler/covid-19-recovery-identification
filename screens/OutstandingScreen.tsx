@@ -32,7 +32,7 @@ const OutstandingScreen: React.FC = () => {
 
     return (
         <View style = {state.darkMode ? styles.dark : styles.light}>
-            <View style = {state.darkMode ? styles.darktext : styles.lighttext}>
+            <View style = {styles.header}>
                 <Text style = {state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
                 <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see attestation requests from users of the network. If you accept a claim you will officially sign their request as true.</Text>
             </View>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     },
     darktext: {
         position: "relative",
-        top: 30,
         fontWeight: "bold",
         fontSize: 60,
         fontFamily: "Sans-serif",
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
     },
     lighttext: {
         position: "relative",
-        top: 100,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
-        color: "#000"
+        color: "#000",
     },
     titleDark: {
         position: "relative",
