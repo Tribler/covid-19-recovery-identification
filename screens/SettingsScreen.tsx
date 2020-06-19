@@ -6,7 +6,6 @@ import { useTrackedState} from '../Store';
 import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
 import { useToggleLogout } from '../hooks/useToggleAuth';
 
-
 const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
     const toggleDark = useToggleDark()

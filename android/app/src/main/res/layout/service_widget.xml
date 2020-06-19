@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:contentDescription="@string/foreground_service_description"
         android:text="@string/foreground_service_text"
         android:textColor="#ffffff"

@@ -37,7 +37,7 @@ AsyncStorage.getItem("darkmode_enabled", (error, result) => { registered = (resu
 
 var defaultState: State = {
     registered: registered,
-    loggedIn: false,
+    loggedIn: true,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
