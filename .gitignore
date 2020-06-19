@@ -8,7 +8,6 @@
 build/
 .idea
 .gradle
-.jest
 local.properties
 *.iml
 
@@ -17,7 +16,8 @@ local.properties
 node_modules/
 npm-debug.*
 yarn-error.log
-__tests__/
+.jest
+__test__/
 
 # BUCK
 buck-out/
@@ -34,4 +34,4 @@ htmlcov/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
-.pytest_cache
+.pytest_cache/
