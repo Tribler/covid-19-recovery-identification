@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Alert, Button } from 'react-native';
+import { StyleSheet, Text, View, Alert, Button, Share } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState} from '../Store';
@@ -19,8 +19,9 @@ const SettingsScreen: React.FC = () => {
             <Text style={state.darkMode ? styles.darktext : styles.lighttext}>Settings</Text>
             <Text style={state.darkMode ? styles.settingDark : styles.setting}>Push Notifications</Text>
             <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => Alert.alert("on")}>On</Text> / <Text onPress={() => Alert.alert("off")}>Off</Text></Text>
+            <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Widget</Text>
+            <Text style={state.darkMode ? styles.optionDark : styles.option}><Text onPress={() => SharedStorage.createWidget()}>On</Text> / <Text onPress={() => SharedStorage.destroyWidget()}>Off</Text></Text>
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
-            <Button title= "whaddup" onPress = {SharedStorage.set(JSON.stringify({text:'proof that it works'}))}>whaddup</Button>
             <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
             <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => toggleLogout()}>Log out</Text>
