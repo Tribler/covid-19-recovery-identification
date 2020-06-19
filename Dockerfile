@@ -30,6 +30,7 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && curl -L https://www.npmjs.com/install.sh | sh
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
+# Entry Command
 CMD [ "/bin/bash" ]
 
 # # Add Build Script
