@@ -2,7 +2,7 @@ from base64 import b64encode
 
 from aiohttp import web
 import auth
-from ipv8.REST.base_endpoint import Response
+from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, Response
 from ipv8.REST.attestation_endpoint import AttestationEndpoint
 
 
@@ -43,6 +43,23 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         peer_id = b64encode(self.identity_overlay.my_peer.mid).decode('utf-8')
         return Response({"id": peer_id}, status=200)
+
+    async def remove_outstanding(self, request):
+        """
+        Removes outstanding attestation requests.
+        """
+        args = request.query
+        if not args or 'type' not in args:
+            return Response({"error": "parameters or type missing"},
+                            status=HTTP_BAD_REQUEST)
+        if args['type'] == 'attest':
+            mid_b64 = args['mid']
+            attribute_name = args['attribute_name']
+            self.attestation_requests.pop((mid_b64, attribute_name))
+        elif args['type'] == 'verify':
+            mid_b64 = args['mid']
+            attribute_name = args['attribute_name']
+            self.verify_requests.pop((mid_b64, attribute_name))
 
     @staticmethod
     async def login_handler(request):
