@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState } from '../Store';
@@ -52,11 +52,11 @@ const Dashboard: React.FC = () => {
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <View style={styles.header}>
-                <Text style={state.darkMode ? styles.darktext : styles.lighttext}>My Dashboard</Text>
-                <Text style={state.darkMode ? styles.instructionsDark : styles.instructions} >You can find your signed proofs below</Text>
-                <Button accessibilityStates color='black' mode='outlined' onPress={() => setScannerVisible(true)}>GET CERTIFICATE</Button>
+                <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>My Dashboard</Text>
+                <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight} >You can find your signed proofs below</Text>
             </View>
-            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center' }}>
+            <Button accessibilityStates color='white' style={{backgroundColor:'dodgerblue'}} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
+            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
                 {attributes.length > 0 ?
                     <View>
                         <View>
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
 
-                    : <Text>You have no signed attributes yet</Text>}
+                    : <Text style={state.darkMode? styles.noProofDark : styles.noProofLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
@@ -92,25 +92,23 @@ const Dashboard: React.FC = () => {
     )
 }
 
+var {height, width} = Dimensions.get('window');
+
 /**
  * Various styles for use in various situations. For example, white text in
  * dark mode or black text in light mode. These styles are for taking care of
  * the placing of objects.
  */
 const styles = StyleSheet.create({
-    darktext: {
-        position: "relative",
-        marginTop: "15%",
-        marginBottom: "-13%",
+    titleDark: {
+        marginTop: .005*height,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff"
     },
-    lighttext: {
-        position: "relative",
-        marginTop: "15%",
-        marginBottom: "-13%",
+    titleLight: {
+        marginTop: .005*height,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -126,26 +124,38 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
-    badgeText: {
-        bottom: "37%",
-        right: "13%",
-        fontWeight: "bold",
-        fontStyle: "italic"
-    },
-    instructions: {
-        marginTop: "20%",
-        marginBottom: "-44%"
+    instructionsLight: {
+        marginVertical: .005*height,
+        fontSize:16
     },
     instructionsDark: {
-        marginTop: "20%",
-        marginBottom: "-44%",
+        marginTop: .005*height,
+        fontSize:16,
         color: "#fff"
     },
     header: {
         alignItems: 'center',
-        marginTop: "8.5%",
-        marginBottom: "7.2%",
+        marginTop: .05*height,
         padding: "1.2%"
+    },
+    noProofLight:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'black',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
+    },
+    noProofDark:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'white',
+        color:'white',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
     }
 });
 

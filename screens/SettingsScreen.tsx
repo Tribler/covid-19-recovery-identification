@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     setting: {
         position: "relative",
-        marginTop: "7%",
+        marginTop: "20%",
         marginRight: "48%",
         fontSize: 20,
         fontFamily: "Sans-serif",
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     },
     settingred: {
         position: "relative",
-        marginTop: "15%",
+        marginTop: "80%",
         color: "#FF0000",
         fontSize: 20,
         fontFamily: "Sans-serif"

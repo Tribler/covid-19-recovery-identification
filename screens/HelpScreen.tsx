@@ -26,7 +26,8 @@ const HelpScreen: React.FC = () => {
                     <B>Attester {state.attester ? "(you)" : ""}</B>: the professional issuing the document.{"\n\n"}
                     <B>Verifier</B>: the person/organization checking the document validity.{"\n\n"}
 
-                    <B>chain</B>: the Holder's stored data{"\n"}
+                    <B>Chain</B>: the Holder's stored data{"\n"}
+                    <B>Proof</B>: the data that a Verifier uses to check if someone signed your attribute.{"\n"}
                 </Paragraph>
                 <Title style = {state.darkMode ? styles.darkColor : styles.lightColor}>The Holder Process</Title>
                 <Paragraph style = {state.darkMode ? styles.darkColor : styles.lightColor}>
