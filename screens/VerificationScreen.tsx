@@ -36,6 +36,7 @@ const VerificationScreen: React.FC = () => {
                 accessibilityStates 
                 mode="contained" 
                 style={styles.verifyButton} 
+                icon="camera"
                 onPress={()=> {
                     setVerificationResponse({attributeType:"covid-19-immunity", verified:true, id:"person"})
                     setScannerOpen(true)}}>
@@ -50,6 +51,11 @@ const VerificationScreen: React.FC = () => {
     )
 }
 
+/**
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
+ */
 const styles = StyleSheet.create({
     header: {
         alignItems: 'center',

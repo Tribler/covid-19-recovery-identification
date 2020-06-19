@@ -1,8 +1,8 @@
 from asyncio import new_event_loop, set_event_loop, ensure_future, \
     run_coroutine_threadsafe
+from os import path, makedirs
 from sys import modules
 from multiprocessing import Process
-from os import path, makedirs
 
 from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
@@ -14,16 +14,18 @@ from certificate_endpoint import CertificateEndpoint
 def directory():
     try:
         from com.chaquo.python import Python
-        file_dir = path.dirname(str(Python.getPlatform().getApplication()
-                                    .getFilesDir()) + '/certificates')
+        file_dir = str(Python.getPlatform().getApplication()
+                       .getFilesDir()) + '/certificates'
+        if not path.exists(file_dir):
+            makedirs(file_dir)
+        return file_dir
     except ModuleNotFoundError as e:
         if str(e) != "No module named 'com'":
             raise
         else:
             file_dir = './certificates'
-    if not path.exists(file_dir):
-        makedirs(file_dir)
-    return file_dir
+            if not path.exists(file_dir):
+                makedirs(file_dir)
 
 
 # Launch an IPv8 service. We run REST endpoints for this service on

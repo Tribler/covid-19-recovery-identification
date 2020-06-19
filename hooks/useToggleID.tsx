@@ -1,12 +1,14 @@
 import { useCallback } from "react";
 import { useSetDraft } from "../Store";
 
-export const useToggleLogin = () => {
+/**
+ * Hook used to change the ID in the store.
+ */
+export const useToggleID = () => {
     const setDraft = useSetDraft();
-    return useCallback(() => {
+    return useCallback((ID: string) => {
         setDraft((draft) => {
-            draft.loggedIn = true;
+            draft.ID = ID;
         });
     }, [setDraft]);
 };
-

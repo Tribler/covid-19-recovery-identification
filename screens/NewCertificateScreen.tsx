@@ -14,39 +14,8 @@ YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']
  * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain
 */
 
-const options = [
-    { value: "select-certificate", label: "Select Certificate..." },
-    { value: "covid-immunity", label: "COVID-19 Immunity" }
-]
-
-const createNewCertificate = (creator: string, holder: string, certType: string, state: State) => {
-    const certificate: Certificate = {
-        creatorID: creator,
-        holderID: holder,
-        type: certType
-    }
-    if (holder) {
-        CreateCertificate(certificate, state);
-        Alert.alert("certificate sent!");
-    }
-    else {
-        Alert.alert(
-            'Failure',
-            'Please enter ID',
-            [
-                {
-                    text: 'Understood',
-                    style: 'cancel',
-                },
-            ],
-            { cancelable: true },
-        );
-    }
-}
-
 const NewCertificateScreen: React.FC = () => {
     const [certificateType, setCertificateType] = useState(1)
-    const [holderID, setHolderID] = useState("")
     const [codeVisible, setCodeVisible] = useState(false)
     const state = useTrackedState()
 
@@ -77,7 +46,6 @@ const NewCertificateScreen: React.FC = () => {
                 GENERATE QR CODE
             </Button>
 
-            {/* <QRModal visible={scannerVisible} setVisible={setScannerVisible} onRead={setHolderID}/> */}
             <BasicQRModal data={JSON.stringify({id:state.ID,type:certificateType })} visible={codeVisible} setVisible={setCodeVisible}/>
             <DrawerButton />
             <HelpButton />
@@ -86,8 +54,9 @@ const NewCertificateScreen: React.FC = () => {
 }
 
 /**
- * various styles for use in various situations. For example, white text in a potential
- * dark mode or black text in the current light mode.
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
  */
 const styles = StyleSheet.create({
     dropdown: {
