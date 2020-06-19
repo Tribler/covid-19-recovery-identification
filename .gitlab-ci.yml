@@ -11,8 +11,11 @@ stages:
 before_script:
   - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
   - yarn install
-  - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
-  - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
+  # - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  # - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
+
+after_script:
+  - rm ./android/app/debug,keystore && rm ./android/local.properties
 
 include:
   - template: Dependency-Scanning.gitlab-ci.yml
@@ -31,6 +34,7 @@ container:
     - docker:dind 
   stage: container
   before_script: []
+  after_script: []
   only:
     changes:
       - Dockerfile 
@@ -56,14 +60,17 @@ build:
 code_quality:
   stage: validate
   before_script: []
+  after_script: []
 
 dependency_scanning:
   stage: validate
   before_script: []
+  after_script: []
 
 sast:
   stage: validate
   before_script: []
+  after_script: []
 
 typescript_lint:
   stage: test
@@ -91,7 +98,6 @@ java_checkstyle_pmd_lint:
 python_sast_lint_test:
   stage: test
   script:
-    # - apk -U update && apk -U add python3-dev musl-dev
     - cd android/app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   artifacts:
