@@ -13,7 +13,7 @@ const VerificationScreen: React.FC = () => {
     const [scannerOpen, setScannerOpen] = useState(false)
     const state = useTrackedState()
     const [dialogueVisible, setDialogueVisible] = useState(false)
-    const [verificationResponse, setVerificationResponse] = useState({attributeType:"covid-19-immunity", verified:false, id:"person"})
+    const [verificationResponse, setVerificationResponse] = useState("")
 
     
     const handleQRScan = (qrdata:string) =>{
@@ -21,8 +21,8 @@ const VerificationScreen: React.FC = () => {
         PostVerification(state, data.holderID, data.hash, openDialogue)
     }
 
-    const openDialogue = (response:any) => { //gets called once the verification scan is complete
-        setVerificationResponse(response)
+    const openDialogue = (response:any, attributeHash : string) => { //gets called once the verification scan is complete
+        setVerificationResponse(attributeHash)
         setDialogueVisible(true)
     }
 

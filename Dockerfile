@@ -2,9 +2,9 @@ FROM openjdk:8-jdk
 
 # Version Variables
 ENV ANDROID_SDK_TOOLS 6514223
-ENV ANDROID_COMPILE_SDK 29
-ENV ANDROID_BUILD_TOOLS 29.0.3
-ENV ANDROID_NDK 20.0.5594570
+ENV ANDROID_COMPILE_SDK 30
+ENV ANDROID_BUILD_TOOLS 30.0.0
+ENV ANDROID_NDK 21.0.6113669
 ENV ANDROID_HOME /android-sdk-linux/
 
 # Update the Image and Install Dependencies
@@ -30,7 +30,5 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && curl -L https://www.npmjs.com/install.sh | sh
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
-# Add Build Script
-COPY ./build-entrypoint.sh /build-entrypoint.sh
-RUN chmod +x /build-entrypoint.sh
-ENTRYPOINT ["/build-entrypoint.sh"]
+# Entry Command
+CMD [ "/bin/bash" ]

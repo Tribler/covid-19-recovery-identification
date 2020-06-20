@@ -2,17 +2,15 @@ import React from 'react'
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState, State} from '../Store';
-import { useToggleDark} from '../hooks/useToggleDark';
-import { useToggleLight } from '../hooks/useToggleLight';
-import { useToggleLogout } from '../hooks/useToggleLogout';
+import { useTrackedState} from '../Store';
+import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
+import { useToggleLogout } from '../hooks/useToggleAuth';
 
 const SettingsScreen: React.FC = () => {
     const state = useTrackedState()
     const toggleDark = useToggleDark()
     const toggleLight = useToggleLight()
-    const logout = useToggleLogout()
-
+    const toggleLogout = useToggleLogout()
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <Text style={state.darkMode ? styles.darktext : styles.lighttext}>Settings</Text>
@@ -21,7 +19,7 @@ const SettingsScreen: React.FC = () => {
             <Text style={state.darkMode ? styles.setting1Dark : styles.setting1}>Theme</Text>
             <Text style={state.darkMode ? styles.option1Dark : styles.option1}><Text onPress={() => toggleLight()}>Light</Text> / <Text onPress={() => toggleDark()}>Dark</Text></Text>
             <Text style={styles.settingred} onPress={() => Alert.alert("delete cert")}>Delete a Certificate</Text>
-            <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => logout()}>Log out</Text>
+            <Text style={state.darkMode ? styles.logoutDark : styles.logout} onPress={() => toggleLogout()}>Log out</Text>
             <DrawerButton/>
             <HelpButton/> 
         </View>

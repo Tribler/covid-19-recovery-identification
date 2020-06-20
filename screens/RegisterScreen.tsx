@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { Button } from 'react-native-paper';
 import { RegisterLogin } from '../network/NetworkCalls';
 import { useTrackedState } from '../Store';
+import { useToggleRegister } from '../hooks/useToggleRegister';
 
 /**
  * In the register screen, a user can sign up for the app and thereby create an account
  * The register screen will be prompted on first startup and then never again.
  */
-const RegisterScreen: React.FC = ({ navigation }) => {
+const RegisterScreen: React.FC = () => {
     const state = useTrackedState()
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [passwordAttester, setPasswordAttester] = useState("")
     const [passwordAttesterConfirm, setPasswordAttesterConfirm] = useState("")
+    const toggleRegister = useToggleRegister()
 
     return (
         <View style={styles.container}>
@@ -48,6 +49,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
             <TouchableOpacity onPress={() => {
                 if (password == passwordConfirm && password.length > 0) {
                     RegisterLogin(state, password, false)
+                    toggleRegister()
                 }
                 else {
                     alert("Passwords don't match or are empty")
@@ -56,7 +58,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 setPasswordConfirm("")
             }}>
                 <View style={styles.submitButton}>
-                    <Text style={styles.submitText}>Submit</Text>
+                    <Text style={styles.submitText}>Sign Up</Text>
                 </View>
             </TouchableOpacity>
             <Text>{"\n"}</Text>
@@ -81,6 +83,7 @@ const RegisterScreen: React.FC = ({ navigation }) => {
             <TouchableOpacity onPress={() => {
                 if (passwordAttester == passwordAttesterConfirm && passwordAttester.length > 0) {
                     RegisterLogin(state, passwordAttester, true)
+                    toggleRegister()
                 }
                 else {
                     alert("Passwords don't match or are empty")
@@ -89,12 +92,9 @@ const RegisterScreen: React.FC = ({ navigation }) => {
                 setPasswordAttesterConfirm("")
             }}>
                 <View style={styles.submitButton}>
-                    <Text style={styles.submitText}>Submit</Text>
+                    <Text style={styles.submitText}>Sign Up</Text>
                 </View>
             </TouchableOpacity>
-            <Text>{"\n"}</Text>
-            <Text style={{ color: "#32CD32", top: "1%" }}>Already have an account?</Text>
-            <Button style={{ top: "1%" }} onPress={() => navigation.navigate("Login")}> Sign in  </Button>
         </View>
     )
 }

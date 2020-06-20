@@ -14,6 +14,7 @@ const PostCertificate = (state: State, attester: string, type: string) => {
       console.log(
         response
       )
+      
     })
     .catch((error) => {
       console.error(error);
@@ -74,6 +75,7 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
   }
   return fetch(url, data)
     .then((response) => {
+      console.log(response)
       if (!response.ok) {
         if (response.status == 417) throw alert("Not registered")
         if (response.status == 403) throw alert("wrong credentials")
@@ -112,6 +114,7 @@ const RegisterLogin = (state: State, password: string, isAttester: boolean) => {
   }
   return fetch(url, data)
     .then((response) => {
+      console.log(response)
       if (!response.ok) {
         if (response.status == 400) throw alert("Already registered")
         else throw alert("Error while registering")
@@ -131,11 +134,27 @@ const RegisterLogin = (state: State, password: string, isAttester: boolean) => {
  */
 const PostVerification = (state: State, holderID: string, attributeHash: string, callback: Function) => {
   const url = state.serverURL + "/attestation?type=verify&mid=" + encodeURIComponent(holderID)
-    + "&attribute_hash=" + encodeURIComponent(attributeHash) + "&attribute_values" + encodeURIComponent(Base64.encode("positive")) // TODO: hardcode value or let attester fill in?
+    + "&attribute_hash=" + encodeURIComponent(attributeHash) + "&attribute_values=" + encodeURIComponent(Base64.encode("positive")) // TODO: hardcode value or let attester fill in?
   const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url, data)
     .then((response) => {
-      callback(response)
+      console.log(response)
+      callback(response, attributeHash)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+/**
+ * Sends a request to the backend to request verification for a certain attribute of the holder.
+ */
+const GetVerificationOutput = (state: State) => {
+  const url = state.serverURL + "/attestation?type=verification_output" 
+  const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+  return fetch(url, data)
+    .then((response) => {
     })
     .catch((error) => {
       console.error(error);
