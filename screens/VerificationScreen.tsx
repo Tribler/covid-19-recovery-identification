@@ -40,7 +40,6 @@ const VerificationScreen: React.FC = () => {
                     style={styles.verifyButton} 
                     icon="camera"
                     onPress={()=> {
-                        setVerificationResponse({attributeType:"covid-19-immunity", verified:true, id:"person"})
                         setScannerOpen(true)}}>
                     Verify
                 </Button>
