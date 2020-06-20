@@ -32,15 +32,18 @@ const VerificationScreen: React.FC = () => {
                 <Text style={styles.title}>Verification</Text>
             </View>
             
-            <Button 
-                accessibilityStates 
-                mode="contained" 
-                style={styles.verifyButton} 
-                icon="camera"
-                onPress={()=> {
-                    setScannerOpen(true)}}>
-                Verify
-            </Button>
+            <View>
+                <Text style={styles.instructionsLight}>Click on "VERIFY" to scan a QR code proof and check if it was signed by an Attester.</Text>
+                <Button 
+                    accessibilityStates 
+                    mode="contained" 
+                    style={styles.verifyButton} 
+                    icon="camera"
+                    onPress={()=> {
+                        setScannerOpen(true)}}>
+                    Verify
+                </Button>
+            </View>
                     
             <VerificationDialogue verificationResponse={verificationResponse} visible={dialogueVisible} setVisible={setDialogueVisible} />
             <QRScannerModal visible={scannerOpen} setVisible={setScannerOpen} onRead={handleQRScan}></QRScannerModal>
@@ -79,6 +82,15 @@ const styles = StyleSheet.create({
     verifyButton: {
         marginHorizontal:10,
         backgroundColor:'dodgerblue'
+    },
+    instructionsLight:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'black',
+        paddingHorizontal:5, 
+        textAlign:'center',
+        margin:5
     }
 })
 
