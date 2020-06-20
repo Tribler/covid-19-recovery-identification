@@ -10,20 +10,27 @@
   },
   "dependencies": {
     "@babel/core": "^7.9.6",
+    "@react-native-community/clipboard": "^1.2.2",
     "@react-navigation/drawer": "^5.7.7",
     "@react-navigation/native": "^5.4.2",
+    "expo-barcode-scanner": "^8.1.0",
+    "immer": "^6.0.9",
     "js-base64": "^2.5.2",
     "patch-package": "^6.2.2",
     "postinstall-postinstall": "^2.1.0",
     "react": "~16.11.0",
     "react-native": "^0.62.2",
+    "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-paper": "^3.10.1",
+    "react-native-permissions": "^2.1.5",
+    "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^3.0.2",
     "react-native-screens": "^2.7.0",
     "react-native-vector-icons": "^6.6.0",
+    "react-qr-code": "^1.0.2",
     "react-tracked": "^1.4.0",
     "typescript": "^3.9.3"
   },
@@ -31,6 +38,11 @@
     "@types/js-base64": "^2.3.1",
     "@types/react": "^16.9.35",
     "@types/react-native": "^0.62.10",
-    "@types/react-native-material-dropdown": "^0.11.4"
+    "@types/react-native-material-dropdown": "^0.11.4",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.20.0"
   }
 }
