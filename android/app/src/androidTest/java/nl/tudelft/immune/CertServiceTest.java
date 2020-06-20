@@ -2,11 +2,13 @@ package nl.tudelft.immune;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ServiceTestRule;
 import com.chaquo.python.Python;
 import org.junit.After;
@@ -101,6 +103,16 @@ public class CertServiceTest {
     service.startService();
     Notification notification = service.getNotification();
     assertEquals(service.getText(R.string.foreground_service_text), notification.tickerText);
+  }
+
+  @Test
+  @SdkSuppress(minSdkVersion = 26)
+  public void notificationChannelInstance() {
+    service.startService();
+    NotificationManager notificationManager = service.getSystemService(NotificationManager.class);
+    assert notificationManager != null;
+    assertEquals(notificationManager.getNotificationChannels().get(0).getId(),
+        service.getNotificationChannel().getId());
   }
 
   @Test
