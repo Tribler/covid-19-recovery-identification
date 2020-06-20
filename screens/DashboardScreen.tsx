@@ -75,7 +75,7 @@ const Dashboard: React.FC = () => {
                                             creatorID: JSON.parse(JSON.stringify(item[3])),
                                             holderID: state.ID,
                                             type: JSON.parse(JSON.stringify(item[0])),
-                                            hash: JSON.parse(JSON.stringify(item[1]))
+                                            hash: JSON.stringify(item[1])
                                         }}
                                         modalVisible={setVerificationVisible}
                                         setSelected={setSelected}
@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
                     : <Text style={state.darkMode? styles.instructionsDark : styles.instructionsLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
-                <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
+                <BasicQRModal data={JSON.stringify({ holderID: (selected.holderID), hash: (selected.hash).replace(/['"]+/g, '') })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
                 <AllowVerificationDialogue/>
             </ScrollView>
