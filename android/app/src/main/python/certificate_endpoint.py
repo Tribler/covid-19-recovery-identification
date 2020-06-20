@@ -23,7 +23,8 @@ class CertificateEndpoint(AttestationEndpoint):
         self.app.add_routes(
                 [web.get('/id', self.id_get),
                  web.post('/login', self.login_handler),
-                 web.post('/register', self.register_handler)])
+                 web.post('/register', self.register_handler),
+                 web.post('/rm-outstanding', self.remove_outstanding)])
         # this adds the authentication middleware to the aiohttp
         # configuration. Might want to refactor into separate
         # endpoint maybe.
