@@ -57,11 +57,12 @@ class CertificateEndpoint(AttestationEndpoint):
             mid_b64 = args['mid']
             attribute_name = args['attribute_name']
             self.attestation_requests.pop((mid_b64, attribute_name))
+            return Response({"success": True}, status=200)
         elif args['type'] == 'verify':
             mid_b64 = args['mid']
             attribute_name = args['attribute_name']
             self.verify_requests.pop((mid_b64, attribute_name))
-        return Response({"success": True}, status=200)
+            return Response({"success": True}, status=200)
 
     @staticmethod
     async def login_handler(request):
