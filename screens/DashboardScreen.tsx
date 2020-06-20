@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
+import AllowVerificationDialogue from '../components/AllowVerificationDialogue';
 
 /**
  * Used to toggle the dark theme for the app.
@@ -29,13 +30,13 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
 }
 
 const Dashboard: React.FC = () => {
-    const [attributes, setAttributes] = useState([["hello", "kli9GyvPME2jh0uyyCqYfqBoUog=", {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
-    const [verificationVisible, setVerificationVisible] = useState(false)
-    const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
-    const [scannerVisible, setScannerVisible] = useState(false)
-    const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
-    const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
+    const [attributes, setAttributes] = useState([["covid-19-immunity", , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
+    const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
+    const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
+    const [scannerVisible, setScannerVisible] = useState(false)
+    const [verificationVisible, setVerificationVisible] = useState(false)
+    const [dialogueVisible, setDialogueVisible] = useState(false)
 
     const url = state.serverURL + "/attestation?type=attributes"   
         
@@ -47,19 +48,23 @@ const Dashboard: React.FC = () => {
         setDialogueVisible(true)
 
     }
-    useEffect(() => { getAttributes(url, setAttributes, state.jwt) })
+    useEffect(() => { 
+        getAttributes(url, setAttributes, state.jwt)
+    })
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
             <View style={styles.header}>
                 <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>My Dashboard</Text>
-                <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight} >You can find your signed proofs below</Text>
+                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitleLight} >
+                    You can find your signed proofs below</Text>
             </View>
             <Button accessibilityStates color='white' style={{backgroundColor:'dodgerblue'}} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
             <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
                 {attributes.length > 0 ?
                     <View>
                         <View>
+                <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>In order to share an attribute wih a Verifier click "Show Proof" and let them scan your QR code.</Text>
                             <FlatList // we use FlatList to provide list functionality
                                 style={{ maxWidth: '95%', alignSelf: 'center' }}
                                 data={attributes}
@@ -80,11 +85,12 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
 
-                    : <Text style={state.darkMode? styles.noProofDark : styles.noProofLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
+                    : <Text style={state.darkMode? styles.instructionsDark : styles.instructionsLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
+                <AllowVerificationDialogue/>
             </ScrollView>
             <DrawerButton />
             <HelpButton />
@@ -124,13 +130,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
-    instructionsLight: {
+    subtitleLight: {
         marginVertical: .005*height,
-        fontSize:16
+        fontSize:16,
+        textAlign:'center'
     },
-    instructionsDark: {
+    subtitleDark: {
         marginTop: .005*height,
         fontSize:16,
+        textAlign:'center',
         color: "#fff"
     },
     header: {
@@ -138,7 +146,7 @@ const styles = StyleSheet.create({
         marginTop: .05*height,
         padding: "1.2%"
     },
-    noProofLight:{
+    instructionsLight:{
         fontSize:20,
         alignSelf:'center', 
         borderWidth:2, 
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
         textAlign:'center', 
         marginHorizontal:5
     },
-    noProofDark:{
+    instructionsDark:{
         fontSize:20,
         alignSelf:'center', 
         borderWidth:2, 
