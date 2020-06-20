@@ -85,8 +85,8 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
       updateJwt(json.token);
       updateAttester(json.token);
       return UpdateID(state, updateIDHook, json.token)
-        .then(id => console.log(id))
-        .catch((error) => console.error(error));
+        .then((id:any) => console.log(id))
+        .catch((error:any) => console.error(error));
 
     })
     .then((json) => {
@@ -142,17 +142,45 @@ const PostVerification = (state: State, holderID: string, attributeHash: string,
     });
 }
 
+const GetVerificationRequests = (state:State, callback?: Function) => {
+  const url = state.serverURL + "/attestation?type=outstanding_verify"
+  return fetch(url)
+  .then((response) => {
+    if (callback) callback(response)
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
 
 /**
  * Sends a request to the backend to allow a Verifier to access an attribute.
  */
-const AllowVerification = (state: State, verifierID: string, attributeName: string, callback: Function) => {
-  const url = state.serverURL + "/attestation?type=allow_verify&mid=" + encodeURIComponent(state.ID)
+const AllowVerification = (state: State, verifierID: string, attributeName: string, callback?: Function) => {
+  const url = state.serverURL + "/attestation?type=allow_verify&mid=" + encodeURIComponent(verifierID)
     + "&attribute_name=" + encodeURIComponent(attributeName)
   const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url, data)
     .then((response) => {
-      callback(response)
+      if (callback) callback(response)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+/**
+ * Sends a request to the backend to decline a Verifier's request to access an attribute.
+ */
+const DeclineVerification = (state: State, verifierID: string, attributeName: string, callback?: Function) => {
+
+  const url = state.serverURL + "/attestation/rm-outstanding?type=verify&mid=" + encodeURIComponent(verifierID) //TODO: make sure this
+    + "&attribute_name=" + encodeURIComponent(attributeName)
+  const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
+  return fetch(url, data)
+    .then((response) => {
+      if (callback) callback(response)
     })
     .catch((error) => {
       console.error(error);
@@ -160,4 +188,4 @@ const AllowVerification = (state: State, verifierID: string, attributeName: stri
 }
 
 
-export { DeleteCertificate, PostCertificate, PostOutstanding, PostLogin, RegisterLogin, PostVerification }
+export { DeleteCertificate, PostCertificate, PostOutstanding, PostLogin, RegisterLogin, PostVerification, GetVerificationRequests, AllowVerification, DeclineVerification }

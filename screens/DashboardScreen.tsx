@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
+import AllowVerificationDialogue from '../components/AllowVerificationDialogue';
 
 /**
  * Used to toggle the dark theme for the app.
@@ -31,24 +32,14 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
         .catch((error) => console.error(error));
 }
 
-const probeVerifyRequests = (url:string, setVerificationVisible : Function) => {
-    const requests = getRequests()
-    const diff =  requests - old_requests
-    if(diff.length > 0){
-        setRequest(diff[0])
-        setVerificationVisible(true)
-    }
-}
-
 const Dashboard: React.FC = () => {
-    const [attributes, setAttributes] = useState([["covid-19-immunity", , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
-    const [verificationVisible, setVerificationVisible] = useState(false)
-    const [verifyRequestVisible, setVerifyRequestVisible] = useState(false)
-    const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
-    const [scannerVisible, setScannerVisible] = useState(false)
-    const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
-    const [dialogueVisible, setDialogueVisible] = useState(false)
     const state = useTrackedState()
+    const [attributes, setAttributes] = useState([["covid-19-immunity", , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
+    const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
+    const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
+    const [scannerVisible, setScannerVisible] = useState(false)
+    const [verificationVisible, setVerificationVisible] = useState(false)
+    const [dialogueVisible, setDialogueVisible] = useState(false)
 
     const url = state.serverURL + "/attestation?type=attributes"
 
@@ -62,7 +53,6 @@ const Dashboard: React.FC = () => {
     }
     useEffect(() => { 
         getAttributes(url, setAttributes, state.jwt)
-        probeVerifyRequests(url, setVerificationVisible)
     })
 
     return (
@@ -103,6 +93,7 @@ const Dashboard: React.FC = () => {
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: selected.holderID, hash: selected.hash })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
+                <AllowVerificationDialogue/>
             </ScrollView>
             <DrawerButton />
             <HelpButton />
