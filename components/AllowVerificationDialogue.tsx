@@ -3,16 +3,17 @@ import { Dialog, Button } from 'react-native-paper'
 import { Text, Modal} from 'react-native'
 import { useTrackedState, State } from '../Store'
 import {AllowVerification, DeclineVerification, GetVerificationRequests} from '../network/NetworkCalls'
+import { useFocusEffect } from '@react-navigation/native'
 
 /*
   Sends a request to the backend to check if there are any pending verification requests, 
   if there are, then it sets the first one as the dialogue request and makes the dialogue visible */
-const checkForRequests = (state:State, setRequest:Function, setVisible:Function) => {
-  GetVerificationRequests(state, (response:any) => {
-    if(response.length > 0) {
-      setRequest(response[0])
+const checkForRequests = (data : any, setVisible:Function) => {
+    if(data.length > 0) {
       setVisible(true)
-  }})  
+      return data[0]
+  }  
+  return data
 }
 
 
@@ -21,9 +22,15 @@ const AllowVerificationDialogue: React.FC = () => {
   const [ visible, setVisible]= useState(false)
   const [ request, setRequest]= useState([])
 
-  useEffect(() => {
-    if(!visible) //if there is a prompt visible, dont check for more requests
-      checkForRequests(state, setRequest, setVisible)
+  useFocusEffect(() => {
+    if(!visible){
+        const url = state.serverURL + "/attestation?type=outstanding_verify"
+        const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+        fetch(url, data)
+          .then((response) => response.json())
+          .then((json) => setRequest(checkForRequests(json, setVisible))) // Map the object into an array
+          .catch((error) => console.error(error));
+      }
     })
 
   const allowVerification=() => {
