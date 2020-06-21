@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog, Button} from 'react-native-paper';
 import {Text, Modal} from 'react-native';
 import {useTrackedState, attributeTypeMap} from '../Store';
-import {PostCertificate} from '../network/NetworkCalls';
+import {postCertificate} from '../network/NetworkCalls';
 
 interface DialogueProps {
   type: string;
@@ -19,7 +19,7 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
 }: DialogueProps) => {
   const state = useTrackedState();
   const addAttribute = () => {
-    PostCertificate(state, attester, type);
+    postCertificate(state, attester, type);
     setVisible(false);
   };
 
