@@ -1,5 +1,5 @@
 import React, { } from 'react'
-import {  Text, StyleSheet, Modal, View} from 'react-native'
+import { Text, StyleSheet, Modal } from 'react-native'
 import { TouchableOpacity} from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 interface QRScannerModalProps {
@@ -40,16 +40,6 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({visible,setVisible, onRe
 }
 
 const styles = StyleSheet.create({
-    centerText: {
-      flex: 1,
-      fontSize: 18,
-      padding: 32,
-      color: '#777'
-    },
-    textBold: {
-      fontWeight: '500',
-      color: '#000'
-    },
     buttonText: {
       fontSize: 21,
       color: 'white'

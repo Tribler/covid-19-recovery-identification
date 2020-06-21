@@ -1,8 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, Text, Button } from 'react-native'
+import { StyleSheet, View, Button } from 'react-native'
 import { Certificate } from '../Store'
 import CertificateView from './CertificateView';
-import { Modal } from 'react-native';
 
 interface CertificateProps {
     certificate: Certificate

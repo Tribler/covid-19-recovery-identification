@@ -33,7 +33,7 @@ const VerificationDialogue: React.FC<DialogueProps> = ({ verificationResponse, v
 
 
   const checkVerified = (data: any) => {
-    const output = data.filter((item) => item[0] == verificationResponse) // From the output, get the hash you want.
+    const output = data.filter((item:any) => item[0] == verificationResponse) // From the output, get the hash you want.
     setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1) //check if the output is 0.99, thus correct.
   }
 

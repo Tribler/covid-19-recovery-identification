@@ -1,7 +1,6 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {Divider} from 'react-native-paper';
-import {Certificate, useTrackedState} from '../Store';
+import { StyleSheet, View, Text } from 'react-native';
+import { Certificate } from '../Store';
 import DeclineButton from '../components/DeclineButton';
 import AcceptButton from '../components/AcceptButton';
 import CertificateView from './CertificateView';
@@ -12,14 +11,10 @@ interface InboxCertificateProps {
     deleteCert: Function,
 }
 
-const checkUserIsOwner = (userId: string, id: string) => {
-  return (userId == id ? 'You' : id);
-};
-
 const CertificateViewInbox: React.FC<InboxCertificateProps> = ({listID, certificate, deleteCert}: InboxCertificateProps) => {
-  const state = useTrackedState();
+
   return (
-    <View style={certificateStyle}>
+    <View style={styles.certificateStyle}>
       <CertificateView certificate = {certificate}/>
       <View style={styles.buttonPair}>
         <AcceptButton
@@ -45,13 +40,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     top: 20,
   },
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-  },
   labelDivision: {
     borderWidth: 2,
     borderRadius: 1,
@@ -59,12 +47,11 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingVertical: 0,
   },
+  certificateStyle: {
+    margin: 20,
+    innerHeight: 10,
+    font: 'Open Sans'
+  }
 });
-
-const certificateStyle = {
-  margin: 20,
-  innerHeight: 10,
-  font: 'Open Sans',
-};
 
 export default CertificateViewInbox;
