@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Alert, YellowBox } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import CreateCertificate from '../network/CreateCertificate';
 import { useTrackedState, Certificate, State, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
 import BasicQRModal from '../components/BasicQRModal';
@@ -23,12 +22,14 @@ const NewCertificateScreen: React.FC = () => {
 
     return (
         <View style={state.darkMode ? styles.dark : styles.light}>
-            <View style = {state.darkMode ? styles.headerDark : styles.header}>
-                <Text style = {state.darkMode ? styles.darktext : styles.lighttext}>New Certificate</Text>
-                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can inform a holder of what data you want to add to their chain</Text>
+            <View style = {styles.header}>
+                <Text style = {state.darkMode ? styles.titleDark : styles.titleLight}>New Certificate</Text>
+                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitleLight}>Here you can create certificates for Holders.</Text>
             </View>
 
-            <View style={state.darkMode ? styles.dropdownDark : styles.dropdown} >
+
+            <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}> Choose an attribute type from the dropdown menu below and then click "GENERATE QR CODE"</Text>
+            <View style={state.darkMode ? styles.dropdownDark : styles.dropdownLight} >
                 <Dropdown
                     data={options}
                     label="Choose..."
@@ -59,13 +60,13 @@ const NewCertificateScreen: React.FC = () => {
  * the placing of objects.
  */
 const styles = StyleSheet.create({
-    dropdown: {
+    dropdownLight: {
         backgroundColor: '#fff',
         fontSize: 15,
         fontFamily: "Sans-serif",
         color: "#000",
         borderWidth: 1,
-        margin: 0,
+        margin: 5,
         padding: 5,
         justifyContent: 'center',
         width: 200
@@ -76,28 +77,12 @@ const styles = StyleSheet.create({
         fontFamily: "Sans-serif",
         color: "#000",
         borderWidth: 1,
-        margin: 0,
+        margin: 5,
         padding: 5,
         justifyContent: 'center',
         width: 200
     },
-    textInput: {
-        margin: 10,
-        width: 200,
-        height: 100,
-        borderColor: "#000",
-        borderWidth: 1
-    },
-    textInputDark: {
-        backgroundColor: "#222",
-        color: "#fff",
-        margin: 10,
-        width: 200,
-        height: 100,
-        borderColor: "#000",
-        borderWidth: 1
-    },
-    darktext: {
+    titleDark: {
         position: "relative",
         marginTop: "3%",
         fontWeight: "bold",
@@ -105,10 +90,9 @@ const styles = StyleSheet.create({
         fontFamily: "Sans-serif",
         color: "#fff"
     },
-    lighttext: {
+    titleLight: {
         position: "relative",
         marginTop: "3%",
-        marginBottom: "5%",
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -129,13 +113,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 30
     },
-    headerDark: {
-        alignItems: 'center',
-        marginTop: 50,
-        marginBottom: 30,
-        color: "#fff"
-    },
-    subtitle: {
+    subtitleLight: {
         fontSize: 15,
         margin: 5,
         fontFamily: "Sans-serif",
@@ -150,6 +128,26 @@ const styles = StyleSheet.create({
         color: "#fff",
         textAlign: 'center',
         justifyContent: 'center'
+    },
+    
+    instructionsLight:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'black',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
+    },
+    instructionsDark:{
+        fontSize:20,
+        alignSelf:'center', 
+        borderWidth:2, 
+        borderColor:'white',
+        color:'white',
+        paddingHorizontal:5, 
+        textAlign:'center', 
+        marginHorizontal:5
     }
 });
 
