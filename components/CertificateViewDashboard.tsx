@@ -1,32 +1,26 @@
 import React from 'react';
 import {StyleSheet, View, Button} from 'react-native';
-import {Certificate} from '../Store'; // eslint-disable-line no-unused-vars
+import {Certificate} from '../Store';
 import CertificateView from './CertificateView';
 
 interface CertificateProps {
-  certificate: Certificate;
-  modalVisible: Function;
-  setSelected: Function;
+    certificate: Certificate
+    modalVisible: Function
+    setSelected: Function
 }
 
-const CertificateViewDashboard: React.FC<CertificateProps> = ({
-  certificate,
-  modalVisible,
-  setSelected,
-}: CertificateProps) => {
-  return (
-    <View style={styles.container}>
-      <CertificateView certificate={certificate} />
-      <Button
-        title="Show Proof"
-        onPress={() => {
+const CertificateViewDashboard: React.FC<CertificateProps> =
+  ({certificate, modalVisible, setSelected}: CertificateProps) => {
+    return (
+      <View style = {styles.container}>
+        <CertificateView certificate = {certificate}/>
+        <Button title="Show Proof" onPress ={() =>{
           setSelected(certificate);
           modalVisible(true);
-        }}
-      ></Button>
-    </View>
-  );
-};
+        }}></Button>
+      </View>
+    );
+  };
 
 const styles = StyleSheet.create({
   buttonPair: {
@@ -45,5 +39,6 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
 });
+
 
 export default CertificateViewDashboard;

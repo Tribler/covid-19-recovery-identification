@@ -4,7 +4,7 @@ import {Base64} from 'js-base64';
 
 /**
  * Hook used to change whether the current user is an attester or not.
- * @return a call back to toggle attester value
+ * @return {Function} a call back to toggle attester value
  */
 export const useToggleAttester = () => {
   const setDraft = useSetDraft();

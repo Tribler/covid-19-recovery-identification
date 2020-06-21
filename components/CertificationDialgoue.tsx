@@ -33,7 +33,7 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
         <Dialog.Title accessibilityStates>Confirmation</Dialog.Title>
         <Dialog.Content>
           <Text style={{fontWeight: 'bold'}}>
-            Are you sure you want to add {attributeTypeMap[parseInt(type)].value} to your chain?{' '}
+            Are you sure you want to add{attributeTypeMap[parseInt(type)].value}to your chain?{' '}
           </Text>
           <Text>Data in your chain is only accessible through your explicit authorization</Text>
         </Dialog.Content>
