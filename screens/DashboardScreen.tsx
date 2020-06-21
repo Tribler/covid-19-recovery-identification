@@ -11,11 +11,6 @@ import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
 import AllowVerificationDialogue from '../components/AllowVerificationDialogue';
 
-/**
- * Used to toggle the dark theme for the app.
- * @param darkTheme whether to set it to dark or light depending on the option clicked.
- * @param state the state, details can be found in Store.tsx
- */
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs.
