@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DashboardScreen from '../screens/DashboardScreen'
 import NewCertificateScreen from '../screens/NewCertificateScreen'
 import SettingsScreen from '../screens/SettingsScreen';
-import InboxScreen from '../screens/InboxScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen'
 import { useTrackedState } from '../Store';
 import HelpScreen from '../screens/HelpScreen';
-import PeerScreen from '../screens/PeerScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
 import { StatusBar, AsyncStorage } from 'react-native';
