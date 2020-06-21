@@ -36,7 +36,7 @@ const OutstandingView: React.FC<OutstandingProps> = ({
         />
         <Text>{'\r'}</Text>
         <DeclineButton listID={listID} deleteCert={() => {
-          deleteOutstanding();
+          deleteOutstanding(listID);
           deleteOutstandingRequest(state, outstanding.creatorID, outstanding.type);
         }} />
       </View>

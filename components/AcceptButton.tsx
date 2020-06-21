@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useTrackedState} from '../Store';
-import {deleteCertificate, postCertificate, postOutstanding} from '../network/NetworkCalls';
+import {postCertificate, postOutstanding} from '../network/NetworkCalls';
 
 /**
  * Generic accept button for the CertificateView and Outstandingview.
@@ -30,7 +30,6 @@ const AcceptButton: React.FC<AcceptProps> = ({
         if (postType == 0) postCertificate(state, attester, type);
         // or send a reply to an outstanding request
         if (postType == 1) postOutstanding(state, attester, type, 'positive');
-        deleteCertificate(state, listID); // delete from local storage
         deleteCert(listID); // and then delete it from the list
       }}
     >

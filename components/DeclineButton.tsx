@@ -1,21 +1,20 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useTrackedState} from '../Store';
-import {deleteCertificate} from '../network/NetworkCalls';
 
 interface DeclineProps {
   listID: string;
   deleteCert: Function;
+  type : string
 }
 
-const DeclineButton: React.FC<DeclineProps> = ({listID, deleteCert}: DeclineProps) => {
+const DeclineButton: React.FC<DeclineProps> = ({deleteCert}: DeclineProps) => {
   const state = useTrackedState();
 
   return (
     <TouchableOpacity
       onPress={() => {
-        deleteCertificate(state, listID);
-        deleteCert(listID);
+        deleteCert();
       }} // if pressed, delete the certficiate with the id which this button is attached to
     >
       <View
