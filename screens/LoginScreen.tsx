@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { useTrackedState } from '../Store';
-import { postLogin } from '../network/NetworkCalls';
-import { useToggleLogin } from '../hooks/useToggleAuth';
-import { useToggleJwt } from '../hooks/useToggleJwt';
-import { useToggleID } from '../hooks/useToggleID';
-import { useToggleAttester } from '../hooks/useToggleAttester';
+import React, {useState} from 'react';
+import {ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {useTrackedState} from '../Store';
+import {postLogin} from '../network/NetworkCalls';
+import {useToggleLogin} from '../hooks/useToggleAuth';
+import {useToggleJwt} from '../hooks/useToggleJwt';
+import {useToggleID} from '../hooks/useToggleID';
+import {useToggleAttester} from '../hooks/useToggleAttester';
 
 /**
  * The login screen for logging in as a health expert or as a patient.

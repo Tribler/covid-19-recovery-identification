@@ -77,6 +77,8 @@ typescript_lint:
 
 java_checkstyle_pmd_lint:
   stage: test
+  before_script:
+    - yarn install
   script:
     - cd android && ./gradlew :app:checkstyle :app:pmd :app:lint
   artifacts:
@@ -94,6 +96,7 @@ java_checkstyle_pmd_lint:
 
 python_sast_lint_test:
   stage: test
+  before_script: []
   script:
     - cd android/app/src/main/python && nox && coverage html
   coverage: '/^TOTAL.*\s+(\d+\%)$/'

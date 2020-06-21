@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
-import { Paragraph, Title } from 'react-native-paper';
-import { useTrackedState } from '../Store';
-import { ScrollView } from 'react-native-gesture-handler';
+import {Paragraph, Title} from 'react-native-paper';
+import {useTrackedState} from '../Store';
+import {ScrollView} from 'react-native-gesture-handler';
 
-const B = (props: any) => <Text style={{ fontWeight: 'bold' }}>{props.children}</Text>;
+const B = (props: any) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 
 /**
  * The help screen. Functions as a screen which explains the various terms we use.

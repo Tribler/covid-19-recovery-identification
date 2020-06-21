@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Certificate, useTrackedState } from '../Store'; // eslint-disable-line no-unused-vars
+import {StyleSheet, View, Text} from 'react-native';
+import {Certificate, useTrackedState} from '../Store'; // eslint-disable-line no-unused-vars
 
 interface CertificateProps {
   certificate: Certificate;
@@ -10,7 +10,7 @@ const checkUserIsOwner = (userId: string, id: string) => {
   return userId == id ? 'You' : id;
 };
 
-const CertificateView: React.FC<CertificateProps> = ({ certificate }: CertificateProps) => {
+const CertificateView: React.FC<CertificateProps> = ({certificate}: CertificateProps) => {
   const state = useTrackedState();
   return (
     <View style={styles.container}>

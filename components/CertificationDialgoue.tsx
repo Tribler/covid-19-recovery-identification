@@ -1,8 +1,8 @@
 import React from 'react';
-import { Dialog, Button } from 'react-native-paper';
-import { Text, Modal } from 'react-native';
-import { useTrackedState, attributeTypeMap } from '../Store';
-import { postCertificate } from '../network/NetworkCalls';
+import {Dialog, Button} from 'react-native-paper';
+import {Text, Modal} from 'react-native';
+import {useTrackedState, attributeTypeMap} from '../Store';
+import {postCertificate} from '../network/NetworkCalls';
 
 interface DialogueProps {
   type: string;
@@ -28,11 +28,11 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
       <Dialog
         visible={visible}
         onDismiss={() => setVisible(false)}
-        style={{ alignItems: 'center' }}
+        style={{alignItems: 'center'}}
       >
         <Dialog.Title accessibilityStates>Confirmation</Dialog.Title>
         <Dialog.Content>
-          <Text style={{ fontWeight: 'bold' }}>
+          <Text style={{fontWeight: 'bold'}}>
             Are you sure you want to add{attributeTypeMap[parseInt(type)].value}to your chain?{' '}
           </Text>
           <Text>Data in your chain is only accessible through your explicit authorization</Text>
@@ -41,7 +41,7 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
           <Button
             accessibilityStates
             mode="contained"
-            style={{ width: 80, marginRight: 50, backgroundColor: 'green' }}
+            style={{width: 80, marginRight: 50, backgroundColor: 'green'}}
             onPress={addAttribute}
           >
             ADD
@@ -49,7 +49,7 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
           <Button
             accessibilityStates
             mode="contained"
-            style={{ backgroundColor: 'red' }}
+            style={{backgroundColor: 'red'}}
             onPress={() => setVisible(false)}
           >
             DO NOT ADD

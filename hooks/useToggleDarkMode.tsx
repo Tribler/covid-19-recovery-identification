@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { useSetDraft } from '../Store';
-import { AsyncStorage } from 'react-native';
+import {useCallback} from 'react';
+import {useSetDraft} from '../Store';
+import {AsyncStorage} from 'react-native';
 
 /**
  * Hook used to change the darkmode to true in the store.

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Provider } from './Store';
+import {Provider} from './Store';
 import DrawerMenu from './components/DrawerMenu';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 /**
  * Entry point for the app.

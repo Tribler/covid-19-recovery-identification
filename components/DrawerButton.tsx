@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'react-native-paper';
-import { useNavigation, DrawerActions } from '@react-navigation/native';
+import {Button} from 'react-native-paper';
+import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 const DrawerButton: React.FC = () => {
   const navigation = useNavigation();

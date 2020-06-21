@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
-import { createContainer } from 'react-tracked';
-import { produce, Draft } from 'immer'; // eslint-disable-line no-unused-vars
-import { AsyncStorage } from 'react-native';
+import {useState, useCallback} from 'react';
+import {createContainer} from 'react-tracked';
+import {produce, Draft} from 'immer'; // eslint-disable-line no-unused-vars
+import {AsyncStorage} from 'react-native';
 
 /*
 The store contains all data types and functions related to the global state of the React app,
@@ -51,21 +51,21 @@ const defaultState: State = {
 };
 
 // attributeTypeMap relates the numerical value used in the backend to the text used in the frontend
-const attributeTypeMap = [{ value: '' }, { value: 'covid-19-immunity' }];
+const attributeTypeMap = [{value: ''}, {value: 'covid-19-immunity'}];
 
 const useValue = () => useState(defaultState);
 
-const { Provider, useTrackedState, useUpdate } = createContainer(useValue);
+const {Provider, useTrackedState, useUpdate} = createContainer(useValue);
 
 const useSetDraft = () => {
   const setState = useUpdate();
   return useCallback(
-    (draftUpdater: (draft: Draft<State>) => void) => {
-      setState(produce(draftUpdater));
-    },
-    [setState],
+      (draftUpdater: (draft: Draft<State>) => void) => {
+        setState(produce(draftUpdater));
+      },
+      [setState],
   );
 };
 
-export { Certificate, State, OutstandingRequest, attributeTypeMap };
-export { Provider, useTrackedState, useSetDraft };
+export {Certificate, State, OutstandingRequest, attributeTypeMap};
+export {Provider, useTrackedState, useSetDraft};

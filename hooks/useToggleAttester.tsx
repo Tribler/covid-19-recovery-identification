@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { useSetDraft } from '../Store';
-import { Base64 } from 'js-base64';
+import {useCallback} from 'react';
+import {useSetDraft} from '../Store';
+import {Base64} from 'js-base64';
 
 /**
  * Hook used to change whether the current user is an attester or not.
@@ -9,12 +9,12 @@ import { Base64 } from 'js-base64';
 export const useToggleAttester = () => {
   const setDraft = useSetDraft();
   return useCallback(
-    (jwt) => {
-      setDraft((draft) => {
-        draft.attester = getJwtPayload(jwt);
-      });
-    },
-    [setDraft],
+      (jwt) => {
+        setDraft((draft) => {
+          draft.attester = getJwtPayload(jwt);
+        });
+      },
+      [setDraft],
   );
 };
 

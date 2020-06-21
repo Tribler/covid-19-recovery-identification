@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState } from '../Store';
-import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
-import { useToggleLogout } from '../hooks/useToggleAuth';
+import {useTrackedState} from '../Store';
+import {useToggleDark, useToggleLight} from '../hooks/useToggleDarkMode';
+import {useToggleLogout} from '../hooks/useToggleAuth';
 
 const SettingsScreen: React.FC = () => {
   const state = useTrackedState();

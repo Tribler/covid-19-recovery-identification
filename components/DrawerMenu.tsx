@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React, {useEffect} from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import DashboardScreen from '../screens/DashboardScreen';
 import NewCertificateScreen from '../screens/NewCertificateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen';
-import { useTrackedState } from '../Store';
+import {useTrackedState} from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
-import { StatusBar, AsyncStorage } from 'react-native';
-import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
-import { useToggleRegister } from '../hooks/useToggleRegister';
+import {StatusBar, AsyncStorage} from 'react-native';
+import {useToggleDark, useToggleLight} from '../hooks/useToggleDarkMode';
+import {useToggleRegister} from '../hooks/useToggleRegister';
 
 const Drawer = createDrawerNavigator();
 

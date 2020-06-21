@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
-import { Certificate } from '../Store'; // eslint-disable-line no-unused-vars
+import {StyleSheet, View, Button} from 'react-native';
+import {Certificate} from '../Store'; // eslint-disable-line no-unused-vars
 import CertificateView from './CertificateView';
 
 interface CertificateProps {
@@ -10,7 +10,7 @@ interface CertificateProps {
 }
 
 const CertificateViewDashboard: React.FC<CertificateProps> =
-  ({ certificate, modalVisible, setSelected }: CertificateProps) => {
+  ({certificate, modalVisible, setSelected}: CertificateProps) => {
     return (
       <View style={styles.container}>
         <CertificateView certificate={certificate} />

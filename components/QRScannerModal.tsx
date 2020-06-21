@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, StyleSheet, Modal } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {Text, StyleSheet, Modal} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 interface QRScannerModalProps {
   visible: boolean;
@@ -26,7 +26,7 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({
       }}
     >
       <TouchableOpacity
-        style={{ backgroundColor: 'white', flex: 1 }}
+        style={{backgroundColor: 'white', flex: 1}}
         onPressOut={() => setVisible(false)}
       >
         <QRCodeScanner

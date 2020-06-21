@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, StyleSheet} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import { useTrackedState } from '../Store';
-import { postVerification } from '../network/NetworkCalls';
-import { Button } from 'react-native-paper';
+import {useTrackedState} from '../Store';
+import {postVerification} from '../network/NetworkCalls';
+import {Button} from 'react-native-paper';
 import QRScannerModal from '../components/QRScannerModal';
 import VerificationDialogue from '../components/VerificationDialogue';
 
