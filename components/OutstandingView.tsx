@@ -3,7 +3,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {OutstandingRequest, useTrackedState} from '../Store'; // eslint-disable-line no-unused-vars
 import AcceptButton from './AcceptButton';
 import DeclineButton from './DeclineButton';
-import { deleteOutstandingRequest } from '../network/NetworkCalls';
+import {deleteOutstandingRequest} from '../network/NetworkCalls';
 
 /**
  * OutstandingView is an element for the FlatList in OutstandingScreen.
@@ -20,7 +20,7 @@ const OutstandingView: React.FC<OutstandingProps> = ({
   outstanding,
   deleteOutstanding,
 }: OutstandingProps) => {
-  const state = useTrackedState()
+  const state = useTrackedState();
   return (
     <View>
       <Text>
@@ -36,9 +36,9 @@ const OutstandingView: React.FC<OutstandingProps> = ({
         />
         <Text>{'\r'}</Text>
         <DeclineButton listID={listID} deleteCert={() => {
-          deleteOutstanding()
-          deleteOutstandingRequest(state, outstanding.creatorID, outstanding.type)
-          }} />
+          deleteOutstanding();
+          deleteOutstandingRequest(state, outstanding.creatorID, outstanding.type);
+        }} />
       </View>
     </View>
   );

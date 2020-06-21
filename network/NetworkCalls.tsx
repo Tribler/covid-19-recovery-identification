@@ -64,28 +64,26 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
  * @return {Function} api call
  */
 const deleteOutstandingRequest = (
-  state: State,
-  holderID: string, 
-  attributeName: string,
-  callback?: Function,
+    state: State,
+    holderID: string,
+    attributeName: string,
 ) => {
-const url =
+  const url =
   state.serverURL +
   '/attestation/rm-outstanding?type=attest&mid=' +
   encodeURIComponent(holderID) + // TODO: make sure this
   '&attribute_name=' +
   encodeURIComponent(attributeName);
-const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
-return fetch(url, data)
-    .then((response) => {
-      response.json();
-    })
-    .then((json) => {
-      if (callback) callback(json);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  return fetch(url, data)
+      .then((response) => {
+        response.json();
+      })
+      .then((json) => {
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 /**
