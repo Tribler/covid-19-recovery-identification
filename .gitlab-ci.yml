@@ -77,10 +77,6 @@ typescript_lint:
 
 java_checkstyle_pmd_lint:
   stage: test
-  before_script:
-    - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-    - yarn install
-    - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
   script:
     - cd android && ./gradlew :app:checkstyle :app:pmd :app:lint
   artifacts:
