@@ -152,6 +152,7 @@ const PostVerification = (state: State, holderID: string, attributeHash: string,
 
 const GetVerificationRequests = (state:State, callback?: Function) => {
   const url = state.serverURL + "/attestation?type=outstanding_verify"
+  const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url)
   .then((response) => {
     response.json()

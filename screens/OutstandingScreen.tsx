@@ -5,6 +5,7 @@ import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
 import { useTrackedState } from '../Store';
 import HelpButton from '../components/HelpButton';
+import { useFocusEffect } from '@react-navigation/native';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
@@ -14,29 +15,38 @@ const OutstandingScreen: React.FC = () => {
     const [outstanding, setOutstanding] = useState([])
     const state = useTrackedState()
     const url = state.serverURL + '/attestation?type=outstanding'
-    const data = { method: 'GET', headers: {"Authorization" : state.jwt}, body: "" }
+    const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+    const updateInterval = 500; //how many milliseconds between api calls
 
-    useEffect(() => {
-        fetch(url,data)
-            .then((response) => response.json())
-            .then((json) => setOutstanding(json))
-            .catch((error) => console.error(error));
-    }, []);
+
+    useFocusEffect(() => {
+        const interval = setInterval(() => {
+
+            fetch(url, data)
+                .then((response) => response.json())
+                .then((json) => setOutstanding(json))
+                .catch((error) => console.error(error));
+        }, updateInterval);
+
+        return () => clearInterval(interval);
+
+
+    });
 
     const deleteOutstanding = (id: string) => {
         setOutstanding((outsList) => {
-            return outsList.filter((out) => out[0] + "" +  out[1] !== id);
+            return outsList.filter((out) => out[0] + "" + out[1] !== id);
         });
     };
 
 
     return (
-        <View style = {state.darkMode ? styles.dark : styles.light}>
-            <View style = {styles.header}>
-                <Text style = {state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
-                <Text style = {state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see attestation requests from users of the network. If you accept a claim you will officially sign their request as true.</Text>
+        <View style={state.darkMode ? styles.dark : styles.light}>
+            <View style={styles.header}>
+                <Text style={state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
+                <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>Here you can see attestation requests from users of the network. If you accept a claim you will officially sign their request as true.</Text>
             </View>
-            {outstanding.length>0 ?
+            {outstanding.length > 0 ?
                 <ScrollView>
                     <FlatList
                         data={outstanding}
@@ -47,8 +57,8 @@ const OutstandingScreen: React.FC = () => {
                                 outstanding={{ creatorID: item[0], type: item[1] }}
                                 deleteOutstanding={deleteOutstanding} />
                         )} />
-            </ScrollView>:
-            <Text style={{fontSize:16, borderWidth:1,padding:5}}>NO PENDING REQUESTS</Text>}
+                </ScrollView> :
+                <Text style={{ fontSize: 16, borderWidth: 1, padding: 5 }}>NO PENDING REQUESTS</Text>}
             <DrawerButton />
             <HelpButton />
         </View>
@@ -64,14 +74,14 @@ const styles = StyleSheet.create({
     dark: {
         flex: 1,
         backgroundColor: "#222",
-        alignContent:'center',
-        alignItems:'center'
+        alignContent: 'center',
+        alignItems: 'center'
     },
     light: {
         flex: 1,
         backgroundColor: "#fff",
-        alignContent:'center',
-        alignItems:'center'
+        alignContent: 'center',
+        alignItems: 'center'
     },
     title: {
         position: "relative",
@@ -94,7 +104,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 15,
-        margin:5,
+        margin: 5,
         fontFamily: "Sans-serif",
         color: "#000",
         textAlign: 'center',
@@ -102,7 +112,7 @@ const styles = StyleSheet.create({
     },
     subtitleDark: {
         fontSize: 15,
-        margin:5,
+        margin: 5,
         fontFamily: "Sans-serif",
         color: "#fff",
         textAlign: 'center',

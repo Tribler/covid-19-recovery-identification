@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState } from '../Store';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
 import AllowVerificationDialogue from '../components/AllowVerificationDialogue';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 /*
@@ -26,15 +27,16 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
 
 const Dashboard: React.FC = () => {
     const state = useTrackedState()
-    const [attributes, setAttributes] = useState([["covid-19-immunity", 'MY_ID' , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
+    const [attributes, setAttributes] = useState([]);
     const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
     const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
     const [scannerVisible, setScannerVisible] = useState(false)
     const [verificationVisible, setVerificationVisible] = useState(false)
     const [dialogueVisible, setDialogueVisible] = useState(false)
 
-    const url = state.serverURL + "/attestation?type=attributes"   
-        
+    const updateInterval = 500; //how many milliseconds between api calls
+    const url = state.serverURL + "/attestation?type=attributes"
+
 
     const handleQRScan = (dataString: string) => {
         const data = JSON.parse(dataString)
@@ -43,8 +45,13 @@ const Dashboard: React.FC = () => {
         setDialogueVisible(true)
 
     }
-    useEffect(() => { 
-        getAttributes(url, setAttributes, state.jwt)
+
+    useFocusEffect(() => {
+        const interval = setInterval(() => {
+            getAttributes(url, setAttributes, state.jwt)
+        }, updateInterval);
+
+        return () => clearInterval(interval);
     })
 
     return (
@@ -54,12 +61,12 @@ const Dashboard: React.FC = () => {
                 <Text style={state.darkMode ? styles.subtitleDark : styles.subtitleLight} >
                     You can find your signed proofs below</Text>
             </View>
-            <Button accessibilityStates color='white' style={{backgroundColor:'dodgerblue'}} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
-            <View style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
+            <Button accessibilityStates color='white' style={{ backgroundColor: 'dodgerblue' }} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
+            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical: 0.03 * height }}>
                 {attributes.length > 0 ?
                     <View>
                         <View>
-                <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>In order to share an attribute wih a Verifier click "Show Proof" and let them scan your QR code.</Text>
+                            <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>In order to share an attribute wih a Verifier click "Show Proof" and let them scan your QR code.</Text>
                             <FlatList // we use FlatList to provide list functionality
                                 style={{ maxWidth: '95%', alignSelf: 'center' }}
                                 data={attributes}
@@ -80,13 +87,13 @@ const Dashboard: React.FC = () => {
                         </View>
                     </View>
 
-                    : <Text style={state.darkMode? styles.instructionsDark : styles.instructionsLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
+                    : <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>You have no signed proofs yet. {"\n"}To add a proof click "Add Proof" and scan an Attester's QR code, then wait for them to accept </Text>}
 
                 <CertificationDialogue type={certData.type} attester={certData.attester} visible={dialogueVisible} setVisible={setDialogueVisible} />
                 <BasicQRModal data={JSON.stringify({ holderID: (selected.holderID), hash: (selected.hash).replace(/['"]+/g, '') })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
-                <AllowVerificationDialogue/>
-            </View>
+                <AllowVerificationDialogue />
+            </ScrollView>
             <DrawerButton />
             <HelpButton />
         </View>
@@ -102,14 +109,14 @@ var {height} = Dimensions.get('window');
  */
 const styles = StyleSheet.create({
     titleDark: {
-        marginTop: .005*height,
+        marginTop: .005 * height,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#fff"
     },
     titleLight: {
-        marginTop: .005*height,
+        marginTop: .005 * height,
         fontWeight: "bold",
         fontSize: 40,
         fontFamily: "Sans-serif",
@@ -126,39 +133,39 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     subtitleLight: {
-        marginVertical: .005*height,
-        fontSize:16,
-        textAlign:'center'
+        marginVertical: .005 * height,
+        fontSize: 16,
+        textAlign: 'center'
     },
     subtitleDark: {
-        marginTop: .005*height,
-        fontSize:16,
-        textAlign:'center',
+        marginTop: .005 * height,
+        fontSize: 16,
+        textAlign: 'center',
         color: "#fff"
     },
     header: {
         alignItems: 'center',
-        marginTop: .05*height,
+        marginTop: .05 * height,
         padding: "1.2%"
     },
-    instructionsLight:{
-        fontSize:20,
-        alignSelf:'center', 
-        borderWidth:2, 
-        borderColor:'black',
-        paddingHorizontal:5, 
-        textAlign:'center', 
-        marginHorizontal:5
+    instructionsLight: {
+        fontSize: 20,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderColor: 'black',
+        paddingHorizontal: 5,
+        textAlign: 'center',
+        marginHorizontal: 5
     },
-    instructionsDark:{
-        fontSize:20,
-        alignSelf:'center', 
-        borderWidth:2, 
-        borderColor:'white',
-        color:'white',
-        paddingHorizontal:5, 
-        textAlign:'center', 
-        marginHorizontal:5
+    instructionsDark: {
+        fontSize: 20,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderColor: 'white',
+        color: 'white',
+        paddingHorizontal: 5,
+        textAlign: 'center',
+        marginHorizontal: 5
     }
 });
 
