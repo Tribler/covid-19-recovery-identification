@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, YellowBox} from 'react-native';
 import {Button} from 'react-native-paper';
 import {Dropdown} from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
 import {useTrackedState, attributeTypeMap} from '../Store';
 import HelpButton from '../components/HelpButton';
 import BasicQRModal from '../components/BasicQRModal';
+
+YellowBox.ignoreWarnings(['componentWill', 'Failed prop type', 'Animated']);
 
 /*
  * The New Certificate screen is accessible only to attesters and
@@ -31,14 +33,15 @@ const NewCertificateScreen: React.FC = () => {
 
       <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
         {' '}
-        Choose an attribute type from the dropdown menu below and then click `&quot;`GENERATE QR
-        CODE`&quot;`
+        Choose an attribute type from the dropdown menu below and then click &quot;GENERATE QR
+        CODE&quot;
       </Text>
       <View style={state.darkMode ? styles.dropdownDark : styles.dropdownLight}>
         <Dropdown
           data={options}
           label="Choose..."
           onChangeText={(value: string, index: number) => setCertificateType(index)}
+          baseColor={state.darkMode ? 'white' : 'black'}
         ></Dropdown>
       </View>
 

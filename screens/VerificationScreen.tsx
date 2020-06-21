@@ -26,14 +26,15 @@ const VerificationScreen: React.FC = () => {
   };
 
   return (
-    <View>
+    <View style={state.darkMode ? styles.dark : styles.light}>
       <View style={styles.header}>
-        <Text style={styles.title}>Verification</Text>
+        <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>Verification</Text>
       </View>
 
       <View>
-        <Text style={styles.instructionsLight}>
-          Click on VERIFY to scan a QR code proof and check if it was signed by an Attester.
+        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+          Click on &quot;VERIFY&quot; to scan a QR code
+          proof and check if it was signed by an Attester.
         </Text>
         <Button
           accessibilityStates
@@ -75,12 +76,19 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 30,
   },
-  title: {
+  titleLight: {
     position: 'relative',
     fontWeight: 'bold',
     fontSize: 40,
     fontFamily: 'Sans-serif',
     color: '#000',
+  },
+  titleDark: {
+    position: 'relative',
+    fontWeight: 'bold',
+    fontSize: 40,
+    fontFamily: 'Sans-serif',
+    color: '#fff',
   },
   verifyButton: {
     marginHorizontal: 10,
@@ -94,6 +102,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     textAlign: 'center',
     margin: 5,
+  },
+  instructionsDark: {
+    fontSize: 20,
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+    paddingHorizontal: 5,
+    textAlign: 'center',
+    color: 'white',
+    margin: 5,
+  },
+  dark: {
+    flex: 1,
+    backgroundColor: '#222',
+    alignItems: 'center',
+  },
+  light: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
   },
 });
 

@@ -59,7 +59,8 @@ const OutstandingScreen: React.FC = () => {
           />
         </ScrollView>
       ) : (
-        <Text style={{fontSize: 16, borderWidth: 1, padding: 5}}>NO PENDING REQUESTS</Text>
+        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+          NO PENDING REQUESTS</Text>
       )}
       <DrawerButton />
       <HelpButton />
@@ -119,6 +120,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     justifyContent: 'center',
+  },
+  instructionsLight: {
+    fontSize: 16,
+    borderWidth: 1,
+    padding: 5,
+  },
+  instructionsDark: {
+    fontSize: 16,
+    borderWidth: 1,
+    padding: 5,
+    color: 'white',
+    borderColor: 'white',
   },
 });
 

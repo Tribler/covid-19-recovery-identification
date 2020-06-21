@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
         {attributes.length > 0 ? (
           <View>
             <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-              In order to share an attribute wih a Verifier click `&quot;`Show Proof`&quot;` and let
+              In order to share an attribute wih a Verifier click &quot;Show Proof&quot; and let
               them scan your QR code.
             </Text>
             <View>
@@ -108,8 +108,8 @@ const Dashboard: React.FC = () => {
           </View>
         ) : (
           <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-            You have no signed proofs yet. {'\n'}To add a proof click `&quot;`Add Proof`&quot;` and
-            scan an Attester`&apos;`s QR code, then wait for them to accept{' '}
+            You have no signed proofs yet. {'\n'}To add a proof click &quot;Add Proof&quot; and
+            scan an Attester&apos;s QR code, then wait for them to accept{' '}
           </Text>
         )}
 

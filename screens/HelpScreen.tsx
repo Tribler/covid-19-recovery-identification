@@ -27,7 +27,7 @@ const HelpScreen: React.FC = () => {
           <B>Attester {state.attester ? '(you)' : ''}</B>: the professional issuing the document.
           {'\n\n'}
           <B>Verifier</B>: the person/organization checking the document validity.{'\n\n'}
-          <B>Chain</B>: the Holder`&apos;`s stored data{'\n'}
+          <B>Chain</B>: the Holder&apos;s stored data{'\n'}
           <B>Proof</B>: the data that a Verifier uses to check if someone signed your attribute.
           {'\n'}
         </Paragraph>
@@ -35,11 +35,11 @@ const HelpScreen: React.FC = () => {
           The Holder Process
         </Title>
         <Paragraph style={state.darkMode ? styles.darkColor : styles.lightColor}>
-          1. An <B>Attester</B> will show you a QR Code, you can click the `&quot;`Add Proof`&quot;`
+          1. An <B>Attester</B> will show you a QR Code, you can click the &quot;Add Proof&quot;
           button on the <B>Dashboard</B> to request adding that data to your <B>Chain</B>. {'\n\n'}
           2. Once the attester signs the data you can find the proof in your <B>Dashboard</B>.
           {'\n\n'}
-          3. You can click the `&quot;`SHOW PROOF`&quot;` button under an attribute on your{' '}
+          3. You can click the &quot;SHOW PROOF&quot; button under an attribute on your{' '}
           <B>dashboard</B> in order to create a QR Code proof that a <B>Verifier</B> can scan.
           {'\n\n'}
         </Paragraph>
@@ -49,9 +49,9 @@ const HelpScreen: React.FC = () => {
               The Attester Process
             </Title>
             <Paragraph style={state.darkMode ? styles.darkColor : styles.lightColor}>
-              1. Once you have data you want to add to a <B>Holder`&apos;`s</B> <B>chain</B> go to
-              the <B>New Certificate</B> screen, choose certificate type and click `&quot;`GENERATE
-              QR CODE`&quot;`. {'\n\n'}
+              1. Once you have data you want to add to a <B>Holder&apos;s</B> <B>chain</B> go to
+              the <B>New Certificate</B> screen, choose certificate type and click &quot;GENERATE
+              QR CODE&quot;. {'\n\n'}
               2. The <B>Holder</B> can scan that QR Code and, if they acceot, you will get a request
               asking you to sign the data, this request shows up in the <B>Outstanding Screen</B>.
               {'\n\n'}
@@ -70,7 +70,7 @@ const HelpScreen: React.FC = () => {
           <Paragraph style={state.darkMode ? styles.darkColor : styles.lightColor}>
             1. A <B>Holder</B> can show you a QR Code proof of an attribute signed by an{' '}
             <B>Attester</B>.{'\n\n'}
-            2. Open the <B>Verififaction Screen</B> and click `&quot;`VERIFY`&quot;` to scan this
+            2. Open the <B>Verififaction Screen</B> and click &quot;VERIFY&quot; to scan this
             code.{'\n\n'}
             3. After scanning you will see a dialogue that states whether an <B>Attester</B> has
             signed that attribute for that <B>Holder</B> or not.{'\n\n'}
