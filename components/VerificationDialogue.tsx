@@ -1,6 +1,6 @@
 import React, { useState} from 'react'
 import { View, Modal, Image, Text, StyleSheet } from 'react-native'
-import { Dialog, Button} from 'react-native-paper'
+import { Dialog, Button } from 'react-native-paper'
 import { useTrackedState } from '../Store'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -17,24 +17,29 @@ const VerificationDialogue: React.FC<DialogueProps> = ({ verificationResponse, v
   const [verified, setVerified] = useState(false)
   const [input, setInput] = useState([])
   const state = useTrackedState()
+  const updateInterval = 500; //how many milliseconds between api calls
+
 
   useFocusEffect(() => {
-    if(visible){
-    // If visible and while the screen is in focus, we will fetch the output of verification.
-      const url = state.serverURL + "/attestation?type=verification_output"
-      const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+    const interval = setInterval(() => {
 
-      fetch(url, data)
-        .then((response) => response.json())
-        .then((json) => setInput(checkVerified(Object.entries(json)))) // Map the object into an array
-        .catch((error) => console.error(error));
-    }
+      if (visible) {
+        // If visible and while the screen is in focus, we will fetch the output of verification.
+        const url = state.serverURL + "/attestation?type=verification_output"
+        const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
+        fetch(url, data)
+          .then((response) => response.json())
+          .then((json) => setInput(checkVerified(Object.entries(json)))) // Map the object into an array
+          .catch((error) => console.error(error));
+      }
+    }, updateInterval);
+    return () => clearInterval(interval);
   })
 
   const checkVerified = (data: any) => {
     const output = data.filter((item) => item[0] == verificationResponse) // From the output, get the hash you want.
-    if(output.length>0){
-    setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1) //check if the output is 0.99, thus correct.
+    if (output.length > 0) {
+      setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1) //check if the output is 0.99, thus correct.
     }
     return output
   }
