@@ -42,8 +42,8 @@ AsyncStorage.getItem('darkmode_enabled', (error, result) => {
 
 const defaultState: State = {
   registered: registered,
-  loggedIn: true,
-  attester: true,
+  loggedIn: false,
+  attester: false,
   ID: '0',
   serverURL: 'http://localhost:8085',
   darkMode: darkmode,
