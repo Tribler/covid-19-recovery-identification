@@ -3,19 +3,21 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Certificate, useTrackedState} from '../Store';
 
 interface CertificateProps {
-    certificate: Certificate
+  certificate: Certificate;
 }
 
 const checkUserIsOwner = (userId: string, id: string) => {
-  return (userId == id ? 'You' : id);
+  return userId == id ? 'You' : id;
 };
 
 const CertificateView: React.FC<CertificateProps> = ({certificate}: CertificateProps) => {
   const state = useTrackedState();
   return (
-    <View style = {styles.container}>
+    <View style={styles.container}>
       <Text style={styles.labelDivision}>{'Type: ' + certificate.type}</Text>
-      <Text style={styles.labelDivision}>{'Creator: ' + checkUserIsOwner(state.ID, certificate.creatorID)}</Text>
+      <Text style={styles.labelDivision}>
+        {'Creator: ' + checkUserIsOwner(state.ID, certificate.creatorID)}
+      </Text>
     </View>
   );
 };

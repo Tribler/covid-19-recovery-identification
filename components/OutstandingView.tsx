@@ -9,27 +9,31 @@ import DeclineButton from './DeclineButton';
  */
 
 interface OutstandingProps {
-    listID: string
-    outstanding: OutstandingRequest
-    deleteOutstanding: Function
-
+  listID: string;
+  outstanding: OutstandingRequest;
+  deleteOutstanding: Function;
 }
 
-const OutstandingView: React.FC<OutstandingProps> = ({listID, outstanding, deleteOutstanding}: OutstandingProps) => {
+const OutstandingView: React.FC<OutstandingProps> = ({
+  listID,
+  outstanding,
+  deleteOutstanding,
+}: OutstandingProps) => {
   return (
-    <View >
-      <Text >Type: {outstanding.type}, Creator: {outstanding.creatorID}</Text>
+    <View>
+      <Text>
+        Type: {outstanding.type}, Creator: {outstanding.creatorID}
+      </Text>
       <View style={styles.buttonPair}>
         <AcceptButton
           attester={outstanding.creatorID}
           deleteCert={deleteOutstanding}
           listID={listID}
           type={outstanding.type}
-          postType={1} />
+          postType={1}
+        />
         <Text>{'\r'}</Text>
-        <DeclineButton
-          listID={listID}
-          deleteCert={deleteOutstanding} />
+        <DeclineButton listID={listID} deleteCert={deleteOutstanding} />
       </View>
     </View>
   );
