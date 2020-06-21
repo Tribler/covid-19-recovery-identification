@@ -31,7 +31,7 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
 
 const Dashboard: React.FC = () => {
     const state = useTrackedState()
-    const [attributes, setAttributes] = useState([["covid-19-immunity", , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
+    const [attributes, setAttributes] = useState([["covid-19-immunity", 'MY_ID' , {}, "COFrKwAoUNGBc8uPI8vedoWhrao="]]);
     const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
     const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
     const [scannerVisible, setScannerVisible] = useState(false)
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
                     You can find your signed proofs below</Text>
             </View>
             <Button accessibilityStates color='white' style={{backgroundColor:'dodgerblue'}} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
-            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
+            <View style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical:0.03*height }}>
                 {attributes.length > 0 ?
                     <View>
                         <View>
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
                             <FlatList // we use FlatList to provide list functionality
                                 style={{ maxWidth: '95%', alignSelf: 'center' }}
                                 data={attributes}
-                                keyExtractor={(item) => item.id} //
+                                keyExtractor={(item, index) => item[0]+index.toString()} //
                                 renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                     <CertificateViewDashboard
                                         certificate={{
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
                 <BasicQRModal data={JSON.stringify({ holderID: (selected.holderID), hash: (selected.hash).replace(/['"]+/g, '') })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
                 <AllowVerificationDialogue/>
-            </ScrollView>
+            </View>
             <DrawerButton />
             <HelpButton />
         </View>
