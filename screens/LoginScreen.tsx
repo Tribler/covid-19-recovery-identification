@@ -10,7 +10,7 @@ import {useToggleAttester} from '../hooks/useToggleAttester';
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
- * @return the LoginScreen component.
+ * @return {Component} the LoginScreen component.
  */
 const LoginScreen: React.FC = () => {
   const state = useTrackedState();
