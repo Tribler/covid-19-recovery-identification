@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, SafeAreaView } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState } from '../Store';
@@ -27,7 +27,7 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
 
 const Dashboard: React.FC = () => {
     const state = useTrackedState()
-    const [attributes, setAttributes] = useState([]);
+    const [attributes, setAttributes] = useState([]);//2D array for all the attributes 
     const [certData, setCertData] = useState({ type: "0", attester: "" }) //this states what data will show up in the confirmation dialogue after a scan
     const [selected, setSelected] = useState({ holderID: "", creatorID: "", type: "", hash: "" })
     const [scannerVisible, setScannerVisible] = useState(false)
@@ -62,15 +62,15 @@ const Dashboard: React.FC = () => {
                     You can find your signed proofs below</Text>
             </View>
             <Button accessibilityStates color='white' style={{ backgroundColor: 'dodgerblue' }} mode='outlined' onPress={() => setScannerVisible(true)}>ADD PROOF</Button>
-            <ScrollView style={{ minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical: 0.03 * height }}>
+            <SafeAreaView style={{ flex:1, minWidth: '100%', alignContent: 'center', alignSelf: 'center', marginVertical: 0.03 * height }}>
                 {attributes.length > 0 ?
                     <View>
+                        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>In order to share an attribute wih a Verifier click "Show Proof" and let them scan your QR code.</Text>
                         <View>
-                            <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>In order to share an attribute wih a Verifier click "Show Proof" and let them scan your QR code.</Text>
                             <FlatList // we use FlatList to provide list functionality
                                 style={{ maxWidth: '95%', alignSelf: 'center' }}
                                 data={attributes}
-                                keyExtractor={(item) => item[0] + "" + item[1]} //
+                                keyExtractor={(item, index) => item[0] + "" + item[1]+index} //
                                 renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                     <CertificateViewDashboard
                                         certificate={{
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
                 <BasicQRModal data={JSON.stringify({ holderID: (selected.holderID), hash: (selected.hash).replace(/['"]+/g, '') })} visible={verificationVisible} setVisible={setVerificationVisible} />
                 <QRScannerModal visible={scannerVisible} setVisible={setScannerVisible} onRead={handleQRScan} />
                 <AllowVerificationDialogue />
-            </ScrollView>
+            </SafeAreaView>
             <DrawerButton />
             <HelpButton />
         </View>
