@@ -57,34 +57,46 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
 };
 
 /**
- * Sends a request to the backend to delete a certificate from local storage.
- * @param {state} state global state.
- * @param {listID} listID something?
- * @return {function} api call
+ * Sends a request to the backend to delete an outstanding certificate.
+ * @param {State} state global state.
+ * @param {string} holderID the id whose request you want to delete.
+ * @param {string} attributeName something?
+ * @return {Function} api call
  */
-const deleteCertificate = (state: State, listID: string) => {
-  // we have to uri encode our attester string
-  const url =
-    state.serverURL + '/attestation/certificate?type=delete&mid=' + encodeURIComponent(listID);
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
-  return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+const deleteOutstandingRequest = (
+  state: State,
+  holderID: string, 
+  attributeName: string,
+  callback?: Function,
+) => {
+const url =
+  state.serverURL +
+  '/attestation/rm-outstanding?type=attest&mid=' +
+  encodeURIComponent(holderID) + // TODO: make sure this
+  '&attribute_name=' +
+  encodeURIComponent(attributeName);
+const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+return fetch(url, data)
+    .then((response) => {
+      response.json();
+    })
+    .then((json) => {
+      if (callback) callback(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
  * Sends a request to the backend to login.
- * @param {state} state global state.
- * @param {updateLogin} updateLogin hook to update loggedIn state.
- * @param {updateJwt} updateJwt hook to update the jwt state.
- * @param {updateIDHook} updateIDHook hook to update the id state.
- * @param {updateAttester} updateAttester hook to update the attester state.
- * @param {password} password typed in password.
- * @return {component} api call
+ * @param {State} state global state.
+ * @param {Function} updateLogin hook to update loggedIn state.
+ * @param {Function} updateJwt hook to update the jwt state.
+ * @param {Function} updateIDHook hook to update the id state.
+ * @param {Function} updateAttester hook to update the attester state.
+ * @param {string} password typed in password.
+ * @return {Component} api call
  */
 const postLogin = (
     state: State,
@@ -132,10 +144,10 @@ const postLogin = (
 
 /**
  * Sends a request to the backend to register an account.
- * @param {state} state global state.
- * @param {password} password typed in password.
- * @param {isAttester} isAttester if registered as an attester.
- * @return {function} api call
+ * @param {State} state global state.
+ * @param {string} password typed in password.
+ * @param {boolean} isAttester if registered as an attester.
+ * @return {Function} api call
  */
 const registerLogin = (state: State, password: string, isAttester: boolean) => {
   const url = state.serverURL + '/attestation/register';
@@ -284,7 +296,7 @@ const declineVerification = (
 };
 
 export {
-  deleteCertificate,
+  deleteOutstandingRequest,
   postCertificate,
   postOutstanding,
   postLogin,
