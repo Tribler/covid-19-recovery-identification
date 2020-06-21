@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import HelpButton from "../components/HelpButton";
-import { useTrackedState, State } from "../Store";
+import { useTrackedState } from "../Store";
 import { PostVerification } from "../network/NetworkCalls";
 import {Button} from "react-native-paper" 
 import QRScannerModal from "../components/QRScannerModal";
@@ -70,14 +70,6 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontFamily: "Sans-serif",
         color: "#000"
-    },
-    subtitle: {
-        fontSize: 15,
-        margin: 5,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        textAlign: 'center',
-        justifyContent: 'center'
     },
     verifyButton: {
         marginHorizontal:10,

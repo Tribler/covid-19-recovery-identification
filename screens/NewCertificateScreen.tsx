@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Alert, YellowBox } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
+import { Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState, Certificate, State, attributeTypeMap } from '../Store';
+import { useTrackedState, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
 import BasicQRModal from '../components/BasicQRModal';
-
-YellowBox.ignoreWarnings(['Animated:', 'Warning: component', 'Failed prop type']);
 
 /*
  * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain

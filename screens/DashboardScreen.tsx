@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
                             <FlatList // we use FlatList to provide list functionality
                                 style={{ maxWidth: '95%', alignSelf: 'center' }}
                                 data={attributes}
-                                keyExtractor={(item, index) => item[0]+index.toString()} //
+                                keyExtractor={(item) => item[0] + "" + item[1]} //
                                 renderItem={({ item }) => ( // we render every item in the certificates as a Certificateview
                                     <CertificateViewDashboard
                                         certificate={{
@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
     )
 }
 
-var {height, width} = Dimensions.get('window');
+var {height} = Dimensions.get('window');
 
 /**
  * Various styles for use in various situations. For example, white text in

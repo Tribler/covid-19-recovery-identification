@@ -41,6 +41,7 @@ const PostOutstanding = (state: State, attestee: string, type: string, value: st
     });
 }
 
+
 /**
  * Sends a request to the backend to delete a certificate from local storage.
  */
@@ -100,6 +101,7 @@ const PostLogin = (state: State, updateLogin: any, updateJwt: any, updateIDHook:
     });
 }
 
+
 /**
  * Sends a request to register.
  */
@@ -129,6 +131,7 @@ const RegisterLogin = (state: State, password: string, isAttester: boolean) => {
     });
 }
 
+
 /**
  * Sends a request to the backend to request verification for a certain attribute of the holder.
  */
@@ -146,20 +149,6 @@ const PostVerification = (state: State, holderID: string, attributeHash: string,
     });
 }
 
-
-/**
- * Sends a request to the backend to request verification for a certain attribute of the holder.
- */
-const GetVerificationOutput = (state: State) => {
-  const url = state.serverURL + "/attestation?type=verification_output" 
-  const data = { method: 'GET', headers: { "Authorization": state.jwt }, body: "" }
-  return fetch(url, data)
-    .then((response) => {
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
 
 const GetVerificationRequests = (state:State, callback?: Function) => {
   const url = state.serverURL + "/attestation?type=outstanding_verify"
@@ -194,6 +183,7 @@ const AllowVerification = (state: State, verifierID: string, attributeName: stri
       console.error(error);
     });
 }
+
 
 /**
  * Sends a request to the backend to decline a Verifier's request to access an attribute.

@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useSetDraft } from "../Store";
-import { useToggleAttester } from "./useToggleAttester";
 
 /**
  * Hook used to change the JWT in the store.

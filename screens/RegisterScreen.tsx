@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 import { RegisterLogin } from '../network/NetworkCalls';
 import { useTrackedState } from '../Store';
 import { useToggleRegister } from '../hooks/useToggleRegister';
@@ -126,16 +126,6 @@ const styles = StyleSheet.create({
         height: 250,
         resizeMode: 'contain',
         bottom: "30%",
-    },
-    sbutton: {
-        color: "#0f0"
-    },
-    textField: {
-        backgroundColor: '#74d14c',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 7,
-        marginTop: "5%"
     },
     textInput: {
         height: 45,

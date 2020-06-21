@@ -37,7 +37,7 @@ AsyncStorage.getItem("darkmode_enabled", (error, result) => { registered = (resu
 
 var defaultState: State = {
     registered: registered,
-    loggedIn: true,
+    loggedIn: false,
     attester: true,
     ID: "0",
     serverURL: "http://localhost:8085",
@@ -45,7 +45,6 @@ var defaultState: State = {
     jwt: ""
 }
 
-// TODO ask if this is still necessary?
 const attributeTypeMap = [{ value: "" }, { value: "covid-19-immunity" }] //this relates the numerical value used in the backend to the text used in the frontend
 
 const useValue = () => useState(defaultState);

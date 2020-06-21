@@ -110,9 +110,6 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         bottom: "31.95%"
     },
-    sbutton: {
-        color: "#0f0"
-    },
     textField: {
         backgroundColor: '#74d14c',
         alignItems: 'center',

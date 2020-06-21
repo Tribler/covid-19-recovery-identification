@@ -3,7 +3,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet, View, Text } from 'react-native';
 import OutstandingView from '../components/OutstandingView'
 import DrawerButton from '../components/DrawerButton';
-import { State, useTrackedState } from '../Store';
+import { useTrackedState } from '../Store';
 import HelpButton from '../components/HelpButton';
 
 /**
@@ -40,7 +40,7 @@ const OutstandingScreen: React.FC = () => {
                 <ScrollView>
                     <FlatList
                         data={outstanding}
-                        keyExtractor={(item, index) => item[0] + "" + item[1]}
+                        keyExtractor={(item) => item[0] + "" + item[1]}
                         renderItem={({ item }) => (
                             <OutstandingView
                                 listID={item[0] + "" + item[1]}
@@ -72,41 +72,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignContent:'center',
         alignItems:'center'
-    },
-    darkColor: {
-        color: "#fff"
-    },
-    lightColor: {
-        color: "#000"
-    },
-    dropdown: {
-        backgroundColor: "#fff",
-        fontSize: 15,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        borderWidth: 1,
-        margin: 15,
-        padding: 5,
-        justifyContent: "center",
-    },
-    textInput: {
-        margin: 10
-    },
-    darktext: {
-        position: "relative",
-        fontWeight: "bold",
-        fontSize: 60,
-        fontFamily: "Sans-serif",
-        color: "#fff",
-        alignItems: "center"
-    },
-    lighttext: {
-        position: "relative",
-        fontWeight: "bold",
-        fontSize: 40,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        alignItems: "center"
     },
     title: {
         position: "relative",
