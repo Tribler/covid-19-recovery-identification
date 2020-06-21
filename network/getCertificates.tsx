@@ -1,4 +1,4 @@
-import {State} from '../Store';
+import {State} from '../Store'; // eslint-disable-line no-unused-vars
 
 const GetCertificates = (state: State) => {
   const xhr = new XMLHttpRequest();

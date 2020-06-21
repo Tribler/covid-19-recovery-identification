@@ -83,7 +83,7 @@ java_checkstyle_pmd_lint:
     paths:
       - android/app/build/reports/checkstyle/
       - android/app/build/reports/pmd/
-      - android/app/build/reports/lint-results*.xml
+      - android/app/build/reports/lint-results*
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
