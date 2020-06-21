@@ -10,6 +10,7 @@ const B = (props: any) => <Text style={{fontWeight: 'bold'}}>{props.children}</T
 /**
  * The help screen. Functions as a screen which explains the various terms we use.
  * May also contain contact details in the future and/or an opportunity to ask a question.
+ * @return {Component} the HelpScreen component.
  */
 const HelpScreen: React.FC = () => {
   const state = useTrackedState();

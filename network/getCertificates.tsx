@@ -1,5 +1,6 @@
 import {State} from '../Store';
 
+
 const GetCertificates = (state: State) => {
   const xhr = new XMLHttpRequest();
   const url = state.serverURL + '/attestation/certificate/recent';

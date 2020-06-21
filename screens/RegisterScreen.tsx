@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native';
 import {registerLogin} from '../network/NetworkCalls';
 import {useTrackedState} from '../Store';
