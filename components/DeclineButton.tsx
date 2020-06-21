@@ -1,13 +1,13 @@
 import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 interface DeclineProps {
   listID: string;
   deleteCert: Function;
-  type : string
+  type: string
 }
 
-const DeclineButton: React.FC<DeclineProps> = ({deleteCert}: DeclineProps) => {
+const DeclineButton: React.FC<DeclineProps> = ({ deleteCert }: DeclineProps) => {
   return (
     <TouchableOpacity
       onPress={() => {

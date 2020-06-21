@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import {StyleSheet, View, Text} from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet, View, Text } from 'react-native';
 import OutstandingView from '../components/OutstandingView';
 import DrawerButton from '../components/DrawerButton';
-import {useTrackedState} from '../Store';
+import { useTrackedState } from '../Store';
 import HelpButton from '../components/HelpButton';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
@@ -15,15 +15,15 @@ const OutstandingScreen: React.FC = () => {
   const [outstanding, setOutstanding] = useState([]);
   const state = useTrackedState();
   const url = state.serverURL + '/attestation?type=outstanding';
-  const data = {method: 'GET', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'GET', headers: { Authorization: state.jwt }, body: '' };
   const updateInterval = 500; // how many milliseconds between api calls
 
   useFocusEffect(() => {
     const interval = setInterval(() => {
       fetch(url, data)
-          .then((response) => response.json())
-          .then((json) => setOutstanding(json))
-          .catch((error) => console.error(error));
+        .then((response) => response.json())
+        .then((json) => setOutstanding(json))
+        .catch((error) => console.error(error));
     }, updateInterval);
 
     return () => clearInterval(interval);
@@ -49,19 +49,19 @@ const OutstandingScreen: React.FC = () => {
           <FlatList
             data={outstanding}
             keyExtractor={(item) => item[0] + '' + item[1]}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <OutstandingView
                 listID={item[0] + '' + item[1]}
-                outstanding={{creatorID: item[0], type: item[1]}}
+                outstanding={{ creatorID: item[0], type: item[1] }}
                 deleteOutstanding={deleteOutstanding}
               />
             )}
           />
         </ScrollView>
       ) : (
-        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-          NO PENDING REQUESTS</Text>
-      )}
+          <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+            NO PENDING REQUESTS</Text>
+        )}
       <DrawerButton />
       <HelpButton />
     </View>

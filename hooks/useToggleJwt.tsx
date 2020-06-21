@@ -1,5 +1,5 @@
-import {useCallback} from 'react';
-import {useSetDraft} from '../Store';
+import { useCallback } from 'react';
+import { useSetDraft } from '../Store';
 
 /**
  * Hook used to change the JWT in the store.

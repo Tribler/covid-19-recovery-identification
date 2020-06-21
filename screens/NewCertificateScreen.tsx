@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, YellowBox} from 'react-native';
-import {Button} from 'react-native-paper';
-import {Dropdown} from 'react-native-material-dropdown';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
+import { Button } from 'react-native-paper';
+import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import {useTrackedState, attributeTypeMap} from '../Store';
+import { useTrackedState, attributeTypeMap } from '../Store';
 import HelpButton from '../components/HelpButton';
 import BasicQRModal from '../components/BasicQRModal';
 
@@ -48,7 +48,7 @@ const NewCertificateScreen: React.FC = () => {
       <Button
         accessibilityStates
         mode="contained"
-        style={{backgroundColor: 'dodgerblue', marginVertical: 5}}
+        style={{ backgroundColor: 'dodgerblue', marginVertical: 5 }}
         onPress={() => {
           setCodeVisible(true);
         }}
@@ -57,7 +57,7 @@ const NewCertificateScreen: React.FC = () => {
       </Button>
 
       <BasicQRModal
-        data={JSON.stringify({id: state.ID, type: certificateType})}
+        data={JSON.stringify({ id: state.ID, type: certificateType })}
         visible={codeVisible}
         setVisible={setCodeVisible}
       />

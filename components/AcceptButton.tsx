@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import {useTrackedState} from '../Store';
-import {postCertificate, postOutstanding} from '../network/NetworkCalls';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { useTrackedState } from '../Store';
+import { postCertificate, postOutstanding } from '../network/NetworkCalls';
 
 /**
  * Generic accept button for the CertificateView and Outstandingview.

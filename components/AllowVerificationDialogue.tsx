@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Dialog, Button} from 'react-native-paper';
-import {Text, Modal} from 'react-native';
-import {useTrackedState} from '../Store';
-import {allowVerification, declineVerification} from '../network/NetworkCalls';
+import React, { useState, useEffect } from 'react';
+import { Dialog, Button } from 'react-native-paper';
+import { Text, Modal } from 'react-native';
+import { useTrackedState } from '../Store';
+import { allowVerification, declineVerification } from '../network/NetworkCalls';
 
 /*
   Sends a request to the backend to check if there are any pending verification requests,
@@ -27,14 +27,14 @@ const AllowVerificationDialogue: React.FC = () => {
         const url = state.serverURL + '/attestation?type=outstanding_verify';
         const data = {
           method: 'GET',
-          headers: {Authorization: state.jwt},
+          headers: { Authorization: state.jwt },
           body: '',
         };
         fetch(url, data)
-            .then((response) => response.json())
-        // Map the object into an array
-            .then((json) => setRequest(checkForRequests(json, setVisible)))
-            .catch((error) => console.error(error));
+          .then((response) => response.json())
+          // Map the object into an array
+          .then((json) => setRequest(checkForRequests(json, setVisible)))
+          .catch((error) => console.error(error));
       }
     }, updateInterval);
 
@@ -56,11 +56,11 @@ const AllowVerificationDialogue: React.FC = () => {
       <Dialog
         visible={visible}
         onDismiss={() => setVisible(false)}
-        style={{alignItems: 'center'}}
+        style={{ alignItems: 'center' }}
       >
         <Dialog.Title accessibilityStates>Allow Verification?</Dialog.Title>
         <Dialog.Content>
-          <Text style={{fontWeight: 'bold'}}>
+          <Text style={{ fontWeight: 'bold' }}>
             Allow user {request[0]} to verify attribute: {request[1]}?{' '}
           </Text>
         </Dialog.Content>
@@ -68,7 +68,7 @@ const AllowVerificationDialogue: React.FC = () => {
           <Button
             accessibilityStates
             mode="contained"
-            style={{width: 80, marginRight: 50, backgroundColor: 'green'}}
+            style={{ width: 80, marginRight: 50, backgroundColor: 'green' }}
             onPress={allowVerificationHandler}
           >
             ALLOW
@@ -76,7 +76,7 @@ const AllowVerificationDialogue: React.FC = () => {
           <Button
             accessibilityStates
             mode="contained"
-            style={{backgroundColor: 'red'}}
+            style={{ backgroundColor: 'red' }}
             onPress={declineVerificationHandler}
           >
             DO NOT ALLOW

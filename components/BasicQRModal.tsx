@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Modal} from 'react-native';
-import {Text} from 'react-native-paper';
-import {TouchableOpacity} from 'react-native';
+import { View, Modal } from 'react-native';
+import { Text } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
 import QRCode from 'react-qr-code';
 
 interface QRModalProps {
@@ -10,7 +10,7 @@ interface QRModalProps {
   setVisible: Function;
 }
 
-const BasicQRModal: React.FC<QRModalProps> = ({data, visible, setVisible}: QRModalProps) => {
+const BasicQRModal: React.FC<QRModalProps> = ({ data, visible, setVisible }: QRModalProps) => {
   return (
     <Modal
       animationType="slide"
@@ -34,7 +34,7 @@ const BasicQRModal: React.FC<QRModalProps> = ({data, visible, setVisible}: QRMod
           backgroundColor: 'rgba(1,1,1,0)',
         }}
       >
-        <View style={{margin: 10}}>
+        <View style={{ margin: 10 }}>
           <QRCode value={data} />
         </View>
 

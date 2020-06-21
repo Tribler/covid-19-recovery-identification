@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {OutstandingRequest, useTrackedState} from '../Store'; // eslint-disable-line no-unused-vars
+import { StyleSheet, View, Text } from 'react-native';
+import { OutstandingRequest, useTrackedState } from '../Store'; // eslint-disable-line no-unused-vars
 import AcceptButton from './AcceptButton';
 import DeclineButton from './DeclineButton';
-import {deleteOutstandingRequest} from '../network/NetworkCalls';
+import { deleteOutstandingRequest } from '../network/NetworkCalls';
 
 /**
  * OutstandingView is an element for the FlatList in OutstandingScreen.

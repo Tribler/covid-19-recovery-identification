@@ -1,4 +1,4 @@
-import {Certificate, State} from '../Store'; // eslint-disable-line no-unused-vars
+import { Certificate, State } from '../Store'; // eslint-disable-line no-unused-vars
 
 /**
  * Sends a request to the backend that creates a certificate for an attestee to accept or decline.
@@ -7,14 +7,14 @@ import {Certificate, State} from '../Store'; // eslint-disable-line no-unused-va
  */
 const CreateCertificate = (certificate: Certificate, state: State) => {
   const url = state.serverURL + '/attestation/certificate?type=send&mid=' +
-     encodeURIComponent(certificate.holderID) + '&certificate_id=' + certificate.type;
+    encodeURIComponent(certificate.holderID) + '&certificate_id=' + certificate.type;
 
   fetch(url, {
     method: 'POST',
   }).then((response) => console.log('got response: ' + response))
-      .catch((error) => {
-        console.error(error);
-      });
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 export default CreateCertificate;

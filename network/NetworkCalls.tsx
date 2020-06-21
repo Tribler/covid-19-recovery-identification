@@ -1,5 +1,5 @@
-import {State} from '../Store'; // eslint-disable-line no-unused-vars
-import {Base64} from 'js-base64';
+import { State } from '../Store'; // eslint-disable-line no-unused-vars
+import { Base64 } from 'js-base64';
 import updateID from './UpdateID';
 
 /**
@@ -17,14 +17,14 @@ const postCertificate = (state: State, attester: string, type: string) => {
     encodeURIComponent(attester) +
     '&attribute_name=' +
     type;
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -46,14 +46,14 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
     type +
     '&attribute_value=' +
     b64value;
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -64,26 +64,26 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
  * @return {Function} api call
  */
 const deleteOutstandingRequest = (
-    state: State,
-    holderID: string,
-    attributeName: string,
+  state: State,
+  holderID: string,
+  attributeName: string,
 ) => {
   const url =
-  state.serverURL +
-  '/attestation/rm-outstanding?type=attest&mid=' +
-  encodeURIComponent(holderID) + // TODO: make sure this
-  '&attribute_name=' +
-  encodeURIComponent(attributeName);
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+    state.serverURL +
+    '/attestation/rm-outstanding?type=attest&mid=' +
+    encodeURIComponent(holderID) + // TODO: make sure this
+    '&attribute_name=' +
+    encodeURIComponent(attributeName);
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        response.json();
-      })
-      .then((json) => {
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      response.json();
+    })
+    .then((json) => {
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -97,12 +97,12 @@ const deleteOutstandingRequest = (
  * @return {Component} api call
  */
 const postLogin = (
-    state: State,
-    updateLogin: any,
-    updateJwt: any,
-    updateIDHook: any,
-    updateAttester: any,
-    password: string,
+  state: State,
+  updateLogin: any,
+  updateJwt: any,
+  updateIDHook: any,
+  updateAttester: any,
+  password: string,
 ) => {
   const url = state.serverURL + '/attestation/login';
   const data = {
@@ -114,30 +114,30 @@ const postLogin = (
     body: '',
   };
   return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          if (response.status == 417) throw alert('Not registered');
-          if (response.status == 403) throw alert('wrong credentials');
-          else throw alert('Error while logging in');
-        }
-        return response.json();
-      })
-      .then((json) => {
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        if (response.status == 417) throw alert('Not registered');
+        if (response.status == 403) throw alert('wrong credentials');
+        else throw alert('Error while logging in');
+      }
+      return response.json();
+    })
+    .then((json) => {
       // TODO wrong password handling
-        updateJwt(json.token);
-        updateAttester(json.token);
-        return updateID(state, updateIDHook, json.token)
-            .then((id: any) => console.log(id))
-            .catch((error: any) => console.error(error));
-      })
-      .then((json) => {
-        updateLogin();
-        return json;
-      })
-      .catch((error) => {
+      updateJwt(json.token);
+      updateAttester(json.token);
+      return updateID(state, updateIDHook, json.token)
+        .then((id: any) => console.log(id))
+        .catch((error: any) => console.error(error));
+    })
+    .then((json) => {
+      updateLogin();
+      return json;
+    })
+    .catch((error) => {
       // console.error(error)
-      });
+    });
 };
 
 /**
@@ -157,20 +157,20 @@ const registerLogin = (state: State, password: string, isAttester: boolean) => {
     body: '',
   };
   return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          if (response.status == 400) throw alert('Already registered');
-          else throw alert('Error while registering');
-        }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json);
-      })
-      .catch((error) => {
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        if (response.status == 400) throw alert('Already registered');
+        else throw alert('Error while registering');
+      }
+      return response.json();
+    })
+    .then((json) => {
+      console.log(json);
+    })
+    .catch((error) => {
       // console.error(error);
-      });
+    });
 };
 
 /**
@@ -182,10 +182,10 @@ const registerLogin = (state: State, password: string, isAttester: boolean) => {
  * @return {function} api call
  */
 const postVerification = (
-    state: State,
-    holderID: string,
-    attributeHash: string,
-    callback: Function,
+  state: State,
+  holderID: string,
+  attributeHash: string,
+  callback: Function,
 ) => {
   const url =
     state.serverURL +
@@ -195,15 +195,15 @@ const postVerification = (
     encodeURIComponent(attributeHash) +
     '&attribute_values=' +
     encodeURIComponent(Base64.encode('positive'));
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        console.log(response);
-        callback(response, attributeHash);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      console.log(response);
+      callback(response, attributeHash);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -214,17 +214,17 @@ const postVerification = (
  */
 const getVerificationRequests = (state: State, callback?: Function) => {
   const url = state.serverURL + '/attestation?type=outstanding_verify';
-  const data = {method: 'GET', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'GET', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        response.json();
-      })
-      .then((json) => {
-        if (callback) callback(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      response.json();
+    })
+    .then((json) => {
+      if (callback) callback(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -236,10 +236,10 @@ const getVerificationRequests = (state: State, callback?: Function) => {
  * @return {function} api call
  */
 const allowVerification = (
-    state: State,
-    verifierID: string,
-    attributeName: string,
-    callback?: Function,
+  state: State,
+  verifierID: string,
+  attributeName: string,
+  callback?: Function,
 ) => {
   const url =
     state.serverURL +
@@ -247,17 +247,17 @@ const allowVerification = (
     encodeURIComponent(verifierID) +
     '&attribute_name=' +
     encodeURIComponent(attributeName);
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        response.json();
-      })
-      .then((json) => {
-        if (callback) callback(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      response.json();
+    })
+    .then((json) => {
+      if (callback) callback(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -269,10 +269,10 @@ const allowVerification = (
  * @return {function} api call
  */
 const declineVerification = (
-    state: State,
-    verifierID: string,
-    attributeName: string,
-    callback?: Function,
+  state: State,
+  verifierID: string,
+  attributeName: string,
+  callback?: Function,
 ) => {
   const url =
     state.serverURL +
@@ -280,17 +280,17 @@ const declineVerification = (
     encodeURIComponent(verifierID) + // TODO: make sure this
     '&attribute_name=' +
     encodeURIComponent(attributeName);
-  const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
+  const data = { method: 'POST', headers: { Authorization: state.jwt }, body: '' };
   return fetch(url, data)
-      .then((response) => {
-        response.json();
-      })
-      .then((json) => {
-        if (callback) callback(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    .then((response) => {
+      response.json();
+    })
+    .then((json) => {
+      if (callback) callback(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 export {

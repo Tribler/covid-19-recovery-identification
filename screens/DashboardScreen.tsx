@@ -1,35 +1,35 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Dimensions, SafeAreaView} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, SafeAreaView } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
-import {useTrackedState} from '../Store';
-import {FlatList} from 'react-native-gesture-handler';
+import { useTrackedState } from '../Store';
+import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
-import {Button} from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
 import CertificationDialogue from '../components/CertificationDialgoue';
 import AllowVerificationDialogue from '../components/AllowVerificationDialogue';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 /*
  * The Dashboard is the entry point to the app and displays the user's stored proofs.
  */
 
 const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
-  const data = {method: 'GET', headers: {Authorization: jwt}, body: ''};
+  const data = { method: 'GET', headers: { Authorization: jwt }, body: '' };
   fetch(url, data)
-      .then((response) => response.json())
-      .then((json) => setAttributes(json))
-      .catch((error) => console.error(error));
+    .then((response) => response.json())
+    .then((json) => setAttributes(json))
+    .catch((error) => console.error(error));
 };
 
 const Dashboard: React.FC = () => {
   const state = useTrackedState();
   const [attributes, setAttributes] = useState([]); // 2D array for all the attributes
   // this states what data will show up in the confirmation dialogue after a scan
-  const [certData, setCertData] = useState({type: '0', attester: ''});
-  const [selected, setSelected] = useState({holderID: '', creatorID: '', type: '', hash: ''});
+  const [certData, setCertData] = useState({ type: '0', attester: '' });
+  const [selected, setSelected] = useState({ holderID: '', creatorID: '', type: '', hash: '' });
   const [scannerVisible, setScannerVisible] = useState(false);
   const [verificationVisible, setVerificationVisible] = useState(false);
   const [dialogueVisible, setDialogueVisible] = useState(false);
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
   const handleQRScan = (dataString: string) => {
     const data = JSON.parse(dataString);
     console.log(data);
-    setCertData({type: data.type, attester: data.id});
+    setCertData({ type: data.type, attester: data.id });
     setDialogueVisible(true);
   };
 
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
       <Button
         accessibilityStates
         color="white"
-        style={{backgroundColor: 'dodgerblue'}}
+        style={{ backgroundColor: 'dodgerblue' }}
         mode="outlined"
         onPress={() => setScannerVisible(true)}
       >
@@ -86,32 +86,32 @@ const Dashboard: React.FC = () => {
             </Text>
             <View>
               <FlatList // we use FlatList to provide list functionality
-                style={{maxWidth: '95%', alignSelf: 'center'}}
+                style={{ maxWidth: '95%', alignSelf: 'center' }}
                 data={attributes}
                 keyExtractor={(item, index) => item[0] + '' + item[1] + index} //
                 renderItem={(
-                    {item}, // we render every item in the certificates as a Certificateview
+                  { item }, // we render every item in the certificates as a Certificateview
                 ) => (
-                  <CertificateViewDashboard
-                    certificate={{
-                      creatorID: JSON.parse(JSON.stringify(item[3])),
-                      holderID: state.ID,
-                      type: JSON.parse(JSON.stringify(item[0])),
-                      hash: JSON.stringify(item[1]),
-                    }}
-                    modalVisible={setVerificationVisible}
-                    setSelected={setSelected}
-                  />
-                )}
+                    <CertificateViewDashboard
+                      certificate={{
+                        creatorID: JSON.parse(JSON.stringify(item[3])),
+                        holderID: state.ID,
+                        type: JSON.parse(JSON.stringify(item[0])),
+                        hash: JSON.stringify(item[1]),
+                      }}
+                      modalVisible={setVerificationVisible}
+                      setSelected={setSelected}
+                    />
+                  )}
               />
             </View>
           </View>
         ) : (
-          <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-            You have no signed proofs yet. {'\n'}To add a proof click &quot;Add Proof&quot; and
+            <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+              You have no signed proofs yet. {'\n'}To add a proof click &quot;Add Proof&quot; and
             scan an Attester&apos;s QR code, then wait for them to accept{' '}
-          </Text>
-        )}
+            </Text>
+          )}
 
         <CertificationDialogue
           type={certData.type}
@@ -140,7 +140,7 @@ const Dashboard: React.FC = () => {
   );
 };
 
-const {height} = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 /**
  * Various styles for use in various situations. For example, white text in

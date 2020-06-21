@@ -22,14 +22,15 @@ public class CertService extends Service {
   // or stopping the service more than once.
   private static Boolean running = false;
 
+  // The persistent foreground notification.
   private transient Notification notification;
-
+  // The custom notification channel needed in APIs 26+.
   private transient NotificationChannel notificationChannel;
 
   // The binder that provides connection with the service to clients.
   private final transient IBinder certBinder = new CertBinder();
 
-  // The identifier of the custom channel needed in APIs 26+
+  // The identifier of the custom channel needed in APIs 26+.
   private static final String CHANNEL_ID = "Certification Service Channel";
 
   public static Boolean getRunning() {
@@ -113,6 +114,10 @@ public class CertService extends Service {
     }
   }
 
+  /**
+   * Helper method. Creates the persistent notification needed
+   * when the service is running in the foreground.
+   */
   private void createNotification() {
     notification = new NotificationCompat.Builder(this, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)

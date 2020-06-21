@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native';
-import {registerLogin} from '../network/NetworkCalls';
-import {useTrackedState} from '../Store';
-import {useToggleRegister} from '../hooks/useToggleRegister';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import { registerLogin } from '../network/NetworkCalls';
+import { useTrackedState } from '../Store';
+import { useToggleRegister } from '../hooks/useToggleRegister';
 
 /**
  * In the register screen, a user can sign up for the app and thereby create an account

@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import React, { useEffect } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import DashboardScreen from '../screens/DashboardScreen';
 import NewCertificateScreen from '../screens/NewCertificateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import OutstandingScreen from '../screens/OutstandingScreen';
-import {useTrackedState} from '../Store';
+import { useTrackedState } from '../Store';
 import HelpScreen from '../screens/HelpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
-import {StatusBar, AsyncStorage} from 'react-native';
-import {useToggleDark, useToggleLight} from '../hooks/useToggleDarkMode';
-import {useToggleRegister} from '../hooks/useToggleRegister';
+import { StatusBar, AsyncStorage } from 'react-native';
+import { useToggleDark, useToggleLight } from '../hooks/useToggleDarkMode';
+import { useToggleRegister } from '../hooks/useToggleRegister';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,30 +40,30 @@ const DrawerMenu: React.FC = () => {
           {state.attester ? (
             <Drawer.Screen name="New Certificate" component={NewCertificateScreen} />
           ) : (
-            <></>
-          )}
+              <></>
+            )}
           {state.attester ? (
             <Drawer.Screen name="Outstanding" component={OutstandingScreen} />
           ) : (
-            <></>
-          )}
+              <></>
+            )}
           <Drawer.Screen name="Verification" component={VerificationScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
           <Drawer.Screen name="Help" component={HelpScreen} />
         </>
       ) : (
-        <>
-          {state.registered ? (
-            <>
-              <Drawer.Screen name="Login" component={LoginScreen} />
-            </>
-          ) : (
-            <>
-              <Drawer.Screen name="Register" component={RegisterScreen} />
-            </>
-          )}
-        </>
-      )}
+          <>
+            {state.registered ? (
+              <>
+                <Drawer.Screen name="Login" component={LoginScreen} />
+              </>
+            ) : (
+                <>
+                  <Drawer.Screen name="Register" component={RegisterScreen} />
+                </>
+              )}
+          </>
+        )}
     </Drawer.Navigator>
   );
 };

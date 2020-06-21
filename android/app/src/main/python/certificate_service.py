@@ -37,7 +37,6 @@ configuration = get_default_configuration()
 files_dir = directory()
 
 # Generate signature keys.
-# TODO WHY TWO IDS?
 configuration['keys'] = [
         {'alias': "anonymous id", 'generation': u"curve25519",
          'file': files_dir + u"/ec_multichain.pem"},
