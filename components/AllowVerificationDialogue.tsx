@@ -4,13 +4,6 @@ import { Text, Modal} from 'react-native'
 import { useTrackedState, State } from '../Store'
 import {AllowVerification, DeclineVerification, GetVerificationRequests} from '../network/NetworkCalls'
 
-
-
-interface DialogueProps {
-    type: string
-    verifier:string
-  }
-
 /*
   Sends a request to the backend to check if there are any pending verification requests, 
   if there are, then it sets the first one as the dialogue request and makes the dialogue visible */
@@ -23,7 +16,7 @@ const checkForRequests = (state:State, setRequest:Function, setVisible:Function)
 }
 
 
-const AllowVerificationDialogue: React.FC<DialogueProps> = () => {
+const AllowVerificationDialogue: React.FC = () => {
   const state = useTrackedState()
   const [ visible, setVisible]= useState(false)
   const [ request, setRequest]= useState([])
