@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
-import {useTrackedState} from '../Store';
 
 interface DeclineProps {
   listID: string;
@@ -9,8 +8,6 @@ interface DeclineProps {
 }
 
 const DeclineButton: React.FC<DeclineProps> = ({deleteCert}: DeclineProps) => {
-  const state = useTrackedState();
-
   return (
     <TouchableOpacity
       onPress={() => {
