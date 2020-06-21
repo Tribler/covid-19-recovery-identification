@@ -41,20 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     top: 20,
   },
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-  },
-  labelDivision: {
-    borderWidth: 2,
-    borderRadius: 1,
-    borderColor: 'gray',
-    padding: 3,
-    paddingVertical: 0,
-  },
 });
 
 export default OutstandingView;
