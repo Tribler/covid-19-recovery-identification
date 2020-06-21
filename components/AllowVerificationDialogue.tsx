@@ -21,15 +21,18 @@ const AllowVerificationDialogue: React.FC = () => {
   const [ visible, setVisible]= useState(false)
   const [ request, setRequest]= useState([])
 
-  useEffect(() => checkForRequests(state, setRequest, setVisible))
+  useEffect(() => {
+    if(!visible) //if there is a prompt visible, dont check for more requests
+      checkForRequests(state, setRequest, setVisible)
+    })
 
   const allowVerification=() => {
-      AllowVerification(state, request[0], request[1])
+      AllowVerification(state, request[0], request[1], ()=>setRequest([]))
       setVisible(false)
   }
 
   const declineVerification = () => {
-      DeclineVerification(state, request[0], request[1])
+      DeclineVerification(state, request[0], request[1], ()=>setRequest([]))
       setVisible(false)
   }
 

@@ -165,7 +165,10 @@ const GetVerificationRequests = (state:State, callback?: Function) => {
   const url = state.serverURL + "/attestation?type=outstanding_verify"
   return fetch(url)
   .then((response) => {
-    if (callback) callback(response)
+    response.json()
+    
+  }).then((json) => {
+    if (callback) callback(json)
   })
   .catch((error) => {
     console.error(error);
@@ -182,7 +185,10 @@ const AllowVerification = (state: State, verifierID: string, attributeName: stri
   const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url, data)
     .then((response) => {
-      if (callback) callback(response)
+      response.json()
+      
+    }).then((json) => {
+      if (callback) callback(json)
     })
     .catch((error) => {
       console.error(error);
@@ -199,7 +205,10 @@ const DeclineVerification = (state: State, verifierID: string, attributeName: st
   const data = { method: 'POST', headers: { "Authorization": state.jwt }, body: "" }
   return fetch(url, data)
     .then((response) => {
-      if (callback) callback(response)
+      response.json()
+
+    }).then((json) => {
+      if (callback) callback(json)
     })
     .catch((error) => {
       console.error(error);
