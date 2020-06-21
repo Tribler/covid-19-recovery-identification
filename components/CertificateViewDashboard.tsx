@@ -9,17 +9,18 @@ interface CertificateProps {
     setSelected: Function
 }
 
-const CertificateViewDashboard: React.FC<CertificateProps> = ({certificate, modalVisible, setSelected}: CertificateProps) => {
-  return (
-    <View style = {styles.container}>
-      <CertificateView certificate = {certificate}/>
-      <Button title="Show Proof" onPress ={() =>{
-        setSelected(certificate);
-        modalVisible(true);
-      }}></Button>
-    </View>
-  );
-};
+const CertificateViewDashboard: React.FC<CertificateProps> =
+  ({certificate, modalVisible, setSelected}: CertificateProps) => {
+    return (
+      <View style = {styles.container}>
+        <CertificateView certificate = {certificate}/>
+        <Button title="Show Proof" onPress ={() =>{
+          setSelected(certificate);
+          modalVisible(true);
+        }}></Button>
+      </View>
+    );
+  };
 
 const styles = StyleSheet.create({
   buttonPair: {
