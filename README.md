@@ -23,7 +23,7 @@ This app is a Self Sovereign Identity document exchange platform, which uses the
 ### If missing keystore.debug this is a fix:
 Run the following command in a terminal, that has /android/app opened:
 ```
-keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 Alternatively: The keytool.exe is in the Java JRE folder, you can run the command there and then move the debug.keystore file into /android/app

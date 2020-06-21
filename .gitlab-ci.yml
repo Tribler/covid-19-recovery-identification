@@ -1,0 +1,110 @@
+image: $CI_REGISTRY_IMAGE:latest
+services:
+  - docker:dind
+
+stages:
+  - container
+  - build
+  - validate
+  - test
+
+before_script:
+  - export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+  - yarn install
+  - keytool -genkey -v -keystore ./android/app/debug.keystore -storepass android -alias androiddebugkey -dname "CN=Unknown, OU=Unknown, O=Unknown, L=Unknown, S=Unknown, C=Unknown" -keypass android -keyalg RSA -keysize 2048 -validity 10000
+  - echo "sdk.dir=${ANDROID_HOME}" >>./android/local.properties
+
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+
+variables:
+  SAST_DEFAULT_ANALYZERS: "eslint,nodejs-scan,tslint"
+  DS_DEFAULT_ANALYZERS: "gemnasium,retire.js"
+  SAST_DISABLE_DIND: "false"
+  DS_DISABLE_DIND: "false"
+
+container:
+  image: docker
+  services:
+    - docker:dind 
+  stage: container
+  before_script: []
+  after_script: []
+  only:
+    changes:
+      - Dockerfile 
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
+      --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+build:
+  stage: build
+  script:
+    - cd android && ./gradlew :app:assemble
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/app/build/
+      - node_modules/
+
+code_quality:
+  stage: validate
+  before_script: []
+  after_script: []
+
+dependency_scanning:
+  stage: validate
+  before_script: []
+  after_script: []
+
+sast:
+  stage: validate
+  before_script: []
+  after_script: []
+
+typescript_lint:
+  stage: test
+  script:
+    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+  allow_failure: true
+
+java_checkstyle_pmd_lint:
+  stage: test
+  script:
+    - cd android && ./gradlew :app:checkstyle :app:pmd :app:lint
+  artifacts:
+    paths:
+      - android/app/build/reports/checkstyle/
+      - android/app/build/reports/pmd/
+      - android/app/build/reports/lint-results*
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - android/build/
+      - android/.gradle/
+      - android/app/build/
+      - node_modules/
+
+python_sast_lint_test:
+  stage: test
+  before_script: []
+  script:
+    - cd android/app/src/main/python && nox && coverage html
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
+  artifacts:
+    paths:
+      - android/app/src/main/python/htmlcov/
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - __pycache__/
+      - .pytest_cache/
+      - .nox/
+      - node_modules/

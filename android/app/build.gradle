@@ -1,13 +1,11 @@
 apply plugin: "com.android.application"
 apply plugin: "com.chaquo.python"
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+apply plugin: 'jacoco'
+apply from: "../../node_modules/react-native/react.gradle"
 
 import com.android.build.OutputFile
-
-project.ext.react = [
-        enableHermes: false,  // clean and rebuild if changing TODO Check if this works or remove later.
-]
-
-apply from: "../../node_modules/react-native/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -18,33 +16,6 @@ apply from: "../../node_modules/react-native/react.gradle"
  * the correct one based on the CPU architecture of their device.
  */
 def enableSeparateBuildPerCPUArchitecture = false
-
-/**
- * Run Proguard to shrink the Java bytecode in release builds.
- */
-def enableProguardInReleaseBuilds = false
-
-/**
- * The preferred build flavor of JavaScriptCore.
- *
- * For example, to use the international variant, you can use:
- * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
- *
- * The international variant includes ICU i18n library and necessary data
- * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
- * give correct results when using with locales other than en-US.  Note that
- * this variant is about 6MiB larger per architecture than default.
- */
-def jscFlavor = 'org.webkit:android-jsc:+'
-
-/**
- * Whether to enable the Hermes VM.
- *
- * This should be set on project.ext.react and mirrored here.  If it is not set
- * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
- * and the benefits of using Hermes will therefore be sharply reduced.
- */
-def enableHermes = project.ext.react.get("enableHermes", false)
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -63,15 +34,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         python {
             pip {
-                install "pyipv8 == 2.1.0"
-            }
-            pyc {
-                src false  //TODO This needs to be removed in release!
+                install "-r", "src/main/python/requirements.txt"
             }
         }
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
+        missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true
     }
 
     splits {
@@ -85,23 +55,24 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
         }
     }
 
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            testCoverageEnabled = true
         }
         release {
-            // TODO Fix keystore files! CleanUp the assets folder. Remove debugging if not needed.
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -111,6 +82,12 @@ android {
         pickFirst "lib/arm64-v8a/libc++_shared.so"
         pickFirst "lib/x86/libc++_shared.so"
         pickFirst "lib/x86_64/libc++_shared.so"
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 
     // applicationVariants are e.g. debug, release
@@ -132,29 +109,40 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation "androidx.appcompat:appcompat:1.1.0"
-    testImplementation "junit:junit:4.13"
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "androidx.test:rules:1.3.0-rc01"
 
-    implementation 'com.facebook.react:react-native:0.62.2'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
-        exclude group: 'com.facebook.fbjni'
-    }
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group: 'com.facebook.flipper'
-    }
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
-        exclude group: 'com.facebook.flipper'
-    }
-    
-    if (enableHermes) {
-        def hermesPath = "../../node_modules/hermes-engine/android/"
-        debugImplementation files(hermesPath + "hermes-debug.aar")
-        releaseImplementation files(hermesPath + "hermes-release.aar")
-    } else {
-        implementation jscFlavor
+    implementation "com.android.support:multidex:1.0.3"
+    implementation "com.facebook.react:react-native:0.62.2"
+
+    //noinspection GradleDynamicVersion
+    implementation "org.webkit:android-jsc:+"
+}
+
+task checkstyle(type: Checkstyle) {
+    checkstyle.toolVersion "8.33"
+    configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+    source fileTree("src/main/java")
+    include "**/*.java"
+    exclude "**/gen/**"
+    classpath = files()
+    showViolations true
+    reports {
+        xml.enabled = true
+        html.enabled = true
     }
 }
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+task pmd(type: Pmd) {
+    pmd.consoleOutput = true
+    source = fileTree("src/main/java")
+    include "**/*.java"
+    exclude "**/gen/**"
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle")
+applyNativeModulesAppBuildGradle(project)

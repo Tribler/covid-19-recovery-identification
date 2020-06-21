@@ -1,89 +1,138 @@
-import React, { useState, useEffect } from 'react'
-import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet, View } from 'react-native';
-import OutstandingView from '../components/OutstandingView'
+import React, {useState} from 'react';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import {StyleSheet, View, Text} from 'react-native';
+import OutstandingView from '../components/OutstandingView';
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState } from '../Store';
+import {useTrackedState} from '../Store';
+import HelpButton from '../components/HelpButton';
+import {useFocusEffect} from '@react-navigation/native';
 
 /**
  * OutstandingScreen shows a list of the outstanding attestation request for this peer.
  */
 
 const OutstandingScreen: React.FC = () => {
-    const [outstanding, setOutstanding] = useState([])
-    const state = useTrackedState()
-    const url = state.serverURL + '/attestation?type=outstanding'
+  const [outstanding, setOutstanding] = useState([]);
+  const state = useTrackedState();
+  const url = state.serverURL + '/attestation?type=outstanding';
+  const data = {method: 'GET', headers: {Authorization: state.jwt}, body: ''};
+  const updateInterval = 500; // how many milliseconds between api calls
 
-    useEffect(() => {
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => setOutstanding(json))
-            .catch((error) => console.error(error));
-    }, []);
+  useFocusEffect(() => {
+    const interval = setInterval(() => {
+      fetch(url, data)
+          .then((response) => response.json())
+          .then((json) => setOutstanding(json))
+          .catch((error) => console.error(error));
+    }, updateInterval);
 
-    const deleteOutstanding = (id: number) => {
-        setOutstanding((outsList) => {
-            return outsList.filter((out) => out[0] + out[1] !== id);
-        });
-    };
+    return () => clearInterval(interval);
+  });
 
+  const deleteOutstanding = (id: string) => {
+    setOutstanding((outsList) => {
+      return outsList.filter((out) => out[0] + '' + out[1] !== id);
+    });
+  };
 
-    return (
-        <View>
-            <FlatList
-                data={outstanding}
-                keyExtractor={(item, index) => item[0] + item[1]}
-                renderItem={({ item }) => (
-                    <OutstandingView
-                        listID={item[0] + item[1]}
-                        outstanding={{ creatorID: item[0], type: item[1] }}
-                        deleteOutstanding={deleteOutstanding} />
-                )} />
-            <DrawerButton />
-        </View>
-    )
-}
+  return (
+    <View style={state.darkMode ? styles.dark : styles.light}>
+      <View style={styles.header}>
+        <Text style={state.darkMode ? styles.titleDark : styles.title}>Outstanding</Text>
+        <Text style={state.darkMode ? styles.subtitleDark : styles.subtitle}>
+          Here you can see attestation requests from users of the network. If you accept a claim you
+          will officially sign their request as true.
+        </Text>
+      </View>
+      {outstanding.length > 0 ? (
+        <ScrollView>
+          <FlatList
+            data={outstanding}
+            keyExtractor={(item) => item[0] + '' + item[1]}
+            renderItem={({item}) => (
+              <OutstandingView
+                listID={item[0] + '' + item[1]}
+                outstanding={{creatorID: item[0], type: item[1]}}
+                deleteOutstanding={deleteOutstanding}
+              />
+            )}
+          />
+        </ScrollView>
+      ) : (
+          <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+            NO PENDING REQUESTS</Text>
+        )}
+      <DrawerButton />
+      <HelpButton />
+    </View>
+  );
+};
 
+/**
+ * Various styles for use in various situations. For example, white text in
+ * dark mode or black text in light mode. These styles are for taking care of
+ * the placing of objects.
+ */
 const styles = StyleSheet.create({
-    dropdown: {
-        backgroundColor: "#fff",
-        fontSize: 15,
-        fontFamily: "Sans-serif",
-        color: "#000",
-        borderWidth: 1,
-        margin: 15,
-        padding: 5,
-        justifyContent: "center",
-    },
-    textInput: {
-        margin: 10,
-    },
-    darktext: {
-        position: "relative",
-        top: 30,
-        fontWeight: "bold",
-        fontSize: 60,
-        fontFamily: "Sans-serif",
-        color: "#fff",
-    },
-    lighttext: {
-        position: "relative",
-        top: 100,
-        fontWeight: "bold",
-        fontSize: 40,
-        fontFamily: "Sans-serif",
-        color: "#000",
-    },
-    dark: {
-        flex: 1,
-        backgroundColor: "#222",
-        alignItems: "center",
-    },
-    light: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-    },
+  dark: {
+    flex: 1,
+    backgroundColor: '#222',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  light: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    position: 'relative',
+    fontWeight: 'bold',
+    fontSize: 40,
+    fontFamily: 'Sans-serif',
+    color: '#000',
+  },
+  titleDark: {
+    position: 'relative',
+    fontWeight: 'bold',
+    fontSize: 40,
+    fontFamily: 'Sans-serif',
+    color: '#fff',
+  },
+  header: {
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 30,
+  },
+  subtitle: {
+    fontSize: 15,
+    margin: 5,
+    fontFamily: 'Sans-serif',
+    color: '#000',
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  subtitleDark: {
+    fontSize: 15,
+    margin: 5,
+    fontFamily: 'Sans-serif',
+    color: '#fff',
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  instructionsLight: {
+    fontSize: 16,
+    borderWidth: 1,
+    padding: 5,
+  },
+  instructionsDark: {
+    fontSize: 16,
+    borderWidth: 1,
+    padding: 5,
+    color: 'white',
+    borderColor: 'white',
+  },
 });
 
 export default OutstandingScreen;
