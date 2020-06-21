@@ -27,7 +27,8 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
 const Dashboard: React.FC = () => {
   const state = useTrackedState();
   const [attributes, setAttributes] = useState([]); // 2D array for all the attributes
-  const [certData, setCertData] = useState({type: '0', attester: ''}); // this states what data will show up in the confirmation dialogue after a scan
+  // this states what data will show up in the confirmation dialogue after a scan
+  const [certData, setCertData] = useState({type: '0', attester: ''});
   const [selected, setSelected] = useState({holderID: '', creatorID: '', type: '', hash: ''});
   const [scannerVisible, setScannerVisible] = useState(false);
   const [verificationVisible, setVerificationVisible] = useState(false);
@@ -139,7 +140,7 @@ const Dashboard: React.FC = () => {
   );
 };
 
-var {height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 /**
  * Various styles for use in various situations. For example, white text in

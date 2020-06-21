@@ -59,7 +59,7 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
  * @param state the global state.
  * @param listID
  */
-const peleteCertificate = (state: State, listID: string) => {
+const deleteCertificate = (state: State, listID: string) => {
   // we have to uri encode our attester string
   const url =
     state.serverURL + '/attestation/certificate?type=delete&mid=' + encodeURIComponent(listID);
@@ -165,7 +165,7 @@ const postVerification = (
     '&attribute_hash=' +
     encodeURIComponent(attributeHash) +
     '&attribute_values=' +
-    encodeURIComponent(Base64.encode('positive')); // TODO: hardcode value or let attester fill in?
+    encodeURIComponent(Base64.encode('positive'));
   const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
   return fetch(url, data)
       .then((response) => {
@@ -249,6 +249,7 @@ const declineVerification = (
 };
 
 export {
+  deleteCertificate,
   postCertificate,
   postOutstanding,
   postLogin,

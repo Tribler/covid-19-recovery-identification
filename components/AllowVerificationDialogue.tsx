@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Dialog, Button} from 'react-native-paper';
 import {Text, Modal} from 'react-native';
-import {useTrackedState, State} from '../Store';
+import {useTrackedState} from '../Store';
+import {allowVerification, declineVerification} from '../network/NetworkCalls';
 
 /*
   Sends a request to the backend to check if there are any pending verification requests,
@@ -31,7 +32,8 @@ const AllowVerificationDialogue: React.FC = () => {
         };
         fetch(url, data)
             .then((response) => response.json())
-            .then((json) => setRequest(checkForRequests(json, setVisible))) // Map the object into an array
+        // Map the object into an array
+            .then((json) => setRequest(checkForRequests(json, setVisible)))
             .catch((error) => console.error(error));
       }
     }, updateInterval);
@@ -39,13 +41,13 @@ const AllowVerificationDialogue: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const allowVerification = () => {
-    AllowVerification(state, request[0], request[1], () => setRequest([]));
+  const allowVerificationHandler = () => {
+    allowVerification(state, request[0], request[1], () => setRequest([]));
     setVisible(false);
   };
 
-  const declineVerification = () => {
-    DeclineVerification(state, request[0], request[1], () => setRequest([]));
+  const declineVerificationHandler = () => {
+    declineVerification(state, request[0], request[1], () => setRequest([]));
     setVisible(false);
   };
 
@@ -67,7 +69,7 @@ const AllowVerificationDialogue: React.FC = () => {
             accessibilityStates
             mode="contained"
             style={{width: 80, marginRight: 50, backgroundColor: 'green'}}
-            onPress={allowVerification}
+            onPress={allowVerificationHandler}
           >
             ALLOW
           </Button>
@@ -75,7 +77,7 @@ const AllowVerificationDialogue: React.FC = () => {
             accessibilityStates
             mode="contained"
             style={{backgroundColor: 'red'}}
-            onPress={declineVerification}
+            onPress={declineVerificationHandler}
           >
             DO NOT ALLOW
           </Button>

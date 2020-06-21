@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import {StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native';
-import {RegisterLogin} from '../network/NetworkCalls';
+import {registerLogin} from '../network/NetworkCalls';
 import {useTrackedState} from '../Store';
 import {useToggleRegister} from '../hooks/useToggleRegister';
 
 /**
  * In the register screen, a user can sign up for the app and thereby create an account
  * The register screen will be prompted on first startup and then never again.
+ * @return {Component} the Register Screen component.
  */
 const RegisterScreen: React.FC = () => {
   const state = useTrackedState();
@@ -20,13 +21,13 @@ const RegisterScreen: React.FC = () => {
     <View style={styles.container}>
       <ImageBackground
         style={styles.im}
-        source={require('../assets/background.jpeg')}>
-      </ImageBackground>
+        source={require('../assets/background.jpeg')}
+      ></ImageBackground>
       <ImageBackground
         resizeMode="cover"
         style={styles.im2}
-        source={require('../assets/logo.png')}>
-      </ImageBackground>
+        source={require('../assets/logo.png')}
+      ></ImageBackground>
       <Text style={styles.role}> Sign up as patient</Text>
       <TextInput // TODO fix this out of focus i think because goes above screen
         style={styles.textInput}
@@ -35,7 +36,8 @@ const RegisterScreen: React.FC = () => {
         placeholderTextColor="#32CD32"
         secureTextEntry={true}
         value={password}
-        onChangeText={(input) => setPassword(input)} />
+        onChangeText={(input) => setPassword(input)}
+      />
 
       <TextInput
         style={styles.textInput}
@@ -44,18 +46,21 @@ const RegisterScreen: React.FC = () => {
         placeholderTextColor="#32CD32"
         secureTextEntry={true}
         value={passwordConfirm}
-        onChangeText={(input) => setPasswordConfirm(input)} />
+        onChangeText={(input) => setPasswordConfirm(input)}
+      />
 
-      <TouchableOpacity onPress={() => {
-        if (password == passwordConfirm && password.length > 0) {
-          RegisterLogin(state, password, false);
-          toggleRegister();
-        } else {
-          alert('Passwords don\'t match or are empty');
-        }
-        setPassword('');
-        setPasswordConfirm('');
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          if (password == passwordConfirm && password.length > 0) {
+            registerLogin(state, password, false);
+            toggleRegister();
+          } else {
+            alert('Passwords don\'t match or are empty');
+          }
+          setPassword('');
+          setPasswordConfirm('');
+        }}
+      >
         <View style={styles.submitButton}>
           <Text style={styles.submitText}>Sign Up</Text>
         </View>
@@ -69,7 +74,8 @@ const RegisterScreen: React.FC = () => {
         placeholderTextColor="#32CD32"
         secureTextEntry={true}
         value={passwordAttester}
-        onChangeText={(input) => setPasswordAttester(input)} />
+        onChangeText={(input) => setPasswordAttester(input)}
+      />
       <TextInput
         style={styles.textInput}
         placeholder=" Confirm Your Password"
@@ -77,18 +83,21 @@ const RegisterScreen: React.FC = () => {
         placeholderTextColor="#32CD32"
         secureTextEntry={true}
         value={passwordAttesterConfirm}
-        onChangeText={(input) => setPasswordAttesterConfirm(input)} />
+        onChangeText={(input) => setPasswordAttesterConfirm(input)}
+      />
 
-      <TouchableOpacity onPress={() => {
-        if (passwordAttester == passwordAttesterConfirm && passwordAttester.length > 0) {
-          RegisterLogin(state, passwordAttester, true);
-          toggleRegister();
-        } else {
-          alert('Passwords don\'t match or are empty');
-        }
-        setPasswordAttester('');
-        setPasswordAttesterConfirm('');
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          if (passwordAttester == passwordAttesterConfirm && passwordAttester.length > 0) {
+            registerLogin(state, passwordAttester, true);
+            toggleRegister();
+          } else {
+            alert('Passwords don\'t match or are empty');
+          }
+          setPasswordAttester('');
+          setPasswordAttesterConfirm('');
+        }}
+      >
         <View style={styles.submitButton}>
           <Text style={styles.submitText}>Sign Up</Text>
         </View>

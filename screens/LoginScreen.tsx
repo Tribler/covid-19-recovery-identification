@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 import {useTrackedState} from '../Store';
-import {PostLogin} from '../network/NetworkCalls';
+import {postLogin} from '../network/NetworkCalls';
 import {useToggleLogin} from '../hooks/useToggleAuth';
 import {useToggleJwt} from '../hooks/useToggleJwt';
 import {useToggleID} from '../hooks/useToggleID';
@@ -10,6 +10,7 @@ import {useToggleAttester} from '../hooks/useToggleAttester';
 /**
  * The login screen for logging in as a health expert or as a patient.
  * Will be prompted every time a user opens the app.
+ * @return the LoginScreen component.
  */
 const LoginScreen: React.FC = () => {
   const state = useTrackedState();
@@ -40,7 +41,7 @@ const LoginScreen: React.FC = () => {
       <TouchableOpacity
         onPress={() => {
           if (password.length > 0) {
-            PostLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
+            postLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
           } else {
             throw alert('Password can\'t be empty');
           }
@@ -66,7 +67,7 @@ const LoginScreen: React.FC = () => {
       <TouchableOpacity
         onPress={() => {
           if (password.length > 0) {
-            PostLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
+            postLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
           } else {
             throw alert('Password can\'t be empty');
           }

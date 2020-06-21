@@ -3,12 +3,16 @@ import {Text, StyleSheet, Modal} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 interface QRScannerModalProps {
-  visible:boolean
-  setVisible:Function
-  onRead:Function
+  visible: boolean;
+  setVisible: Function;
+  onRead: Function;
 }
 
-const QRScannerModal: React.FC<QRScannerModalProps> = ({visible, setVisible, onRead}) => {
+const QRScannerModal: React.FC<QRScannerModalProps> = ({
+  visible,
+  setVisible,
+  onRead,
+}: QRScannerModalProps) => {
   return (
     <Modal
       animationType="slide"
@@ -17,12 +21,14 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({visible, setVisible, onR
       onRequestClose={() => {
         setVisible(false);
       }}
-      onDismiss= {() => {
+      onDismiss={() => {
         setVisible(false);
       }}
     >
-      <TouchableOpacity style={{backgroundColor: 'white', flex: 1}}
-        onPressOut={() => setVisible(false)}>
+      <TouchableOpacity
+        style={{backgroundColor: 'white', flex: 1}}
+        onPressOut={() => setVisible(false)}
+      >
         <QRCodeScanner
           onRead={(e) => {
             setVisible(false);
@@ -36,7 +42,6 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({visible, setVisible, onR
         />
       </TouchableOpacity>
     </Modal>
-
   );
 };
 
@@ -53,4 +58,3 @@ const styles = StyleSheet.create({
 });
 
 export default QRScannerModal;
-

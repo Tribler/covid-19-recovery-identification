@@ -4,7 +4,8 @@ import DrawerMenu from './components/DrawerMenu';
 import {NavigationContainer} from '@react-navigation/native';
 
 /**
- * Entry point for the app
+ * Entry point for the app.
+ * @return the application.
  */
 export default function App() {
   {

@@ -1,6 +1,6 @@
 import {useState, useCallback} from 'react';
 import {createContainer} from 'react-tracked';
-import produce, {Draft} from 'immer';
+import {produce, Draft} from 'immer';
 import {AsyncStorage} from 'react-native';
 
 /*

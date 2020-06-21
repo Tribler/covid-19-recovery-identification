@@ -8,7 +8,9 @@ import HelpButton from '../components/HelpButton';
 import BasicQRModal from '../components/BasicQRModal';
 
 /*
- * The New Certificate screen is accessible only to attesters and they use it to inform an attestee of the data they want to add to the attestee's chain
+ * The New Certificate screen is accessible only to attesters and
+ they use it to inform an attestee of the data they want to add to
+ the attestee's chain
  */
 
 const NewCertificateScreen: React.FC = () => {
