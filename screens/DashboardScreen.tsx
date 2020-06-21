@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import DrawerButton from '../components/DrawerButton';
 import HelpButton from '../components/HelpButton';
 import { useTrackedState } from '../Store';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import CertificateViewDashboard from '../components/CertificateViewDashboard';
 import { Button } from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';

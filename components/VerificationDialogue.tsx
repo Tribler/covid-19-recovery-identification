@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Modal, Image, Text, StyleSheet } from 'react-native'
-import { Dialog, Button, Portal } from 'react-native-paper'
+import { Dialog, Button } from 'react-native-paper'
 import { useTrackedState } from '../Store'
 import { useFocusEffect } from '@react-navigation/native'
 

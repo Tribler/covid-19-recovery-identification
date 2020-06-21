@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import {useTrackedState} from '../Store';
-import {DeleteCertificate} from '../network/NetworkCalls';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { useTrackedState } from '../Store';
+import { DeleteCertificate } from '../network/NetworkCalls';
 
 interface DeclineProps {
   listID: string,

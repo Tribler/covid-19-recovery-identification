@@ -5,7 +5,7 @@ import DrawerButton from "../components/DrawerButton";
 import HelpButton from "../components/HelpButton";
 import { useTrackedState } from "../Store";
 import { PostVerification } from "../network/NetworkCalls";
-import {Button} from "react-native-paper" 
+import { Button } from "react-native-paper" 
 import QRScannerModal from "../components/QRScannerModal";
 import VerificationDialogue from "../components/VerificationDialogue";
 

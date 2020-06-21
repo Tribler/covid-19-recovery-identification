@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { View, Button, Modal} from 'react-native'
-import { TextInput, Text } from 'react-native-paper'
-import { TouchableOpacity} from 'react-native'
+import { View, Button, Modal } from 'react-native'
+import { TextInput } from 'react-native-paper'
+import { TouchableOpacity } from 'react-native'
 import { Certificate } from '../Store'
 import QRCode from "react-qr-code"
 

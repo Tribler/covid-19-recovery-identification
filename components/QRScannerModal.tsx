@@ -1,6 +1,6 @@
-import React, { } from 'react'
+import React from 'react'
 import { Text, StyleSheet, Modal } from 'react-native'
-import { TouchableOpacity} from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 interface QRScannerModalProps {
   visible:boolean

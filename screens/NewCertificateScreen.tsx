@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, YellowBox } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';

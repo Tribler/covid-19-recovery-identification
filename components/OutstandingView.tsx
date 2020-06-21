@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {OutstandingRequest} from '../Store';
+import { StyleSheet, View, Text } from 'react-native';
+import { OutstandingRequest } from '../Store';
 import AcceptButton from './AcceptButton';
 import DeclineButton from './DeclineButton';
 

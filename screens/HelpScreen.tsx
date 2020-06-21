@@ -1,6 +1,6 @@
 
 import React from "react";
-import {View, StyleSheet,Text } from "react-native";
+import { View, StyleSheet,Text } from "react-native";
 import DrawerButton from "../components/DrawerButton";
 import { Paragraph, Title } from "react-native-paper";
 import { useTrackedState } from "../Store";
