@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {Certificate, useTrackedState} from '../Store';
+import {Certificate, useTrackedState} from '../Store'; // eslint-disable-line no-unused-vars
 
 interface CertificateProps {
   certificate: Certificate;

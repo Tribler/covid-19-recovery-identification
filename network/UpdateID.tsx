@@ -1,7 +1,7 @@
-import {State} from '../Store';
+import {State} from '../Store'; // eslint-disable-line no-unused-vars
 
 const UpdateID = (state: State, updateIDHook: any, jwt: string): any => {
-  const data = {method: 'GET', headers: {'Authorization': jwt}, body: ''};
+  const data = {method: 'GET', headers: {Authorization: jwt}, body: ''};
 
   return fetch(state.serverURL + '/attestation/id', data)
       .then((response) => {

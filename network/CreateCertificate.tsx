@@ -1,4 +1,4 @@
-import {Certificate, State} from '../Store';
+import {Certificate, State} from '../Store'; // eslint-disable-line no-unused-vars
 
 /**
  * Sends a request to the backend that creates a certificate for an attestee to accept or decline.
