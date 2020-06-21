@@ -16,7 +16,7 @@ const VerificationDialogue: React.FC<DialogueProps> = ({
   setVisible,
 }: DialogueProps) => {
   const [verified, setVerified] = useState(false);
-  const [input, setInput] = useState([]);
+  const [, setInput] = useState([]);
   const state = useTrackedState();
   const updateInterval = 500; // how many milliseconds between api calls
 
@@ -37,9 +37,11 @@ const VerificationDialogue: React.FC<DialogueProps> = ({
   });
 
   const checkVerified = (data: any) => {
-    const output = data.filter((item: any) => item[0] == verificationResponse); // From the output, get the hash you want.
+    // From the output, get the hash you want.
+    const output = data.filter((item: any) => item[0] == verificationResponse);
     if (output.length > 0) {
-      setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1); // check if the output is 0.99, thus correct.
+      // check if the output is 0.99, thus correct.
+      setVerified(Math.abs(1.0 - output[0][1][0][1]) < 0.1);
     }
     return output;
   };

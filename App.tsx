@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 /**
  * Entry point for the app
+ * @return {Provider} the app
  */
 export default function App() {
   {
