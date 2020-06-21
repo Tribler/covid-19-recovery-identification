@@ -1,12 +1,13 @@
-import {State} from '../Store';
+import {State} from '../Store'; // eslint-disable-line no-unused-vars
 import {Base64} from 'js-base64';
-import UpdateID from './UpdateID';
+import updateID from './UpdateID';
 
 /**
  * Sends a request to the backend to request attestation for a certain attribute of the attester.
- * @param state the global state.
- * @param attester the person creating the certificate.
- * @param type the type of certificate being created.
+ * @param {state} state global state.
+ * @param {attester} attester person creating the certificate.
+ * @param {type} type type of certificate being created.
+ * @return {function} api call
  */
 const postCertificate = (state: State, attester: string, type: string) => {
   // we have to uri encode our attester string
@@ -27,11 +28,12 @@ const postCertificate = (state: State, attester: string, type: string) => {
 };
 
 /**
- * Sends a request to the backend to attest to a certain attribute with a certain value for the attestee.
- * @param state the global state.
- * @param holder the person receiving the attribute.
- * @param type the type of certificate being created.
- * @param value additional parameters for the attribute.
+ * Sends a request to the backend to attest to a attribute with a value for the attestee.
+ * @param {state} state global state.
+ * @param {holder} holder person receiving the attribute.
+ * @param {type} type type of certificate being created.
+ * @param {value} value the value given for the type.
+ * @return {function} api call
  */
 const postOutstanding = (state: State, holder: string, type: string, value: string) => {
   // we have to uri encode our attester string and base64 + uri encode our value
@@ -56,8 +58,9 @@ const postOutstanding = (state: State, holder: string, type: string, value: stri
 
 /**
  * Sends a request to the backend to delete a certificate from local storage.
- * @param state the global state.
- * @param listID
+ * @param {state} state global state.
+ * @param {listID} listID something?
+ * @return {function} api call
  */
 const deleteCertificate = (state: State, listID: string) => {
   // we have to uri encode our attester string
@@ -75,6 +78,13 @@ const deleteCertificate = (state: State, listID: string) => {
 
 /**
  * Sends a request to the backend to login.
+ * @param {state} state global state.
+ * @param {updateLogin} updateLogin hook to update loggedIn state.
+ * @param {updateJwt} updateJwt hook to update the jwt state.
+ * @param {updateIDHook} updateIDHook hook to update the id state.
+ * @param {updateAttester} updateAttester hook to update the attester state.
+ * @param {password} password typed in password.
+ * @return {component} api call
  */
 const postLogin = (
     state: State,
@@ -107,7 +117,7 @@ const postLogin = (
       // TODO wrong password handling
         updateJwt(json.token);
         updateAttester(json.token);
-        return UpdateID(state, updateIDHook, json.token)
+        return updateID(state, updateIDHook, json.token)
             .then((id: any) => console.log(id))
             .catch((error: any) => console.error(error));
       })
@@ -121,7 +131,11 @@ const postLogin = (
 };
 
 /**
- * Sends a request to register.
+ * Sends a request to the backend to register an account.
+ * @param {state} state global state.
+ * @param {password} password typed in password.
+ * @param {isAttester} isAttester if registered as an attester.
+ * @return {function} api call
  */
 const registerLogin = (state: State, password: string, isAttester: boolean) => {
   const url = state.serverURL + '/attestation/register';
@@ -150,7 +164,12 @@ const registerLogin = (state: State, password: string, isAttester: boolean) => {
 };
 
 /**
- * Sends a request to the backend to request verification for a certain attribute of the holder.
+ *
+ * @param {state} state global state.
+ * @param {holderID}  holderID id of the peer you want to verify an attribute of.
+ * @param {attributeHash} attributeHash hash of the attribute you want to verify.
+ * @param {callback} callback callback function to call after receiving the response.
+ * @return {function} api call
  */
 const postVerification = (
     state: State,
@@ -177,10 +196,16 @@ const postVerification = (
       });
 };
 
+/**
+ *
+ * @param {state} state global state
+ * @param {callback} callback callback function to call after receiving the response.
+ * @return {function} api call
+ */
 const getVerificationRequests = (state: State, callback?: Function) => {
   const url = state.serverURL + '/attestation?type=outstanding_verify';
   const data = {method: 'GET', headers: {Authorization: state.jwt}, body: ''};
-  return fetch(url)
+  return fetch(url, data)
       .then((response) => {
         response.json();
       })
@@ -193,7 +218,12 @@ const getVerificationRequests = (state: State, callback?: Function) => {
 };
 
 /**
- * Sends a request to the backend to allow a Verifier to access an attribute.
+ *
+ * @param {state} state global state.
+ * @param {verifierID} verifierID id of the peer who wants to verify an attribute.
+ * @param {attributeName} attributeName name of the id that is requested to be verified.
+ * @param {callback} callback callback function to call after receiving the response.
+ * @return {function} api call
  */
 const allowVerification = (
     state: State,
@@ -221,7 +251,12 @@ const allowVerification = (
 };
 
 /**
- * Sends a request to the backend to decline a Verifier's request to access an attribute.
+ *
+ * @param {state} state global state.
+ * @param {verifierID} verifierID id of the peer who wants to verify an attribute.
+ * @param {attributeName} attributeName name of the id that is requested to be verified.
+ * @param {callback} callback callback function to call after receiving the response.
+ * @return {function} api call
  */
 const declineVerification = (
     state: State,
