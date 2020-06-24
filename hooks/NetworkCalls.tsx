@@ -1,6 +1,19 @@
 import {State} from '../Store'; // eslint-disable-line no-unused-vars
 import {Base64} from 'js-base64';
-import updateID from './UpdateID';
+
+const updateID = (state: State, updateIDHook: any, jwt: string): any => {
+  const data = {method: 'GET', headers: {'Authorization': jwt}, body: ''};
+
+  return fetch(state.serverURL + '/attestation/id', data)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        updateIDHook(json.id);
+        return json.id;
+      })
+      .catch((error) => console.error(error));
+};
 
 /**
  * Sends a request to the backend to request attestation for a certain attribute of the attester.
@@ -71,7 +84,7 @@ const deleteOutstandingRequest = (
   const url =
     state.serverURL +
     '/attestation/rm-outstanding?type=attest&mid=' +
-    encodeURIComponent(holderID) + // TODO: make sure this
+    encodeURIComponent(holderID) +
     '&attribute_name=' +
     encodeURIComponent(attributeName);
   const data = {method: 'POST', headers: {Authorization: state.jwt}, body: ''};
@@ -124,7 +137,6 @@ const postLogin = (
         return response.json();
       })
       .then((json) => {
-      // TODO wrong password handling
         updateJwt(json.token);
         updateAttester(json.token);
         return updateID(state, updateIDHook, json.token)

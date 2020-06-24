@@ -4,7 +4,6 @@ import {Text, View, TouchableOpacity} from 'react-native';
 interface DeclineProps {
   listID: string;
   deleteCert: Function;
-  type: string
 }
 
 const DeclineButton: React.FC<DeclineProps> = ({deleteCert}: DeclineProps) => {
@@ -17,25 +16,18 @@ const DeclineButton: React.FC<DeclineProps> = ({deleteCert}: DeclineProps) => {
       <View
         style={{
           backgroundColor: 'red',
-          borderRadius: 4,
-          position: 'relative',
-          marginRight: 200,
-          bottom: 9,
-          right: 3,
         }}
       >
         <Text
           style={{
             fontWeight: 'bold',
             color: 'white',
-            width: 150,
-            height: 35,
             textAlign: 'center',
             textAlignVertical: 'center',
+            fontSize: 25,
           }}
         >
-          {' '}
-          DECLINE{' '}
+          {' '}DECLINE{' '}
         </Text>
       </View>
     </TouchableOpacity>

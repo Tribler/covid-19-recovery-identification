@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, YellowBox} from 'react-native';
-import {Button} from 'react-native-paper';
-import {Dropdown} from 'react-native-material-dropdown';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, YellowBox, ScrollView, FlatList } from 'react-native';
+import { Button } from 'react-native-paper';
+import { Dropdown } from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import {useTrackedState, attributeTypeMap} from '../Store';
-import HelpButton from '../components/HelpButton';
+import { useTrackedState, attributeTypeMap } from '../Store';
 import BasicQRModal from '../components/BasicQRModal';
+import { useFocusEffect } from '@react-navigation/native';
+import OutstandingView from '../components/OutstandingView';
 
 YellowBox.ignoreWarnings(['componentWill', 'Failed prop type', 'Animated']);
 
@@ -15,54 +16,98 @@ YellowBox.ignoreWarnings(['componentWill', 'Failed prop type', 'Animated']);
  the attestee's chain
  */
 
+const B = (props: any) => <Text style={{ fontWeight: 'bold' }}>{props.children}</Text>;
+
 const NewCertificateScreen: React.FC = () => {
-  const [certificateType, setCertificateType] = useState(1);
+  const [certificateType, setCertificateType] = useState("");
   const [codeVisible, setCodeVisible] = useState(false);
   const state = useTrackedState();
 
   const options = attributeTypeMap;
 
+  const [outstanding, setOutstanding] = useState([]);
+  const url = state.serverURL + '/attestation?type=outstanding';
+  const data = {method: 'GET', headers: {Authorization: state.jwt}, body: ''};
+  const updateInterval = 500; // how many milliseconds between api calls
+
+  useFocusEffect(() => {
+    const interval = setInterval(() => {
+      fetch(url, data)
+          .then((response) => response.json())
+          .then((json) => setOutstanding(json))
+          .catch((error) => console.error(error));
+    }, updateInterval);
+
+    return () => clearInterval(interval);
+  });
+
+  const deleteOutstanding = (id: string) => {
+    setOutstanding((outsList) => {
+      return outsList.filter((out) => out[0] + '' + out[1] !== id);
+    });
+  };
+
   return (
-    <View style={state.darkMode ? styles.dark : styles.light}>
-      <View style={styles.header}>
-        <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>New Certificate</Text>
-        <Text style={state.darkMode ? styles.subtitleDark : styles.subtitleLight}>
-          Here you can create certificates for Holders.
+    <View>
+      <View style={state.darkMode ? styles.dark : styles.light}>
+          <View style={styles.header}>
+            <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>Create Certificate</Text>
+          </View>
+
+          <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+            Pick a <B>Certificate</B> type from the dropdown menu below. Click <B>GENERATE QR
+            CODE</B> and show the QR code to your <B>Patient</B>.
+          </Text>
+          <View style={{width: '95%'}}>
+            <Dropdown
+              data={options}
+              label="Certificates..."
+              fontSize={20}
+              onChangeText={(value: string, index: number) => setCertificateType(value)}
+              baseColor={state.darkMode ? 'white' : 'black'}
+            ></Dropdown>
+          </View>
+
+          <Button
+            accessibilityStates
+            mode="contained"
+            style={{ backgroundColor: 'dodgerblue', marginVertical: 5 }}
+            onPress={() => {
+              if (certificateType == "") throw alert('You have not picked a certificate type yet!');
+              else setCodeVisible(true);
+            }}
+          >
+            GENERATE QR CODE
+          </Button>
+      </View>
+
+      <View style={state.darkMode ? styles.dark : styles.light}>
+        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+              After your <B>Patient</B> scans the QR code and accepts the <B>Certificate</B>,
+              a confirmation request will show up bellow.
         </Text>
+        <ScrollView>
+          <FlatList
+            data={outstanding}
+            keyExtractor={(item) => item[0] + '' + item[1]}
+            renderItem={({ item }) => (
+              <OutstandingView
+                listID={item[0] + '' + item[1]}
+                outstanding={{ creatorID: item[0], type: item[1] }}
+                deleteOutstanding={deleteOutstanding}
+              />
+            )}
+          />
+        </ScrollView>
       </View>
-
-      <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-        {' '}
-        Choose an attribute type from the dropdown menu below and then click &quot;GENERATE QR
-        CODE&quot;
-      </Text>
-      <View style={state.darkMode ? styles.dropdownDark : styles.dropdownLight}>
-        <Dropdown
-          data={options}
-          label="Choose..."
-          onChangeText={(value: string, index: number) => setCertificateType(index)}
-          baseColor={state.darkMode ? 'white' : 'black'}
-        ></Dropdown>
-      </View>
-
-      <Button
-        accessibilityStates
-        mode="contained"
-        style={{backgroundColor: 'dodgerblue', marginVertical: 5}}
-        onPress={() => {
-          setCodeVisible(true);
-        }}
-      >
-        GENERATE QR CODE
-      </Button>
 
       <BasicQRModal
-        data={JSON.stringify({id: state.ID, type: certificateType})}
+        data={JSON.stringify({ id: state.ID, type: certificateType })}
         visible={codeVisible}
         setVisible={setCodeVisible}
       />
+      
       <DrawerButton />
-      <HelpButton />
     </View>
   );
 };
@@ -73,28 +118,6 @@ const NewCertificateScreen: React.FC = () => {
  * the placing of objects.
  */
 const styles = StyleSheet.create({
-  dropdownLight: {
-    backgroundColor: '#fff',
-    fontSize: 15,
-    fontFamily: 'Sans-serif',
-    color: '#000',
-    borderWidth: 1,
-    margin: 5,
-    padding: 5,
-    justifyContent: 'center',
-    width: 200,
-  },
-  dropdownDark: {
-    backgroundColor: '#222',
-    fontSize: 15,
-    fontFamily: 'Sans-serif',
-    color: '#000',
-    borderWidth: 1,
-    margin: 5,
-    padding: 5,
-    justifyContent: 'center',
-    width: 200,
-  },
   titleDark: {
     position: 'relative',
     marginTop: '3%',
@@ -112,37 +135,20 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   dark: {
-    flex: 1,
     backgroundColor: '#222',
     alignItems: 'center',
+    height: '50%'
   },
   light: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    height: '50%'
   },
   header: {
     alignItems: 'center',
     marginTop: 50,
-    marginBottom: 30,
+    marginBottom: 15,
   },
-  subtitleLight: {
-    fontSize: 15,
-    margin: 5,
-    fontFamily: 'Sans-serif',
-    color: '#000',
-    textAlign: 'center',
-    justifyContent: 'center',
-  },
-  subtitleDark: {
-    fontSize: 15,
-    margin: 5,
-    fontFamily: 'Sans-serif',
-    color: '#fff',
-    textAlign: 'center',
-    justifyContent: 'center',
-  },
-
   instructionsLight: {
     fontSize: 20,
     alignSelf: 'center',

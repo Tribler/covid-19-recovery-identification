@@ -1,8 +1,8 @@
 import React from 'react';
 import {Dialog, Button} from 'react-native-paper';
 import {Text, Modal} from 'react-native';
-import {useTrackedState, attributeTypeMap} from '../Store';
-import {postCertificate} from '../network/NetworkCalls';
+import {useTrackedState} from '../Store';
+import {postCertificate} from '../hooks/NetworkCalls';
 
 interface DialogueProps {
   type: string;
@@ -33,9 +33,12 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
         <Dialog.Title accessibilityStates>Confirmation</Dialog.Title>
         <Dialog.Content>
           <Text style={{fontWeight: 'bold'}}>
-            Are you sure you want to add{attributeTypeMap[parseInt(type)].value}to your chain?{' '}
+            Are you sure you want to accept this {type}?
           </Text>
-          <Text>Data in your chain is only accessible through your explicit authorization</Text>
+          <Text>
+            If you accept this certificate, you need to wait for your Doctor to 
+            confirm, before you are able to see it on your dashboard.
+          </Text>
         </Dialog.Content>
         <Dialog.Actions>
           <Button

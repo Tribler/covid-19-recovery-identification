@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
 import {useTrackedState} from '../Store';
-import {postLogin} from '../network/NetworkCalls';
+import {postLogin} from '../hooks/NetworkCalls';
 import {useToggleLogin} from '../hooks/useToggleAuth';
 import {useToggleJwt} from '../hooks/useToggleJwt';
 import {useToggleID} from '../hooks/useToggleID';
@@ -28,7 +28,7 @@ const LoginScreen: React.FC = () => {
         source={require('../assets/background.jpeg')}
       ></ImageBackground>
       <ImageBackground style={styles.im2} source={require('../assets/logo.png')}></ImageBackground>
-      <Text style={styles.role}> Sign in as patient</Text>
+      <Text style={styles.role}> Sign In</Text>
       <TextInput
         style={styles.textInput}
         placeholder=" Enter Your Password"
@@ -43,33 +43,7 @@ const LoginScreen: React.FC = () => {
           if (password.length > 0) {
             postLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
           } else {
-            throw alert('Password can\'t be empty');
-          }
-          setPassword('');
-        }}
-      >
-        <View style={styles.textField}>
-          <Text style={styles.submitText}>Sign In</Text>
-        </View>
-      </TouchableOpacity>
-      <Text>{'\n'}</Text>
-      <Text>{'\n'}</Text>
-      <Text style={styles.role}> Sign in as health expert</Text>
-      <TextInput
-        style={styles.textInput}
-        placeholder=" Enter Your Password"
-        underlineColorAndroid="transparent"
-        placeholderTextColor="#32CD32"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={(input) => setPassword(input)}
-      />
-      <TouchableOpacity
-        onPress={() => {
-          if (password.length > 0) {
-            postLogin(state, updateLogin, updateJwt, updateIDHook, updateAttester, password);
-          } else {
-            throw alert('Password can\'t be empty');
+            throw alert('Password cannot be empty');
           }
           setPassword('');
         }}

@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Dimensions, SafeAreaView} from 'react-native';
 import DrawerButton from '../components/DrawerButton';
-import HelpButton from '../components/HelpButton';
 import {useTrackedState} from '../Store';
 import {FlatList} from 'react-native-gesture-handler';
-import CertificateViewDashboard from '../components/CertificateViewDashboard';
+import CertificateView from '../components/CertificateView';
 import {Button} from 'react-native-paper';
 import BasicQRModal from '../components/BasicQRModal';
 import QRScannerModal from '../components/QRScannerModal';
@@ -23,6 +22,8 @@ const getAttributes = (url: string, setAttributes: Function, jwt: string) => {
       .then((json) => setAttributes(json))
       .catch((error) => console.error(error));
 };
+
+const B = (props: any) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 
 const Dashboard: React.FC = () => {
   const state = useTrackedState();
@@ -57,7 +58,7 @@ const Dashboard: React.FC = () => {
       <View style={styles.header}>
         <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>My Dashboard</Text>
         <Text style={state.darkMode ? styles.subtitleDark : styles.subtitleLight}>
-          You can find your signed proofs below
+          You can find your <B>Certificates</B> below.
         </Text>
       </View>
       <Button
@@ -67,7 +68,7 @@ const Dashboard: React.FC = () => {
         mode="outlined"
         onPress={() => setScannerVisible(true)}
       >
-        ADD PROOF
+        ADD CERTIFICATE
       </Button>
       <SafeAreaView
         style={{
@@ -81,18 +82,17 @@ const Dashboard: React.FC = () => {
         {attributes.length > 0 ? (
           <View>
             <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-              In order to share an attribute wih a Verifier click &quot;Show Proof&quot; and let
-              them scan your QR code.
+              Click <B>Show Certificate</B> in order to generate a QR code and show it to the <B>Person</B> requesting your <B>Certificate</B>.
             </Text>
             <View>
               <FlatList // we use FlatList to provide list functionality
-                style={{maxWidth: '95%', alignSelf: 'center'}}
+                style={{width: '95%', alignSelf: 'center'}}
                 data={attributes}
                 keyExtractor={(item, index) => item[0] + '' + item[1] + index} //
                 renderItem={(
                     {item}, // we render every item in the certificates as a Certificateview
                 ) => (
-                  <CertificateViewDashboard
+                  <CertificateView
                     certificate={{
                       creatorID: JSON.parse(JSON.stringify(item[3])),
                       holderID: state.ID,
@@ -108,8 +108,8 @@ const Dashboard: React.FC = () => {
           </View>
         ) : (
             <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-              You have no signed proofs yet. {'\n'}To add a proof click &quot;Add Proof&quot; and
-            scan an Attester&apos;s QR code, then wait for them to accept{' '}
+            You have no <B>Certificates</B> yet. {'\n'} Click <B>ADD CERTIFICATE</B> and
+            scan the QR code provided by your <B>Doctor</B>.
             </Text>
           )}
 
@@ -135,7 +135,6 @@ const Dashboard: React.FC = () => {
         <AllowVerificationDialogue />
       </SafeAreaView>
       <DrawerButton />
-      <HelpButton />
     </View>
   );
 };

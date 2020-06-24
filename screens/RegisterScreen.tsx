@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity} from 'react-native';
-import {registerLogin} from '../network/NetworkCalls';
+import {registerLogin} from '../hooks/NetworkCalls';
 import {useTrackedState} from '../Store';
 import {useToggleRegister} from '../hooks/useToggleRegister';
 
@@ -28,8 +28,8 @@ const RegisterScreen: React.FC = () => {
         style={styles.im2}
         source={require('../assets/logo.png')}
       ></ImageBackground>
-      <Text style={styles.role}> Sign up as patient</Text>
-      <TextInput // TODO fix this out of focus i think because goes above screen
+      <Text style={styles.role}> Sign up as Patient</Text>
+      <TextInput
         style={styles.textInput}
         placeholder=" Enter Your Password"
         underlineColorAndroid="transparent"
@@ -41,7 +41,7 @@ const RegisterScreen: React.FC = () => {
 
       <TextInput
         style={styles.textInput}
-        placeholder=" Enter Your Password"
+        placeholder=" Confirm Your Password"
         underlineColorAndroid="transparent"
         placeholderTextColor="#32CD32"
         secureTextEntry={true}
@@ -62,11 +62,11 @@ const RegisterScreen: React.FC = () => {
         }}
       >
         <View style={styles.submitButton}>
-          <Text style={styles.submitText}>Sign Up</Text>
+          <Text style={styles.submitText}>SIGN UP</Text>
         </View>
       </TouchableOpacity>
       <Text>{'\n'}</Text>
-      <Text style={styles.role}> Sign up as health expert</Text>
+      <Text style={styles.role}> Sign up as Health Expert</Text>
       <TextInput
         style={styles.textInput}
         placeholder=" Enter Your Password"
@@ -99,7 +99,7 @@ const RegisterScreen: React.FC = () => {
         }}
       >
         <View style={styles.submitButton}>
-          <Text style={styles.submitText}>Sign Up</Text>
+          <Text style={styles.submitText}>SIGN UP</Text>
         </View>
       </TouchableOpacity>
     </View>

@@ -4,9 +4,7 @@ import DashboardScreen from '../screens/DashboardScreen';
 import NewCertificateScreen from '../screens/NewCertificateScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import LoginScreen from '../screens/LoginScreen';
-import OutstandingScreen from '../screens/OutstandingScreen';
 import {useTrackedState} from '../Store';
-import HelpScreen from '../screens/HelpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
 import {StatusBar, AsyncStorage} from 'react-native';
@@ -38,18 +36,12 @@ const DrawerMenu: React.FC = () => {
         <>
           <Drawer.Screen name="Dashboard" component={DashboardScreen} />
           {state.attester ? (
-            <Drawer.Screen name="New Certificate" component={NewCertificateScreen} />
+            <Drawer.Screen name="Create Certificate" component={NewCertificateScreen} />
           ) : (
               <></>
             )}
-          {state.attester ? (
-            <Drawer.Screen name="Outstanding" component={OutstandingScreen} />
-          ) : (
-              <></>
-            )}
-          <Drawer.Screen name="Verification" component={VerificationScreen} />
+          <Drawer.Screen name="Verify Certificate" component={VerificationScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Help" component={HelpScreen} />
         </>
       ) : (
           <>

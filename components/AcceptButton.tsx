@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useTrackedState} from '../Store';
-import {postCertificate, postOutstanding} from '../network/NetworkCalls';
+import {postCertificate, postOutstanding} from '../hooks/NetworkCalls';
 
 /**
  * Generic accept button for the CertificateView and Outstandingview.
@@ -36,24 +36,18 @@ const AcceptButton: React.FC<AcceptProps> = ({
       <View
         style={{
           backgroundColor: '#74d14c',
-          borderRadius: 4,
-          position: 'relative',
-          marginLeft: 2,
-          bottom: 9,
         }}
       >
         <Text
           style={{
             fontWeight: 'bold',
             color: 'white',
-            width: 145,
-            height: 35,
             textAlign: 'center',
             textAlignVertical: 'center',
+            fontSize: 25,
           }}
         >
-          {' '}
-          ACCEPT{' '}
+          {' '}ACCEPT{' '}
         </Text>
       </View>
     </TouchableOpacity>

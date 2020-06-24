@@ -53,9 +53,8 @@ const VerificationDialogue: React.FC<DialogueProps> = ({
         onDismiss={() => setVisible(false)}
         style={{alignItems: 'center'}}
       >
-        <Dialog.Title accessibilityStates>Verification</Dialog.Title>
+        <Dialog.Title accessibilityStates>Certificate Verification</Dialog.Title>
         <Dialog.Content>
-          <Text>Hash: {verificationResponse} </Text>
           {verified ? (
             <View style={{alignItems: 'center'}}>
               <Image
@@ -100,7 +99,7 @@ const VerificationDialogue: React.FC<DialogueProps> = ({
           <Button
             accessibilityStates
             mode="contained"
-            style={{width: 80, backgroundColor: 'dodgerblue'}}
+            style={{backgroundColor: 'dodgerblue'}}
             onPress={() => setVisible(false)}
           >
             CLOSE
