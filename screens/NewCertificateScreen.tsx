@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, YellowBox, ScrollView, FlatList } from 'react-native';
-import { Button } from 'react-native-paper';
-import { Dropdown } from 'react-native-material-dropdown';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, YellowBox, ScrollView, FlatList} from 'react-native';
+import {Button} from 'react-native-paper';
+import {Dropdown} from 'react-native-material-dropdown';
 import DrawerButton from '../components/DrawerButton';
-import { useTrackedState, attributeTypeMap } from '../Store';
+import {useTrackedState, attributeTypeMap} from '../Store';
 import BasicQRModal from '../components/BasicQRModal';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import OutstandingView from '../components/OutstandingView';
 
 YellowBox.ignoreWarnings(['componentWill', 'Failed prop type', 'Animated']);
@@ -16,10 +16,10 @@ YellowBox.ignoreWarnings(['componentWill', 'Failed prop type', 'Animated']);
  the attestee's chain
  */
 
-const B = (props: any) => <Text style={{ fontWeight: 'bold' }}>{props.children}</Text>;
+const B = (props: any) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 
 const NewCertificateScreen: React.FC = () => {
-  const [certificateType, setCertificateType] = useState("");
+  const [certificateType, setCertificateType] = useState('');
   const [codeVisible, setCodeVisible] = useState(false);
   const state = useTrackedState();
 
@@ -50,35 +50,37 @@ const NewCertificateScreen: React.FC = () => {
   return (
     <View>
       <View style={state.darkMode ? styles.dark : styles.light}>
-          <View style={styles.header}>
-            <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>Create Certificate</Text>
-          </View>
+        <View style={styles.header}>
+          <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>
+            Create Certificate
+          </Text>
+        </View>
 
-          <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
+        <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
             Pick a <B>Certificate</B> type from the dropdown menu below. Click <B>GENERATE QR
             CODE</B> and show the QR code to your <B>Patient</B>.
-          </Text>
-          <View style={{width: '95%'}}>
-            <Dropdown
-              data={options}
-              label="Certificates..."
-              fontSize={20}
-              onChangeText={(value: string, index: number) => setCertificateType(value)}
-              baseColor={state.darkMode ? 'white' : 'black'}
-            ></Dropdown>
-          </View>
+        </Text>
+        <View style={{width: '95%'}}>
+          <Dropdown
+            data={options}
+            label="Certificates..."
+            fontSize={20}
+            onChangeText={(value: string, index: number) => setCertificateType(value)}
+            baseColor={state.darkMode ? 'white' : 'black'}
+          ></Dropdown>
+        </View>
 
-          <Button
-            accessibilityStates
-            mode="contained"
-            style={{ backgroundColor: 'dodgerblue', marginVertical: 5 }}
-            onPress={() => {
-              if (certificateType == "") throw alert('You have not picked a certificate type yet!');
-              else setCodeVisible(true);
-            }}
-          >
+        <Button
+          accessibilityStates
+          mode="contained"
+          style={{backgroundColor: 'dodgerblue', marginVertical: 5}}
+          onPress={() => {
+            if (certificateType == '') throw alert('You have not picked a certificate type yet!');
+            else setCodeVisible(true);
+          }}
+        >
             GENERATE QR CODE
-          </Button>
+        </Button>
       </View>
 
       <View style={state.darkMode ? styles.dark : styles.light}>
@@ -90,10 +92,10 @@ const NewCertificateScreen: React.FC = () => {
           <FlatList
             data={outstanding}
             keyExtractor={(item) => item[0] + '' + item[1]}
-            renderItem={({ item }) => (
+            renderItem={({item}) => (
               <OutstandingView
                 listID={item[0] + '' + item[1]}
-                outstanding={{ creatorID: item[0], type: item[1] }}
+                outstanding={{creatorID: item[0], type: item[1]}}
                 deleteOutstanding={deleteOutstanding}
               />
             )}
@@ -102,11 +104,11 @@ const NewCertificateScreen: React.FC = () => {
       </View>
 
       <BasicQRModal
-        data={JSON.stringify({ id: state.ID, type: certificateType })}
+        data={JSON.stringify({id: state.ID, type: certificateType})}
         visible={codeVisible}
         setVisible={setCodeVisible}
       />
-      
+
       <DrawerButton />
     </View>
   );
@@ -137,12 +139,12 @@ const styles = StyleSheet.create({
   dark: {
     backgroundColor: '#222',
     alignItems: 'center',
-    height: '50%'
+    height: '50%',
   },
   light: {
     backgroundColor: '#fff',
     alignItems: 'center',
-    height: '50%'
+    height: '50%',
   },
   header: {
     alignItems: 'center',

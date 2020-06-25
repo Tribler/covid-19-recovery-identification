@@ -44,7 +44,7 @@ const OutstandingView: React.FC<OutstandingProps> = ({
 const styles = StyleSheet.create({
   buttonPair: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   container: {
     margin: 10,

@@ -82,7 +82,8 @@ const Dashboard: React.FC = () => {
         {attributes.length > 0 ? (
           <View>
             <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
-              Click <B>Show Certificate</B> in order to generate a QR code and show it to the <B>Person</B> requesting your <B>Certificate</B>.
+              Click <B>Show Certificate</B> in order to generate a QR code and show it to
+              the <B>Person</B> requesting your <B>Certificate</B>.
             </Text>
             <View>
               <FlatList // we use FlatList to provide list functionality

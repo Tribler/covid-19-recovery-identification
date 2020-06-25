@@ -36,7 +36,7 @@ const CertificationDialogue: React.FC<DialogueProps> = ({
             Are you sure you want to accept this {type}?
           </Text>
           <Text>
-            If you accept this certificate, you need to wait for your Doctor to 
+            If you accept this certificate, you need to wait for your Doctor to
             confirm, before you are able to see it on your dashboard.
           </Text>
         </Dialog.Content>

@@ -24,12 +24,14 @@ const VerificationScreen: React.FC = () => {
     setDialogueVisible(true);
   };
 
-  const B = (props: any) => <Text style={{ fontWeight: 'bold' }}>{props.children}</Text>;
+  const B = (props: any) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>;
 
   return (
     <View style={state.darkMode ? styles.dark : styles.light}>
       <View style={styles.header}>
-        <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>Verify Certificate</Text>
+        <Text style={state.darkMode ? styles.titleDark : styles.titleLight}>
+          Verify Certificate
+        </Text>
       </View>
 
       <View>
