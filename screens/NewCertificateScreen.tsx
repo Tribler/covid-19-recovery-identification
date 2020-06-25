@@ -84,7 +84,7 @@ const NewCertificateScreen: React.FC = () => {
       <View style={state.darkMode ? styles.dark : styles.light}>
         <Text style={state.darkMode ? styles.instructionsDark : styles.instructionsLight}>
               After your <B>Patient</B> scans the QR code and accepts the <B>Certificate</B>,
-              a confirmation request will show up bellow.
+              a confirmation request will show up below.
         </Text>
         <ScrollView>
           <FlatList
