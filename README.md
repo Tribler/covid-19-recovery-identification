@@ -1,4 +1,4 @@
-# Immunity Passports
+# Immune
 ## Building a Critical Infrastructure for the Nation-Wide Identification of Recovered COVID-19 Patients
 
 This app is a Self Sovereign Identity document exchange platform, which uses the IPv8 backend provided by the TU Delft Blockchain Lab to allow professionals to create certificates for an individual's online identity. The individual can then send and proof the validity of this certificate to a third party, while preserving the individual's privacy and control over their data.
