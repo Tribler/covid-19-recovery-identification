@@ -3,7 +3,7 @@ import {StyleSheet, View, Text} from 'react-native';
 import {OutstandingRequest, useTrackedState} from '../Store'; // eslint-disable-line no-unused-vars
 import AcceptButton from './AcceptButton';
 import DeclineButton from './DeclineButton';
-import {deleteOutstandingRequest} from '../network/NetworkCalls';
+import {deleteOutstandingRequest} from '../hooks/NetworkCalls';
 
 /**
  * OutstandingView is an element for the FlatList in OutstandingScreen.
@@ -22,10 +22,8 @@ const OutstandingView: React.FC<OutstandingProps> = ({
 }: OutstandingProps) => {
   const state = useTrackedState();
   return (
-    <View>
-      <Text>
-        Type: {outstanding.type}, Creator: {outstanding.creatorID}
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>{outstanding.type} Request</Text>
       <View style={styles.buttonPair}>
         <AcceptButton
           attester={outstanding.creatorID}
@@ -34,7 +32,6 @@ const OutstandingView: React.FC<OutstandingProps> = ({
           type={outstanding.type}
           postType={1}
         />
-        <Text>{'\r'}</Text>
         <DeclineButton listID={listID} deleteCert={() => {
           deleteOutstanding(listID);
           deleteOutstandingRequest(state, outstanding.creatorID, outstanding.type);
@@ -46,9 +43,20 @@ const OutstandingView: React.FC<OutstandingProps> = ({
 
 const styles = StyleSheet.create({
   buttonPair: {
-    left: 35,
     flexDirection: 'row',
-    top: 20,
+    justifyContent: 'space-evenly',
+  },
+  container: {
+    margin: 10,
+  },
+  label: {
+    width: '100%',
+    fontSize: 20,
+    paddingHorizontal: 5,
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: 'black',
+    textAlign: 'center',
   },
 });
 

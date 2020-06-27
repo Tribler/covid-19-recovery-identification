@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Dialog, Button} from 'react-native-paper';
 import {Text, Modal} from 'react-native';
 import {useTrackedState} from '../Store';
-import {allowVerification, declineVerification} from '../network/NetworkCalls';
+import {allowVerification, declineVerification} from '../hooks/NetworkCalls';
 
 /*
   Sends a request to the backend to check if there are any pending verification requests,
@@ -61,7 +61,7 @@ const AllowVerificationDialogue: React.FC = () => {
         <Dialog.Title accessibilityStates>Allow Verification?</Dialog.Title>
         <Dialog.Content>
           <Text style={{fontWeight: 'bold'}}>
-            Allow user {request[0]} to verify attribute: {request[1]}?{' '}
+            Someone requested your {request[1]} for verification?
           </Text>
         </Dialog.Content>
         <Dialog.Actions>

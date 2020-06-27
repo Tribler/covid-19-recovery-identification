@@ -72,7 +72,7 @@ sast:
 typescript_lint:
   stage: test
   script:
-    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./network/** ./screens/** ./App.tsx ./index.js ./Store.tsx
+    - node_modules/eslint/bin/eslint.js ./components/** ./hooks/** ./screens/** ./App.tsx ./index.js ./Store.tsx
   allow_failure: true
 
 java_checkstyle_pmd_lint:

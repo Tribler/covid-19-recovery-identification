@@ -36,7 +36,7 @@ AsyncStorage.getItem('darkmode_enabled', (error, result) => {
 });
 
 let registered = false;
-AsyncStorage.getItem('darkmode_enabled', (error, result) => {
+AsyncStorage.getItem('registered', (error, result) => {
   registered = result === 'true';
 });
 
@@ -51,7 +51,7 @@ const defaultState: State = {
 };
 
 // attributeTypeMap relates the numerical value used in the backend to the text used in the frontend
-const attributeTypeMap = [{value: ''}, {value: 'covid-19-immunity'}];
+const attributeTypeMap = [{value: 'COVID-19 Immunity Certificate'}];
 
 const useValue = () => useState(defaultState);
 
