@@ -8,7 +8,7 @@ List android_versions = [
 
 // Building procedure. It also contains all static code checks and the python code-base's tests.
 node {
-    docker.build("android_environment:latest").inside("--user root") {
+    docker.build("android_environment:latest").inside {
         // Creating for missing keystore file.
         stage('Keystore') {
           if (!fileExists('./android/app/debug.keystore')) {
@@ -46,7 +46,7 @@ android_versions.each { android_version ->
     // Setting the environmental variables for Docker.
     List dockerEnv = ['IMG_TARGET=' + version[0], 'IMG_SORT=' + version[1], 'IMG_CPU=' + version[2]]
     node {
-        docker.image("android_environment:latest").inside("--user root --device /dev/kvm") {
+        docker.image("android_environment:latest").inside("--device /dev/kvm") {
             withEnv(dockerEnv) {
                 stage ('Device Test - Version ' + version[0]) {
                     // Installing the system image.
