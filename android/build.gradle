@@ -3,7 +3,7 @@
 buildscript {
     ext {
         applicationId = 'nl.tudelft.immune'
-        buildToolsVersion = "30.0.0"
+        buildToolsVersion = "30.0.2"
         minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
@@ -18,9 +18,8 @@ buildscript {
         maven { url "https://chaquo.com/maven" }
     }
     dependencies {
-        //noinspection GradleDependency
-        classpath('com.android.tools.build:gradle:4.0.0')
-        classpath('com.chaquo.python:gradle:8.0.0')
+        classpath('com.android.tools.build:gradle:4.0.2')
+        classpath('com.chaquo.python:gradle:8.0.1')
     }
 }
 
