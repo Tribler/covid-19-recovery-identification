@@ -1,4 +1,4 @@
-package com.ipv8service
+package nl.tudelft.immune
 
 import java.util.Arrays
 import java.util.Collections
