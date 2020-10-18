@@ -1,43 +1,33 @@
-package nl.tudelft.immune;
+package nl.tudelft.immune
 
-import android.app.Application;
-import com.facebook.react.PackageList;
-import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactNativeHost;
-import com.facebook.react.ReactPackage;
-import com.facebook.soloader.SoLoader;
-import java.util.List;
+import android.app.Application
+import com.facebook.react.PackageList
+import com.facebook.react.ReactApplication
+import com.facebook.react.ReactNativeHost
+import com.facebook.react.ReactPackage
+import com.facebook.soloader.SoLoader
 
-public class MainApplication extends Application implements ReactApplication {
-
-  private final ReactNativeHost reactNativeHost =
-      new ReactNativeHost(this) {
-        @Override
-        public boolean getUseDeveloperSupport() {
-          return BuildConfig.DEBUG;
+class MainApplication : Application(), ReactApplication {
+    private val reactNativeHost: ReactNativeHost = object : ReactNativeHost(this) {
+        override fun getUseDeveloperSupport(): Boolean {
+            return BuildConfig.DEBUG
         }
 
-        @Override
-        protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
-          List<ReactPackage> packages = new PackageList(this).getPackages();
-          return packages;
+        override fun getPackages(): List<ReactPackage> {
+            return PackageList(this).packages
         }
 
-        @Override
-        protected String getJSMainModuleName() {
-          return "index";
+        override fun getJSMainModuleName(): String {
+            return "index"
         }
-      };
+    }
 
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return reactNativeHost;
-  }
+    override fun getReactNativeHost(): ReactNativeHost {
+        return reactNativeHost
+    }
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exo-package */ false);
-  }
+    override fun onCreate() {
+        super.onCreate()
+        SoLoader.init(this,  /* native exo-package */false)
+    }
 }

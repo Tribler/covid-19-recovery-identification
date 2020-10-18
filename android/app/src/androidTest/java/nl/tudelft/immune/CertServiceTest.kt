@@ -1,130 +1,120 @@
-package nl.tudelft.immune;
+package nl.tudelft.immune
 
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.IBinder;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.SdkSuppress;
-import androidx.test.rule.ServiceTestRule;
-import com.chaquo.python.Python;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import java.util.concurrent.TimeoutException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import android.Manifest
+import android.app.NotificationManager
+import android.content.Intent
+import android.content.pm.PackageManager
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SdkSuppress
+import androidx.test.rule.ServiceTestRule
+import com.chaquo.python.Python
+import nl.tudelft.immune.CertService.CertBinder
+import org.junit.*
+import org.junit.runner.RunWith
+import java.util.concurrent.TimeoutException
 
-@RunWith(AndroidJUnit4.class)
-public class CertServiceTest {
+@RunWith(AndroidJUnit4::class)
+class CertServiceTest {
+    @Rule
+    val serviceRule = ServiceTestRule()
+    private var service: CertService? = null
 
-  @Rule
-  public final ServiceTestRule serviceRule = new ServiceTestRule();
-
-  private CertService service;
-
-  @Before
-  public void setUp() throws TimeoutException {
-    Intent serviceIntent = new Intent(ApplicationProvider.getApplicationContext(),
-        CertService.class);
-    IBinder binder = serviceRule.bindService(serviceIntent);
-    // Get the reference to the service, or you can call public methods on the binder directly.
-    service = ((CertService.CertBinder) binder).getService();
-  }
-
-  @After
-  public void destroy() {
-    if (CertService.getRunning()) {
-      service.stopService();
+    @Before
+    @Throws(TimeoutException::class)
+    fun setUp() {
+        val serviceIntent = Intent(ApplicationProvider.getApplicationContext(),
+                CertService::class.java)
+        val binder = serviceRule.bindService(serviceIntent)
+        // Get the reference to the service, or you can call public methods on the binder directly.
+        service = (binder as CertBinder).service
     }
-    serviceRule.unbindService();
-    service = null;
-  }
 
-  @Test
-  public void useAppContext() {
-    // Verify that the service is working correctly.
-    assertEquals("nl.tudelft.immune",
-        service.getApplicationContext().getPackageName());
-  }
+    @After
+    fun destroy() {
+        if (CertService.running) {
+            service!!.stopService()
+        }
+        serviceRule.unbindService()
+        service = null
+    }
 
-  @Test
-  public void startService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assertTrue(CertService.getRunning());
-  }
+    @Test
+    fun useAppContext() {
+        // Verify that the service is working correctly.
+        Assert.assertEquals("nl.tudelft.immune",
+                service!!.applicationContext.packageName)
+    }
 
-  @Test
-  public void doubleStartService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assert CertService.getRunning();
-    service.startService();
-    assertTrue(CertService.getRunning());
-  }
+    @Test
+    fun startService() {
+        assert(!CertService.running)
+        service!!.startService()
+        Assert.assertTrue(CertService.running)
+    }
 
-  @Test
-  public void stopService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assert CertService.getRunning();
-    service.stopService();
-    assertFalse(CertService.getRunning());
-  }
+    @Test
+    fun doubleStartService() {
+        assert(!CertService.running)
+        service!!.startService()
+        assert(CertService.running)
+        service!!.startService()
+        Assert.assertTrue(CertService.running)
+    }
 
-  @Test
-  public void doubleStopService() {
-    assert !CertService.getRunning();
-    service.startService();
-    assert CertService.getRunning();
-    service.stopService();
-    assert !CertService.getRunning();
-    service.stopService();
-    assertFalse(CertService.getRunning());
-  }
+    @Test
+    fun stopService() {
+        assert(!CertService.running)
+        service!!.startService()
+        assert(CertService.running)
+        service!!.stopService()
+        Assert.assertFalse(CertService.running)
+    }
 
-  @Test
-  public void pythonInstance() {
-    assert !Python.isStarted();
-    service.startService();
-    assertTrue(Python.isStarted());
-  }
+    @Test
+    fun doubleStopService() {
+        assert(!CertService.running)
+        service!!.startService()
+        assert(CertService.running)
+        service!!.stopService()
+        assert(!CertService.running)
+        service!!.stopService()
+        Assert.assertFalse(CertService.running)
+    }
 
-  @Test
-  public void notificationInstance() {
-    assert service.getNotification() == null;
-    service.startService();
-    Notification notification = service.getNotification();
-    assertEquals(service.getText(R.string.foreground_service_text), notification.tickerText);
-  }
+    @Test
+    fun pythonInstance() {
+        assert(!Python.isStarted())
+        service!!.startService()
+        Assert.assertTrue(Python.isStarted())
+    }
 
-  @Test
-  @SdkSuppress(minSdkVersion = 26)
-  public void notificationChannelInstance() {
-    service.startService();
-    NotificationManager notificationManager = service.getSystemService(NotificationManager.class);
-    assert notificationManager != null;
-    assertEquals(notificationManager.getNotificationChannels().get(0).getId(),
-        service.getNotificationChannel().getId());
-  }
+    @Test
+    fun notificationInstance() {
+        assert(service!!.notification == null)
+        service!!.startService()
+        val notification = service!!.notification
+        Assert.assertEquals(service!!.getText(R.string.foreground_service_text), notification?.tickerText)
+    }
 
-  @Test
-  public void permissionsInternet() {
-    assertEquals(PackageManager.PERMISSION_GRANTED,
-        service.checkSelfPermission(Manifest.permission.INTERNET));
-  }
+    @Test
+    @SdkSuppress(minSdkVersion = 26)
+    fun notificationChannelInstance() {
+        service!!.startService()
+        val notificationManager = service!!.getSystemService(NotificationManager::class.java)!!
+        Assert.assertEquals(notificationManager.notificationChannels[0].id,
+                service!!.notificationChannel?.id)
+    }
 
-  @Test
-  public void permissionsForegroundService() {
-    assertEquals(PackageManager.PERMISSION_GRANTED,
-        service.checkSelfPermission(Manifest.permission.FOREGROUND_SERVICE));
-  }
+    @Test
+    fun permissionsInternet() {
+        Assert.assertEquals(PackageManager.PERMISSION_GRANTED.toLong(),
+                service!!.checkSelfPermission(Manifest.permission.INTERNET).toLong())
+    }
 
+    @Test
+    fun permissionsForegroundService() {
+        Assert.assertEquals(PackageManager.PERMISSION_GRANTED.toLong(),
+                service!!.checkSelfPermission(Manifest.permission.FOREGROUND_SERVICE).toLong())
+    }
 }
