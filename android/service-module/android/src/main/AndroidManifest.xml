@@ -4,14 +4,7 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-  <application
-    android:name=".MainApplication"
-    android:allowBackup="false"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:theme="@style/AppTheme"
-    android:usesCleartextTraffic="true">
+  <application>
     <service
       android:name=".CertService"
       android:exported="false"
