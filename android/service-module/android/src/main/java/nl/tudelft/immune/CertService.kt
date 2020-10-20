@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.Process
@@ -19,17 +18,31 @@ import com.chaquo.python.android.AndroidPlatform
 open class CertService : Service() {
   // The persistent foreground notification.
   @Transient
-  var notification: Notification? = null
-    private set
+  private var notification: Notification? = null
 
   // The custom notification channel needed in APIs 26+.
   @Transient
-  var notificationChannel: NotificationChannel? = null
-    private set
+  private var notificationChannel: NotificationChannel? = null
 
-  // The binder that provides connection with the service to clients.
-  @Transient
-  private val certBinder: IBinder = CertBinder()
+  /**
+   * Start method. Gets called whenever the widget creates a new instance of the service.
+   * Responsible for starting the service.
+   * @return Flag indicating that the service should not be restarted if it was previously stopped.
+   */
+  override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    super.onStartCommand(intent, flags, startId)
+    startService()
+    return START_NOT_STICKY
+  }
+
+  /**
+   * Binding is not provided, so null is being returned.
+   *
+   * @return The binder which provides access of the service object to clients.
+   */
+  override fun onBind(intent: Intent): IBinder? {
+    return null
+  }
 
   /**
    * Destruction method. Gets called whenever the gui tries to unbind from the service or
@@ -43,30 +56,10 @@ open class CertService : Service() {
   }
 
   /**
-   * Start method. Gets called whenever the widget creates a new instance of the service.
-   * Responsible for starting the service.
-   * @return Flag indicating that the service should not be restarted if it was previously stopped.
-   */
-  override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-    startService()
-    return START_NOT_STICKY
-  }
-
-  /**
-   * Start method. Gets called whenever the gui creates a new instance of the service.
-   * Responsible for starting the service.
-   *
-   * @return The binder which provides access of the service object to clients.
-   */
-  override fun onBind(intent: Intent): IBinder? {
-    return certBinder
-  }
-
-  /**
    * Helper method. Gets called when the service is being started.
    * Responsible for starting the python service through Chaquopy's bridge.
    */
-  fun startService() {
+  private fun startService() {
     if (!running) {
       if (!Python.isStarted()) {
         Python.start(AndroidPlatform(this))
@@ -85,12 +78,12 @@ open class CertService : Service() {
    * removing the notification channel created
    * and removing the foreground service notification.
    */
-  fun stopService() {
+  private fun stopService() {
     if (running) {
       Python.getInstance().getModule("certificate_service").callAttr("stop")
       Python.getInstance().getModule("certificate_service").close()
       deleteNotificationChannel()
-      stopForeground(false)
+      stopForeground(true)
       running = false
     }
   }
@@ -101,7 +94,6 @@ open class CertService : Service() {
    */
   private fun createNotification() {
     notification = NotificationCompat.Builder(this, CHANNEL_ID)
-      .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setTicker(getText(R.string.foreground_service_text))
       .setContentTitle(getText(R.string.foreground_service_description))
       .setContentText(getText(R.string.foreground_service_text))
@@ -136,20 +128,10 @@ open class CertService : Service() {
     }
   }
 
-  /*
-  * Binder class that provides service control methods
-  * to all clients which bind to the service.
-  */
-  inner class CertBinder : Binder() {
-    val service: CertService
-      get() = this@CertService
-  }
-
   companion object {
     // Information about the service's state. Prevents from starting
     // or stopping the service more than once.
-    var running = false
-      private set
+    private var running = false
 
     // The identifier of the custom channel needed in APIs 26+.
     private const val CHANNEL_ID = "Certification Service Channel"

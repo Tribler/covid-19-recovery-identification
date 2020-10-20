@@ -1,40 +1,34 @@
-buildscript {
-  ext {
-    kotlin_version = '1.4.10'
-    react_native = '0.62.2'
-    buildToolsVersion = '30.0.2'
-    minSdkVersion = 21
-    compileSdkVersion = 30
-    targetSdkVersion = 30
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-    versionCode = 1
-    versionName = '1.0'
+rootProject.buildscript {
+  repositories {
+    maven { url "https://chaquo.com/maven" }
   }
+}
+
+buildscript {
   repositories {
     google()
     jcenter()
     maven { url "https://chaquo.com/maven" }
   }
   dependencies {
-    classpath ('com.android.tools.build:gradle:4.0.2')
-    classpath ('com.chaquo.python:gradle:8.0.1')
-    classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    classpath('com.android.tools.build:gradle:4.0.2')
+    classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:' + project.properties['kotlinVersion'])
+    classpath "com.chaquo.python:gradle:8.0.1"
   }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 apply plugin: 'com.chaquo.python'
+apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+  compileSdkVersion 30
+  buildToolsVersion '30.0.2'
   defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode rootProject.ext.versionCode
-    versionName rootProject.ext.versionName
+    minSdkVersion 21
+    targetSdkVersion 30
+    versionCode 1
+    versionName '1.0'
     python {
       pip {
         install "-r", "src/main/python/requirements.txt"
@@ -45,8 +39,8 @@ android {
     }
   }
   compileOptions {
-    sourceCompatibility rootProject.ext.sourceCompatibility
-    targetCompatibility rootProject.ext.targetCompatibility
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 }
 
@@ -60,6 +54,6 @@ repositories {
 }
 
 dependencies {
-  api "com.facebook.react:react-native:$react_native"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  api 'com.facebook.react:react-native:' + project.properties['reactNativeVersion']
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:' + project.properties['kotlinVersion']
 }

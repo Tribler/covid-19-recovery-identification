@@ -1,9 +1,9 @@
 import { NativeModules } from 'react-native';
 
 type Ipv8ServiceType = {
-  multiply(a: number, b: number): Promise<number>;
+  initService(): void;
 };
 
-const { Ipv8Service } = NativeModules;
+const { ServiceModule } = NativeModules;
 
-export default Ipv8Service as Ipv8ServiceType;
+export default ServiceModule as Ipv8ServiceType;
