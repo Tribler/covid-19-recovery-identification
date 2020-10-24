@@ -38,9 +38,9 @@ RUN yes | ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT
 RUN yes | ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_SDK_ROOT}
 
 # Adding the Emulator's Configuration Files and Configuring Permissions
-COPY android/config/config.ini ${ANDROID_AVD_HOME}/Device.avd/
-COPY android/config/Device.ini ${ANDROID_AVD_HOME}/
-COPY android/config/launch-emulator.sh ${ANDROID_SDK_ROOT}/
+COPY config/config.ini ${ANDROID_AVD_HOME}/Device.avd/
+COPY config/Device.ini ${ANDROID_AVD_HOME}/
+COPY config/launch-emulator.sh ${ANDROID_SDK_ROOT}/
 RUN chmod +x ${ANDROID_SDK_ROOT}/launch-emulator.sh ${ANDROID_SDK_ROOT}/platform-tools/adb
 
 # Entry Command
