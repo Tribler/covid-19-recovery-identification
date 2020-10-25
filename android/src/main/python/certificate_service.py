@@ -1,12 +1,14 @@
 from asyncio import new_event_loop, set_event_loop, ensure_future, \
     run_coroutine_threadsafe
-from certificate_endpoint import CertificateEndpoint
+from os import path, makedirs
+from sys import modules
+from multiprocessing import Process
+
 from ipv8.REST.rest_manager import RESTManager
 from ipv8.configuration import get_default_configuration
 from ipv8_service import IPv8
-from multiprocessing import Process
-from os import path, makedirs
-from sys import modules
+
+from certificate_endpoint import CertificateEndpoint
 
 
 def directory():
@@ -36,10 +38,10 @@ files_dir = directory()
 
 # Generate signature keys.
 configuration['keys'] = [
-    {'alias': "anonymous id", 'generation': u"curve25519",
-     'file': files_dir + u"/ec_multichain.pem"},
-    {'alias': "my peer", 'generation': u"medium",
-     'file': files_dir + u"/ec.pem"}
+        {'alias': "anonymous id", 'generation': u"curve25519",
+         'file': files_dir + u"/ec_multichain.pem"},
+        {'alias': "my peer", 'generation': u"medium",
+         'file': files_dir + u"/ec.pem"}
 ]
 
 # Only load the basic communities.
@@ -53,7 +55,7 @@ working_directory_overlays = ['AttestationCommunity', 'IdentityCommunity']
 for overlay in configuration['overlays']:
     if overlay['class'] in working_directory_overlays:
         overlay['initialize'] = {
-            'working_directory': files_dir}
+                'working_directory': files_dir}
 
 # Override one endpoint in the RootEndpoint.
 root_endpoint = modules["ipv8.REST.root_endpoint"]

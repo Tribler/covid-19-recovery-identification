@@ -1,13 +1,15 @@
-import auth
-import bcrypt
 import os
-from aiohttp import ClientSession
 from base64 import b64encode
+from sys import modules
+
+import bcrypt
+from aiohttp import ClientSession
+
+import auth
 from certificate_endpoint import CertificateEndpoint
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
 from ipv8.test.REST.rest_base import RESTTestBase, partial_cls
-from sys import modules
 from user import UserStorage
 
 root = modules["ipv8.REST.root_endpoint"]

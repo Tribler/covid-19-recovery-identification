@@ -1,8 +1,9 @@
-import auth
-from aiohttp import web
 from base64 import b64encode
-from ipv8.REST.attestation_endpoint import AttestationEndpoint
+
+from aiohttp import web
+import auth
 from ipv8.REST.base_endpoint import HTTP_BAD_REQUEST, Response
+from ipv8.REST.attestation_endpoint import AttestationEndpoint
 
 
 class CertificateEndpoint(AttestationEndpoint):
@@ -20,15 +21,15 @@ class CertificateEndpoint(AttestationEndpoint):
         """
         super(CertificateEndpoint, self).setup_routes()
         self.app.add_routes(
-            [web.get('/id', self.id_get),
-             web.post('/login', self.login_handler),
-             web.post('/register', self.register_handler),
-             web.post('/rm-outstanding', self.remove_outstanding)])
+                [web.get('/id', self.id_get),
+                 web.post('/login', self.login_handler),
+                 web.post('/register', self.register_handler),
+                 web.post('/rm-outstanding', self.remove_outstanding)])
         # this adds the authentication middleware to the aiohttp
         # configuration. Might want to refactor into separate
         # endpoint maybe.
         self.app.middlewares.extend(
-            [auth.auth_middleware, auth.login_required_middleware])
+                [auth.auth_middleware, auth.login_required_middleware])
 
     def initialize(self, session):
         """

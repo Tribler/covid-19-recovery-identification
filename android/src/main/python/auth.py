@@ -1,10 +1,12 @@
-import bcrypt
 import json
+from base64 import b64decode
+from os import urandom, path, stat
+
+import bcrypt
 import jwt
 from aiohttp.web_middlewares import middleware
-from base64 import b64decode
 from ipv8.REST.base_endpoint import Response
-from os import urandom, path, stat
+
 from user import UserStorage
 
 

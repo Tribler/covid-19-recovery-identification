@@ -2,13 +2,14 @@ import React from 'react';
 import {View, Modal} from 'react-native';
 import {Text} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native';
-import QRCode from 'qrcode.react';
 
 interface QRModalProps {
   data: string;
   visible: boolean;
   setVisible: Function;
 }
+
+var QRCode = require('qrcode.react');
 
 const BasicQRModal: React.FC<QRModalProps> = ({data, visible, setVisible}: QRModalProps) => {
   return (

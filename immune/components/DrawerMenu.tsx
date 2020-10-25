@@ -7,7 +7,8 @@ import LoginScreen from '../screens/LoginScreen';
 import {useTrackedState} from '../Store';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerificationScreen from '../screens/VerificationScreen';
-import {StatusBar, AsyncStorage} from 'react-native';
+import {StatusBar} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useToggleDark, useToggleLight} from '../hooks/useToggleDarkMode';
 import {useToggleRegister} from '../hooks/useToggleRegister';
 

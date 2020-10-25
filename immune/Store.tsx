@@ -1,7 +1,7 @@
 import {useState, useCallback} from 'react';
 import {createContainer} from 'react-tracked';
 import {produce, Draft} from 'immer'; // eslint-disable-line no-unused-vars
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /*
 The store contains all data types and functions related to the global state of the React app,

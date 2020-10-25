@@ -1,13 +1,15 @@
-import bcrypt
 import os
-from aiohttp import ClientSession
 from asyncio import sleep
 from base64 import b64encode
+from sys import modules
+
+import bcrypt
+from aiohttp import ClientSession
+
 from certificate_endpoint import CertificateEndpoint
 from ipv8.attestation.identity.community import IdentityCommunity
 from ipv8.attestation.wallet.community import AttestationCommunity
 from ipv8.test.REST.rest_base import RESTTestBase, partial_cls
-from sys import modules
 from user import UserStorage
 
 root = modules["ipv8.REST.root_endpoint"]
@@ -38,7 +40,7 @@ class RESTTestCert(RESTTestBase):
             async with session.request(request_type, url, params=arguments,
                                        headers=headers) as response:
                 return await response.json(
-                    content_type=None) if json_response else await \
+                        content_type=None) if json_response else await \
                     response.read()
 
     async def log_in(self, node):
@@ -95,6 +97,6 @@ class TestCertificateEndpoint(RESTTestCert):
         """
         result = await self.make_id(self.nodes[0])
         self.assertTrue(
-            result["id"] == b64encode(self.nodes[0].my_peer.mid).decode(
-                'utf-8'),
-            "The returned peer ID is not equal to your own peer ID.")
+                result["id"] == b64encode(self.nodes[0].my_peer.mid).decode(
+                        'utf-8'),
+                "The returned peer ID is not equal to your own peer ID.")
